@@ -17,13 +17,13 @@ export const projectsData: Project[] = [
     },
     participants: [
       {
-        name: "Jean Dupont",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
         role: "Member"
       },
       {
-        name: "Marie Lambert",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
         role: "Member"
       }
     ]
@@ -44,8 +44,13 @@ export const projectsData: Project[] = [
     },
     participants: [
       {
-        name: "Alice Martin",
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+        role: "Member"
+      },
+      {
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
         role: "Member"
       }
     ]
@@ -66,13 +71,13 @@ export const projectsData: Project[] = [
     },
     participants: [
       {
-        name: "Lucas Martin",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
         role: "Member"
       },
       {
-        name: "Sarah Petit",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
         role: "Member"
       }
     ]
@@ -91,7 +96,18 @@ export const projectsData: Project[] = [
       avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       role: "Team Leader"
     },
-    participants: []
+    participants: [
+      {
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+        role: "Member"
+      },
+      {
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+        role: "Member"
+      }
+    ]
   },
   {
     id: "5",
@@ -107,7 +123,18 @@ export const projectsData: Project[] = [
       avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
       role: "Team Leader"
     },
-    participants: []
+    participants: [
+      {
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+        role: "Member"
+      },
+      {
+        name: "Lucas Petit",
+        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+        role: "Member"
+      }
+    ]
   },
   {
     id: "6",
@@ -123,7 +150,18 @@ export const projectsData: Project[] = [
       avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
       role: "Team Leader"
     },
-    participants: []
+    participants: [
+      {
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+        role: "Member"
+      },
+      {
+        name: "Lucas Petit",
+        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+        role: "Member"
+      }
+    ]
   },
   {
     id: "7",
@@ -139,7 +177,18 @@ export const projectsData: Project[] = [
       avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       role: "Team Leader"
     },
-    participants: []
+    participants: [
+      {
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+        role: "Member"
+      },
+      {
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+        role: "Member"
+      }
+    ]
   },
   {
     id: "8",
@@ -155,6 +204,17 @@ export const projectsData: Project[] = [
       avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       role: "Team Leader"
     },
-    participants: []
+    participants: [
+      {
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+        role: "Member"
+      },
+      {
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+        role: "Member"
+      }
+    ]
   }
 ];
