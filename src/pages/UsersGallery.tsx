@@ -12,7 +12,14 @@ const UsersGallery = () => {
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
       bannerUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-      bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js."
+      bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
+      quote: "Le code est poésie en mouvement",
+      linkedin: "https://www.linkedin.com/in/sophie-martin",
+      github: "https://github.com/sophiemartin",
+      youtube: "https://youtube.com/@sophiemartin",
+      spotify: "https://open.spotify.com/user/sophiemartin",
+      instagram: "https://instagram.com/sophiemartin",
+      facebook: "https://facebook.com/sophiemartin"
     },
     {
       name: "Thomas Bernard",
@@ -68,7 +75,7 @@ const UsersGallery = () => {
             to={`/profile?name=${encodeURIComponent(profile.name)}`}
             className="hover:no-underline"
           >
-            <Card className="hover:shadow-lg transition-shadow overflow-hidden h-[400px] flex flex-col">
+            <Card className="hover:shadow-lg transition-shadow overflow-hidden h-[450px] flex flex-col">
               <AspectRatio ratio={16 / 9}>
                 <img
                   src={profile.bannerUrl}
@@ -90,7 +97,7 @@ const UsersGallery = () => {
                 </div>
               </CardHeader>
               <CardContent className="flex-1">
-                <p className="text-gray-600 line-clamp-3">{profile.bio}</p>
+                <p className="text-gray-600 line-clamp-4">{profile.bio}</p>
               </CardContent>
             </Card>
           </Link>
