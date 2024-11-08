@@ -12,7 +12,8 @@ export const teamMembers = {
     avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
     role: "Journaliste",
     contribution: 30,
-    bio: "Expert en production vidéo avec une expérience significative dans la création de contenu digital."
+    bio: "Expert en production vidéo avec une expérience significative dans la création de contenu digital.",
+    expertise: "Journaliste"
   },
   profile3: {
     name: "Emma Dubois",
