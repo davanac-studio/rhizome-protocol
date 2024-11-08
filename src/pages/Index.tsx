@@ -12,7 +12,9 @@ const Index = () => {
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
-      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop",
+      category: "Development/Workflow",
+      client: "TechCorp"
     },
     {
       id: "2",
@@ -21,7 +23,9 @@ const Index = () => {
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+      thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+      category: "Development/Mobile",
+      client: "AppTech Solutions"
     },
   ]);
 

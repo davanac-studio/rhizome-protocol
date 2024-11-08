@@ -7,5 +7,7 @@ export interface Project {
   status: ProjectStatus;
   progress: number;
   dueDate: string;
-  thumbnail?: string;
+  thumbnail: string;
+  category: string;
+  client: string;
 }
