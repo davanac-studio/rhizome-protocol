@@ -32,12 +32,12 @@ export const TeamMemberCard = ({
     >
       <Card className="p-4 w-full min-h-[200px] flex flex-col hover:shadow-md transition-all duration-300">
         <div className="flex flex-col h-full">
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-start space-x-4 mb-4">
             <Avatar>
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
             </Avatar>
-            <div className="space-y-1">
+            <div className="space-y-1 text-left">
               <h4 className="font-semibold">{name}</h4>
               {expertise && (
                 <p className="text-sm text-gray-600">{expertise}</p>
@@ -53,7 +53,7 @@ export const TeamMemberCard = ({
             )}
           </div>
 
-          <div className="mt-auto">
+          <div className="mt-auto text-left">
             <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
           </div>
         </div>
