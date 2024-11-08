@@ -15,26 +15,26 @@ export const liveProjects: Project[] = [
       ...teamMembers.profile3,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Régie et direction technique"
+      contributionDescription: "Design de l'interface utilisateur et des overlays"
     },
     participants: [
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 25,
-        contributionDescription: "Gestion des plateformes"
+        contributionDescription: "Développement de l'infrastructure technique"
       },
       {
         ...teamMembers.profile4,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Support technique"
+        contributionDescription: "Couverture journalistique et interviews"
       },
       {
         ...teamMembers.profile5,
         role: "Member",
         contribution: 15,
-        contributionDescription: "Relations publiques et communication"
+        contributionDescription: "Communication et relations avec les intervenants"
       }
     ],
     links: {

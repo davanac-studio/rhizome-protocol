@@ -15,20 +15,20 @@ export const marketingProjects: Project[] = [
       ...teamMembers.profile2,
       role: "Team Leader",
       contribution: 50,
-      contributionDescription: "Stratégie marketing"
+      contributionDescription: "Direction éditoriale et interviews"
     },
     participants: [
       {
         ...teamMembers.profile4,
         role: "Member",
         contribution: 25,
-        contributionDescription: "Production contenu"
+        contributionDescription: "Reportages et contenus journalistiques"
       },
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 25,
-        contributionDescription: "Community management"
+        contributionDescription: "Développement des outils de diffusion"
       }
     ],
     links: {

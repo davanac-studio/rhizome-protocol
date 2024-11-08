@@ -15,20 +15,20 @@ export const mobileProjects: Project[] = [
       ...teamMembers.profile3,
       role: "Team Leader",
       contribution: 45,
-      contributionDescription: "Direction technique"
+      contributionDescription: "Design UX/UI de l'application"
     },
     participants: [
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Développement frontend"
+        contributionDescription: "Développement technique de l'application"
       },
       {
         ...teamMembers.profile4,
         role: "Member",
         contribution: 25,
-        contributionDescription: "UX/UI Design"
+        contributionDescription: "Contenu éditorial et interviews producteurs"
       }
     ],
     links: {

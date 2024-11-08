@@ -15,20 +15,20 @@ export const videoProjects: Project[] = [
       ...teamMembers.profile1,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Direction du projet et scénarisation"
+      contributionDescription: "Direction technique et développement de la plateforme"
     },
     participants: [
       {
         ...teamMembers.profile2,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Animation et montage"
+        contributionDescription: "Rédaction du script et interviews journalistiques"
       },
       {
         ...teamMembers.profile3,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Recherche et narration"
+        contributionDescription: "Design de l'interface et des animations"
       }
     ],
     links: {
@@ -48,23 +48,27 @@ export const videoProjects: Project[] = [
     author: {
       ...teamMembers.profile2,
       role: "Team Leader",
-      contribution: 40
+      contribution: 40,
+      contributionDescription: "Direction éditoriale et interviews des participants"
     },
     participants: [
       {
         ...teamMembers.profile4,
         role: "Member",
-        contribution: 20
+        contribution: 20,
+        contributionDescription: "Couverture journalistique de l'événement"
       },
       {
         ...teamMembers.profile1,
         role: "Member",
-        contribution: 20
+        contribution: 20,
+        contributionDescription: "Développement de la plateforme de diffusion"
       },
       {
         ...teamMembers.profile3,
         role: "Member",
-        contribution: 20
+        contribution: 20,
+        contributionDescription: "Design des transitions et des animations"
       }
     ],
     links: {

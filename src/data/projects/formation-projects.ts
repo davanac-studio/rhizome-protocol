@@ -15,26 +15,26 @@ export const formationProjects: Project[] = [
       ...teamMembers.profile1,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Conception pédagogique"
+      contributionDescription: "Développement de la plateforme e-learning"
     },
     participants: [
       {
         ...teamMembers.profile2,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Production vidéo"
+        contributionDescription: "Création du contenu éditorial et interviews"
       },
       {
         ...teamMembers.profile3,
         role: "Member",
         contribution: 15,
-        contributionDescription: "Développement plateforme"
+        contributionDescription: "Design de l'interface de formation"
       },
       {
         ...teamMembers.profile5,
         role: "Member",
         contribution: 15,
-        contributionDescription: "Relations publiques"
+        contributionDescription: "Relations avec les partenaires et communication"
       }
     ],
     links: {

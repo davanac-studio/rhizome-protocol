@@ -15,20 +15,20 @@ export const eventProjects: Project[] = [
       ...teamMembers.profile4,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Coordination événement"
+      contributionDescription: "Couverture journalistique principale et interviews"
     },
     participants: [
       {
         ...teamMembers.profile2,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Captation vidéo"
+        contributionDescription: "Rédaction des articles et reportages"
       },
       {
         ...teamMembers.profile3,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Production contenu"
+        contributionDescription: "Design des supports visuels et de la signalétique"
       }
     ],
     links: {
@@ -49,26 +49,26 @@ export const eventProjects: Project[] = [
       ...teamMembers.profile2,
       role: "Team Leader",
       contribution: 35,
-      contributionDescription: "Direction éditoriale"
+      contributionDescription: "Direction éditoriale et interviews principales"
     },
     participants: [
       {
         ...teamMembers.profile3,
         role: "Member",
         contribution: 25,
-        contributionDescription: "Production vidéo"
+        contributionDescription: "Design de l'identité visuelle et des supports"
       },
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Interviews"
+        contributionDescription: "Développement de la plateforme de diffusion"
       },
       {
         ...teamMembers.profile5,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Relations publiques et communication"
+        contributionDescription: "Relations presse et communication événementielle"
       }
     ],
     links: {
