@@ -50,13 +50,15 @@ export const ProjectDetailsBlock = ({
 
       <div>
         <h3 className="text-lg font-semibold mb-4">Team Leader</h3>
-        <TeamMemberCard
-          name={author.name}
-          avatar={author.avatar || ""}
-          contribution={author.contribution}
-          contributionDescription={author.contributionDescription}
-          expertise={author.expertise}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <TeamMemberCard
+            name={author.name}
+            avatar={author.avatar || ""}
+            contribution={author.contribution}
+            contributionDescription={author.contributionDescription}
+            expertise={author.expertise}
+          />
+        </div>
       </div>
 
       {participants && participants.length > 0 && (
