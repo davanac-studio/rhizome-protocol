@@ -31,7 +31,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem]">
             {project.title}
           </h3>
-          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[4.5rem]">
+          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5rem]">
             {project.description}
           </p>
           
