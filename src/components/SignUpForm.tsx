@@ -29,6 +29,10 @@ const SignUpForm = () => {
     navigate("/");
   };
 
+  const handleCancel = () => {
+    navigate("/");
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto p-6">
       <div className="text-center">
@@ -142,9 +146,14 @@ const SignUpForm = () => {
         </div>
       </div>
 
-      <Button type="submit" className="w-full">
-        Créer mon compte
-      </Button>
+      <div className="flex gap-4">
+        <Button type="submit" className="flex-1">
+          Créer mon compte
+        </Button>
+        <Button type="button" variant="outline" className="flex-1" onClick={handleCancel}>
+          Annuler
+        </Button>
+      </div>
     </form>
   );
 };
