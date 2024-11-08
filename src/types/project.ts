@@ -10,9 +10,4 @@ export interface Project {
   thumbnail: string;
   category: string;
   client: string;
-  author: {
-    id: string;
-    name: string;
-    avatarUrl?: string;
-  };
 }
