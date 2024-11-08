@@ -103,6 +103,14 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         </div>
       )}
 
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Client</h3>
+        <div className="flex items-center gap-2 text-gray-600">
+          <UserCircle2 className="w-4 h-4" />
+          <span>{project.client}</span>
+        </div>
+      </div>
+
       {project.certification && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Certification NFT</h3>
@@ -147,14 +155,6 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
           </div>
         </div>
       )}
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Client</h3>
-        <div className="flex items-center gap-2 text-gray-600">
-          <UserCircle2 className="w-4 h-4" />
-          <span>{project.client}</span>
-        </div>
-      </div>
     </div>
   );
 };
