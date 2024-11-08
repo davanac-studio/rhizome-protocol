@@ -1,50 +1,5 @@
 import { Project } from "@/types/project";
-import { teamMembers } from "./team-members";
-
-const createProject = (
-  id: string,
-  title: string,
-  description: string,
-  dueDate: string,
-  thumbnail: string,
-  category: string,
-  client: string,
-  testimonial: string,
-  authorProfile: keyof typeof teamMembers,
-  participantProfiles: (keyof typeof teamMembers)[],
-  links: { github: string; preview: string }
-): Project => {
-  const author = { 
-    ...teamMembers[authorProfile], 
-    role: "Team Leader" as const,
-    contribution: 40
-  };
-  
-  const remainingPercentage = 60;
-  const perParticipant = Math.floor(remainingPercentage / participantProfiles.length);
-  
-  const participants = participantProfiles.map((profile, index) => ({
-    ...teamMembers[profile],
-    role: "Member" as const,
-    contribution: index === participantProfiles.length - 1 
-      ? remainingPercentage - (perParticipant * (participantProfiles.length - 1))
-      : perParticipant
-  }));
-  
-  return {
-    id,
-    title,
-    description,
-    dueDate,
-    thumbnail,
-    category,
-    client,
-    testimonial,
-    author,
-    participants,
-    links
-  };
-};
+import { createProject } from "./project-factory";
 
 export const projectsData: Project[] = [
   createProject(
@@ -176,40 +131,3 @@ export const projectsData: Project[] = [
     }
   )
 ];
-
-// Add certification to multiple projects
-projectsData[0] = {
-  ...projectsData[0],
-  certification: {
-    contract: "0x1234...5678",
-    tokenId: "42",
-    creationDate: "01/01/2024",
-    blockchain: "Polygon",
-    standard: "ERC-721",
-    scanUrl: "https://polygonscan.com/token/..."
-  }
-};
-
-projectsData[1] = {
-  ...projectsData[1],
-  certification: {
-    contract: "0x9876...4321",
-    tokenId: "43",
-    creationDate: "15/01/2024",
-    blockchain: "Polygon",
-    standard: "ERC-721",
-    scanUrl: "https://polygonscan.com/token/..."
-  }
-};
-
-projectsData[2] = {
-  ...projectsData[2],
-  certification: {
-    contract: "0xABCD...EFGH",
-    tokenId: "44",
-    creationDate: "30/01/2024",
-    blockchain: "Polygon",
-    standard: "ERC-721",
-    scanUrl: "https://polygonscan.com/token/..."
-  }
-};
