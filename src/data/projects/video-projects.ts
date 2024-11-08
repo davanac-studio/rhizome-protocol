@@ -65,7 +65,7 @@ export const videoProjects: Project[] = [
         contributionDescription: "Sound design"
       },
       {
-        ...teamMembers.profile5,
+        ...teamMembers.profile3,
         role: "Member",
         contribution: 20,
         contributionDescription: "Relations presse et communication"

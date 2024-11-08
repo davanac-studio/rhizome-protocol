@@ -22,7 +22,7 @@ export const TeamMemberCard = ({
         <div className="flex items-center space-x-4">
           <Avatar>
             <AvatarImage src={avatar} alt={name} />
-            <AvatarFallback>{name[0]}</AvatarFallback>
+            <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
           </Avatar>
           <div>
             <h4 className="font-semibold">{name}</h4>
