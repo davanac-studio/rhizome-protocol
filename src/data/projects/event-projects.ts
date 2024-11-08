@@ -7,7 +7,7 @@ export const eventProjects: Project[] = [
     title: "Conférence/Hackathon Blockchain Web3",
     description: "Organisation et couverture médiatique d'un hackathon dédié à la blockchain et au Web3, incluant la captation des présentations, interviews des participants et création de contenu pour les réseaux sociaux.",
     dueDate: "2024-04-15",
-    thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+    thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
     category: "Stratégie/Management, Formation/Recrutement",
     client: "Web3 Community",
     testimonial: "L'organisation et la couverture médiatique du hackathon ont été impeccables. Les contenus produits ont parfaitement capturé l'essence de l'événement et généré un engagement significatif sur nos réseaux sociaux.",
