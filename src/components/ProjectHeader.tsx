@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Project } from "@/types/project";
-import { CalendarIcon, UserCircle2 } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 
 interface ProjectHeaderProps {
   project: Project;
@@ -24,11 +24,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
             </Badge>
           </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-2 text-gray-600">
-        <UserCircle2 className="w-4 h-4" />
-        <span>Client: {project.client}</span>
       </div>
     </div>
   );
