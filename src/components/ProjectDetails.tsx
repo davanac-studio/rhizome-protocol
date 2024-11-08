@@ -31,11 +31,11 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         <div className="flex gap-4">
           <Button variant="outline" onClick={() => window.open(project.links.github, '_blank')} className="flex items-center gap-2">
             <LinkIcon className="w-4 h-4" />
-            GitHub
+            voir le site
           </Button>
           <Button variant="outline" onClick={() => window.open(project.links.preview, '_blank')} className="flex items-center gap-2">
             <LinkIcon className="w-4 h-4" />
-            Démo
+            voir la vidéo
           </Button>
         </div>
       </div>
