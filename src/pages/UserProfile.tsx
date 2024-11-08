@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Linkedin, Youtube, Github, Music, Instagram } from "lucide-react";
+import { ArrowLeft, Linkedin, Youtube, Github, Music2, Instagram } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
 
-const SocialButton = ({ url, icon: Icon }: { url?: string, icon: any }) => {
+const SocialButton = ({ url, icon: Icon, label }: { url?: string, icon: any, label: string }) => {
   if (!url) return null;
   return (
     <Button
@@ -14,6 +14,7 @@ const SocialButton = ({ url, icon: Icon }: { url?: string, icon: any }) => {
       size="icon"
       className="rounded-full"
       onClick={() => window.open(url, '_blank')}
+      aria-label={label}
     >
       <Icon className="h-5 w-5 text-gray-900" />
     </Button>
@@ -32,11 +33,11 @@ const ProfileHeader = ({ user }: { user: any }) => (
         <p className="text-gray-500">{user.role}</p>
       </div>
       <div className="flex gap-2">
-        <SocialButton url={user.linkedin} icon={Linkedin} />
-        <SocialButton url={user.github} icon={Github} />
-        <SocialButton url={user.youtube} icon={Youtube} />
-        <SocialButton url={user.spotify} icon={Music} />
-        <SocialButton url={user.instagram} icon={Instagram} />
+        <SocialButton url={user.linkedin} icon={Linkedin} label="LinkedIn" />
+        <SocialButton url={user.github} icon={Github} label="GitHub" />
+        <SocialButton url={user.youtube} icon={Youtube} label="YouTube" />
+        <SocialButton url={user.spotify} icon={Music2} label="Spotify" />
+        <SocialButton url={user.instagram} icon={Instagram} label="Instagram" />
       </div>
     </div>
   </div>
