@@ -121,10 +121,19 @@ const SignUpForm = () => {
         <Textarea
           required
           value={formData.bio}
-          onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-          placeholder="Parlez-nous de vous"
+          onChange={(e) => {
+            const text = e.target.value;
+            if (text.length <= 150) {
+              setFormData({ ...formData, bio: text });
+            }
+          }}
+          placeholder="Parlez-nous de vous (150 caractères max)"
           className="h-24"
+          maxLength={150}
         />
+        <p className="text-xs text-gray-500 mt-1">
+          {formData.bio.length}/150 caractères
+        </p>
       </FormField>
 
       <FormField label="Citation" required>
