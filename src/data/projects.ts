@@ -76,7 +76,7 @@ export const projectsData: Project[] = [
     "Live Twitch/Youtube: Stereopsia Bruxelles",
     "Diffusion en direct de la conférence Stereopsia à Bruxelles, couvrant les dernières innovations en réalité virtuelle et augmentée, avec interaction en temps réel avec les spectateurs.",
     "2024-05-15",
-    "https://images.unsplash.com/photo-1615138133693-e3432e36b0b7",
+    "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4",
     "Streaming",
     "StreamMaster",
     "La qualité du streaming était impeccable et l'interaction avec notre audience internationale a dépassé nos attentes. L'équipe technique a assuré une diffusion sans faille pendant toute la durée de l'événement.",
