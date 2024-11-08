@@ -7,17 +7,17 @@ const SocialButton = ({ url, icon: Icon, label }: { url?: string, icon: any, lab
     <Button
       variant="outline"
       size="icon"
-      className="rounded-full"
+      className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
       onClick={() => window.open(url, '_blank')}
       aria-label={label}
     >
-      <Icon className="h-5 w-5 text-gray-900" />
+      <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900" />
     </Button>
   );
 };
 
 export const ProfileSocialButtons = ({ user }: { user: any }) => (
-  <div className="flex gap-2">
+  <div className="flex flex-wrap gap-2">
     <SocialButton url={user.linkedin} icon={LinkedinIcon} label="LinkedIn" />
     <SocialButton url={user.github} icon={GithubIcon} label="GitHub" />
     <SocialButton url={user.youtube} icon={YoutubeIcon} label="YouTube" />
