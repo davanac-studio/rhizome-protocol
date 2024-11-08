@@ -26,9 +26,7 @@ export const ParticipantsSection = ({
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
 
   const handleAddParticipant = () => {
-    if (participants.length < Object.keys(teamMembers).length - 1) {
-      setParticipants([...participants, { profile: "", contribution: 0 }]);
-    }
+    setParticipants([...participants, { profile: "", contribution: 0 }]);
   };
 
   const handleRemoveParticipant = (index: number) => {
@@ -113,7 +111,6 @@ export const ParticipantsSection = ({
           type="button"
           variant="outline"
           onClick={handleAddParticipant}
-          disabled={participants.length >= Object.keys(teamMembers).length - 1}
         >
           <PlusCircle className="h-4 w-4 mr-2" />
           Ajouter un participant
