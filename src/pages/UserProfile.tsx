@@ -2,16 +2,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const UserProfile = () => {
-  // Note: Ces données seraient normalement récupérées depuis un état global ou une API
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Producteur Vidéo",
-    avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
-    bio: "Producteur vidéo passionné avec plus de 5 ans d'expérience dans la création de contenu digital."
-  };
+  const profiles = [
+    {
+      name: "Sophie Martin",
+      email: "sophie.martin@example.com",
+      role: "Développeuse Full Stack",
+      avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables."
+    },
+    {
+      name: "Thomas Bernard",
+      email: "thomas.bernard@example.com",
+      role: "Chef de Projet Tech",
+      avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits."
+    },
+    {
+      name: "Emma Dubois",
+      email: "emma.dubois@example.com",
+      role: "UX/UI Designer",
+      avatarUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité."
+    },
+    {
+      name: "Lucas Petit",
+      email: "lucas.petit@example.com",
+      role: "DevOps Engineer",
+      avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement."
+    },
+    {
+      name: "Julie Moreau",
+      email: "julie.moreau@example.com",
+      role: "Data Scientist",
+      avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      bio: "Data Scientist avec une expertise en machine learning et analyse de données. Passionnée par l'IA et les projets d'innovation."
+    }
+  ];
+
+  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const user = profiles[currentProfileIndex];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -44,6 +77,18 @@ const UserProfile = () => {
             <div>
               <h2 className="text-lg font-semibold mb-2">Bio</h2>
               <p className="text-gray-600">{user.bio}</p>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              {profiles.map((_, index) => (
+                <Button
+                  key={index}
+                  variant={currentProfileIndex === index ? "default" : "outline"}
+                  onClick={() => setCurrentProfileIndex(index)}
+                >
+                  Profil {index + 1}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
