@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 interface TeamMemberCardProps {
   name: string;
   avatar: string;
-  expertise: string;
   contribution: number;
   contributionDescription?: string;
 }
@@ -14,7 +13,6 @@ interface TeamMemberCardProps {
 export const TeamMemberCard = ({
   name,
   avatar,
-  expertise,
   contribution,
   contributionDescription
 }: TeamMemberCardProps) => {
@@ -39,7 +37,6 @@ export const TeamMemberCard = ({
             </Avatar>
             <div>
               <h4 className="font-semibold">{name}</h4>
-              <p className="text-sm text-gray-500">{expertise}</p>
             </div>
           </div>
           
