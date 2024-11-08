@@ -78,6 +78,23 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
           ))}
         </div>
       </div>
+
+      {project.testimonial && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Témoignage</h3>
+          <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600">
+            {project.testimonial}
+          </blockquote>
+        </div>
+      )}
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Client</h3>
+        <div className="flex items-center gap-2 text-gray-600">
+          <UserCircle2 className="w-4 h-4" />
+          <span>{project.client}</span>
+        </div>
+      </div>
     </div>
   );
 };
