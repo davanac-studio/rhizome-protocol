@@ -14,8 +14,11 @@ export const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
   };
 
   return (
-    <div className="flex items-center gap-4 p-4 bg-white rounded-lg border">
-      <Avatar className="w-12 h-12 cursor-pointer" onClick={handleProfileClick}>
+    <div 
+      className="flex items-center gap-4 p-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
+      onClick={handleProfileClick}
+    >
+      <Avatar className="w-12 h-12">
         <AvatarImage src={member.avatar} alt={member.name} />
         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
       </Avatar>
