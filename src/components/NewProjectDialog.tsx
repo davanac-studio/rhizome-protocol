@@ -17,6 +17,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     title: "",
+    shortDescription: "",
     description: "",
     status: "Planning" as ProjectStatus,
     dueDate: "",
@@ -38,6 +39,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     });
     setFormData({
       title: "",
+      shortDescription: "",
       description: "",
       status: "Planning",
       dueDate: "",
@@ -68,12 +70,21 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Description</label>
+            <label className="text-sm font-medium">Description courte</label>
+            <Input
+              required
+              value={formData.shortDescription}
+              onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+              placeholder="Entrez une brève description du projet"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Description longue</label>
             <Textarea
               required
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Entrez la description du projet"
+              placeholder="Entrez la description détaillée du projet"
             />
           </div>
           <div className="space-y-2">
