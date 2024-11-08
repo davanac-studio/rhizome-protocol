@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Project } from "@/types/project";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CalendarIcon, UserCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,8 +19,6 @@ const ProjectDetails = () => {
     id: "1",
     title: "Vidéo Explainer \"La guerre en Ukraine\"",
     description: "Création d'une vidéo explicative détaillée sur le conflit en Ukraine, analysant les enjeux géopolitiques et humanitaires pour une meilleure compréhension du public.",
-    status: "In Progress",
-    progress: 65,
     dueDate: "2024-03-15",
     thumbnail: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144",
     category: "Production Vidéo",
@@ -73,14 +70,9 @@ const ProjectDetails = () => {
                   </TooltipProvider>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-2">
-                <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-                  {project.status}
-                </Badge>
-                <Badge variant="outline">
-                  {project.category}
-                </Badge>
-              </div>
+              <Badge variant="outline">
+                {project.category}
+              </Badge>
             </div>
 
             <div className="prose max-w-none mb-8">
@@ -89,26 +81,16 @@ const ProjectDetails = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Progression du Projet</h3>
-                <Progress value={project.progress} className="w-full h-2" />
-                <span className="text-sm text-gray-600 mt-2 inline-block">
-                  {project.progress}% Complété
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Détails du Projet</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <UserCircle2 className="w-4 h-4" />
-                    <span>Client: {project.client}</span>
-                  </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Détails du Projet</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <CalendarIcon className="w-4 h-4" />
+                  <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-600">
+                  <UserCircle2 className="w-4 h-4" />
+                  <span>Client: {project.client}</span>
                 </div>
               </div>
             </div>
