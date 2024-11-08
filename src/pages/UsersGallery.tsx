@@ -43,7 +43,7 @@ const UsersGallery = () => {
       email: "julie.moreau@example.com",
       role: "Data Scientist",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      bannerUrl: "https://images.unsplash.com/photo-1504639725590-34d0984388bd",
+      bannerUrl: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a",
       bio: "Data Scientist avec une expertise en machine learning."
     }
   ];
