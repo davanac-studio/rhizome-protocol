@@ -61,22 +61,40 @@ export const ProjectCard = ({ project }: { project: Project }) => {
                 Client: {project.client}
               </span>
             </div>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src={project.author.avatar} alt={project.author.name} />
-                    <AvatarFallback>
-                      {project.author.name.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{project.author.name}</p>
-                  <p className="text-xs text-muted-foreground">{project.author.role}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            
+            <div className="flex -space-x-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Avatar className="w-8 h-8 border-2 border-white">
+                      <AvatarImage src={project.author.avatar} alt={project.author.name} />
+                      <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="font-medium">{project.author.name}</p>
+                    <p className="text-xs text-muted-foreground">{project.author.role}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              {project.participants?.map((participant, index) => (
+                <TooltipProvider key={index}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Avatar className="w-8 h-8 border-2 border-white">
+                        <AvatarImage src={participant.avatar} alt={participant.name} />
+                        <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="font-medium">{participant.name}</p>
+                      <p className="text-xs text-muted-foreground">{participant.role}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
+            </div>
           </div>
         </div>
       </Card>
