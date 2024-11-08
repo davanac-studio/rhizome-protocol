@@ -6,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
 
-// Composant SocialButton pour réduire la duplication de code
 const SocialButton = ({ url, icon: Icon }: { url?: string, icon: any }) => {
   if (!url) return null;
   return (
@@ -21,7 +20,6 @@ const SocialButton = ({ url, icon: Icon }: { url?: string, icon: any }) => {
   );
 };
 
-// Composant ProfileHeader pour réduire la taille du fichier principal
 const ProfileHeader = ({ user }: { user: any }) => (
   <div className="flex items-center gap-6 mb-8">
     <Avatar className="h-24 w-24">
@@ -47,8 +45,8 @@ const ProfileHeader = ({ user }: { user: any }) => (
 const ProfileContent = ({ user }: { user: any }) => (
   <div className="space-y-6">
     <div>
-      <h2 className="text-lg font-semibold mb-2">Email</h2>
-      <p className="text-gray-600">{user.email}</p>
+      <h2 className="text-lg font-semibold mb-2">Citation favorite</h2>
+      <p className="text-gray-600 italic">{user.quote || "Aucune citation"}</p>
     </div>
     <div>
       <h2 className="text-lg font-semibold mb-2">Bio</h2>
@@ -62,7 +60,6 @@ const UserProfile = () => {
   const { toast } = useToast();
   const userName = searchParams.get("name");
 
-  // Simulation d'une base de données d'utilisateurs avec les nouveaux réseaux sociaux
   const profiles = [
     {
       name: "Sophie Martin",
@@ -70,6 +67,7 @@ const UserProfile = () => {
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
       bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
+      quote: "Le code est poésie en mouvement",
       linkedin: "https://www.linkedin.com/in/sophie-martin",
       github: "https://github.com/sophiemartin",
       youtube: "https://youtube.com/@sophiemartin",
@@ -82,6 +80,7 @@ const UserProfile = () => {
       role: "Chef de Projet Tech",
       avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits.",
+      quote: "La technologie doit faciliter la vie.",
       linkedin: "https://www.linkedin.com/in/thomas-bernard"
     },
     {
@@ -90,6 +89,7 @@ const UserProfile = () => {
       role: "UX/UI Designer",
       avatarUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
       bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité.",
+      quote: "La simplicité est la sophistication suprême.",
       linkedin: "https://www.linkedin.com/in/emma-dubois"
     },
     {
@@ -98,6 +98,7 @@ const UserProfile = () => {
       role: "DevOps Engineer",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement.",
+      quote: "L'automatisation est la clé de l'efficacité.",
       linkedin: "https://www.linkedin.com/in/lucas-petit"
     },
     {
@@ -106,6 +107,7 @@ const UserProfile = () => {
       role: "Data Scientist",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       bio: "Data Scientist avec une expertise en machine learning et analyse de données. Passionnée par l'IA et les projets d'innovation.",
+      quote: "Les données parlent, écoutez-les.",
       linkedin: "https://www.linkedin.com/in/julie-moreau"
     }
   ];
