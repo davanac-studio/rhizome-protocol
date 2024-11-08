@@ -42,7 +42,7 @@ export const eventProjects: Project[] = [
     description: "Couverture complète du festival SXSW London, incluant reportages quotidiens, interviews exclusives, et création de contenu multimédia pour différentes plateformes.",
     dueDate: "2024-05-01",
     thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    category: "Événementiel",
+    category: "Rédaction/Production audiovisuelle",
     client: "SXSW",
     testimonial: "La qualité et la diversité des contenus produits ont dépassé nos attentes. L'équipe a su capturer l'essence de SXSW London tout en maintenant un flux constant de contenus pertinents et engageants sur toutes nos plateformes.",
     author: {
