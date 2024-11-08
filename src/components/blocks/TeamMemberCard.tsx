@@ -38,8 +38,7 @@ export const TeamMemberCard = ({
         )}
 
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Contribution</span>
-          <span className="text-sm text-gray-600">{contribution}%</span>
+          <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
         </div>
       </div>
     </Card>
