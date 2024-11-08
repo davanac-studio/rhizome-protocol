@@ -4,6 +4,8 @@ export interface ProjectMember {
   name: string;
   avatar?: string;
   role: ProjectRole;
+  expertise: string;
+  contribution: number;
 }
 
 export interface Project {
