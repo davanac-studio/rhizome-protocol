@@ -7,7 +7,7 @@ const Index = () => {
   const [projects, setProjects] = useState<Project[]>([
     {
       id: "1",
-      title: "Vidéo Explainer",
+      title: "Vidéo Explainer \"La guerre en Ukraine\"",
       description: "Production de vidéos explicatives professionnelles pour présenter vos produits, services ou concepts de manière claire et engageante.",
       status: "In Progress",
       progress: 65,
@@ -23,7 +23,7 @@ const Index = () => {
     },
     {
       id: "2",
-      title: "Vidéo Aftermovie",
+      title: "Vidéo Aftermovie KIKK Festival",
       description: "Création d'aftermovies captivants pour immortaliser vos événements et partager les moments forts avec votre audience.",
       status: "Planning",
       progress: 20,
@@ -39,7 +39,7 @@ const Index = () => {
     },
     {
       id: "3",
-      title: "Live Twitch/Youtube",
+      title: "Live Twitch/Youtube: Stereopsia Bruxelles",
       description: "Gestion et production de streams en direct sur Twitch et YouTube, incluant la configuration technique et la modération.",
       status: "In Progress",
       progress: 45,
@@ -55,7 +55,7 @@ const Index = () => {
     },
     {
       id: "4",
-      title: "Conférence/Hackathon",
+      title: "Conférence/Hackathon Blockchain Web3",
       description: "Organisation et couverture complète de conférences et hackathons, incluant la captation vidéo et la diffusion en direct.",
       status: "Planning",
       progress: 15,
@@ -71,7 +71,7 @@ const Index = () => {
     },
     {
       id: "5",
-      title: "Couverture Evènement",
+      title: "Couverture Evènement: SXSW London 2025",
       description: "Service complet de couverture médiatique pour vos événements, incluant photo, vidéo et création de contenu en temps réel.",
       status: "On Hold",
       progress: 0,
@@ -103,7 +103,7 @@ const Index = () => {
     },
     {
       id: "7",
-      title: "Campagne Marketing Digital",
+      title: "Campagne Marketing Digital \"Road to 2030\"",
       description: "Stratégie et exécution de campagnes marketing digitales multicanales pour maximiser votre présence en ligne.",
       status: "In Progress",
       progress: 50,
@@ -119,7 +119,7 @@ const Index = () => {
     },
     {
       id: "8",
-      title: "Développement application mobile",
+      title: "Développement application mobile \"Petits producteurs locaux\"",
       description: "Conception et développement d'applications mobiles sur mesure pour iOS et Android avec focus sur l'expérience utilisateur.",
       status: "Planning",
       progress: 10,
