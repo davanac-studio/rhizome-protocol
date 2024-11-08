@@ -8,7 +8,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ProjectHeader } from "@/components/ProjectHeader";
 import { ProjectDetailsComponent } from "@/components/ProjectDetails";
 import { projectsData } from "@/data/projects";
-import { TestimonialBlock } from "@/components/TestimonialBlock";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -57,17 +56,6 @@ const ProjectDetails = () => {
           
           <div className="p-8">
             <ProjectHeader project={project} />
-
-            <div className="prose max-w-none mb-8">
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {project.description}
-              </p>
-            </div>
-
-            {project.testimonial && (
-              <TestimonialBlock testimonial={project.testimonial} />
-            )}
-
             <ProjectDetailsComponent project={project} />
           </div>
         </div>
