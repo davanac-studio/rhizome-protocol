@@ -41,10 +41,10 @@ const UsersGallery = () => {
     {
       name: "Lucas Petit",
       email: "lucas.petit@example.com",
-      role: "DevOps Engineer",
+      role: "Journaliste/Copy",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       bannerUrl: "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc",
-      bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes."
+      bio: "Journaliste et rédacteur avec une passion pour le storytelling et la création de contenu engageant."
     },
     {
       name: "Julie Moreau",

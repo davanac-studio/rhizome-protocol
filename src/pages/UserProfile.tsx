@@ -56,11 +56,11 @@ const UserProfile = () => {
     {
       name: "Lucas Petit",
       email: "lucas.petit@example.com",
-      role: "DevOps Engineer",
+      role: "Journaliste/Copy",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       bannerUrl: "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc",
-      bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement.",
-      quote: "L'automatisation est la clé de l'efficacité.",
+      bio: "Journaliste et rédacteur avec une passion pour le storytelling et la création de contenu engageant. Spécialisé dans la rédaction d'articles, de scripts et de contenus marketing.",
+      quote: "Les mots ont le pouvoir de changer le monde.",
       linkedin: "https://www.linkedin.com/in/lucas-petit"
     },
     {
