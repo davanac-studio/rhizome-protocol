@@ -32,8 +32,8 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     onProjectCreate(newProject);
     setOpen(false);
     toast({
-      title: "Success",
-      description: "Project created successfully!",
+      title: "Succès",
+      description: "Projet créé avec succès !",
     });
     setFormData({
       title: "",
@@ -48,21 +48,21 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       <DialogTrigger asChild>
         <Button className="gap-2">
           <PlusCircle className="h-5 w-5" />
-          New Project
+          Nouveau Projet
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
+          <DialogTitle>Créer un Nouveau Projet</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Title</label>
+            <label className="text-sm font-medium">Titre</label>
             <Input
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Enter project title"
+              placeholder="Entrez le titre du projet"
             />
           </div>
           <div className="space-y-2">
@@ -71,28 +71,28 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
               required
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Enter project description"
+              placeholder="Entrez la description du projet"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Status</label>
+            <label className="text-sm font-medium">Statut</label>
             <Select
               value={formData.status}
               onValueChange={(value: ProjectStatus) => setFormData({ ...formData, status: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select status" />
+                <SelectValue placeholder="Sélectionnez le statut" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Planning">Planning</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
-                <SelectItem value="On Hold">On Hold</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Planning">Planification</SelectItem>
+                <SelectItem value="In Progress">En cours</SelectItem>
+                <SelectItem value="On Hold">En pause</SelectItem>
+                <SelectItem value="Completed">Terminé</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Due Date</label>
+            <label className="text-sm font-medium">Date d'échéance</label>
             <Input
               type="date"
               required
@@ -100,7 +100,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
               onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
             />
           </div>
-          <Button type="submit" className="w-full">Create Project</Button>
+          <Button type="submit" className="w-full">Créer le Projet</Button>
         </form>
       </DialogContent>
     </Dialog>
