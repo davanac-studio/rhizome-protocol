@@ -1,33 +1,27 @@
-import { CalendarIcon, LinkIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ProjectDetailsBlockProps {
-  dueDate: string;
-  links: {
-    github: string;
-    preview: string;
-  };
-  author: ProjectMember;
+  leader: ProjectMember;
   participants?: ProjectMember[];
 }
 
-export const ProjectDetailsBlock = ({ dueDate, links, author, participants }: ProjectDetailsBlockProps) => {
+export const ProjectDetailsBlock = ({
+  leader,
+  participants,
+}: ProjectDetailsBlockProps) => {
   return (
-    <div className="space-y-8">
-      <h3 className="text-lg font-semibold">Détails du Projet</h3>
-      
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 text-gray-600">
-          <CalendarIcon className="w-4 h-4" />
-          <span>Date de publication: {new Date(dueDate).toLocaleDateString('fr-FR')}</span>
-        </div>
-      </div>
-
+    <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-4">Team Leader</h3>
-        <TeamMemberCard member={author} />
+        <TeamMemberCard
+          name={leader.name}
+          avatar={leader.avatar || ""}
+          expertise={leader.expertise}
+          contribution={leader.contribution}
+          bio={leader.contributionDescription}
+        />
       </div>
 
       {participants && participants.length > 0 && (
@@ -35,25 +29,18 @@ export const ProjectDetailsBlock = ({ dueDate, links, author, participants }: Pr
           <h3 className="text-lg font-semibold mb-4">Participants</h3>
           <div className="space-y-4">
             {participants.map((participant, index) => (
-              <TeamMemberCard key={index} member={participant} />
+              <TeamMemberCard
+                key={index}
+                name={participant.name}
+                avatar={participant.avatar || ""}
+                expertise={participant.expertise}
+                contribution={participant.contribution}
+                bio={participant.contributionDescription}
+              />
             ))}
           </div>
         </div>
       )}
-
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Liens du Projet</h3>
-        <div className="flex gap-4">
-          <Button variant="outline" onClick={() => window.open(links.github, '_blank')} className="flex items-center gap-2">
-            <LinkIcon className="w-4 h-4" />
-            voir le site
-          </Button>
-          <Button variant="outline" onClick={() => window.open(links.preview, '_blank')} className="flex items-center gap-2">
-            <LinkIcon className="w-4 h-4" />
-            voir la vidéo
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

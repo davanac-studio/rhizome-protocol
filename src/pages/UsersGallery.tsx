@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const UsersGallery = () => {
-  // Utilisation des profils existants depuis UserProfile.tsx
   const profiles = [
     {
       name: "Sophie Martin",
@@ -64,7 +63,7 @@ const UsersGallery = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 line-clamp-2">{profile.bio}</p>
+                <p className="text-gray-600 line-clamp-3">{profile.bio}</p>
               </CardContent>
             </Card>
           </Link>
