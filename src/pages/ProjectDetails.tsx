@@ -1,27 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Project } from "@/types/project";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CalendarIcon, UserCircle2, Quote } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
+import { ProjectHeader } from "@/components/ProjectHeader";
+import { ProjectDetailsComponent } from "@/components/ProjectDetails";
+import { TestimonialBlock } from "@/components/TestimonialBlock";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const { toast } = useToast();
   const [project, setProject] = useState<Project | null>(null);
 
-  // Simulation de la récupération des données depuis Index.tsx
   useEffect(() => {
-    const projects = [
+    const projects: Project[] = [
       {
         id: "1",
         title: "Vidéo Explainer \"La guerre en Ukraine\"",
@@ -177,32 +171,7 @@ const ProjectDetails = () => {
           />
           
           <div className="p-8">
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.title}</h1>
-                <div className="flex items-center gap-4 text-gray-600">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <div className="flex items-center gap-2">
-                          <Avatar className="w-8 h-8">
-                            <AvatarImage src={project.author.avatar} alt={project.author.name} />
-                            <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <span>{project.author.name}</span>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{project.author.role}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </div>
-              <Badge variant="outline">
-                {project.category}
-              </Badge>
-            </div>
+            <ProjectHeader project={project} />
 
             <div className="prose max-w-none mb-8">
               <p className="text-gray-600 text-lg leading-relaxed">
@@ -210,27 +179,11 @@ const ProjectDetails = () => {
               </p>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Détails du Projet</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <CalendarIcon className="w-4 h-4" />
-                  <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <UserCircle2 className="w-4 h-4" />
-                  <span>Client: {project.client}</span>
-                </div>
-                {project.testimonial && (
-                  <div className="mt-6 bg-gray-50 p-6 rounded-lg">
-                    <div className="flex items-start gap-2 text-gray-600">
-                      <Quote className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
-                      <p className="italic text-gray-700">{project.testimonial}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+            <ProjectDetailsComponent project={project} />
+            
+            {project.testimonial && (
+              <TestimonialBlock testimonial={project.testimonial} />
+            )}
           </div>
         </div>
       </div>
