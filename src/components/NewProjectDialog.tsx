@@ -26,8 +26,8 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       ...formData,
       id: crypto.randomUUID(),
       author: {
-        name: "Sarah Martin",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Sarah",
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
         role: "Team Leader"
       }
     };

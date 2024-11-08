@@ -15,8 +15,8 @@ const Index = () => {
       client: "TechCorp",
       testimonial: "Une vidéo explicative exceptionnelle qui a permis à notre audience de mieux comprendre les enjeux complexes du conflit en Ukraine. L'équipe a su traduire des concepts géopolitiques complexes en contenus accessibles et engageants.",
       author: {
-        name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
         role: "Team Leader"
       }
     },
@@ -29,8 +29,8 @@ const Index = () => {
       category: "Production Vidéo",
       client: "EventPro",
       author: {
-        name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
         role: "Team Leader"
       }
     },
@@ -43,8 +43,8 @@ const Index = () => {
       category: "Streaming",
       client: "StreamMaster",
       author: {
-        name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
         role: "Team Leader"
       }
     },
@@ -57,8 +57,8 @@ const Index = () => {
       category: "Événementiel",
       client: "TechEvents",
       author: {
-        name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        name: "Lucas Petit",
+        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
         role: "Team Leader"
       }
     },
@@ -71,8 +71,8 @@ const Index = () => {
       category: "Événementiel",
       client: "EventCorp",
       author: {
-        name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        name: "Emma Dubois",
+        avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
         role: "Team Leader"
       }
     },
@@ -85,8 +85,8 @@ const Index = () => {
       category: "Formation",
       client: "EduMedia",
       author: {
-        name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        name: "Sophie Martin",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
         role: "Team Leader"
       }
     },
@@ -99,8 +99,8 @@ const Index = () => {
       category: "Marketing",
       client: "DigitalBoost",
       author: {
-        name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        name: "Thomas Bernard",
+        avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
         role: "Team Leader"
       }
     },
@@ -113,8 +113,8 @@ const Index = () => {
       category: "Développement",
       client: "AppTech",
       author: {
-        name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        name: "Lucas Petit",
+        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
         role: "Team Leader"
       }
     }
