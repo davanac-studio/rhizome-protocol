@@ -4,7 +4,8 @@ export const teamMembers = {
     avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
     role: "Développeuse Full Stack",
     contribution: 40,
-    bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables."
+    bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
+    expertise: "Développeuse Full Stack"
   },
   profile2: {
     name: "Thomas Bernard",
