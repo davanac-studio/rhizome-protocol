@@ -9,22 +9,29 @@ export const teamMembers = {
   profile2: {
     name: "Thomas Bernard",
     avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    expertise: "Réalisation Vidéo",
+    expertise: "Production Vidéo",
     contribution: 30,
-    bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits."
+    bio: "Expert en production vidéo avec une expérience significative dans la création de contenu digital."
   },
   profile3: {
     name: "Emma Dubois",
     avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-    expertise: "Streaming",
-    contribution: 35,
-    bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité."
+    expertise: "Développement",
+    contribution: 30,
+    bio: "Développeuse créative spécialisée dans la conception d'interfaces utilisateur intuitives."
   },
   profile4: {
     name: "Lucas Petit",
     avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    expertise: "Événementiel",
-    contribution: 45,
-    bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement."
+    expertise: "Coordination",
+    contribution: 20,
+    bio: "Coordinateur de projet expérimenté avec une passion pour l'organisation d'événements."
+  },
+  profile5: {
+    name: "Julie Moreau",
+    avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+    expertise: "Relations Publiques",
+    contribution: 15,
+    bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque."
   }
 } as const;
