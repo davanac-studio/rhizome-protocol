@@ -10,6 +10,7 @@ const UsersGallery = () => {
       email: "sophie.martin@example.com",
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      bannerUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
       bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js."
     },
     {
@@ -17,6 +18,7 @@ const UsersGallery = () => {
       email: "thomas.bernard@example.com",
       role: "Chef de Projet Tech",
       avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      bannerUrl: "https://images.unsplash.com/photo-1550439062-609e1531270e",
       bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech."
     },
     {
@@ -24,6 +26,7 @@ const UsersGallery = () => {
       email: "emma.dubois@example.com",
       role: "UX/UI Designer",
       avatarUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      bannerUrl: "https://images.unsplash.com/photo-1558655146-9f40138edfeb",
       bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur."
     },
     {
@@ -31,6 +34,7 @@ const UsersGallery = () => {
       email: "lucas.petit@example.com",
       role: "DevOps Engineer",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      bannerUrl: "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc",
       bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes."
     },
     {
@@ -38,6 +42,7 @@ const UsersGallery = () => {
       email: "julie.moreau@example.com",
       role: "Data Scientist",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      bannerUrl: "https://images.unsplash.com/photo-1504639725590-34d0984388bd",
       bio: "Data Scientist avec une expertise en machine learning."
     }
   ];
@@ -55,7 +60,7 @@ const UsersGallery = () => {
             <Card className="hover:shadow-lg transition-shadow overflow-hidden">
               <AspectRatio ratio={16 / 9}>
                 <img
-                  src={profile.avatarUrl}
+                  src={profile.bannerUrl}
                   alt={profile.name}
                   className="object-cover w-full h-full"
                 />
