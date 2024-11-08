@@ -45,7 +45,7 @@ const ProfileHeader = ({ user }: { user: any }) => (
 const ProfileContent = ({ user }: { user: any }) => (
   <div className="space-y-6">
     <div>
-      <h2 className="text-lg font-semibold mb-2">Citation favorite</h2>
+      <h2 className="text-lg font-semibold mb-2">Quote</h2>
       <p className="text-gray-600 italic">{user.quote || "Aucune citation"}</p>
     </div>
     <div>
