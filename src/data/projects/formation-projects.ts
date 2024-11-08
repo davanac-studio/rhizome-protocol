@@ -3,13 +3,13 @@ import { teamMembers } from "../team-members";
 
 export const formationProjects: Project[] = [
   {
-    id: "6",
+    id: "1",
     title: "Programme de formation Entrepreneur Media",
     description: "Développement d'un programme de formation complet pour entrepreneurs médias, incluant modules vidéo, ressources pédagogiques et sessions de mentorat en ligne.",
     dueDate: "2024-03-15",
-    thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d", // Image d'une personne travaillant sur un ordinateur portable
-    category: "Formation/Recrutement",
     client: "Media Lab",
+    category: "Formation/Recrutement",
+    thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d", // Image d'une personne travaillant sur un ordinateur portable
     author: {
       ...teamMembers.profile1,
       role: "Team Leader",
@@ -27,12 +27,12 @@ export const formationProjects: Project[] = [
         ...teamMembers.profile3,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Contenu pédagogique"
+        contributionDescription: "Développement plateforme"
       }
     ],
     links: {
-      github: "https://github.com/example/media-training",
-      preview: "https://formation.example.com/entrepreneur"
+      github: "https://github.com/example/formation-platform",
+      preview: "https://formation.example.com"
     }
   }
 ];
