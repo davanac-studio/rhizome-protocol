@@ -28,10 +28,10 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         </div>
         
         <div className="p-4">
-          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem]">
+          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem] overflow-hidden text-ellipsis">
             {project.title}
           </h3>
-          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5rem]">
+          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
             {project.description}
           </p>
           
@@ -49,7 +49,9 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
           <div className="flex items-center gap-2 text-gray-600">
             <UserCircle2 className="w-4 h-4" />
-            <span className="text-sm">Client: {project.client}</span>
+            <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+              Client: {project.client}
+            </span>
           </div>
         </div>
       </Card>
