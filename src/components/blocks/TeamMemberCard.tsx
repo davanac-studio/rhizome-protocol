@@ -32,7 +32,6 @@ export const TeamMemberCard = ({
         
         {contributionDescription && (
           <div className="text-sm text-gray-600">
-            <p className="font-medium mb-1">Description de la contribution :</p>
             <p>{contributionDescription}</p>
           </div>
         )}
