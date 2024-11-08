@@ -36,6 +36,7 @@ export const teamMembers = {
     avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     role: "Relations Publiques",
     contribution: 15,
-    bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque."
+    bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque.",
+    expertise: "Relations Publiques"
   }
 } as const;
