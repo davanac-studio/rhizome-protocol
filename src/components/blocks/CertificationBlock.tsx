@@ -4,10 +4,23 @@ import { NFTCertification } from "@/types/project";
 import { Card } from "@/components/ui/card";
 
 interface CertificationBlockProps {
-  certification: NFTCertification;
+  certification?: NFTCertification;
 }
 
 export const CertificationBlock = ({ certification }: CertificationBlockProps) => {
+  if (!certification) {
+    return (
+      <Card className="p-6">
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Certification NFT</h3>
+          <p className="text-gray-500">
+            Ce projet ne dispose pas encore de certification NFT.
+          </p>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-6">
       <div className="space-y-4">

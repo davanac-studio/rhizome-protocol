@@ -33,9 +33,7 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         participants={project.participants}
       />
 
-      {project.certification && (
-        <CertificationBlock certification={project.certification} />
-      )}
+      <CertificationBlock certification={project.certification} />
     </div>
   );
 };
