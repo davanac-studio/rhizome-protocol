@@ -22,10 +22,6 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
             <CalendarIcon className="w-4 h-4" />
             <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
-            <UserCircle2 className="w-4 h-4" />
-            <span>Client: {project.client}</span>
-          </div>
         </div>
       </div>
 
