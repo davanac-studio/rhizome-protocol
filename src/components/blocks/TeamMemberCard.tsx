@@ -1,43 +1,40 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ProjectMember } from "@/types/project";
-import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 interface TeamMemberCardProps {
-  member: ProjectMember;
+  name: string;
+  avatar: string;
+  expertise: string;
+  contribution: number;
+  bio?: string;
 }
 
-export const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
-  const navigate = useNavigate();
-
-  const handleProfileClick = () => {
-    navigate(`/profile?name=${encodeURIComponent(member.name)}`);
-  };
-
+export const TeamMemberCard = ({ name, avatar, expertise, contribution, bio }: TeamMemberCardProps) => {
   return (
-    <div className="space-y-4">
-      <div 
-        className="flex items-center gap-4 p-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
-        onClick={handleProfileClick}
-      >
-        <Avatar className="w-12 h-12">
-          <AvatarImage src={member.avatar} alt={member.name} />
-          <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div>
-          <h4 className="font-semibold">{member.name}</h4>
-          <p className="text-sm text-gray-600">{member.expertise}</p>
-        </div>
-        <div className="ml-auto">
-          <span className="text-sm font-medium text-blue-600">
-            {member.contribution}%
-          </span>
-        </div>
-      </div>
-      {member.contributionDescription && (
-        <div className="px-4 py-2 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600">{member.contributionDescription}</p>
-        </div>
-      )}
-    </div>
+    <Link to={`/profile?name=${encodeURIComponent(name)}`}>
+      <Card className="hover:shadow-lg transition-shadow">
+        <CardHeader className="flex flex-row items-center gap-4 pb-2">
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={avatar} alt={name} />
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <h3 className="font-semibold">{name}</h3>
+            <p className="text-sm text-gray-500">{expertise}</p>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <div className="text-sm text-gray-600">
+              {bio || "Aucune bio disponible"}
+            </div>
+            <div className="text-sm text-gray-500">
+              Contribution: {contribution}%
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
