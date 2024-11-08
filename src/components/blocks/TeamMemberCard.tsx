@@ -22,7 +22,6 @@ export const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
       <div>
         <h4 className="font-semibold">{member.name}</h4>
         <p className="text-sm text-gray-600">{member.expertise}</p>
-        <p className="text-sm text-gray-500">{member.role}</p>
       </div>
       <div className="ml-auto">
         <span className="text-sm font-medium text-blue-600">
