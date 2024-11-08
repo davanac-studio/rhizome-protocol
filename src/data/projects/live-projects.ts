@@ -7,7 +7,7 @@ export const liveProjects: Project[] = [
     title: "Live Twitch/Youtube: Stereopsia Bruxelles",
     description: "Gestion complète d'un streaming multi-plateformes pour la conférence Stereopsia, incluant la régie en direct, la gestion des transitions et l'interaction avec le public en temps réel.",
     dueDate: "2024-03-30",
-    thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
+    thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
     category: "Streaming",
     client: "Stereopsia",
     author: {
