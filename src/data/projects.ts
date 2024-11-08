@@ -177,13 +177,37 @@ export const projectsData: Project[] = [
   )
 ];
 
-// Add certification to the first project
+// Add certification to multiple projects
 projectsData[0] = {
   ...projectsData[0],
   certification: {
     contract: "0x1234...5678",
     tokenId: "42",
     creationDate: "01/01/2024",
+    blockchain: "Polygon",
+    standard: "ERC-721",
+    scanUrl: "https://polygonscan.com/token/..."
+  }
+};
+
+projectsData[1] = {
+  ...projectsData[1],
+  certification: {
+    contract: "0x9876...4321",
+    tokenId: "43",
+    creationDate: "15/01/2024",
+    blockchain: "Polygon",
+    standard: "ERC-721",
+    scanUrl: "https://polygonscan.com/token/..."
+  }
+};
+
+projectsData[2] = {
+  ...projectsData[2],
+  certification: {
+    contract: "0xABCD...EFGH",
+    tokenId: "44",
+    creationDate: "30/01/2024",
     blockchain: "Polygon",
     standard: "ERC-721",
     scanUrl: "https://polygonscan.com/token/..."
