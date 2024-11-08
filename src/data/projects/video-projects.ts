@@ -48,26 +48,22 @@ export const videoProjects: Project[] = [
     author: {
       ...teamMembers.profile2,
       role: "Team Leader",
-      contribution: 40,
       contribution: 40
     },
     participants: [
       {
         ...teamMembers.profile4,
         role: "Member",
-        contribution: 20,
         contribution: 20
       },
       {
         ...teamMembers.profile1,
         role: "Member",
-        contribution: 20,
         contribution: 20
       },
       {
         ...teamMembers.profile3,
         role: "Member",
-        contribution: 20,
         contribution: 20
       }
     ],
