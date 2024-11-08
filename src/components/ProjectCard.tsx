@@ -36,7 +36,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           <img
             src={project.thumbnail}
             alt={project.title}
-            className="w-full h-48 object-cover brightness-75 group-hover:brightness-90 transition-all"
+            className="w-full h-52 object-cover brightness-75 group-hover:brightness-90 transition-all"
           />
         </div>
         
@@ -52,7 +52,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             </span>
           </div>
           
-          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
+          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[4.5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
             {project.description}
           </p>
           
