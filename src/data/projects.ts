@@ -52,8 +52,8 @@ export const projectsData: Project[] = [
     "Production Vidéo",
     "EventPro",
     "L'aftermovie capture parfaitement l'énergie et l'esprit innovant du KIKK Festival. Les transitions fluides et le montage dynamique ont donné vie à nos moments les plus mémorables.",
-    "profile1",
-    ["profile2", "profile3"]
+    "profile2",
+    ["profile1", "profile3"]
   ),
   createProject(
     "3",
@@ -65,7 +65,7 @@ export const projectsData: Project[] = [
     "StreamMaster",
     "La qualité du streaming était impeccable et l'interaction avec notre audience internationale a dépassé nos attentes. L'équipe technique a assuré une diffusion sans faille pendant toute la durée de l'événement.",
     "profile3",
-    ["profile1", "profile2"]
+    ["profile1", "profile3"]
   ),
   createProject(
     "4",
@@ -76,8 +76,8 @@ export const projectsData: Project[] = [
     "Événementiel",
     "TechEvents",
     "L'organisation de cet événement hybride était remarquable. La synergie entre les conférences et le hackathon a créé une atmosphère unique d'apprentissage et d'innovation dans le domaine de la blockchain.",
-    "profile1",
-    ["profile2", "profile3", "profile4"]
+    "profile4",
+    ["profile2", "profile3"]
   ),
   createProject(
     "5",
@@ -89,7 +89,7 @@ export const projectsData: Project[] = [
     "EventCorp",
     "La couverture médiatique de SXSW London était exceptionnelle. Les reportages et interviews ont capturé l'essence même de l'événement, offrant une perspective unique à ceux qui n'ont pas pu y assister.",
     "profile3",
-    ["profile1", "profile2", "profile4"]
+    ["profile2", "profile4"]
   ),
   createProject(
     "6",
@@ -101,7 +101,7 @@ export const projectsData: Project[] = [
     "EduMedia",
     "Le programme de formation a transformé notre approche du marketing digital. Les modules sont pratiques, pertinents et immédiatement applicables. Nos entrepreneurs ont vu des résultats concrets dès la première semaine.",
     "profile1",
-    ["profile2", "profile3"]
+    ["profile2", "profile4"]
   ),
   createProject(
     "7",
@@ -112,8 +112,8 @@ export const projectsData: Project[] = [
     "Marketing",
     "DigitalBoost",
     "La campagne 'Road to 2030' a positionné notre entreprise comme un leader visionnaire dans le secteur digital. L'approche prospective et le contenu de qualité ont généré un engagement exceptionnel de notre audience cible.",
-    "profile1",
-    ["profile2", "profile3"]
+    "profile2",
+    ["profile1", "profile3"]
   ),
   createProject(
     "8",
@@ -124,7 +124,7 @@ export const projectsData: Project[] = [
     "Développement",
     "AppTech",
     "L'application a révolutionné la façon dont nos producteurs locaux connectent avec leurs clients. L'interface intuitive et les fonctionnalités de géolocalisation ont créé une véritable communauté autour de l'agriculture locale.",
-    "profile3",
-    ["profile2", "profile4"]
+    "profile4",
+    ["profile2", "profile3"]
   )
 ];
