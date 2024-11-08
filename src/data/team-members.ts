@@ -27,7 +27,8 @@ export const teamMembers = {
     avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
     role: "Journaliste",
     contribution: 20,
-    bio: "Coordinateur de projet expérimenté avec une passion pour l'organisation d'événements."
+    bio: "Coordinateur de projet expérimenté avec une passion pour l'organisation d'événements.",
+    expertise: "Journaliste"
   },
   profile5: {
     name: "Julie Moreau",
