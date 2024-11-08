@@ -47,7 +47,7 @@ export const TeamMemberCard = ({
           
           <div className="flex-grow">
             {contributionDescription && (
-              <div className="text-sm text-gray-600 text-left mb-4">
+              <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
                 <p>{contributionDescription}</p>
               </div>
             )}
