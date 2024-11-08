@@ -4,30 +4,17 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon, FacebookIcon } from "lucide-react";
-
-// Extract SocialInput component to keep the main component smaller
-const SocialInput = ({ icon: Icon, value, onChange, placeholder }: { icon: any, value: string, onChange: (value: string) => void, placeholder: string }) => (
-  <div className="relative">
-    <Icon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-    <Input
-      type="url"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      className="pl-10"
-    />
-  </div>
-);
-
-// Extract FormField component to reduce repetition
-const FormField = ({ label, required, children }: { label: string, required?: boolean, children: React.ReactNode }) => (
-  <div>
-    <label className="text-sm font-medium">{label} {required && <span className="text-red-500">*</span>}</label>
-    {children}
-  </div>
-);
+import { SocialInput } from "./signup/SocialInput";
+import { FormField } from "./signup/FormField";
+import { ImageFields } from "./signup/ImageFields";
+import {
+  LinkedinIcon,
+  YoutubeIcon,
+  GithubIcon,
+  Music2Icon,
+  InstagramIcon,
+  FacebookIcon,
+} from "lucide-react";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -41,6 +28,7 @@ const SignUpForm = () => {
     bio: "",
     quote: "",
     avatarUrl: "",
+    bannerUrl: "",
     linkedin: "",
     youtube: "",
     github: "",
@@ -71,24 +59,14 @@ const SignUpForm = () => {
         </p>
       </div>
 
-      <div className="flex justify-center">
-        <Avatar className="h-24 w-24">
-          <AvatarImage src={formData.avatarUrl} />
-          <AvatarFallback>
-            {formData.firstName.charAt(0)}{formData.lastName.charAt(0)}
-          </AvatarFallback>
-        </Avatar>
-      </div>
-
-      <FormField label="URL de l'avatar" required>
-        <Input
-          type="url"
-          required
-          value={formData.avatarUrl}
-          onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
-          placeholder="https://exemple.com/avatar.jpg"
-        />
-      </FormField>
+      <ImageFields
+        avatarUrl={formData.avatarUrl}
+        bannerUrl={formData.bannerUrl}
+        firstName={formData.firstName}
+        lastName={formData.lastName}
+        onAvatarChange={(value) => setFormData({ ...formData, avatarUrl: value })}
+        onBannerChange={(value) => setFormData({ ...formData, bannerUrl: value })}
+      />
 
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Prénom" required>
