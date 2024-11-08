@@ -39,19 +39,11 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           />
         </div>
 
-        <div className="flex items-center justify-between text-gray-600 px-4 py-2 border-b">
-          <div className="flex items-center gap-2">
-            <CalendarIcon className="w-4 h-4" />
-            <span className="text-sm">
-              {new Date(project.dueDate).toLocaleDateString('fr-FR')}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <UserCircle2 className="w-4 h-4" />
-            <span className="text-sm">
-              {project.client}
-            </span>
-          </div>
+        <div className="flex items-center gap-2 text-gray-600 px-4 py-2 border-b">
+          <CalendarIcon className="w-4 h-4" />
+          <span className="text-sm">
+            {new Date(project.dueDate).toLocaleDateString('fr-FR')}
+          </span>
         </div>
         
         <div className="p-4">
@@ -68,7 +60,14 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             </Badge>
           </div>
 
-          <div className="flex items-center justify-end">            
+          <div className="flex items-center justify-between text-gray-600">
+            <div className="flex items-center gap-2">
+              <UserCircle2 className="w-4 h-4" />
+              <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+                Client: {project.client}
+              </span>
+            </div>
+            
             <div className="flex -space-x-2">
               <TooltipProvider>
                 <Tooltip>
