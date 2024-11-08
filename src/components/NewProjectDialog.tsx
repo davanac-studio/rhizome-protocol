@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlusCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -15,9 +16,16 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     title: "",
-    shortDescription: "",
     description: "",
     dueDate: "",
+    thumbnail: "",
+    category: "",
+    client: "",
+    testimonial: "",
+    links: {
+      github: "",
+      preview: ""
+    }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,7 +36,9 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       author: {
         name: "Sophie Martin",
         avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Direction de Projet",
+        contribution: 40
       }
     };
     onProjectCreate(newProject);
@@ -39,9 +49,16 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     });
     setFormData({
       title: "",
-      shortDescription: "",
       description: "",
       dueDate: "",
+      thumbnail: "",
+      category: "",
+      client: "",
+      testimonial: "",
+      links: {
+        github: "",
+        preview: ""
+      }
     });
   };
 
@@ -53,47 +70,118 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
           Nouveau Projet
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Créer un Nouveau Projet</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Titre</label>
-            <Input
-              required
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Entrez le titre du projet"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Titre</label>
+              <Input
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Entrez le titre du projet"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Client</label>
+              <Input
+                required
+                value={formData.client}
+                onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+                placeholder="Nom du client"
+              />
+            </div>
           </div>
+
           <div className="space-y-2">
-            <label className="text-sm font-medium">Description courte</label>
-            <Input
-              required
-              value={formData.shortDescription}
-              onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-              placeholder="Entrez une brève description du projet"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Description longue</label>
+            <label className="text-sm font-medium">Description</label>
             <Textarea
               required
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Entrez la description détaillée du projet"
+              placeholder="Description détaillée du projet"
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Catégorie</label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => setFormData({ ...formData, category: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionnez une catégorie" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Web">Web</SelectItem>
+                  <SelectItem value="Mobile">Mobile</SelectItem>
+                  <SelectItem value="Design">Design</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Date de publication</label>
+              <Input
+                type="date"
+                required
+                value={formData.dueDate}
+                onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+              />
+            </div>
+          </div>
+
           <div className="space-y-2">
-            <label className="text-sm font-medium">Date de publication</label>
+            <label className="text-sm font-medium">Image de couverture (URL)</label>
             <Input
-              type="date"
+              type="url"
               required
-              value={formData.dueDate}
-              onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+              value={formData.thumbnail}
+              onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+              placeholder="URL de l'image de couverture"
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Lien GitHub</label>
+              <Input
+                type="url"
+                value={formData.links.github}
+                onChange={(e) => setFormData({
+                  ...formData,
+                  links: { ...formData.links, github: e.target.value }
+                })}
+                placeholder="URL du repository GitHub"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Lien de prévisualisation</label>
+              <Input
+                type="url"
+                value={formData.links.preview}
+                onChange={(e) => setFormData({
+                  ...formData,
+                  links: { ...formData.links, preview: e.target.value }
+                })}
+                placeholder="URL de prévisualisation"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Témoignage client</label>
+            <Textarea
+              value={formData.testimonial}
+              onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
+              placeholder="Témoignage du client (optionnel)"
+            />
+          </div>
+
           <Button type="submit" className="w-full">Créer le Projet</Button>
         </form>
       </DialogContent>
