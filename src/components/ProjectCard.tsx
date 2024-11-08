@@ -38,6 +38,11 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             alt={project.title}
             className="w-full h-52 object-cover brightness-75 group-hover:brightness-90 transition-all"
           />
+          <div className="absolute top-4 right-4">
+            <Badge variant="secondary" className="bg-blue-100/90 text-blue-700">
+              Certifié
+            </Badge>
+          </div>
         </div>
         
         <div className="p-4">
