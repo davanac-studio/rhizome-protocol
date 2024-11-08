@@ -20,7 +20,8 @@ export const teamMembers = {
     avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
     role: "Designer UX/UI",
     contribution: 30,
-    bio: "Développeuse créative spécialisée dans la conception d'interfaces utilisateur intuitives."
+    bio: "Développeuse créative spécialisée dans la conception d'interfaces utilisateur intuitives.",
+    expertise: "UX/UI Designer"
   },
   profile4: {
     name: "Lucas Petit",
