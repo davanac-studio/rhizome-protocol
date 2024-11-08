@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProjectStatus } from "@/types/project";
 import { PlusCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -19,7 +18,6 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     title: "",
     shortDescription: "",
     description: "",
-    status: "Planning" as ProjectStatus,
     dueDate: "",
     client: "",
   });
@@ -30,6 +28,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       ...formData,
       id: crypto.randomUUID(),
       progress: 0,
+      status: "Planning" as ProjectStatus,
     };
     onProjectCreate(newProject);
     setOpen(false);
@@ -41,7 +40,6 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       title: "",
       shortDescription: "",
       description: "",
-      status: "Planning",
       dueDate: "",
       client: "",
     });
@@ -95,23 +93,6 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
               onChange={(e) => setFormData({ ...formData, client: e.target.value })}
               placeholder="Entrez le nom du client"
             />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Statut</label>
-            <Select
-              value={formData.status}
-              onValueChange={(value: ProjectStatus) => setFormData({ ...formData, status: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionnez le statut" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Planning">Planification</SelectItem>
-                <SelectItem value="In Progress">En cours</SelectItem>
-                <SelectItem value="On Hold">En pause</SelectItem>
-                <SelectItem value="Completed">Terminé</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Date d'échéance</label>
