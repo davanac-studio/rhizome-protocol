@@ -8,6 +8,7 @@ export interface Project {
   thumbnail: string;
   category: string;
   client: string;
+  testimonial?: string;
   author: {
     name: string;
     avatar?: string;

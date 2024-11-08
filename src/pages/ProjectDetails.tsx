@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Project } from "@/types/project";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CalendarIcon, UserCircle2 } from "lucide-react";
+import { ArrowLeft, CalendarIcon, UserCircle2, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -23,6 +23,7 @@ const ProjectDetails = () => {
     thumbnail: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144",
     category: "Production Vidéo",
     client: "TechCorp",
+    testimonial: "Une vidéo explicative exceptionnelle qui a permis à notre audience de mieux comprendre les enjeux complexes du conflit en Ukraine. L'équipe a su traduire des concepts géopolitiques complexes en contenus accessibles et engageants.",
     author: {
       name: "John Doe",
       avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
@@ -92,6 +93,14 @@ const ProjectDetails = () => {
                   <UserCircle2 className="w-4 h-4" />
                   <span>Client: {project.client}</span>
                 </div>
+                {project.testimonial && (
+                  <div className="mt-6 bg-gray-50 p-6 rounded-lg">
+                    <div className="flex items-start gap-2 text-gray-600">
+                      <Quote className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
+                      <p className="italic text-gray-700">{project.testimonial}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
