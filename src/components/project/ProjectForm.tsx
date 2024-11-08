@@ -124,10 +124,11 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
               <SelectValue placeholder="Sélectionnez une catégorie" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Web">Web</SelectItem>
-              <SelectItem value="Mobile">Mobile</SelectItem>
-              <SelectItem value="Design">Design</SelectItem>
-              <SelectItem value="Marketing">Marketing</SelectItem>
+              <SelectItem value="Formation/Recrutement">Formation/Recrutement</SelectItem>
+              <SelectItem value="Stratégie/Management">Stratégie/Management</SelectItem>
+              <SelectItem value="Développement/Workflow">Développement/Workflow</SelectItem>
+              <SelectItem value="Communication/Relations Publiques">Communication/Relations Publiques</SelectItem>
+              <SelectItem value="Rédaction/Production audiovisuelle">Rédaction/Production audiovisuelle</SelectItem>
             </SelectContent>
           </Select>
         </div>
