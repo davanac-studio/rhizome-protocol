@@ -21,6 +21,13 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         </p>
       </div>
 
+      <ProjectDetailsBlock 
+        dueDate={project.dueDate}
+        links={project.links}
+        author={project.author}
+        participants={project.participants}
+      />
+
       <ClientBlock 
         client={project.client}
         testimonial={project.testimonial}
@@ -29,13 +36,6 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
       {project.testimonial && (
         <TestimonialBlock testimonial={project.testimonial} />
       )}
-
-      <ProjectDetailsBlock 
-        dueDate={project.dueDate}
-        links={project.links}
-        author={project.author}
-        participants={project.participants}
-      />
 
       <CertificationBlock certification={certification} />
     </div>
