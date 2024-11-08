@@ -12,7 +12,7 @@ const Index = () => {
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+      thumbnail: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144", // Image liée à l'Ukraine
       category: "Production Vidéo",
       client: "TechCorp",
       author: {
@@ -28,7 +28,7 @@ const Index = () => {
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
-      thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+      thumbnail: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30", // Image d'un festival
       category: "Production Vidéo",
       client: "EventPro",
       author: {
@@ -44,7 +44,7 @@ const Index = () => {
       status: "In Progress",
       progress: 45,
       dueDate: "2024-05-15",
-      thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
+      thumbnail: "https://images.unsplash.com/photo-1615138133693-e3432e36b0b7", // Image de streaming setup
       category: "Streaming",
       client: "StreamMaster",
       author: {
@@ -60,7 +60,7 @@ const Index = () => {
       status: "Planning",
       progress: 15,
       dueDate: "2024-06-01",
-      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      thumbnail: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e", // Image blockchain/crypto
       category: "Événementiel",
       client: "TechEvents",
       author: {
@@ -76,7 +76,7 @@ const Index = () => {
       status: "On Hold",
       progress: 0,
       dueDate: "2024-07-15",
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      thumbnail: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205", // Image de Londres
       category: "Événementiel",
       client: "EventCorp",
       author: {
@@ -92,7 +92,7 @@ const Index = () => {
       status: "Planning",
       progress: 30,
       dueDate: "2024-08-30",
-      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655", // Image de formation
       category: "Formation",
       client: "EduMedia",
       author: {
@@ -108,7 +108,7 @@ const Index = () => {
       status: "In Progress",
       progress: 50,
       dueDate: "2024-09-15",
-      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+      thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f", // Image marketing digital
       category: "Marketing",
       client: "DigitalBoost",
       author: {
@@ -124,7 +124,7 @@ const Index = () => {
       status: "Planning",
       progress: 10,
       dueDate: "2024-10-30",
-      thumbnail: "https://images.unsplash.com/photo-1483058712412-4245e9b90334",
+      thumbnail: "https://images.unsplash.com/photo-1512054502232-10a0a035d672", // Image producteurs locaux
       category: "Développement",
       client: "AppTech",
       author: {
