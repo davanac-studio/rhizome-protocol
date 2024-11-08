@@ -5,6 +5,20 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon, FacebookIcon } from "lucide-react";
+
+const SocialInput = ({ icon: Icon, value, onChange, placeholder }: { icon: any, value: string, onChange: (value: string) => void, placeholder: string }) => (
+  <div className="relative">
+    <Icon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+    <Input
+      type="url"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="pl-10"
+    />
+  </div>
+);
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -18,6 +32,12 @@ const SignUpForm = () => {
     bio: "",
     quote: "",
     avatarUrl: "",
+    linkedin: "",
+    youtube: "",
+    github: "",
+    spotify: "",
+    instagram: "",
+    facebook: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,9 +77,7 @@ const SignUpForm = () => {
           <Input
             type="url"
             value={formData.avatarUrl}
-            onChange={(e) =>
-              setFormData({ ...formData, avatarUrl: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
             placeholder="https://exemple.com/avatar.jpg"
           />
         </div>
@@ -70,9 +88,7 @@ const SignUpForm = () => {
             <Input
               required
               value={formData.firstName}
-              onChange={(e) =>
-                setFormData({ ...formData, firstName: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               placeholder="Votre prénom"
             />
           </div>
@@ -82,9 +98,7 @@ const SignUpForm = () => {
             <Input
               required
               value={formData.lastName}
-              onChange={(e) =>
-                setFormData({ ...formData, lastName: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder="Votre nom"
             />
           </div>
@@ -95,9 +109,7 @@ const SignUpForm = () => {
           <Input
             required
             value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
             placeholder="Votre nom d'utilisateur"
           />
         </div>
@@ -119,9 +131,7 @@ const SignUpForm = () => {
             required
             type="password"
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             placeholder="Votre mot de passe"
           />
         </div>
@@ -143,6 +153,48 @@ const SignUpForm = () => {
             onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
             placeholder="Votre citation préférée"
           />
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-sm font-medium">Réseaux sociaux</h3>
+          <div className="space-y-3">
+            <SocialInput
+              icon={LinkedinIcon}
+              value={formData.linkedin}
+              onChange={(value) => setFormData({ ...formData, linkedin: value })}
+              placeholder="URL LinkedIn"
+            />
+            <SocialInput
+              icon={YoutubeIcon}
+              value={formData.youtube}
+              onChange={(value) => setFormData({ ...formData, youtube: value })}
+              placeholder="URL YouTube"
+            />
+            <SocialInput
+              icon={GithubIcon}
+              value={formData.github}
+              onChange={(value) => setFormData({ ...formData, github: value })}
+              placeholder="URL GitHub"
+            />
+            <SocialInput
+              icon={Music2Icon}
+              value={formData.spotify}
+              onChange={(value) => setFormData({ ...formData, spotify: value })}
+              placeholder="URL Spotify"
+            />
+            <SocialInput
+              icon={InstagramIcon}
+              value={formData.instagram}
+              onChange={(value) => setFormData({ ...formData, instagram: value })}
+              placeholder="URL Instagram"
+            />
+            <SocialInput
+              icon={FacebookIcon}
+              value={formData.facebook}
+              onChange={(value) => setFormData({ ...formData, facebook: value })}
+              placeholder="URL Facebook"
+            />
+          </div>
         </div>
       </div>
 
