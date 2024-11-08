@@ -51,10 +51,6 @@ const ProfileContent = ({ user }: { user: any }) => (
       <h2 className="text-lg font-semibold mb-2">Quote</h2>
       <p className="text-gray-600 italic">{user.quote || "Aucune citation"}</p>
     </div>
-    <div>
-      <h2 className="text-lg font-semibold mb-2">Bio</h2>
-      <p className="text-gray-600">{user.bio}</p>
-    </div>
   </div>
 );
 
