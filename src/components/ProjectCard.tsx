@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button";
 import { CalendarIcon, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
@@ -55,10 +61,20 @@ export const ProjectCard = ({ project }: { project: Project }) => {
                 Client: {project.client}
               </span>
             </div>
-            <Avatar className="w-8 h-8">
-              <AvatarImage src={project.author.avatar} alt={project.author.name} />
-              <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
-            </Avatar>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src={project.author.avatar} alt={project.author.name} />
+                    <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{project.author.name}</p>
+                  <p className="text-xs text-muted-foreground">{project.author.role}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </Card>

@@ -30,7 +30,8 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       status: "Planning" as ProjectStatus,
       author: {
         name: "John Doe", // À remplacer par l'utilisateur connecté
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        role: "Team Leader"
       }
     };
     onProjectCreate(newProject);

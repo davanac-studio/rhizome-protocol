@@ -1,4 +1,5 @@
 export type ProjectStatus = "In Progress" | "Completed" | "On Hold" | "Planning";
+export type ProjectRole = "Team Leader" | "Member";
 
 export interface Project {
   id: string;
@@ -13,5 +14,6 @@ export interface Project {
   author: {
     name: string;
     avatar?: string;
+    role: ProjectRole;
   };
 }
