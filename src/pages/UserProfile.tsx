@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
+import { projectsData } from "@/data/projects";
 
 const SocialButton = ({ url, icon: Icon, label }: { url?: string, icon: any, label: string }) => {
   if (!url) return null;
@@ -21,7 +22,7 @@ const SocialButton = ({ url, icon: Icon, label }: { url?: string, icon: any, lab
   );
 };
 
-const ProfileHeader = ({ user }: { user: any }) => (
+const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => (
   <div className="flex items-center gap-6 mb-8">
     <Avatar className="h-24 w-24">
       <AvatarImage src={user.avatarUrl} alt={user.name} />
@@ -31,6 +32,7 @@ const ProfileHeader = ({ user }: { user: any }) => (
       <div>
         <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
         <p className="text-gray-500">{user.role}</p>
+        <p className="text-sm text-gray-600 mt-1">{projectCount} projet{projectCount > 1 ? 's' : ''}</p>
       </div>
       <div className="flex gap-2">
         <SocialButton url={user.linkedin} icon={LinkedinIcon} label="LinkedIn" />
@@ -115,6 +117,15 @@ const UserProfile = () => {
 
   const user = profiles.find(profile => profile.name === userName) || profiles[0];
 
+  // Calculer le nombre de projets
+  const projectCount = projectsData.filter(project => {
+    const isLeader = project.author.name === user.name;
+    const isParticipant = project.participants?.some(
+      participant => participant.name === user.name
+    );
+    return isLeader || isParticipant;
+  }).length;
+
   useEffect(() => {
     if (!userName) {
       toast({
@@ -137,7 +148,7 @@ const UserProfile = () => {
 
         <div className="space-y-8">
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <ProfileHeader user={user} />
+            <ProfileHeader user={user} projectCount={projectCount} />
             <ProfileContent user={user} />
           </div>
 
