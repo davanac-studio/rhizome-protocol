@@ -8,6 +8,15 @@ export interface ProjectMember {
   contribution: number;
 }
 
+export interface NFTCertification {
+  contract: string;
+  tokenId: string;
+  creationDate: string;
+  blockchain: string;
+  standard: string;
+  scanUrl: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -23,4 +32,5 @@ export interface Project {
     github: string;
     preview: string;
   };
+  certification?: NFTCertification;
 }

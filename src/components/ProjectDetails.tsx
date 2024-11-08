@@ -1,4 +1,4 @@
-import { CalendarIcon, UserCircle2, Users, Link as LinkIcon, Quote } from "lucide-react";
+import { CalendarIcon, UserCircle2, Users, Link as LinkIcon, Quote, LinkIcon2 } from "lucide-react";
 import { Project } from "@/types/project";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -99,6 +99,51 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
           <div className="flex items-start gap-2 text-gray-600">
             <Quote className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
             <p className="italic text-gray-700">{project.testimonial}</p>
+          </div>
+        </div>
+      )}
+
+      {project.certification && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Certification NFT</h3>
+          <div className="bg-white rounded-lg border p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-500">Contract:</p>
+                <p className="font-mono">{project.certification.contract}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Token ID:</p>
+                <p className="font-mono">{project.certification.tokenId}</p>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <h4 className="text-base font-medium">Metadata:</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Date de création:</span>
+                  <span>{project.certification.creationDate}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Blockchain:</span>
+                  <span>{project.certification.blockchain}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Standard:</span>
+                  <span>{project.certification.standard}</span>
+                </div>
+              </div>
+            </div>
+
+            <Button 
+              variant="outline" 
+              className="w-full mt-4 flex items-center justify-center gap-2"
+              onClick={() => window.open(project.certification?.scanUrl, '_blank')}
+            >
+              <LinkIcon2 className="w-4 h-4" />
+              Voir sur Polygonscan
+            </Button>
           </div>
         </div>
       )}

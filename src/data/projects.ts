@@ -176,3 +176,16 @@ export const projectsData: Project[] = [
     }
   )
 ];
+
+// Add certification to the first project
+projectsData[0] = {
+  ...projectsData[0],
+  certification: {
+    contract: "0x1234...5678",
+    tokenId: "42",
+    creationDate: "01/01/2024",
+    blockchain: "Polygon",
+    standard: "ERC-721",
+    scanUrl: "https://polygonscan.com/token/..."
+  }
+};
