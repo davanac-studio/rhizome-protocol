@@ -76,7 +76,7 @@ const UsersGallery = () => {
             to={`/profile?name=${encodeURIComponent(profile.name)}`}
             className="hover:no-underline"
           >
-            <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
+            <Card className="hover:shadow-lg transition-shadow h-full">
               <AspectRatio ratio={16 / 9}>
                 <img
                   src={profile.bannerUrl}
@@ -97,8 +97,8 @@ const UsersGallery = () => {
                   </p>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1">
-                <p className="text-gray-600 line-clamp-3">{profile.bio}</p>
+              <CardContent>
+                <p className="text-gray-600 line-clamp-3 min-h-[4.5rem]">{profile.bio}</p>
               </CardContent>
             </Card>
           </Link>
