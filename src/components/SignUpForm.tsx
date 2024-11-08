@@ -147,11 +147,11 @@ const SignUpForm = () => {
       </div>
 
       <div className="flex gap-4">
-        <Button type="submit" className="flex-1">
-          Créer mon compte
-        </Button>
         <Button type="button" variant="outline" className="flex-1" onClick={handleCancel}>
           Annuler
+        </Button>
+        <Button type="submit" className="flex-1">
+          Créer mon compte
         </Button>
       </div>
     </form>
