@@ -8,7 +8,7 @@ export const mobileProjects: Project[] = [
     description: "Création d'une application mobile permettant de connecter les consommateurs aux producteurs locaux, incluant géolocalisation, système de commande et contenus vidéo promotionnels.",
     dueDate: "2024-03-30",
     thumbnail: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c",
-    category: "Développement",
+    category: "Développement/Workflow",
     client: "Association des Producteurs",
     testimonial: "L'application a révolutionné la façon dont nos producteurs locaux se connectent avec leurs clients. L'interface intuitive et les fonctionnalités de géolocalisation ont considérablement augmenté la visibilité de nos membres et facilité les ventes directes.",
     author: {
