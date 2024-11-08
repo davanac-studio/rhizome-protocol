@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Linkedin, Youtube, Github, Music2, Instagram } from "lucide-react";
+import { ArrowLeft, LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
@@ -33,11 +33,11 @@ const ProfileHeader = ({ user }: { user: any }) => (
         <p className="text-gray-500">{user.role}</p>
       </div>
       <div className="flex gap-2">
-        <SocialButton url={user.linkedin} icon={Linkedin} label="LinkedIn" />
-        <SocialButton url={user.github} icon={Github} label="GitHub" />
-        <SocialButton url={user.youtube} icon={Youtube} label="YouTube" />
-        <SocialButton url={user.spotify} icon={Music2} label="Spotify" />
-        <SocialButton url={user.instagram} icon={Instagram} label="Instagram" />
+        <SocialButton url={user.linkedin} icon={LinkedinIcon} label="LinkedIn" />
+        <SocialButton url={user.github} icon={GithubIcon} label="GitHub" />
+        <SocialButton url={user.youtube} icon={YoutubeIcon} label="YouTube" />
+        <SocialButton url={user.spotify} icon={Music2Icon} label="Spotify" />
+        <SocialButton url={user.instagram} icon={InstagramIcon} label="Instagram" />
       </div>
     </div>
   </div>
