@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
+import { useEffect } from "react";
 
 const UserProfile = () => {
   const [searchParams] = useSearchParams();
@@ -51,13 +52,15 @@ const UserProfile = () => {
 
   const user = profiles.find(profile => profile.name === userName) || profiles[0];
 
-  if (!userName) {
-    toast({
-      title: "Erreur",
-      description: "Aucun utilisateur spécifié",
-      variant: "destructive"
-    });
-  }
+  useEffect(() => {
+    if (!userName) {
+      toast({
+        title: "Erreur",
+        description: "Aucun utilisateur spécifié",
+        variant: "destructive"
+      });
+    }
+  }, [userName, toast]);
 
   return (
     <div className="min-h-screen bg-gray-50">
