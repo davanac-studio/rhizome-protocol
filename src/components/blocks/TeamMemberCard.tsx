@@ -30,7 +30,7 @@ export const TeamMemberCard = ({
       className="w-full p-0 h-auto hover:bg-transparent"
       onClick={handleClick}
     >
-      <Card className="p-4 w-full min-h-[200px] flex flex-col hover:shadow-md transition-all duration-300">
+      <Card className="p-4 w-full flex flex-col hover:shadow-md transition-all duration-300">
         <div className="flex flex-col h-full">
           <div className="flex items-start space-x-4 mb-4">
             <Avatar>
@@ -53,7 +53,7 @@ export const TeamMemberCard = ({
             )}
           </div>
 
-          <div className="mt-auto text-left">
+          <div className="text-left">
             <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
           </div>
         </div>
