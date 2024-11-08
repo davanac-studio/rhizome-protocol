@@ -7,9 +7,10 @@ export const marketingProjects: Project[] = [
     title: "Campagne Marketing Digital \"Road to 2030\"",
     description: "Création d'une campagne marketing digitale multicanale sur les objectifs de développement durable, incluant vidéos, infographies et contenu pour réseaux sociaux.",
     dueDate: "2024-04-01",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f", // Image de marketing digital
+    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
     category: "Marketing Digital",
     client: "Green Initiative",
+    testimonial: "La campagne a eu un impact significatif sur la sensibilisation aux objectifs de développement durable. Les contenus créatifs et la stratégie multicanale ont permis d'atteindre et d'engager nos différentes audiences cibles de manière efficace.",
     author: {
       ...teamMembers.profile2,
       role: "Team Leader",

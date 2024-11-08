@@ -7,9 +7,10 @@ export const liveProjects: Project[] = [
     title: "Live Twitch/Youtube: Stereopsia Bruxelles",
     description: "Gestion complète d'un streaming multi-plateformes pour la conférence Stereopsia, incluant la régie en direct, la gestion des transitions et l'interaction avec le public en temps réel.",
     dueDate: "2024-03-30",
-    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655", // Image d'un setup de streaming
+    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655",
     category: "Streaming",
     client: "Stereopsia",
+    testimonial: "La qualité du streaming était exceptionnelle. L'équipe a su gérer les multiples flux en direct avec professionnalisme, assurant une expérience fluide pour nos participants en ligne. La réactivité face aux imprévus techniques était remarquable.",
     author: {
       ...teamMembers.profile3,
       role: "Team Leader",

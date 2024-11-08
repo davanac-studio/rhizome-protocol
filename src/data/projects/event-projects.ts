@@ -10,6 +10,7 @@ export const eventProjects: Project[] = [
     thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
     category: "Événementiel",
     client: "Web3 Community",
+    testimonial: "L'organisation et la couverture médiatique du hackathon ont été impeccables. Les contenus produits ont parfaitement capturé l'essence de l'événement et généré un engagement significatif sur nos réseaux sociaux.",
     author: {
       ...teamMembers.profile4,
       role: "Team Leader",
@@ -43,6 +44,7 @@ export const eventProjects: Project[] = [
     thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
     category: "Événementiel",
     client: "SXSW",
+    testimonial: "La qualité et la diversité des contenus produits ont dépassé nos attentes. L'équipe a su capturer l'essence de SXSW London tout en maintenant un flux constant de contenus pertinents et engageants sur toutes nos plateformes.",
     author: {
       ...teamMembers.profile2,
       role: "Team Leader",
