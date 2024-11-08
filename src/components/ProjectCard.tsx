@@ -15,15 +15,20 @@ import {
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleProjectClick = () => {
     navigate(`/project/${project.id}`);
+  };
+
+  const handleProfileClick = (e: React.MouseEvent, name: string) => {
+    e.stopPropagation();
+    navigate(`/profile?name=${encodeURIComponent(name)}`);
   };
 
   return (
     <Button
       variant="ghost"
       className="p-0 h-auto w-full hover:bg-transparent"
-      onClick={handleClick}
+      onClick={handleProjectClick}
     >
       <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 w-full hover:scale-[1.02] animate-fadeIn">
         <div className="relative">
@@ -65,8 +70,8 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             <div className="flex -space-x-2">
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <Avatar className="w-8 h-8 border-2 border-white">
+                  <TooltipTrigger onClick={(e) => handleProfileClick(e, project.author.name)}>
+                    <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
                       <AvatarImage src={project.author.avatar} alt={project.author.name} />
                       <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
                     </Avatar>
@@ -81,8 +86,8 @@ export const ProjectCard = ({ project }: { project: Project }) => {
               {project.participants?.map((participant, index) => (
                 <TooltipProvider key={index}>
                   <Tooltip>
-                    <TooltipTrigger>
-                      <Avatar className="w-8 h-8 border-2 border-white">
+                    <TooltipTrigger onClick={(e) => handleProfileClick(e, participant.name)}>
+                      <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
                         <AvatarImage src={participant.avatar} alt={participant.name} />
                         <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
                       </Avatar>
