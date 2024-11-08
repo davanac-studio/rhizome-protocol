@@ -32,9 +32,11 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
   const [participants, setParticipants] = useState<Array<{
     profile: string;
     contribution: number;
+    contributionDescription: string;
   }>>([]);
 
   const [teamLeaderContribution, setTeamLeaderContribution] = useState(TEAM_LEADER_CONTRIBUTION);
+  const [teamLeaderContributionDescription, setTeamLeaderContributionDescription] = useState("");
 
   const validateContributions = () => {
     const total = teamLeaderContribution + participants.reduce((acc, curr) => acc + curr.contribution, 0);
@@ -59,12 +61,14 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       author: {
         ...teamMembers.profile1,
         role: "Team Leader",
-        contribution: teamLeaderContribution
+        contribution: teamLeaderContribution,
+        contributionDescription: teamLeaderContributionDescription
       },
       participants: participants.map(p => ({
         ...teamMembers[p.profile as keyof typeof teamMembers],
         role: "Member" as const,
-        contribution: p.contribution
+        contribution: p.contribution,
+        contributionDescription: p.contributionDescription
       }))
     };
 
@@ -190,6 +194,8 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         setParticipants={setParticipants}
         teamLeaderContribution={teamLeaderContribution}
         setTeamLeaderContribution={setTeamLeaderContribution}
+        teamLeaderContributionDescription={teamLeaderContributionDescription}
+        setTeamLeaderContributionDescription={setTeamLeaderContributionDescription}
       />
 
       <Button type="submit" className="w-full">Créer le Projet</Button>

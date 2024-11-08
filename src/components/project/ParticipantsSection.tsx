@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { teamMembers } from "@/data/team-members";
 import { PlusCircle, MinusCircle } from "lucide-react";
@@ -8,32 +9,38 @@ interface ParticipantsSectionProps {
   participants: Array<{
     profile: string;
     contribution: number;
+    contributionDescription: string;
   }>;
   setParticipants: React.Dispatch<React.SetStateAction<Array<{
     profile: string;
     contribution: number;
+    contributionDescription: string;
   }>>>;
   teamLeaderContribution: number;
   setTeamLeaderContribution: React.Dispatch<React.SetStateAction<number>>;
+  teamLeaderContributionDescription: string;
+  setTeamLeaderContributionDescription: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const ParticipantsSection = ({
   participants,
   setParticipants,
   teamLeaderContribution,
-  setTeamLeaderContribution
+  setTeamLeaderContribution,
+  teamLeaderContributionDescription,
+  setTeamLeaderContributionDescription
 }: ParticipantsSectionProps) => {
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
 
   const handleAddParticipant = () => {
-    setParticipants([...participants, { profile: "", contribution: 0 }]);
+    setParticipants([...participants, { profile: "", contribution: 0, contributionDescription: "" }]);
   };
 
   const handleRemoveParticipant = (index: number) => {
     setParticipants(participants.filter((_, i) => i !== index));
   };
 
-  const handleParticipantChange = (index: number, field: 'profile' | 'contribution', value: string | number) => {
+  const handleParticipantChange = (index: number, field: 'profile' | 'contribution' | 'contributionDescription', value: string | number) => {
     const newParticipants = [...participants];
     newParticipants[index] = {
       ...newParticipants[index],
@@ -56,6 +63,15 @@ export const ParticipantsSection = ({
             className="w-24"
           />
           <span className="text-sm text-gray-500">% contribution</span>
+        </div>
+        <div className="mt-2">
+          <label className="text-sm font-medium">Description de la contribution</label>
+          <Textarea
+            value={teamLeaderContributionDescription}
+            onChange={(e) => setTeamLeaderContributionDescription(e.target.value)}
+            placeholder="Décrivez la contribution du team leader..."
+            className="mt-1"
+          />
         </div>
       </div>
 
@@ -102,6 +118,15 @@ export const ParticipantsSection = ({
               />
               <span className="text-sm text-gray-500">%</span>
             </div>
+          </div>
+          <div className="mt-2">
+            <label className="text-sm font-medium">Description de la contribution</label>
+            <Textarea
+              value={participant.contributionDescription}
+              onChange={(e) => handleParticipantChange(index, 'contributionDescription', e.target.value)}
+              placeholder="Décrivez la contribution du participant..."
+              className="mt-1"
+            />
           </div>
         </div>
       ))}
