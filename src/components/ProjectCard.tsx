@@ -14,6 +14,7 @@ import {
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
+  const categories = project.category.split(", ");
 
   const handleProjectClick = () => {
     navigate(`/project/${project.id}`);
@@ -55,10 +56,16 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             {project.description}
           </p>
           
-          <div className="flex items-center gap-4 mb-3 flex-wrap">
-            <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-              {project.category}
-            </Badge>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            {categories.map((category, index) => (
+              <Badge 
+                key={index} 
+                variant="secondary" 
+                className="bg-blue-100 text-blue-700 hover:bg-blue-200"
+              >
+                {category}
+              </Badge>
+            ))}
           </div>
 
           <div className="flex items-center justify-between text-gray-600">

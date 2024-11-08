@@ -7,6 +7,8 @@ interface ProjectHeaderProps {
 }
 
 export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
+  const categories = project.category.split(", ");
+  
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-start">
@@ -19,9 +21,13 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
                 {new Date(project.dueDate).toLocaleDateString('fr-FR')}
               </span>
             </div>
-            <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-              {project.category}
-            </Badge>
+            <div className="flex gap-2">
+              {categories.map((category, index) => (
+                <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-700">
+                  {category}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
       </div>
