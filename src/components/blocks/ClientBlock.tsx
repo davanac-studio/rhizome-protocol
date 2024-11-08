@@ -1,4 +1,4 @@
-import { UserCircle2, Quote } from "lucide-react";
+import { UserCircle2 } from "lucide-react";
 import { Project } from "@/types/project";
 
 interface ClientBlockProps {
@@ -6,7 +6,7 @@ interface ClientBlockProps {
   testimonial?: string;
 }
 
-export const ClientBlock = ({ client, testimonial }: ClientBlockProps) => {
+export const ClientBlock = ({ client }: ClientBlockProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -16,15 +16,6 @@ export const ClientBlock = ({ client, testimonial }: ClientBlockProps) => {
           <span>{client}</span>
         </div>
       </div>
-
-      {testimonial && (
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <div className="flex items-start gap-2 text-gray-600">
-            <Quote className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
-            <p className="italic text-gray-700">{testimonial}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

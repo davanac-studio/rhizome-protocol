@@ -17,14 +17,14 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         </p>
       </div>
 
-      {project.testimonial && (
-        <TestimonialBlock testimonial={project.testimonial} />
-      )}
-
       <ClientBlock 
         client={project.client}
         testimonial={project.testimonial}
       />
+
+      {project.testimonial && (
+        <TestimonialBlock testimonial={project.testimonial} />
+      )}
 
       <ProjectDetailsBlock 
         dueDate={project.dueDate}
