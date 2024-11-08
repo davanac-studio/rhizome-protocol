@@ -27,13 +27,15 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           />
         </div>
         
-        <div className="p-6">
-          <h3 className="font-bold text-2xl mb-3 text-left break-words line-clamp-2">{project.title}</h3>
-          <p className="text-gray-600 mb-6 text-left line-clamp-2">
+        <div className="p-4">
+          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem]">
+            {project.title}
+          </h3>
+          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[4.5rem]">
             {project.description}
           </p>
           
-          <div className="flex items-center gap-6 mb-4">
+          <div className="flex items-center gap-4 mb-3 flex-wrap">
             <div className="flex items-center gap-2 text-gray-600">
               <CalendarIcon className="w-4 h-4" />
               <span className="text-sm">
@@ -46,7 +48,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           </div>
 
           <div className="flex items-center gap-2 text-gray-600">
-            <UserCircle2 className="w-5 h-5" />
+            <UserCircle2 className="w-4 h-4" />
             <span className="text-sm">Client: {project.client}</span>
           </div>
         </div>
