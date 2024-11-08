@@ -1,10 +1,50 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Linkedin } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
+
+// Composant ProfileHeader pour réduire la taille du fichier principal
+const ProfileHeader = ({ user }: { user: any }) => (
+  <div className="flex items-center gap-6 mb-8">
+    <Avatar className="h-24 w-24">
+      <AvatarImage src={user.avatarUrl} alt={user.name} />
+      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+    </Avatar>
+    <div className="flex items-start gap-4">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
+        <p className="text-gray-500">{user.role}</p>
+      </div>
+      {user.linkedin && (
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full"
+          onClick={() => window.open(user.linkedin, '_blank')}
+        >
+          <Linkedin className="h-5 w-5 text-blue-600" />
+        </Button>
+      )}
+    </div>
+  </div>
+);
+
+// Composant ProfileContent pour réduire la taille du fichier principal
+const ProfileContent = ({ user }: { user: any }) => (
+  <div className="space-y-6">
+    <div>
+      <h2 className="text-lg font-semibold mb-2">Email</h2>
+      <p className="text-gray-600">{user.email}</p>
+    </div>
+    <div>
+      <h2 className="text-lg font-semibold mb-2">Bio</h2>
+      <p className="text-gray-600">{user.bio}</p>
+    </div>
+  </div>
+);
 
 const UserProfile = () => {
   const [searchParams] = useSearchParams();
@@ -18,35 +58,40 @@ const UserProfile = () => {
       email: "sophie.martin@example.com",
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables."
+      bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
+      linkedin: "https://www.linkedin.com/in/sophie-martin"
     },
     {
       name: "Thomas Bernard",
       email: "thomas.bernard@example.com",
       role: "Chef de Projet Tech",
       avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits."
+      bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits.",
+      linkedin: "https://www.linkedin.com/in/thomas-bernard"
     },
     {
       name: "Emma Dubois",
       email: "emma.dubois@example.com",
       role: "UX/UI Designer",
       avatarUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité."
+      bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité.",
+      linkedin: "https://www.linkedin.com/in/emma-dubois"
     },
     {
       name: "Lucas Petit",
       email: "lucas.petit@example.com",
       role: "DevOps Engineer",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement."
+      bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement.",
+      linkedin: "https://www.linkedin.com/in/lucas-petit"
     },
     {
       name: "Julie Moreau",
       email: "julie.moreau@example.com",
       role: "Data Scientist",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      bio: "Data Scientist avec une expertise en machine learning et analyse de données. Passionnée par l'IA et les projets d'innovation."
+      bio: "Data Scientist avec une expertise en machine learning et analyse de données. Passionnée par l'IA et les projets d'innovation.",
+      linkedin: "https://www.linkedin.com/in/julie-moreau"
     }
   ];
 
@@ -74,28 +119,8 @@ const UserProfile = () => {
 
         <div className="space-y-8">
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <div className="flex items-center gap-6 mb-8">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={user.avatarUrl} alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-                <p className="text-gray-500">{user.role}</p>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Email</h2>
-                <p className="text-gray-600">{user.email}</p>
-              </div>
-
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Bio</h2>
-                <p className="text-gray-600">{user.bio}</p>
-              </div>
-            </div>
+            <ProfileHeader user={user} />
+            <ProfileContent user={user} />
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
