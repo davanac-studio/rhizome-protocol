@@ -8,7 +8,7 @@ export const formationProjects: Project[] = [
     description: "Développement d'un programme de formation complet pour entrepreneurs médias, incluant modules vidéo, ressources pédagogiques et sessions de mentorat en ligne.",
     dueDate: "2024-03-15",
     thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d", // Image d'une personne travaillant sur un ordinateur portable
-    category: "Formation",
+    category: "Formation/Recrutement",
     client: "Media Lab",
     author: {
       ...teamMembers.profile1,
