@@ -59,7 +59,7 @@ const UserProfile = () => {
       role: "Journaliste/Copy",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       bannerUrl: "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc",
-      bio: "Journaliste et rédacteur avec une passion pour le storytelling et la création de contenu engageant. Spécialisé dans la rédaction d'articles, de scripts et de contenus marketing.",
+      bio: "Journaliste et rédacteur avec une passion pour le storytelling et la création de contenu engageant.",
       quote: "Les mots ont le pouvoir de changer le monde.",
       linkedin: "https://www.linkedin.com/in/lucas-petit"
     },
@@ -69,7 +69,7 @@ const UserProfile = () => {
       role: "Relations Publiques",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       bannerUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-      bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque et la communication stratégique. Passionnée par la création de liens durables entre les organisations et leurs publics.",
+      bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque et la communication stratégique. Participe activement à plusieurs projets majeurs en tant que responsable des relations publiques et de la communication.",
       quote: "La communication est un pont entre les personnes.",
       linkedin: "https://www.linkedin.com/in/julie-moreau"
     }
