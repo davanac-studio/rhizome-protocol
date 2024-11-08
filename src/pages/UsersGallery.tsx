@@ -49,10 +49,10 @@ const UsersGallery = () => {
     {
       name: "Julie Moreau",
       email: "julie.moreau@example.com",
-      role: "Data Scientist",
+      role: "Relations Publiques",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      bannerUrl: "https://images.unsplash.com/photo-1504639725590-34d0984388bd",
-      bio: "Data Scientist avec une expertise en machine learning."
+      bannerUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+      bio: "Spécialiste en relations publiques avec une expertise dans la gestion de l'image de marque et la communication stratégique."
     }
   ];
 
