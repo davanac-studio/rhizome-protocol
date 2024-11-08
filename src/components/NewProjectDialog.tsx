@@ -20,6 +20,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     description: "",
     status: "Planning" as ProjectStatus,
     dueDate: "",
+    client: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,6 +41,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       description: "",
       status: "Planning",
       dueDate: "",
+      client: "",
     });
   };
 
@@ -72,6 +74,15 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Entrez la description du projet"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Client</label>
+            <Input
+              required
+              value={formData.client}
+              onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+              placeholder="Entrez le nom du client"
             />
           </div>
           <div className="space-y-2">
