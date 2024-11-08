@@ -25,8 +25,8 @@ const ProjectDetails = () => {
     client: "TechCorp",
     testimonial: "Une vidéo explicative exceptionnelle qui a permis à notre audience de mieux comprendre les enjeux complexes du conflit en Ukraine. L'équipe a su traduire des concepts géopolitiques complexes en contenus accessibles et engageants.",
     author: {
-      name: "Sarah Martin",
-      avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Sarah",
+      name: "Sophie Martin",
+      avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
       role: "Team Leader"
     }
   });
