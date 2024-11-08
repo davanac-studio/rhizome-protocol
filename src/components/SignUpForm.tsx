@@ -10,17 +10,18 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
     password: "",
     bio: "",
+    quote: "",
     avatarUrl: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Ici nous simulons la création d'un compte
-    // Dans une vraie application, cela devrait être connecté à une API
     toast({
       title: "Compte créé avec succès",
       description: "Bienvenue sur Project Pulse !",
@@ -41,7 +42,7 @@ const SignUpForm = () => {
         <Avatar className="h-24 w-24">
           <AvatarImage src={formData.avatarUrl} />
           <AvatarFallback>
-            {formData.username.slice(0, 2).toUpperCase()}
+            {formData.firstName.charAt(0)}{formData.lastName.charAt(0)}
           </AvatarFallback>
         </Avatar>
       </div>
@@ -57,6 +58,32 @@ const SignUpForm = () => {
             }
             placeholder="https://exemple.com/avatar.jpg"
           />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm font-medium">Prénom</label>
+            <Input
+              required
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+              placeholder="Votre prénom"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Nom</label>
+            <Input
+              required
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+              placeholder="Votre nom"
+            />
+          </div>
         </div>
 
         <div>
@@ -102,6 +129,15 @@ const SignUpForm = () => {
             onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             placeholder="Parlez-nous de vous"
             className="h-24"
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-medium">Citation</label>
+          <Input
+            value={formData.quote}
+            onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+            placeholder="Votre citation préférée"
           />
         </div>
       </div>
