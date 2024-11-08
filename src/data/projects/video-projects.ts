@@ -49,26 +49,26 @@ export const videoProjects: Project[] = [
       ...teamMembers.profile2,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Direction et montage"
+      contribution: 40
     },
     participants: [
       {
         ...teamMembers.profile4,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Captation vidéo"
+        contribution: 20
       },
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Sound design"
+        contribution: 20
       },
       {
         ...teamMembers.profile3,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Relations presse et communication"
+        contribution: 20
       }
     ],
     links: {
