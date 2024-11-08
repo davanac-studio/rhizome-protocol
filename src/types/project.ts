@@ -19,4 +19,8 @@ export interface Project {
   testimonial?: string;
   author: ProjectMember & { role: "Team Leader" };
   participants?: ProjectMember[];
+  links: {
+    github: string;
+    preview: string;
+  };
 }

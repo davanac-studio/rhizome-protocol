@@ -1,4 +1,4 @@
-import { CalendarIcon, UserCircle2, Users } from "lucide-react";
+import { CalendarIcon, UserCircle2, Users, Link as LinkIcon } from "lucide-react";
 import { Project } from "@/types/project";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -22,6 +23,20 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
             <CalendarIcon className="w-4 h-4" />
             <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Liens du Projet</h3>
+        <div className="flex gap-4">
+          <Button variant="outline" onClick={() => window.open(project.links.github, '_blank')} className="flex items-center gap-2">
+            <LinkIcon className="w-4 h-4" />
+            GitHub
+          </Button>
+          <Button variant="outline" onClick={() => window.open(project.links.preview, '_blank')} className="flex items-center gap-2">
+            <LinkIcon className="w-4 h-4" />
+            Démo
+          </Button>
         </div>
       </div>
 

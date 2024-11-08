@@ -11,22 +11,21 @@ const createProject = (
   client: string,
   testimonial: string,
   authorProfile: keyof typeof teamMembers,
-  participantProfiles: (keyof typeof teamMembers)[]
+  participantProfiles: (keyof typeof teamMembers)[],
+  links: { github: string; preview: string }
 ): Project => {
   const author = { 
     ...teamMembers[authorProfile], 
     role: "Team Leader" as const,
-    contribution: 40 // Team leader always gets 40%
+    contribution: 40
   };
   
-  // Calculate remaining 60% among participants
   const remainingPercentage = 60;
   const perParticipant = Math.floor(remainingPercentage / participantProfiles.length);
   
   const participants = participantProfiles.map((profile, index) => ({
     ...teamMembers[profile],
     role: "Member" as const,
-    // Last participant gets any remaining percentage to ensure total is 100%
     contribution: index === participantProfiles.length - 1 
       ? remainingPercentage - (perParticipant * (participantProfiles.length - 1))
       : perParticipant
@@ -42,7 +41,8 @@ const createProject = (
     client,
     testimonial,
     author,
-    participants
+    participants,
+    links
   };
 };
 
@@ -57,7 +57,11 @@ export const projectsData: Project[] = [
     "TechCorp",
     "Une vidéo explicative exceptionnelle qui a permis à notre audience de mieux comprendre les enjeux complexes du conflit en Ukraine. L'équipe a su traduire des concepts géopolitiques complexes en contenus accessibles et engageants.",
     "profile1",
-    ["profile2", "profile3"]
+    ["profile2", "profile3"],
+    {
+      github: "https://github.com/company/ukraine-explainer",
+      preview: "https://ukraine-explainer.demo.com"
+    }
   ),
   createProject(
     "2",
@@ -69,7 +73,11 @@ export const projectsData: Project[] = [
     "EventPro",
     "L'aftermovie capture parfaitement l'énergie et l'esprit innovant du KIKK Festival. Les transitions fluides et le montage dynamique ont donné vie à nos moments les plus mémorables.",
     "profile2",
-    ["profile1", "profile3"]
+    ["profile1", "profile3"],
+    {
+      github: "https://github.com/company/kikk-aftermovie",
+      preview: "https://kikk-aftermovie.demo.com"
+    }
   ),
   createProject(
     "3",
@@ -81,7 +89,11 @@ export const projectsData: Project[] = [
     "StreamMaster",
     "La qualité du streaming était impeccable et l'interaction avec notre audience internationale a dépassé nos attentes. L'équipe technique a assuré une diffusion sans faille pendant toute la durée de l'événement.",
     "profile3",
-    ["profile1", "profile3"]
+    ["profile1", "profile3"],
+    {
+      github: "https://github.com/company/stereopsia-stream",
+      preview: "https://stereopsia-replay.demo.com"
+    }
   ),
   createProject(
     "4",
@@ -93,7 +105,11 @@ export const projectsData: Project[] = [
     "TechEvents",
     "L'organisation de cet événement hybride était remarquable. La synergie entre les conférences et le hackathon a créé une atmosphère unique d'apprentissage et d'innovation dans le domaine de la blockchain.",
     "profile4",
-    ["profile2", "profile3"]
+    ["profile2", "profile3"],
+    {
+      github: "https://github.com/company/blockchain-hackathon",
+      preview: "https://blockchain-hackathon.demo.com"
+    }
   ),
   createProject(
     "5",
@@ -105,7 +121,11 @@ export const projectsData: Project[] = [
     "EventCorp",
     "La couverture médiatique de SXSW London était exceptionnelle. Les reportages et interviews ont capturé l'essence même de l'événement, offrant une perspective unique à ceux qui n'ont pas pu y assister.",
     "profile3",
-    ["profile2", "profile4"]
+    ["profile2", "profile4"],
+    {
+      github: "https://github.com/company/sxsw-london-2025",
+      preview: "https://sxsw-london.demo.com"
+    }
   ),
   createProject(
     "6",
@@ -117,7 +137,11 @@ export const projectsData: Project[] = [
     "EduMedia",
     "Le programme de formation a transformé notre approche du marketing digital. Les modules sont pratiques, pertinents et immédiatement applicables. Nos entrepreneurs ont vu des résultats concrets dès la première semaine.",
     "profile1",
-    ["profile2", "profile4"]
+    ["profile2", "profile4"],
+    {
+      github: "https://github.com/company/entrepreneur-media-training",
+      preview: "https://entrepreneur-media-training.demo.com"
+    }
   ),
   createProject(
     "7",
@@ -129,7 +153,11 @@ export const projectsData: Project[] = [
     "DigitalBoost",
     "La campagne 'Road to 2030' a positionné notre entreprise comme un leader visionnaire dans le secteur digital. L'approche prospective et le contenu de qualité ont généré un engagement exceptionnel de notre audience cible.",
     "profile2",
-    ["profile1", "profile3"]
+    ["profile1", "profile3"],
+    {
+      github: "https://github.com/company/road-to-2030-campaign",
+      preview: "https://road-to-2030.demo.com"
+    }
   ),
   createProject(
     "8",
@@ -141,6 +169,10 @@ export const projectsData: Project[] = [
     "AppTech",
     "L'application a révolutionné la façon dont nos producteurs locaux connectent avec leurs clients. L'interface intuitive et les fonctionnalités de géolocalisation ont créé une véritable communauté autour de l'agriculture locale.",
     "profile4",
-    ["profile2", "profile3"]
+    ["profile2", "profile3"],
+    {
+      github: "https://github.com/company/local-producer-app",
+      preview: "https://local-producer.demo.com"
+    }
   )
 ];
