@@ -4,6 +4,7 @@ import { Project } from "@/types/project";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
@@ -47,11 +48,21 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             </Badge>
           </div>
 
-          <div className="flex items-center gap-2 text-gray-600">
-            <UserCircle2 className="w-4 h-4" />
-            <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
-              Client: {project.client}
-            </span>
+          <div className="flex items-center justify-between text-gray-600">
+            <div className="flex items-center gap-2">
+              <UserCircle2 className="w-4 h-4" />
+              <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+                Client: {project.client}
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Avatar className="h-6 w-6">
+                <AvatarImage src={project.author.avatarUrl} alt={project.author.name} />
+                <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium">{project.author.name}</span>
+            </div>
           </div>
         </div>
       </Card>

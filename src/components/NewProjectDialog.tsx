@@ -21,6 +21,13 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     dueDate: "",
   });
 
+  // Simulons un utilisateur connecté (à remplacer par votre système d'authentification)
+  const currentUser = {
+    id: "1",
+    name: "John Doe",
+    avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newProject = {
@@ -28,6 +35,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       id: crypto.randomUUID(),
       progress: 0,
       status: "Planning" as ProjectStatus,
+      author: currentUser,
     };
     onProjectCreate(newProject);
     setOpen(false);
