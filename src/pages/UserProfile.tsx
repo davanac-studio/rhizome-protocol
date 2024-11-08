@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { projectsData } from "@/data/projects";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileContent } from "@/components/profile/ProfileContent";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const UserProfile = () => {
   const [searchParams] = useSearchParams();
@@ -22,6 +23,7 @@ const UserProfile = () => {
       email: "sophie.martin@example.com",
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      bannerUrl: "https://images.unsplash.com/photo-1587620962725-abab7fe55159",
       bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
       quote: "Le code est poésie en mouvement",
       linkedin: "https://www.linkedin.com/in/sophie-martin",
@@ -100,9 +102,20 @@ const UserProfile = () => {
         </Link>
 
         <div className="space-y-8">
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <ProfileHeader user={user} projectCount={projectCount} />
-            <ProfileContent user={user} />
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {user.bannerUrl && (
+              <AspectRatio ratio={16 / 9} className="bg-muted">
+                <img
+                  src={user.bannerUrl}
+                  alt="Banner"
+                  className="object-cover w-full h-full"
+                />
+              </AspectRatio>
+            )}
+            <div className="p-8">
+              <ProfileHeader user={user} projectCount={projectCount} />
+              <ProfileContent user={user} />
+            </div>
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
