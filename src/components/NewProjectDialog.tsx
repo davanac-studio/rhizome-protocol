@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ProjectStatus } from "@/types/project";
 import { PlusCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -26,11 +25,9 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     const newProject = {
       ...formData,
       id: crypto.randomUUID(),
-      progress: 0,
-      status: "Planning" as ProjectStatus,
       author: {
-        name: "John Doe", // À remplacer par l'utilisateur connecté
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        name: "Sarah Martin",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Sarah",
         role: "Team Leader"
       }
     };
