@@ -60,7 +60,7 @@ const Index = () => {
       status: "Planning",
       progress: 15,
       dueDate: "2024-06-01",
-      thumbnail: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e", // Image blockchain/crypto
+      thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81", // Image d'un événement avec du public
       category: "Événementiel",
       client: "TechEvents",
       author: {
