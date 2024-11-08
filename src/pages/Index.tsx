@@ -12,7 +12,7 @@ const Index = () => {
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
-      thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
       category: "Production Vidéo",
       client: "TechCorp",
       author: {
@@ -28,7 +28,7 @@ const Index = () => {
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
-      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
       category: "Production Vidéo",
       client: "EventPro",
       author: {
@@ -44,7 +44,7 @@ const Index = () => {
       status: "In Progress",
       progress: 45,
       dueDate: "2024-05-15",
-      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
       category: "Streaming",
       client: "StreamMaster",
       author: {
@@ -60,7 +60,7 @@ const Index = () => {
       status: "Planning",
       progress: 15,
       dueDate: "2024-06-01",
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       category: "Événementiel",
       client: "TechEvents",
       author: {
@@ -76,7 +76,7 @@ const Index = () => {
       status: "On Hold",
       progress: 0,
       dueDate: "2024-07-15",
-      thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       category: "Événementiel",
       client: "EventCorp",
       author: {
@@ -92,7 +92,7 @@ const Index = () => {
       status: "Planning",
       progress: 30,
       dueDate: "2024-08-30",
-      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       category: "Formation",
       client: "EduMedia",
       author: {
@@ -108,7 +108,7 @@ const Index = () => {
       status: "In Progress",
       progress: 50,
       dueDate: "2024-09-15",
-      thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
       category: "Marketing",
       client: "DigitalBoost",
       author: {
