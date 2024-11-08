@@ -21,7 +21,8 @@ const ProjectDetails = () => {
     client: "TechCorp",
     author: {
       name: "John Doe",
-      avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+      role: "Team Leader"
     }
   });
 

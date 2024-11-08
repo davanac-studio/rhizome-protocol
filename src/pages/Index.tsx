@@ -17,7 +17,8 @@ const Index = () => {
       client: "TechCorp",
       author: {
         name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        role: "Team Leader"
       }
     },
     {
@@ -32,7 +33,8 @@ const Index = () => {
       client: "EventPro",
       author: {
         name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        role: "Team Leader"
       }
     },
     {
@@ -47,7 +49,8 @@ const Index = () => {
       client: "StreamMaster",
       author: {
         name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        role: "Team Leader"
       }
     },
     {
@@ -62,7 +65,8 @@ const Index = () => {
       client: "TechEvents",
       author: {
         name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        role: "Team Leader"
       }
     },
     {
@@ -77,7 +81,8 @@ const Index = () => {
       client: "EventCorp",
       author: {
         name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        role: "Team Leader"
       }
     },
     {
@@ -92,7 +97,8 @@ const Index = () => {
       client: "EduMedia",
       author: {
         name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        role: "Team Leader"
       }
     },
     {
@@ -107,7 +113,8 @@ const Index = () => {
       client: "DigitalBoost",
       author: {
         name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John",
+        role: "Team Leader"
       }
     },
     {
@@ -122,7 +129,8 @@ const Index = () => {
       client: "AppTech",
       author: {
         name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane",
+        role: "Team Leader"
       }
     }
   ]);
