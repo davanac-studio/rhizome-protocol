@@ -65,7 +65,7 @@ export const eventProjects: Project[] = [
         contributionDescription: "Interviews"
       },
       {
-        ...teamMembers.profile4,
+        ...teamMembers.profile5,
         role: "Member",
         contribution: 20,
         contributionDescription: "Relations publiques et communication"

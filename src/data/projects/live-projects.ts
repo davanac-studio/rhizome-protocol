@@ -31,7 +31,7 @@ export const liveProjects: Project[] = [
         contributionDescription: "Support technique"
       },
       {
-        ...teamMembers.profile4,
+        ...teamMembers.profile5,
         role: "Member",
         contribution: 15,
         contributionDescription: "Relations publiques et communication"

@@ -31,7 +31,7 @@ export const formationProjects: Project[] = [
         contributionDescription: "Développement plateforme"
       },
       {
-        ...teamMembers.profile4,
+        ...teamMembers.profile5,
         role: "Member",
         contribution: 15,
         contributionDescription: "Relations publiques"
