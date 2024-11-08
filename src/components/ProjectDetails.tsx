@@ -1,75 +1,115 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { CalendarIcon, UserCircle2, Users, Link as LinkIcon } from "lucide-react";
 import { Project } from "@/types/project";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
-import { ProjectHeader } from "@/components/ProjectHeader";
-import { ProjectDetailsComponent } from "@/components/ProjectDetails";
-import { TestimonialBlock } from "@/components/TestimonialBlock";
-import { projectsData } from "@/data/projects";
 
-const ProjectDetails = () => {
-  const { id } = useParams();
-  const { toast } = useToast();
-  const [project, setProject] = useState<Project | null>(null);
+interface ProjectDetailsProps {
+  project: Project;
+}
 
-  useEffect(() => {
-    const foundProject = projectsData.find(p => p.id === id);
-    if (foundProject) {
-      setProject(foundProject);
-    } else {
-      toast({
-        title: "Erreur",
-        description: "Projet non trouvé",
-        variant: "destructive"
-      });
-    }
-  }, [id, toast]);
-
-  if (!project) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900">Chargement...</h2>
+export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Détails du Projet</h3>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-gray-600">
+            <CalendarIcon className="w-4 h-4" />
+            <span>Date de publication: {new Date(project.dueDate).toLocaleDateString('fr-FR')}</span>
+          </div>
         </div>
       </div>
-    );
-  }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container py-8">
-        <Link to="/">
-          <Button variant="ghost" className="mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour aux Projets
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Liens du Projet</h3>
+        <div className="flex gap-4">
+          <Button variant="outline" onClick={() => window.open(project.links.github, '_blank')} className="flex items-center gap-2">
+            <LinkIcon className="w-4 h-4" />
+            voir le site
           </Button>
-        </Link>
+          <Button variant="outline" onClick={() => window.open(project.links.preview, '_blank')} className="flex items-center gap-2">
+            <LinkIcon className="w-4 h-4" />
+            voir la vidéo
+          </Button>
+        </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <img
-            src={project.thumbnail}
-            alt={project.title}
-            className="w-full h-96 object-cover"
-          />
-          
-          <div className="p-8">
-            <ProjectHeader project={project} />
-
-            <div className="prose max-w-none mb-8">
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {project.description}
-              </p>
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Team Leader</h3>
+        <div className="space-y-2">
+          <div className="flex items-center gap-3 text-gray-600">
+            <Avatar className="w-12 h-12">
+              <AvatarImage src={project.author.avatar} alt={project.author.name} />
+              <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <span className="font-medium">{project.author.name}</span>
+                <span className="text-sm text-gray-500">{project.author.contribution}%</span>
+              </div>
+              <div className="text-sm text-gray-500">{project.author.expertise}</div>
             </div>
-
-            <ProjectDetailsComponent project={project} />
           </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Users className="w-5 h-5" />
+          Participants
+        </h3>
+        <div className="space-y-4">
+          {project.participants && project.participants.map((participant, index) => (
+            <TooltipProvider key={index}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 text-gray-600">
+                      <Avatar className="w-12 h-12">
+                        <AvatarImage src={participant.avatar} alt={participant.name} />
+                        <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">{participant.name}</span>
+                          <span className="text-sm text-gray-500">{participant.contribution}%</span>
+                        </div>
+                        <div className="text-sm text-gray-500">{participant.expertise}</div>
+                      </div>
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{participant.role}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ))}
+        </div>
+      </div>
+
+      {project.testimonial && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Témoignage</h3>
+          <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600">
+            {project.testimonial}
+          </blockquote>
+        </div>
+      )}
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Client</h3>
+        <div className="flex items-center gap-2 text-gray-600">
+          <UserCircle2 className="w-4 h-4" />
+          <span>{project.client}</span>
         </div>
       </div>
     </div>
   );
 };
-
-export default ProjectDetails;
