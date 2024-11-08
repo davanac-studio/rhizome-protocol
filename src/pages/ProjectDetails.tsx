@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectHeader } from "@/components/ProjectHeader";
 import { ProjectDetailsComponent } from "@/components/ProjectDetails";
-import { TestimonialBlock } from "@/components/TestimonialBlock";
 import { projectsData } from "@/data/projects";
 
 const ProjectDetails = () => {
@@ -65,10 +64,6 @@ const ProjectDetails = () => {
             </div>
 
             <ProjectDetailsComponent project={project} />
-            
-            {project.testimonial && (
-              <TestimonialBlock testimonial={project.testimonial} />
-            )}
           </div>
         </div>
       </div>

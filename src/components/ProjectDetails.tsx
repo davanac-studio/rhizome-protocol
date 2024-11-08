@@ -1,4 +1,4 @@
-import { CalendarIcon, UserCircle2, Users, Link as LinkIcon } from "lucide-react";
+import { CalendarIcon, UserCircle2, Users, Link as LinkIcon, Quote } from "lucide-react";
 import { Project } from "@/types/project";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -95,11 +95,11 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
       </div>
 
       {project.testimonial && (
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Témoignage</h3>
-          <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600">
-            {project.testimonial}
-          </blockquote>
+        <div className="mt-6 bg-gray-50 p-6 rounded-lg">
+          <div className="flex items-start gap-2 text-gray-600">
+            <Quote className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
+            <p className="italic text-gray-700">{project.testimonial}</p>
+          </div>
         </div>
       )}
 
