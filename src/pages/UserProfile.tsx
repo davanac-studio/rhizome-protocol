@@ -25,7 +25,7 @@ const ProfileHeader = ({ user }: { user: any }) => (
           className="rounded-full"
           onClick={() => window.open(user.linkedin, '_blank')}
         >
-          <Linkedin className="h-5 w-5 text-blue-600" />
+          <Linkedin className="h-5 w-5 text-gray-900" />
         </Button>
       )}
     </div>
