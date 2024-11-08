@@ -19,7 +19,6 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
     shortDescription: "",
     description: "",
     dueDate: "",
-    client: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,7 +40,6 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       shortDescription: "",
       description: "",
       dueDate: "",
-      client: "",
     });
   };
 
@@ -86,16 +84,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Client</label>
-            <Input
-              required
-              value={formData.client}
-              onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-              placeholder="Entrez le nom du client"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Date d'échéance</label>
+            <label className="text-sm font-medium">Date de publication</label>
             <Input
               type="date"
               required
