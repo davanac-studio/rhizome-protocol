@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Card } from "@/components/ui/card";
 
 interface TeamMemberCardProps {
   name: string;
@@ -8,37 +7,47 @@ interface TeamMemberCardProps {
   expertise: string;
   contribution: number;
   bio?: string;
+  contributionDescription?: string;
 }
 
-export const TeamMemberCard = ({ name, avatar, expertise, contribution, bio }: TeamMemberCardProps) => {
-  if (!name) {
-    return null; // Ne rien afficher si le nom est undefined
-  }
-
+export const TeamMemberCard = ({
+  name,
+  avatar,
+  expertise,
+  contribution,
+  bio,
+  contributionDescription
+}: TeamMemberCardProps) => {
   return (
-    <Link to={`/profile?name=${encodeURIComponent(name)}`}>
-      <Card className="hover:shadow-lg transition-shadow">
-        <CardHeader className="flex flex-row items-center gap-4 pb-2">
-          <Avatar className="h-12 w-12">
+    <Card className="p-4">
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center space-x-4">
+          <Avatar>
             <AvatarImage src={avatar} alt={name} />
-            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-semibold">{name}</h3>
+            <h4 className="font-semibold">{name}</h4>
             <p className="text-sm text-gray-500">{expertise}</p>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="text-sm text-gray-600">
-              {bio || "Aucune bio disponible"}
-            </div>
-            <div className="text-sm text-gray-500">
-              Contribution: {contribution}%
-            </div>
+        </div>
+        
+        {contributionDescription && (
+          <div className="text-sm text-gray-600">
+            <p className="font-medium mb-1">Description de la contribution :</p>
+            <p>{contributionDescription}</p>
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+        )}
+
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">Contribution</span>
+          <span className="text-sm text-gray-600">{contribution}%</span>
+        </div>
+
+        {bio && (
+          <p className="text-sm text-gray-600">{bio}</p>
+        )}
+      </div>
+    </Card>
   );
 };
