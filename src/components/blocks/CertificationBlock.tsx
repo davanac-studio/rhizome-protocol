@@ -34,7 +34,7 @@ export const CertificationBlock = ({ certification }: CertificationBlockProps) =
 
         <div className="flex justify-center">
           <img 
-            src="/nft-certificate.png" 
+            src="https://raw.githubusercontent.com/Elragency/astro-construction/e38d8096c1a8c76e8e9f3e5c9b25cbf4c8391461/src/assets/img/logo/dvnc.png" 
             alt="NFT Certificate" 
             className="w-96 h-auto shadow-lg rounded-lg"
           />
