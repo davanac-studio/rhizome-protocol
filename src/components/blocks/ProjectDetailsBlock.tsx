@@ -3,12 +3,19 @@ import { TeamMemberCard } from "./TeamMemberCard";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ProjectDetailsBlockProps {
-  leader: ProjectMember;
+  dueDate: string;
+  links: {
+    github: string;
+    preview: string;
+  };
+  author: ProjectMember & { role: "Team Leader" };
   participants?: ProjectMember[];
 }
 
 export const ProjectDetailsBlock = ({
-  leader,
+  dueDate,
+  links,
+  author,
   participants,
 }: ProjectDetailsBlockProps) => {
   return (
@@ -16,11 +23,11 @@ export const ProjectDetailsBlock = ({
       <div>
         <h3 className="text-lg font-semibold mb-4">Team Leader</h3>
         <TeamMemberCard
-          name={leader.name}
-          avatar={leader.avatar || ""}
-          expertise={leader.expertise}
-          contribution={leader.contribution}
-          bio={leader.contributionDescription}
+          name={author.name}
+          avatar={author.avatar || ""}
+          expertise={author.expertise}
+          contribution={author.contribution}
+          bio={author.contributionDescription}
         />
       </div>
 
