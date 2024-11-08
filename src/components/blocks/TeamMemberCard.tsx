@@ -26,7 +26,7 @@ export const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
       </div>
       <div className="ml-auto">
         <span className="text-sm font-medium text-blue-600">
-          {member.contribution}% contribution
+          {member.contribution}%
         </span>
       </div>
     </div>
