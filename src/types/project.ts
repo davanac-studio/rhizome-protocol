@@ -1,5 +1,11 @@
 export type ProjectRole = "Team Leader" | "Member";
 
+export interface ProjectMember {
+  name: string;
+  avatar?: string;
+  role: ProjectRole;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -9,9 +15,6 @@ export interface Project {
   category: string;
   client: string;
   testimonial?: string;
-  author: {
-    name: string;
-    avatar?: string;
-    role: ProjectRole;
-  };
+  author: ProjectMember & { role: "Team Leader" };
+  participants?: ProjectMember[];
 }
