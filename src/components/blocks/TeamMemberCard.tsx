@@ -30,9 +30,9 @@ export const TeamMemberCard = ({
       className="w-full p-0 h-auto hover:bg-transparent"
       onClick={handleClick}
     >
-      <Card className="p-4 w-full hover:shadow-md transition-all duration-300">
-        <div className="flex flex-col space-y-4">
-          <div className="flex items-center space-x-4">
+      <Card className="p-4 w-full min-h-[200px] flex flex-col hover:shadow-md transition-all duration-300">
+        <div className="flex flex-col h-full">
+          <div className="flex items-center space-x-4 mb-4">
             <Avatar>
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
@@ -45,13 +45,15 @@ export const TeamMemberCard = ({
             </div>
           </div>
           
-          {contributionDescription && (
-            <div className="text-sm text-gray-600 text-left">
-              <p>{contributionDescription}</p>
-            </div>
-          )}
+          <div className="flex-grow">
+            {contributionDescription && (
+              <div className="text-sm text-gray-600 text-left mb-4">
+                <p>{contributionDescription}</p>
+              </div>
+            )}
+          </div>
 
-          <div className="flex items-center justify-between">
+          <div className="mt-auto">
             <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
           </div>
         </div>
