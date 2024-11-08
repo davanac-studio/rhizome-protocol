@@ -14,7 +14,11 @@ const Index = () => {
       dueDate: "2024-03-15",
       thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
       category: "Production Vidéo",
-      client: "TechCorp"
+      client: "TechCorp",
+      author: {
+        name: "John Doe",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      }
     },
     {
       id: "2",
@@ -25,7 +29,11 @@ const Index = () => {
       dueDate: "2024-04-30",
       thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       category: "Production Vidéo",
-      client: "EventPro"
+      client: "EventPro",
+      author: {
+        name: "Jane Smith",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+      }
     },
     {
       id: "3",
@@ -36,7 +44,11 @@ const Index = () => {
       dueDate: "2024-05-15",
       thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       category: "Streaming",
-      client: "StreamMaster"
+      client: "StreamMaster",
+      author: {
+        name: "John Doe",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      }
     },
     {
       id: "4",
@@ -47,7 +59,11 @@ const Index = () => {
       dueDate: "2024-06-01",
       thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       category: "Événementiel",
-      client: "TechEvents"
+      client: "TechEvents",
+      author: {
+        name: "Jane Smith",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+      }
     },
     {
       id: "5",
@@ -58,7 +74,11 @@ const Index = () => {
       dueDate: "2024-07-15",
       thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
       category: "Événementiel",
-      client: "EventCorp"
+      client: "EventCorp",
+      author: {
+        name: "John Doe",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      }
     },
     {
       id: "6",
@@ -69,7 +89,11 @@ const Index = () => {
       dueDate: "2024-08-30",
       thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
       category: "Formation",
-      client: "EduMedia"
+      client: "EduMedia",
+      author: {
+        name: "Jane Smith",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+      }
     },
     {
       id: "7",
@@ -80,7 +104,11 @@ const Index = () => {
       dueDate: "2024-09-15",
       thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
       category: "Marketing",
-      client: "DigitalBoost"
+      client: "DigitalBoost",
+      author: {
+        name: "John Doe",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      }
     },
     {
       id: "8",
@@ -91,7 +119,11 @@ const Index = () => {
       dueDate: "2024-10-30",
       thumbnail: "https://images.unsplash.com/photo-1483058712412-4245e9b90334",
       category: "Développement",
-      client: "AppTech"
+      client: "AppTech",
+      author: {
+        name: "Jane Smith",
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=Jane"
+      }
     }
   ]);
 

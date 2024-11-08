@@ -47,11 +47,19 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             </Badge>
           </div>
 
-          <div className="flex items-center gap-2 text-gray-600">
-            <UserCircle2 className="w-4 h-4" />
-            <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
-              Client: {project.client}
-            </span>
+          <div className="flex items-center justify-between text-gray-600">
+            <div className="flex items-center gap-2">
+              <UserCircle2 className="w-4 h-4" />
+              <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+                Client: {project.client}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <UserCircle2 className="w-4 h-4" />
+              <span className="text-sm font-medium">
+                Par {project.author.name}
+              </span>
+            </div>
           </div>
         </div>
       </Card>

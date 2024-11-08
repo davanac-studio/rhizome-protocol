@@ -18,7 +18,11 @@ const ProjectDetails = () => {
     dueDate: "2024-03-15",
     thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop",
     category: "Development/Workflow",
-    client: "TechCorp"
+    client: "TechCorp",
+    author: {
+      name: "John Doe",
+      avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+    }
   });
 
   return (
@@ -40,7 +44,12 @@ const ProjectDetails = () => {
           
           <div className="p-8">
             <div className="flex justify-between items-start mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">{project.title}</h1>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">{project.title}</h1>
+                <p className="text-gray-600 mt-2">
+                  Créé par {project.author.name}
+                </p>
+              </div>
               <Badge variant="secondary" className="bg-blue-100 text-blue-700">
                 {project.status}
               </Badge>

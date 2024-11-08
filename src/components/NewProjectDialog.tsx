@@ -28,6 +28,10 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
       id: crypto.randomUUID(),
       progress: 0,
       status: "Planning" as ProjectStatus,
+      author: {
+        name: "John Doe", // À remplacer par l'utilisateur connecté
+        avatar: "https://api.dicebear.com/7.x/avatars/svg?seed=John"
+      }
     };
     onProjectCreate(newProject);
     setOpen(false);
