@@ -1,4 +1,4 @@
-import { CalendarIcon, UserCircle2, Users, Link as LinkIcon, Quote, LinkIcon2 } from "lucide-react";
+import { CalendarIcon, UserCircle2, Users, Link as LinkIcon, Quote, ExternalLink } from "lucide-react";
 import { Project } from "@/types/project";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -141,7 +141,7 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
               className="w-full mt-4 flex items-center justify-center gap-2"
               onClick={() => window.open(project.certification?.scanUrl, '_blank')}
             >
-              <LinkIcon2 className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4" />
               Voir sur Polygonscan
             </Button>
           </div>
