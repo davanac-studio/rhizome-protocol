@@ -8,13 +8,15 @@ interface TeamMemberCardProps {
   avatar: string;
   contribution: number;
   contributionDescription?: string;
+  expertise?: string;
 }
 
 export const TeamMemberCard = ({
   name,
   avatar,
   contribution,
-  contributionDescription
+  contributionDescription,
+  expertise
 }: TeamMemberCardProps) => {
   const navigate = useNavigate();
 
@@ -35,8 +37,11 @@ export const TeamMemberCard = ({
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
             </Avatar>
-            <div>
+            <div className="space-y-1">
               <h4 className="font-semibold">{name}</h4>
+              {expertise && (
+                <p className="text-sm text-gray-600">{expertise}</p>
+              )}
             </div>
           </div>
           

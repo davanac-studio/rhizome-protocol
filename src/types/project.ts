@@ -6,6 +6,7 @@ export interface ProjectMember {
   role: ProjectRole;
   contribution: number;
   contributionDescription?: string;
+  expertise?: string;
 }
 
 export interface NFTCertification {

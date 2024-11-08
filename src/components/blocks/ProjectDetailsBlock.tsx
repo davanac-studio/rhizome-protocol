@@ -1,6 +1,5 @@
 import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
-import { Card } from "@/components/ui/card";
 import { Link2Icon, GithubIcon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -56,6 +55,7 @@ export const ProjectDetailsBlock = ({
           avatar={author.avatar || ""}
           contribution={author.contribution}
           contributionDescription={author.contributionDescription}
+          expertise={author.expertise}
         />
       </div>
 
@@ -70,6 +70,7 @@ export const ProjectDetailsBlock = ({
                 avatar={participant.avatar || ""}
                 contribution={participant.contribution}
                 contributionDescription={participant.contributionDescription}
+                expertise={participant.expertise}
               />
             ))}
           </div>
