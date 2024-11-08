@@ -31,7 +31,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         </div>
         
         <div className="p-6">
-          <h3 className="font-bold text-2xl mb-3 text-left">{project.title}</h3>
+          <h3 className="font-bold text-2xl mb-3 text-left break-words line-clamp-2">{project.title}</h3>
           <p className="text-gray-600 mb-6 text-left line-clamp-2">
             {project.description}
           </p>
