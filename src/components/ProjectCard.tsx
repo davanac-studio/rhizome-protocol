@@ -52,7 +52,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             </span>
           </div>
           
-          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[4.5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
+          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5.5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
             {project.description}
           </p>
           
