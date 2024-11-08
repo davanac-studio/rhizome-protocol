@@ -6,5 +6,5 @@ export const createCertification = (tokenId: string): NFTCertification => ({
   creationDate: new Date().toLocaleDateString('fr-FR'),
   blockchain: "Polygon",
   standard: "ERC-721",
-  scanUrl: "https://polygonscan.com/token/..."
+  scanUrl: `https://polygonscan.com/token/${tokenId}`
 });
