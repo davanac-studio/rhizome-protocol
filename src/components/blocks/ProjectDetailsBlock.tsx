@@ -54,7 +54,6 @@ export const ProjectDetailsBlock = ({
         <TeamMemberCard
           name={author.name}
           avatar={author.avatar || ""}
-          expertise={author.expertise}
           contribution={author.contribution}
           contributionDescription={author.contributionDescription}
         />
@@ -69,7 +68,6 @@ export const ProjectDetailsBlock = ({
                 key={index}
                 name={participant.name}
                 avatar={participant.avatar || ""}
-                expertise={participant.expertise}
                 contribution={participant.contribution}
                 contributionDescription={participant.contributionDescription}
               />
