@@ -28,7 +28,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         </div>
         
         <div className="p-4">
-          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem] overflow-hidden text-ellipsis">
+          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem] overflow-hidden text-ellipsis whitespace-normal">
             {project.title}
           </h3>
           <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
