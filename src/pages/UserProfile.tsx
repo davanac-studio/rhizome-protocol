@@ -1,100 +1,12 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
 import { projectsData } from "@/data/projects";
-
-const SocialButton = ({ url, icon: Icon, label }: { url?: string, icon: any, label: string }) => {
-  if (!url) return null;
-  return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="rounded-full"
-      onClick={() => window.open(url, '_blank')}
-      aria-label={label}
-    >
-      <Icon className="h-5 w-5 text-gray-900" />
-    </Button>
-  );
-};
-
-const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => (
-  <div className="flex items-center gap-6 mb-8">
-    <Avatar className="h-24 w-24">
-      <AvatarImage src={user.avatarUrl} alt={user.name} />
-      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-    </Avatar>
-    <div className="flex items-start gap-4">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-        <p className="text-gray-500">{user.role}</p>
-        <p className="text-sm text-gray-600 mt-1">{projectCount} projet{projectCount > 1 ? 's' : ''}</p>
-      </div>
-      <div className="flex gap-2">
-        <SocialButton url={user.linkedin} icon={LinkedinIcon} label="LinkedIn" />
-        <SocialButton url={user.github} icon={GithubIcon} label="GitHub" />
-        <SocialButton url={user.youtube} icon={YoutubeIcon} label="YouTube" />
-        <SocialButton url={user.spotify} icon={Music2Icon} label="Spotify" />
-        <SocialButton url={user.instagram} icon={InstagramIcon} label="Instagram" />
-      </div>
-    </div>
-  </div>
-);
-
-const ProfileContent = ({ user }: { user: any }) => (
-  <div className="space-y-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold mb-2">Informations personnelles</h2>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <div className="space-y-3">
-              <div>
-                <p className="text-sm text-gray-500">Nom complet</p>
-                <p className="font-medium">{user.firstName} {user.lastName}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Nom d'utilisateur</p>
-                <p className="font-medium">{user.username}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="font-medium">{user.email}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold mb-2">À propos</h2>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <div className="space-y-3">
-              <div>
-                <p className="text-sm text-gray-500">Bio</p>
-                <p className="text-gray-700">{user.bio || "Aucune bio renseignée"}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Citation</p>
-                <p className="text-gray-700 italic">{user.quote || "Aucune citation"}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h2 className="text-lg font-semibold mb-2">Citation</h2>
-      <p className="text-gray-600 italic">{user.quote || "Aucune citation"}</p>
-    </div>
-  </div>
-);
+import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { ProfileContent } from "@/components/profile/ProfileContent";
 
 const UserProfile = () => {
   const [searchParams] = useSearchParams();
@@ -116,7 +28,8 @@ const UserProfile = () => {
       github: "https://github.com/sophiemartin",
       youtube: "https://youtube.com/@sophiemartin",
       spotify: "https://open.spotify.com/user/sophiemartin",
-      instagram: "https://instagram.com/sophiemartin"
+      instagram: "https://instagram.com/sophiemartin",
+      facebook: "https://facebook.com/sophiemartin"
     },
     {
       name: "Thomas Bernard",
