@@ -10,7 +10,7 @@ interface ProjectDetailsProps {
 
 export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mt-12">
       <div className="prose max-w-none mb-8">
         <p className="text-gray-600 text-lg leading-relaxed">
           {project.description}
