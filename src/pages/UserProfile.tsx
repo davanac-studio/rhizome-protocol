@@ -1,10 +1,25 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Linkedin } from "lucide-react";
+import { ArrowLeft, Linkedin, Youtube, Github, Spotify, Instagram } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect } from "react";
+
+// Composant SocialButton pour réduire la duplication de code
+const SocialButton = ({ url, icon: Icon }: { url?: string, icon: any }) => {
+  if (!url) return null;
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      className="rounded-full"
+      onClick={() => window.open(url, '_blank')}
+    >
+      <Icon className="h-5 w-5 text-gray-900" />
+    </Button>
+  );
+};
 
 // Composant ProfileHeader pour réduire la taille du fichier principal
 const ProfileHeader = ({ user }: { user: any }) => (
@@ -18,16 +33,13 @@ const ProfileHeader = ({ user }: { user: any }) => (
         <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
         <p className="text-gray-500">{user.role}</p>
       </div>
-      {user.linkedin && (
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full"
-          onClick={() => window.open(user.linkedin, '_blank')}
-        >
-          <Linkedin className="h-5 w-5 text-gray-900" />
-        </Button>
-      )}
+      <div className="flex gap-2">
+        <SocialButton url={user.linkedin} icon={Linkedin} />
+        <SocialButton url={user.github} icon={Github} />
+        <SocialButton url={user.youtube} icon={Youtube} />
+        <SocialButton url={user.spotify} icon={Spotify} />
+        <SocialButton url={user.instagram} icon={Instagram} />
+      </div>
     </div>
   </div>
 );
@@ -51,7 +63,7 @@ const UserProfile = () => {
   const { toast } = useToast();
   const userName = searchParams.get("name");
 
-  // Simulation d'une base de données d'utilisateurs
+  // Simulation d'une base de données d'utilisateurs avec les nouveaux réseaux sociaux
   const profiles = [
     {
       name: "Sophie Martin",
@@ -59,7 +71,11 @@ const UserProfile = () => {
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
       bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
-      linkedin: "https://www.linkedin.com/in/sophie-martin"
+      linkedin: "https://www.linkedin.com/in/sophie-martin",
+      github: "https://github.com/sophiemartin",
+      youtube: "https://youtube.com/@sophiemartin",
+      spotify: "https://open.spotify.com/user/sophiemartin",
+      instagram: "https://instagram.com/sophiemartin"
     },
     {
       name: "Thomas Bernard",
