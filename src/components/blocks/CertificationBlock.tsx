@@ -34,7 +34,7 @@ export const CertificationBlock = ({ certification }: CertificationBlockProps) =
 
         <div className="flex justify-center">
           <img 
-            src="https://i.ibb.co/Jk8FPp2/dvnc.png" 
+            src="https://davanac.team/_next/image?url=https%3A%2F%2Fassets.super.so%2F62d68e4a-34fd-4f4a-a6ba-5d16269e248a%2Fuploads%2Flogo%2Fec935d54-0a3b-432d-a962-17fb7a839d16.png&w=96&q=90" 
             alt="NFT Certificate" 
             className="w-96 h-auto shadow-lg rounded-lg"
           />
