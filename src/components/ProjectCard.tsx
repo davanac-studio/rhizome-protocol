@@ -67,11 +67,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
                   <Avatar className="w-8 h-8">
                     <AvatarImage src={project.author.avatar} alt={project.author.name} />
                     <AvatarFallback>
-                      <img 
-                        src={project.author.avatar} 
-                        alt={project.author.name}
-                        className="w-full h-full object-cover"
-                      />
+                      {project.author.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </TooltipTrigger>
