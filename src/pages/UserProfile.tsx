@@ -1,10 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const UserProfile = () => {
+  const [searchParams] = useSearchParams();
+  const { toast } = useToast();
+  const userName = searchParams.get("name");
+
+  // Simulation d'une base de données d'utilisateurs
   const profiles = [
     {
       name: "Sophie Martin",
@@ -43,8 +48,15 @@ const UserProfile = () => {
     }
   ];
 
-  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
-  const user = profiles[currentProfileIndex];
+  const user = profiles.find(profile => profile.name === userName) || profiles[0];
+
+  if (!userName) {
+    toast({
+      title: "Erreur",
+      description: "Aucun utilisateur spécifié",
+      variant: "destructive"
+    });
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,18 +89,6 @@ const UserProfile = () => {
             <div>
               <h2 className="text-lg font-semibold mb-2">Bio</h2>
               <p className="text-gray-600">{user.bio}</p>
-            </div>
-
-            <div className="flex gap-2 pt-4">
-              {profiles.map((_, index) => (
-                <Button
-                  key={index}
-                  variant={currentProfileIndex === index ? "default" : "outline"}
-                  onClick={() => setCurrentProfileIndex(index)}
-                >
-                  Profil {index + 1}
-                </Button>
-              ))}
             </div>
           </div>
         </div>
