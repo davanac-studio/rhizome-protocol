@@ -23,7 +23,7 @@ const UserProfile = () => {
       email: "sophie.martin@example.com",
       role: "Développeuse Full Stack",
       avatarUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      bannerUrl: "https://images.unsplash.com/photo-1587620962725-abab7fe55159",
+      bannerUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
       bio: "Développeuse passionnée avec 3 ans d'expérience en React et Node.js. Spécialisée dans la création d'applications web performantes et scalables.",
       quote: "Le code est poésie en mouvement",
       linkedin: "https://www.linkedin.com/in/sophie-martin",
@@ -38,6 +38,7 @@ const UserProfile = () => {
       email: "thomas.bernard@example.com",
       role: "Chef de Projet Tech",
       avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      bannerUrl: "https://images.unsplash.com/photo-1550439062-609e1531270e",
       bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech. Expert en méthodologies agiles et en développement de produits.",
       quote: "La technologie doit faciliter la vie.",
       linkedin: "https://www.linkedin.com/in/thomas-bernard"
@@ -47,6 +48,7 @@ const UserProfile = () => {
       email: "emma.dubois@example.com",
       role: "UX/UI Designer",
       avatarUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      bannerUrl: "https://images.unsplash.com/photo-1558655146-9f40138edfeb",
       bio: "Designer créative spécialisée dans la conception d'interfaces utilisateur intuitives. Passionnée par l'expérience utilisateur et l'accessibilité.",
       quote: "La simplicité est la sophistication suprême.",
       linkedin: "https://www.linkedin.com/in/emma-dubois"
@@ -56,6 +58,7 @@ const UserProfile = () => {
       email: "lucas.petit@example.com",
       role: "DevOps Engineer",
       avatarUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      bannerUrl: "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc",
       bio: "Ingénieur DevOps avec expertise en CI/CD, Docker et Kubernetes. Focalisé sur l'automatisation et l'optimisation des processus de déploiement.",
       quote: "L'automatisation est la clé de l'efficacité.",
       linkedin: "https://www.linkedin.com/in/lucas-petit"
@@ -65,6 +68,7 @@ const UserProfile = () => {
       email: "julie.moreau@example.com",
       role: "Data Scientist",
       avatarUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      bannerUrl: "https://images.unsplash.com/photo-1504639725590-34d0984388bd",
       bio: "Data Scientist avec une expertise en machine learning et analyse de données. Passionnée par l'IA et les projets d'innovation.",
       quote: "Les données parlent, écoutez-les.",
       linkedin: "https://www.linkedin.com/in/julie-moreau"
