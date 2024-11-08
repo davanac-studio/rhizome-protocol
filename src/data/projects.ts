@@ -57,7 +57,7 @@ export const projectsData: Project[] = [
         contributionDescription: "Analyse des données"
       },
       {
-        ...teamMembers.profile5,
+        ...teamMembers.profile1,
         role: "Member",
         contribution: 25,
         contributionDescription: "Implémentation des solutions"
@@ -123,7 +123,7 @@ export const projectsData: Project[] = [
         contributionDescription: "Création de contenu"
       },
       {
-        ...teamMembers.profile5,
+        ...teamMembers.profile3,
         role: "Member",
         contribution: 30,
         contributionDescription: "Gestion des médias sociaux"
@@ -143,7 +143,7 @@ export const projectsData: Project[] = [
     category: "Rédaction/Production audiovisuelle",
     client: "TechMedia Productions",
     author: {
-      ...teamMembers.profile5,
+      ...teamMembers.profile2,
       role: "Team Leader",
       contribution: 35,
       contributionDescription: "Production et édition"
