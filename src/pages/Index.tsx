@@ -8,7 +8,7 @@ const Index = () => {
     {
       id: "1",
       title: "Vidéo Explainer \"La guerre en Ukraine\"",
-      description: "Production de vidéos explicatives professionnelles pour présenter vos produits, services ou concepts de manière claire et engageante.",
+      description: "Création d'une vidéo explicative détaillée sur le conflit en Ukraine, analysant les enjeux géopolitiques et humanitaires pour une meilleure compréhension du public.",
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
@@ -24,7 +24,7 @@ const Index = () => {
     {
       id: "2",
       title: "Vidéo Aftermovie KIKK Festival",
-      description: "Création d'aftermovies captivants pour immortaliser vos événements et partager les moments forts avec votre audience.",
+      description: "Production d'un aftermovie dynamique capturant l'essence du KIKK Festival, mettant en valeur les moments forts, les installations artistiques et l'ambiance unique de l'événement.",
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
@@ -40,7 +40,7 @@ const Index = () => {
     {
       id: "3",
       title: "Live Twitch/Youtube: Stereopsia Bruxelles",
-      description: "Gestion et production de streams en direct sur Twitch et YouTube, incluant la configuration technique et la modération.",
+      description: "Diffusion en direct de la conférence Stereopsia à Bruxelles, couvrant les dernières innovations en réalité virtuelle et augmentée, avec interaction en temps réel avec les spectateurs.",
       status: "In Progress",
       progress: 45,
       dueDate: "2024-05-15",
@@ -56,7 +56,7 @@ const Index = () => {
     {
       id: "4",
       title: "Conférence/Hackathon Blockchain Web3",
-      description: "Organisation et couverture complète de conférences et hackathons, incluant la captation vidéo et la diffusion en direct.",
+      description: "Organisation d'un événement hybride combinant conférences sur la blockchain et hackathon Web3, réunissant experts et développeurs pour explorer les innovations dans le domaine.",
       status: "Planning",
       progress: 15,
       dueDate: "2024-06-01",
@@ -72,7 +72,7 @@ const Index = () => {
     {
       id: "5",
       title: "Couverture Evènement: SXSW London 2025",
-      description: "Service complet de couverture médiatique pour vos événements, incluant photo, vidéo et création de contenu en temps réel.",
+      description: "Couverture médiatique complète du SXSW London 2025, incluant reportages, interviews exclusives et création de contenu en direct pour documenter cet événement majeur de l'industrie créative.",
       status: "On Hold",
       progress: 0,
       dueDate: "2024-07-15",
@@ -88,7 +88,7 @@ const Index = () => {
     {
       id: "6",
       title: "Programme de formation Entrepreneur Media",
-      description: "Programme de formation complet pour entrepreneurs souhaitant maîtriser la création et la gestion de contenu médiatique.",
+      description: "Développement d'un programme de formation complet destiné aux entrepreneurs, focalisé sur la création de contenu média, la stratégie digitale et la gestion de présence en ligne.",
       status: "Planning",
       progress: 30,
       dueDate: "2024-08-30",
@@ -104,7 +104,7 @@ const Index = () => {
     {
       id: "7",
       title: "Campagne Marketing Digital \"Road to 2030\"",
-      description: "Stratégie et exécution de campagnes marketing digitales multicanales pour maximiser votre présence en ligne.",
+      description: "Élaboration et mise en œuvre d'une campagne marketing visionnaire projetant les tendances et innovations digitales jusqu'en 2030, avec stratégie multicanale et contenu prospectif.",
       status: "In Progress",
       progress: 50,
       dueDate: "2024-09-15",
@@ -120,7 +120,7 @@ const Index = () => {
     {
       id: "8",
       title: "Développement application mobile \"Petits producteurs locaux\"",
-      description: "Conception et développement d'applications mobiles sur mesure pour iOS et Android avec focus sur l'expérience utilisateur.",
+      description: "Création d'une application mobile connectant consommateurs et producteurs locaux, avec fonctionnalités de géolocalisation, système de commande et plateforme communautaire.",
       status: "Planning",
       progress: 10,
       dueDate: "2024-10-30",
