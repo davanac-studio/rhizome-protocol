@@ -30,6 +30,25 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
       </div>
 
       <div>
+        <h3 className="text-lg font-semibold mb-4">Team Leader</h3>
+        <div className="space-y-2">
+          <div className="flex items-center gap-3 text-gray-600">
+            <Avatar className="w-8 h-8">
+              <AvatarImage src={project.author.avatar} alt={project.author.name} />
+              <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <span>{project.author.name}</span>
+                <span className="text-sm text-gray-500">{project.author.contribution}%</span>
+              </div>
+              <div className="text-sm text-gray-500">{project.author.expertise}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <Users className="w-5 h-5" />
           Participants
