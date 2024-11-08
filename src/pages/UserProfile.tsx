@@ -65,7 +65,7 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container py-8">
-        <Link to="/">
+        <Link to="/users">
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour
