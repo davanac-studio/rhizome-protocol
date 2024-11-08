@@ -11,6 +11,10 @@ interface TeamMemberCardProps {
 }
 
 export const TeamMemberCard = ({ name, avatar, expertise, contribution, bio }: TeamMemberCardProps) => {
+  if (!name) {
+    return null; // Ne rien afficher si le nom est undefined
+  }
+
   return (
     <Link to={`/profile?name=${encodeURIComponent(name)}`}>
       <Card className="hover:shadow-lg transition-shadow">
