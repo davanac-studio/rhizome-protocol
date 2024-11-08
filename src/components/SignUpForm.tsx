@@ -7,6 +7,7 @@ import { useToast } from "./ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon, FacebookIcon } from "lucide-react";
 
+// Extract SocialInput component to keep the main component smaller
 const SocialInput = ({ icon: Icon, value, onChange, placeholder }: { icon: any, value: string, onChange: (value: string) => void, placeholder: string }) => (
   <div className="relative">
     <Icon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
@@ -17,6 +18,14 @@ const SocialInput = ({ icon: Icon, value, onChange, placeholder }: { icon: any, 
       placeholder={placeholder}
       className="pl-10"
     />
+  </div>
+);
+
+// Extract FormField component to reduce repetition
+const FormField = ({ label, required, children }: { label: string, required?: boolean, children: React.ReactNode }) => (
+  <div>
+    <label className="text-sm font-medium">{label} {required && <span className="text-red-500">*</span>}</label>
+    {children}
   </div>
 );
 
@@ -71,130 +80,123 @@ const SignUpForm = () => {
         </Avatar>
       </div>
 
+      <FormField label="URL de l'avatar" required>
+        <Input
+          type="url"
+          required
+          value={formData.avatarUrl}
+          onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
+          placeholder="https://exemple.com/avatar.jpg"
+        />
+      </FormField>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField label="Prénom" required>
+          <Input
+            required
+            value={formData.firstName}
+            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+            placeholder="Votre prénom"
+          />
+        </FormField>
+
+        <FormField label="Nom" required>
+          <Input
+            required
+            value={formData.lastName}
+            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            placeholder="Votre nom"
+          />
+        </FormField>
+      </div>
+
+      <FormField label="Nom d'utilisateur" required>
+        <Input
+          required
+          value={formData.username}
+          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          placeholder="Votre nom d'utilisateur"
+        />
+      </FormField>
+
+      <FormField label="Email" required>
+        <Input
+          required
+          type="email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          placeholder="votre@email.com"
+        />
+      </FormField>
+
+      <FormField label="Mot de passe" required>
+        <Input
+          required
+          type="password"
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          placeholder="Votre mot de passe"
+        />
+      </FormField>
+
+      <FormField label="Bio" required>
+        <Textarea
+          required
+          value={formData.bio}
+          onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+          placeholder="Parlez-nous de vous"
+          className="h-24"
+        />
+      </FormField>
+
+      <FormField label="Citation" required>
+        <Input
+          required
+          value={formData.quote}
+          onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+          placeholder="Votre citation préférée"
+        />
+      </FormField>
+
       <div className="space-y-4">
-        <div>
-          <label className="text-sm font-medium">URL de l'avatar</label>
-          <Input
-            type="url"
-            value={formData.avatarUrl}
-            onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
-            placeholder="https://exemple.com/avatar.jpg"
+        <h3 className="text-sm font-medium">Réseaux sociaux</h3>
+        <div className="space-y-3">
+          <SocialInput
+            icon={LinkedinIcon}
+            value={formData.linkedin}
+            onChange={(value) => setFormData({ ...formData, linkedin: value })}
+            placeholder="URL LinkedIn"
           />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium">Prénom</label>
-            <Input
-              required
-              value={formData.firstName}
-              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-              placeholder="Votre prénom"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium">Nom</label>
-            <Input
-              required
-              value={formData.lastName}
-              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-              placeholder="Votre nom"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Nom d'utilisateur</label>
-          <Input
-            required
-            value={formData.username}
-            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            placeholder="Votre nom d'utilisateur"
+          <SocialInput
+            icon={YoutubeIcon}
+            value={formData.youtube}
+            onChange={(value) => setFormData({ ...formData, youtube: value })}
+            placeholder="URL YouTube"
           />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Email</label>
-          <Input
-            required
-            type="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            placeholder="votre@email.com"
+          <SocialInput
+            icon={GithubIcon}
+            value={formData.github}
+            onChange={(value) => setFormData({ ...formData, github: value })}
+            placeholder="URL GitHub"
           />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Mot de passe</label>
-          <Input
-            required
-            type="password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            placeholder="Votre mot de passe"
+          <SocialInput
+            icon={Music2Icon}
+            value={formData.spotify}
+            onChange={(value) => setFormData({ ...formData, spotify: value })}
+            placeholder="URL Spotify"
           />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Bio</label>
-          <Textarea
-            value={formData.bio}
-            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-            placeholder="Parlez-nous de vous"
-            className="h-24"
+          <SocialInput
+            icon={InstagramIcon}
+            value={formData.instagram}
+            onChange={(value) => setFormData({ ...formData, instagram: value })}
+            placeholder="URL Instagram"
           />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Citation</label>
-          <Input
-            value={formData.quote}
-            onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
-            placeholder="Votre citation préférée"
+          <SocialInput
+            icon={FacebookIcon}
+            value={formData.facebook}
+            onChange={(value) => setFormData({ ...formData, facebook: value })}
+            placeholder="URL Facebook"
           />
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-sm font-medium">Réseaux sociaux</h3>
-          <div className="space-y-3">
-            <SocialInput
-              icon={LinkedinIcon}
-              value={formData.linkedin}
-              onChange={(value) => setFormData({ ...formData, linkedin: value })}
-              placeholder="URL LinkedIn"
-            />
-            <SocialInput
-              icon={YoutubeIcon}
-              value={formData.youtube}
-              onChange={(value) => setFormData({ ...formData, youtube: value })}
-              placeholder="URL YouTube"
-            />
-            <SocialInput
-              icon={GithubIcon}
-              value={formData.github}
-              onChange={(value) => setFormData({ ...formData, github: value })}
-              placeholder="URL GitHub"
-            />
-            <SocialInput
-              icon={Music2Icon}
-              value={formData.spotify}
-              onChange={(value) => setFormData({ ...formData, spotify: value })}
-              placeholder="URL Spotify"
-            />
-            <SocialInput
-              icon={InstagramIcon}
-              value={formData.instagram}
-              onChange={(value) => setFormData({ ...formData, instagram: value })}
-              placeholder="URL Instagram"
-            />
-            <SocialInput
-              icon={FacebookIcon}
-              value={formData.facebook}
-              onChange={(value) => setFormData({ ...formData, facebook: value })}
-              placeholder="URL Facebook"
-            />
-          </div>
         </div>
       </div>
 
