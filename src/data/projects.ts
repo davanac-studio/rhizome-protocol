@@ -44,7 +44,7 @@ export const projectsData: Project[] = [
     "StreamMaster",
     "La qualité du streaming était impeccable et l'interaction avec notre audience internationale a dépassé nos attentes. L'équipe technique a assuré une diffusion sans faille pendant toute la durée de l'événement.",
     "profile3",
-    ["profile1", "profile3"],
+    ["profile1", "profile4"],
     {
       github: "https://github.com/company/stereopsia-stream",
       preview: "https://stereopsia-replay.demo.com"
