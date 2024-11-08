@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { projectsData } from "@/data/projects";
 
 const UsersGallery = () => {
   const profiles = [
@@ -47,6 +48,16 @@ const UsersGallery = () => {
     }
   ];
 
+  const getProjectCount = (userName: string) => {
+    return projectsData.filter(project => {
+      const isLeader = project.author.name === userName;
+      const isParticipant = project.participants?.some(
+        participant => participant.name === userName
+      );
+      return isLeader || isParticipant;
+    }).length;
+  };
+
   return (
     <div className="container py-8">
       <h1 className="text-3xl font-bold mb-8">Utilisateurs de la plateforme</h1>
@@ -73,6 +84,9 @@ const UsersGallery = () => {
                 <div>
                   <CardTitle className="text-xl">{profile.name}</CardTitle>
                   <p className="text-sm text-gray-500">{profile.role}</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {getProjectCount(profile.name)} projet{getProjectCount(profile.name) > 1 ? 's' : ''}
+                  </p>
                 </div>
               </CardHeader>
               <CardContent>
