@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const UsersGallery = () => {
   const profiles = [
@@ -51,7 +52,14 @@ const UsersGallery = () => {
             to={`/profile?name=${encodeURIComponent(profile.name)}`}
             className="hover:no-underline"
           >
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow overflow-hidden">
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src={profile.avatarUrl}
+                  alt={profile.name}
+                  className="object-cover w-full h-full"
+                />
+              </AspectRatio>
               <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar className="h-12 w-12">
                   <AvatarImage src={profile.avatarUrl} alt={profile.name} />
