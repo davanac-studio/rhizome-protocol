@@ -17,7 +17,9 @@ const Index = () => {
       author: {
         name: "Sophie Martin",
         avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Direction de Projet",
+        contribution: 40
       }
     },
     {
@@ -32,7 +34,9 @@ const Index = () => {
       author: {
         name: "Thomas Bernard",
         avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Réalisation Vidéo",
+        contribution: 35
       }
     },
     {
@@ -47,7 +51,9 @@ const Index = () => {
       author: {
         name: "Emma Dubois",
         avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Streaming",
+        contribution: 50
       }
     },
     {
@@ -62,7 +68,9 @@ const Index = () => {
       author: {
         name: "Lucas Petit",
         avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Événementiel",
+        contribution: 45
       }
     },
     {
@@ -77,7 +85,9 @@ const Index = () => {
       author: {
         name: "Emma Dubois",
         avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Communication",
+        contribution: 40
       }
     },
     {
@@ -92,7 +102,9 @@ const Index = () => {
       author: {
         name: "Sophie Martin",
         avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Formation",
+        contribution: 60
       }
     },
     {
@@ -107,7 +119,9 @@ const Index = () => {
       author: {
         name: "Thomas Bernard",
         avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Marketing",
+        contribution: 55
       }
     },
     {
@@ -122,7 +136,9 @@ const Index = () => {
       author: {
         name: "Lucas Petit",
         avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-        role: "Team Leader"
+        role: "Team Leader",
+        expertise: "Développement",
+        contribution: 50
       }
     }
   ]);

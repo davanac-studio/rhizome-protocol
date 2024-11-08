@@ -7,7 +7,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Progress } from "@/components/ui/progress";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -52,7 +51,6 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
                           <span className="text-sm text-gray-500">{participant.contribution}%</span>
                         </div>
                         <div className="text-sm text-gray-500">{participant.expertise}</div>
-                        <Progress className="mt-1" value={participant.contribution} />
                       </div>
                     </div>
                   </div>
