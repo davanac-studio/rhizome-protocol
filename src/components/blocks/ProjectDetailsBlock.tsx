@@ -56,7 +56,6 @@ export const ProjectDetailsBlock = ({
           avatar={author.avatar || ""}
           expertise={author.expertise}
           contribution={author.contribution}
-          bio={author.contributionDescription}
           contributionDescription={author.contributionDescription}
         />
       </div>
@@ -72,7 +71,6 @@ export const ProjectDetailsBlock = ({
                 avatar={participant.avatar || ""}
                 expertise={participant.expertise}
                 contribution={participant.contribution}
-                bio={participant.contributionDescription}
                 contributionDescription={participant.contributionDescription}
               />
             ))}

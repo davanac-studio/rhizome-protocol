@@ -6,7 +6,6 @@ interface TeamMemberCardProps {
   avatar: string;
   expertise: string;
   contribution: number;
-  bio?: string;
   contributionDescription?: string;
 }
 
@@ -15,7 +14,6 @@ export const TeamMemberCard = ({
   avatar,
   expertise,
   contribution,
-  bio,
   contributionDescription
 }: TeamMemberCardProps) => {
   return (
@@ -43,10 +41,6 @@ export const TeamMemberCard = ({
           <span className="text-sm font-medium">Contribution</span>
           <span className="text-sm text-gray-600">{contribution}%</span>
         </div>
-
-        {bio && (
-          <p className="text-sm text-gray-600">{bio}</p>
-        )}
       </div>
     </Card>
   );
