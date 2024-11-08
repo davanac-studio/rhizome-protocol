@@ -10,16 +10,16 @@ interface ProjectDetailsProps {
 export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
   return (
     <div className="space-y-8">
+      <ClientBlock 
+        client={project.client}
+        testimonial={project.testimonial}
+      />
+
       <ProjectDetailsBlock 
         dueDate={project.dueDate}
         links={project.links}
         author={project.author}
         participants={project.participants}
-      />
-
-      <ClientBlock 
-        client={project.client}
-        testimonial={project.testimonial}
       />
 
       {project.certification && (
