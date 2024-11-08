@@ -8,7 +8,7 @@ export const videoProjects: Project[] = [
     description: "Production d'une vidéo explicative détaillée sur le conflit en Ukraine, incluant des animations, des graphiques et une narration professionnelle pour une meilleure compréhension du sujet.",
     dueDate: "2024-03-15",
     thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-    category: "Production Vidéo",
+    category: "Rédaction/Production audiovisuelle",
     client: "RH Solutions",
     author: {
       ...teamMembers.profile1,
@@ -41,7 +41,7 @@ export const videoProjects: Project[] = [
     description: "Création d'un aftermovie dynamique capturant l'essence et les moments forts du KIKK Festival, mettant en valeur les installations artistiques, les conférences et l'ambiance générale de l'événement.",
     dueDate: "2024-04-01",
     thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    category: "Production Vidéo",
+    category: "Rédaction/Production audiovisuelle",
     client: "KIKK Festival",
     author: {
       ...teamMembers.profile2,
