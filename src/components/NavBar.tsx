@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { House, User } from "lucide-react";
+import { House } from "lucide-react";
 import { Button } from "./ui/button";
 
 const NavBar = () => {
@@ -14,8 +14,8 @@ const NavBar = () => {
           </Link>
           
           <Link to="/signup">
-            <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-              <User className="h-5 w-5" />
+            <Button variant="outline" className="hover:bg-gray-100">
+              Créer un profil
             </Button>
           </Link>
         </div>
