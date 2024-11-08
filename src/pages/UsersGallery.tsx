@@ -24,10 +24,11 @@ const UsersGallery = () => {
     {
       name: "Thomas Bernard",
       email: "thomas.bernard@example.com",
-      role: "Chef de Projet Tech",
+      role: "Journaliste",
       avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       bannerUrl: "https://images.unsplash.com/photo-1550439062-609e1531270e",
-      bio: "Chef de projet expérimenté avec plus de 8 ans dans la gestion d'équipes tech."
+      bio: "Journaliste d'investigation spécialisé dans les nouvelles technologies et leur impact sur la société. Plus de 10 ans d'expérience dans le journalisme digital.",
+      quote: "La vérité est dans les détails"
     },
     {
       name: "Emma Dubois",
