@@ -16,10 +16,10 @@ const createProject = (
   const author = { 
     ...teamMembers[authorProfile], 
     role: "Team Leader" as const,
-    contribution: 40 // Base contribution for team leader
+    contribution: 40 // Team leader always gets 40%
   };
   
-  // Calculate remaining percentage
+  // Calculate remaining 60% among participants
   const remainingPercentage = 60;
   const perParticipant = Math.floor(remainingPercentage / participantProfiles.length);
   
