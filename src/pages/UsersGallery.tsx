@@ -60,7 +60,7 @@ const UsersGallery = () => {
 
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-8">Utilisateurs de la plateforme</h1>
+      <h1 className="text-3xl font-bold mb-8">Team</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {profiles.map((profile) => (
           <Link 
