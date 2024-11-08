@@ -2,17 +2,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Project } from "@/types/project";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import { CalendarIcon, UserCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
-  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    toast({
-      title: project.title,
-      description: "Project details coming soon!",
-    });
+    navigate(`/project/${project.id}`);
   };
 
   return (
