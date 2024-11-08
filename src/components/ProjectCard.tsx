@@ -13,6 +13,15 @@ const statusColors = {
 export const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <Card className="p-6 hover:shadow-lg transition-shadow animate-fadeIn">
+      {project.thumbnail && (
+        <div className="mb-4 -mx-6 -mt-6">
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            className="w-full h-48 object-cover rounded-t-lg"
+          />
+        </div>
+      )}
       <div className="flex justify-between items-start mb-4">
         <h3 className="font-semibold text-xl">{project.title}</h3>
         <Badge className={`${statusColors[project.status]} text-white`}>

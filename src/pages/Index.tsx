@@ -12,6 +12,7 @@ const Index = () => {
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
     },
     {
       id: "2",
@@ -20,6 +21,7 @@ const Index = () => {
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
+      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
     },
   ]);
 
