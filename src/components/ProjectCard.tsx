@@ -38,6 +38,13 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             className="w-full h-48 object-cover brightness-75 group-hover:brightness-90 transition-all"
           />
         </div>
+
+        <div className="flex items-center gap-2 text-gray-600 px-4 py-2 border-b">
+          <CalendarIcon className="w-4 h-4" />
+          <span className="text-sm">
+            {new Date(project.dueDate).toLocaleDateString('fr-FR')}
+          </span>
+        </div>
         
         <div className="p-4">
           <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem] overflow-hidden text-ellipsis whitespace-normal">
@@ -48,12 +55,6 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           </p>
           
           <div className="flex items-center gap-4 mb-3 flex-wrap">
-            <div className="flex items-center gap-2 text-gray-600">
-              <CalendarIcon className="w-4 h-4" />
-              <span className="text-sm">
-                {new Date(project.dueDate).toLocaleDateString('fr-FR')}
-              </span>
-            </div>
             <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
               {project.category}
             </Badge>
