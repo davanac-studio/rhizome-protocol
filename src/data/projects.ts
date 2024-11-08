@@ -13,8 +13,24 @@ const createProject = (
   authorProfile: keyof typeof teamMembers,
   participantProfiles: (keyof typeof teamMembers)[]
 ): Project => {
-  const author = { ...teamMembers[authorProfile], role: "Team Leader" as const };
-  const participants = participantProfiles.map(profile => teamMembers[profile]);
+  const author = { 
+    ...teamMembers[authorProfile], 
+    role: "Team Leader" as const,
+    contribution: 40 // Base contribution for team leader
+  };
+  
+  // Calculate remaining percentage
+  const remainingPercentage = 60;
+  const perParticipant = Math.floor(remainingPercentage / participantProfiles.length);
+  
+  const participants = participantProfiles.map((profile, index) => ({
+    ...teamMembers[profile],
+    role: "Member" as const,
+    // Last participant gets any remaining percentage to ensure total is 100%
+    contribution: index === participantProfiles.length - 1 
+      ? remainingPercentage - (perParticipant * (participantProfiles.length - 1))
+      : perParticipant
+  }));
   
   return {
     id,
