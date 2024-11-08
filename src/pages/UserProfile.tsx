@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Linkedin, Youtube, Github, Spotify, Instagram } from "lucide-react";
+import { ArrowLeft, Linkedin, Youtube, Github, Music, Instagram } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
@@ -37,14 +37,13 @@ const ProfileHeader = ({ user }: { user: any }) => (
         <SocialButton url={user.linkedin} icon={Linkedin} />
         <SocialButton url={user.github} icon={Github} />
         <SocialButton url={user.youtube} icon={Youtube} />
-        <SocialButton url={user.spotify} icon={Spotify} />
+        <SocialButton url={user.spotify} icon={Music} />
         <SocialButton url={user.instagram} icon={Instagram} />
       </div>
     </div>
   </div>
 );
 
-// Composant ProfileContent pour réduire la taille du fichier principal
 const ProfileContent = ({ user }: { user: any }) => (
   <div className="space-y-6">
     <div>
