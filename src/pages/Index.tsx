@@ -7,26 +7,92 @@ const Index = () => {
   const [projects, setProjects] = useState<Project[]>([
     {
       id: "1",
-      title: "Website Redesign",
-      description: "Complete overhaul of the company website with modern design principles and improved user experience.",
+      title: "Vidéo Explainer",
+      description: "Production de vidéos explicatives professionnelles pour présenter vos produits, services ou concepts de manière claire et engageante.",
       status: "In Progress",
       progress: 65,
       dueDate: "2024-03-15",
-      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop",
-      category: "Development/Workflow",
+      thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
+      category: "Production Vidéo",
       client: "TechCorp"
     },
     {
       id: "2",
-      title: "Mobile App Development",
-      description: "Creating a new mobile application for both iOS and Android platforms.",
+      title: "Vidéo Aftermovie",
+      description: "Création d'aftermovies captivants pour immortaliser vos événements et partager les moments forts avec votre audience.",
       status: "Planning",
       progress: 20,
       dueDate: "2024-04-30",
-      thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
-      category: "Development/Mobile",
-      client: "AppTech Solutions"
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      category: "Production Vidéo",
+      client: "EventPro"
     },
+    {
+      id: "3",
+      title: "Live Twitch/Youtube",
+      description: "Gestion et production de streams en direct sur Twitch et YouTube, incluant la configuration technique et la modération.",
+      status: "In Progress",
+      progress: 45,
+      dueDate: "2024-05-15",
+      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      category: "Streaming",
+      client: "StreamMaster"
+    },
+    {
+      id: "4",
+      title: "Conférence/Hackathon",
+      description: "Organisation et couverture complète de conférences et hackathons, incluant la captation vidéo et la diffusion en direct.",
+      status: "Planning",
+      progress: 15,
+      dueDate: "2024-06-01",
+      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      category: "Événementiel",
+      client: "TechEvents"
+    },
+    {
+      id: "5",
+      title: "Couverture Evènement",
+      description: "Service complet de couverture médiatique pour vos événements, incluant photo, vidéo et création de contenu en temps réel.",
+      status: "On Hold",
+      progress: 0,
+      dueDate: "2024-07-15",
+      thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+      category: "Événementiel",
+      client: "EventCorp"
+    },
+    {
+      id: "6",
+      title: "Programme de formation Entrepreneur Media",
+      description: "Programme de formation complet pour entrepreneurs souhaitant maîtriser la création et la gestion de contenu médiatique.",
+      status: "Planning",
+      progress: 30,
+      dueDate: "2024-08-30",
+      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+      category: "Formation",
+      client: "EduMedia"
+    },
+    {
+      id: "7",
+      title: "Campagne Marketing Digital",
+      description: "Stratégie et exécution de campagnes marketing digitales multicanales pour maximiser votre présence en ligne.",
+      status: "In Progress",
+      progress: 50,
+      dueDate: "2024-09-15",
+      thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+      category: "Marketing",
+      client: "DigitalBoost"
+    },
+    {
+      id: "8",
+      title: "Développement application mobile",
+      description: "Conception et développement d'applications mobiles sur mesure pour iOS et Android avec focus sur l'expérience utilisateur.",
+      status: "Planning",
+      progress: 10,
+      dueDate: "2024-10-30",
+      thumbnail: "https://images.unsplash.com/photo-1483058712412-4245e9b90334",
+      category: "Développement",
+      client: "AppTech"
+    }
   ]);
 
   const handleCreateProject = (newProject: Project) => {
