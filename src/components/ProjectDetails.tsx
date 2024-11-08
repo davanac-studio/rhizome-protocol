@@ -3,12 +3,16 @@ import { ClientBlock } from "./blocks/ClientBlock";
 import { ProjectDetailsBlock } from "./blocks/ProjectDetailsBlock";
 import { CertificationBlock } from "./blocks/CertificationBlock";
 import { TestimonialBlock } from "./TestimonialBlock";
+import { createCertification } from "@/data/certifications";
 
 interface ProjectDetailsProps {
   project: Project;
 }
 
 export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
+  // Si le projet n'a pas de certification, on en crée une fictive
+  const certification = project.certification || createCertification(project.id);
+
   return (
     <div className="space-y-8 mt-12">
       <div className="prose max-w-none mb-8">
@@ -33,7 +37,7 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         participants={project.participants}
       />
 
-      <CertificationBlock certification={project.certification} />
+      <CertificationBlock certification={certification} />
     </div>
   );
 };
