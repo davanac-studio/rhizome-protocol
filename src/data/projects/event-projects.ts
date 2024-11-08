@@ -55,14 +55,20 @@ export const eventProjects: Project[] = [
       {
         ...teamMembers.profile3,
         role: "Member",
-        contribution: 35,
+        contribution: 25,
         contributionDescription: "Production vidéo"
       },
       {
         ...teamMembers.profile1,
         role: "Member",
-        contribution: 30,
+        contribution: 20,
         contributionDescription: "Interviews"
+      },
+      {
+        ...teamMembers.profile4,
+        role: "Member",
+        contribution: 20,
+        contributionDescription: "Relations publiques et communication"
       }
     ],
     links: {
