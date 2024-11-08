@@ -7,7 +7,6 @@ export interface User {
   createdAt: string;
   firstName?: string;
   lastName?: string;
-  quote?: string;
   linkedin?: string;
   youtube?: string;
   github?: string;

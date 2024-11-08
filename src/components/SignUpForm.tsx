@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
 import { SocialInput } from "./signup/SocialInput";
 import { FormField } from "./signup/FormField";
 import { ImageFields } from "./signup/ImageFields";
+import { PersonalInfoFields } from "./signup/PersonalInfoFields";
+import { BioField } from "./signup/BioField";
 import {
   LinkedinIcon,
   YoutubeIcon,
@@ -26,7 +26,6 @@ const SignUpForm = () => {
     email: "",
     password: "",
     bio: "",
-    quote: "",
     avatarUrl: "",
     bannerUrl: "",
     linkedin: "",
@@ -46,8 +45,8 @@ const SignUpForm = () => {
     navigate("/");
   };
 
-  const handleCancel = () => {
-    navigate("/");
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData({ ...formData, [field]: value });
   };
 
   return (
@@ -64,86 +63,23 @@ const SignUpForm = () => {
         bannerUrl={formData.bannerUrl}
         firstName={formData.firstName}
         lastName={formData.lastName}
-        onAvatarChange={(value) => setFormData({ ...formData, avatarUrl: value })}
-        onBannerChange={(value) => setFormData({ ...formData, bannerUrl: value })}
+        onAvatarChange={(value) => handleFieldChange('avatarUrl', value)}
+        onBannerChange={(value) => handleFieldChange('bannerUrl', value)}
       />
 
-      <div className="grid grid-cols-2 gap-4">
-        <FormField label="Prénom" required>
-          <Input
-            required
-            value={formData.firstName}
-            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-            placeholder="Votre prénom"
-          />
-        </FormField>
+      <PersonalInfoFields
+        firstName={formData.firstName}
+        lastName={formData.lastName}
+        username={formData.username}
+        email={formData.email}
+        password={formData.password}
+        onChange={handleFieldChange}
+      />
 
-        <FormField label="Nom" required>
-          <Input
-            required
-            value={formData.lastName}
-            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-            placeholder="Votre nom"
-          />
-        </FormField>
-      </div>
-
-      <FormField label="Nom d'utilisateur" required>
-        <Input
-          required
-          value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-          placeholder="Votre nom d'utilisateur"
-        />
-      </FormField>
-
-      <FormField label="Email" required>
-        <Input
-          required
-          type="email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          placeholder="votre@email.com"
-        />
-      </FormField>
-
-      <FormField label="Mot de passe" required>
-        <Input
-          required
-          type="password"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          placeholder="Votre mot de passe"
-        />
-      </FormField>
-
-      <FormField label="Bio" required>
-        <Textarea
-          required
-          value={formData.bio}
-          onChange={(e) => {
-            const text = e.target.value;
-            if (text.length <= 150) {
-              setFormData({ ...formData, bio: text });
-            }
-          }}
-          placeholder="Parlez-nous de vous (150 caractères max)"
-          className="h-24"
-          maxLength={150}
-        />
-        <p className="text-xs text-gray-500 mt-1">
-          {formData.bio.length}/150 caractères
-        </p>
-      </FormField>
-
-      <FormField label="Citation" required>
-        <Input
-          required
-          value={formData.quote}
-          onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
-          placeholder="Votre citation préférée"
-        />
-      </FormField>
+      <BioField
+        bio={formData.bio}
+        onChange={(value) => handleFieldChange('bio', value)}
+      />
 
       <div className="space-y-4">
         <h3 className="text-sm font-medium">Réseaux sociaux</h3>
@@ -151,44 +87,44 @@ const SignUpForm = () => {
           <SocialInput
             icon={LinkedinIcon}
             value={formData.linkedin}
-            onChange={(value) => setFormData({ ...formData, linkedin: value })}
+            onChange={(value) => handleFieldChange('linkedin', value)}
             placeholder="URL LinkedIn"
           />
           <SocialInput
             icon={YoutubeIcon}
             value={formData.youtube}
-            onChange={(value) => setFormData({ ...formData, youtube: value })}
+            onChange={(value) => handleFieldChange('youtube', value)}
             placeholder="URL YouTube"
           />
           <SocialInput
             icon={GithubIcon}
             value={formData.github}
-            onChange={(value) => setFormData({ ...formData, github: value })}
+            onChange={(value) => handleFieldChange('github', value)}
             placeholder="URL GitHub"
           />
           <SocialInput
             icon={Music2Icon}
             value={formData.spotify}
-            onChange={(value) => setFormData({ ...formData, spotify: value })}
+            onChange={(value) => handleFieldChange('spotify', value)}
             placeholder="URL Spotify"
           />
           <SocialInput
             icon={InstagramIcon}
             value={formData.instagram}
-            onChange={(value) => setFormData({ ...formData, instagram: value })}
+            onChange={(value) => handleFieldChange('instagram', value)}
             placeholder="URL Instagram"
           />
           <SocialInput
             icon={FacebookIcon}
             value={formData.facebook}
-            onChange={(value) => setFormData({ ...formData, facebook: value })}
+            onChange={(value) => handleFieldChange('facebook', value)}
             placeholder="URL Facebook"
           />
         </div>
       </div>
 
       <div className="flex gap-4">
-        <Button type="button" variant="outline" className="flex-1" onClick={handleCancel}>
+        <Button type="button" variant="outline" className="flex-1" onClick={() => navigate("/")}>
           Annuler
         </Button>
         <Button type="submit" className="flex-1">
