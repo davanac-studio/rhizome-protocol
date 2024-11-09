@@ -30,7 +30,7 @@ const NavBar = () => {
             </Link>
             <Link to="/profile">
               <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                <UserCircle2 className="h-5 w-5 bg-[#e76f51] rounded-full text-white p-1" />
+                <UserCircle2 className="h-5 w-5 text-[#e76f51]" />
               </Button>
             </Link>
             
