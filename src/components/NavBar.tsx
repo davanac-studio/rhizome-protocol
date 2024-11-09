@@ -1,12 +1,25 @@
-import { Link } from "react-router-dom";
-import { UserCircle2, Users, Home } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserCircle2, Users, Home, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "./ui/use-toast";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const handleCreateProject = (project: any) => {
-    // Cette fonction sera appelée lors de la création d'un projet
     console.log("Nouveau projet créé:", project);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: "Déconnexion réussie",
+      description: "À bientôt sur Rhizome Protocol !",
+    });
+    navigate("/login");
   };
 
   return (
@@ -40,6 +53,14 @@ const NavBar = () => {
               </Button>
             </Link>
             <NewProjectDialog onProjectCreate={handleCreateProject} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-gray-100"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </div>
