@@ -108,7 +108,7 @@ const UserProfile = () => {
         <div className="space-y-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             {user.bannerUrl && (
-              <AspectRatio ratio={21 / 9} className="bg-muted">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
                   src={user.bannerUrl}
                   alt="Banner"
