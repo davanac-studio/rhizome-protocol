@@ -18,6 +18,16 @@ const Login = () => {
         });
         navigate("/");
       }
+      if (event === "SIGNED_OUT") {
+        navigate("/login");
+      }
+    });
+
+    // Check if user is already signed in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate("/");
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -34,12 +44,38 @@ const Login = () => {
         </div>
         <Auth
           supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{ 
+            theme: ThemeSupa,
+            style: {
+              button: { background: 'rgb(59, 130, 246)', color: 'white' },
+              anchor: { color: 'rgb(59, 130, 246)' },
+            }
+          }}
           theme="light"
           providers={[]}
           redirectTo={`${window.location.origin}/`}
           showLinks={true}
           view="sign_in"
+          localization={{
+            variables: {
+              sign_in: {
+                email_label: 'Email',
+                password_label: 'Mot de passe',
+                button_label: 'Se connecter',
+                loading_button_label: 'Connexion en cours...',
+                social_provider_text: 'Se connecter avec {{provider}}',
+                link_text: "Vous avez déjà un compte ? Connectez-vous",
+              },
+              sign_up: {
+                email_label: 'Email',
+                password_label: 'Mot de passe',
+                button_label: 'S\'inscrire',
+                loading_button_label: 'Inscription en cours...',
+                social_provider_text: 'S\'inscrire avec {{provider}}',
+                link_text: "Vous n'avez pas de compte ? Inscrivez-vous",
+              },
+            },
+          }}
         />
       </div>
     </div>
