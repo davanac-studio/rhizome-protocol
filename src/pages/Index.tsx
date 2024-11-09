@@ -5,10 +5,19 @@ import { Project } from "@/types/project";
 import { projectsData } from "@/data/projects";
 
 const Index = () => {
-  const [projects, setProjects] = useState<Project[]>(projectsData);
+  // Sort projects by date in descending order (most recent first)
+  const sortedProjects = [...projectsData].sort((a, b) => 
+    new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+  );
+  
+  const [projects, setProjects] = useState<Project[]>(sortedProjects);
 
   const handleCreateProject = (newProject: Project) => {
-    setProjects([newProject, ...projects]);
+    // Add new project and re-sort the list
+    const updatedProjects = [newProject, ...projects].sort((a, b) => 
+      new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+    );
+    setProjects(updatedProjects);
   };
 
   return (
