@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
@@ -137,12 +138,12 @@ const About = () => {
         </p>
 
         <div className="mt-8 mb-12">
-          <a 
-            href="https://Rhizome Protocol/onboarding" 
+          <Link 
+            to="/signup"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Commencer maintenant →
-          </a>
+          </Link>
         </div>
 
         <hr className="my-8" />
