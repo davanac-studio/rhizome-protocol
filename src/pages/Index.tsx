@@ -18,13 +18,107 @@ export default function Index() {
     setProjects(updatedProjects);
   };
 
+  const svgBackground = `data:image/svg+xml,${encodeURIComponent(`<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fond" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#f0f7f4;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#e1efe6;stop-opacity:1" />
+      </linearGradient>
+      
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="0.8" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+  
+    <rect width="100%" height="100%" fill="url(#fond)"/>
+  
+    <g filter="url(#glow)">
+      <path d="M 150,200 Q 300,350 450,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,200 Q 400,250 650,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,200 Q 350,400 550,450" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 250,400 Q 400,200 550,450" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 250,400 Q 450,300 650,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 350,300 Q 500,450 650,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,450 Q 300,200 450,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 200,150 Q 400,300 600,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 300,500 Q 450,250 600,350" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 100,300 Q 250,450 400,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 200,350 Q 350,200 500,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 300,250 Q 450,400 600,300" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 400,150 Q 550,300 700,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,300 Q 300,150 450,300" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 250,200 Q 400,350 550,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 350,400 Q 500,250 650,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 200,250 Q 350,400 500,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 300,350 Q 450,200 600,350" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 200,150 Q 500,300 600,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,450 Q 400,300 650,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 250,200 Q 450,350 650,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 350,300 Q 500,200 650,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,200 Q 400,400 650,250" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 250,400 Q 450,200 650,400" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 150,300 Q 400,150 650,300" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+    </g>
+  
+    <g>
+      <circle cx="150" cy="200" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="3;7;3" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="250" cy="400" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="4;8;4" dur="3.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="350" cy="300" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="2;6;2" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="450" cy="150" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="3;8;3" dur="4.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="550" cy="450" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="4;7;4" dur="3.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="3.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="650" cy="250" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="2;8;2" dur="4.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="200" cy="350" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="3;6;3" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="300" cy="250" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="4;7;4" dur="4.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="400" cy="400" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="2;8;2" dur="3.9s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.9s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="500" cy="200" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="3;7;3" dur="4.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="600" cy="350" r="4" fill="#e76f51" opacity="0.8">
+        <animate attributeName="r" values="4;8;4" dur="3.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </svg>`)}`;
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div 
         className="relative h-[400px] bg-cover bg-center flex items-center justify-center"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1472396961693-142e6e269027")',
+          backgroundImage: `url("${svgBackground}")`,
           backgroundBlendMode: 'overlay',
           backgroundColor: 'rgba(0, 0, 0, 0.5)'
         }}
