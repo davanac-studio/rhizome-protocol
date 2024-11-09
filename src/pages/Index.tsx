@@ -21,7 +21,7 @@ export default function Index() {
       <div 
         className="relative h-[400px] bg-cover bg-center flex items-center justify-center"
         style={{
-          backgroundImage: `url("http://drive.google.com/uc?export=view&id=1Hf-V-wjzy9nhtZwHU6gqDxZ0_FST6Im0")`,
+          backgroundImage: `url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2000&q=80")`,
           backgroundBlendMode: 'overlay',
           backgroundColor: 'rgba(0, 0, 0, 0.5)'
         }}
