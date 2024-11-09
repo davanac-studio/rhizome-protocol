@@ -5,136 +5,123 @@ const About = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto prose prose-lg">
-        <h1 className="text-4xl font-bold mb-8">À propos de Rhizome Protocol</h1>
+        <h1 className="text-4xl font-bold mb-8">Manifeste Rhizome Protocol</h1>
         
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Vision</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Vision</h2>
         <p>
-          Dans un monde professionnel de plus en plus collaboratif et décentralisé, nous imaginons un avenir où la confiance et la reconnaissance des contributions individuelles sont garanties par la technologie. Rhizome Protocol aspire à devenir la référence en matière de certification et de validation des contributions professionnelles, permettant à chacun de construire une réputation vérifiable et inaltérable.
+          Dans un monde professionnel en constante évolution, la confiance et la reconnaissance authentique des compétences sont devenues des enjeux majeurs. Rhizome Protocol émerge comme une solution révolutionnaire, transformant la façon dont les professionnels documentent, valident et partagent leurs contributions aux projets.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Mission</h2>
         <p>
-          Rhizome Protocol a pour mission de révolutionner la façon dont les professionnels documentent, valident et partagent leurs contributions aux projets. Nous créons un écosystème transparent où :
+          Nous bâtissons un écosystème transparent et décentralisé où chaque contribution professionnelle est immortalisée et validée sur la blockchain. Notre plateforme repose sur des principes fondamentaux de certification immuable, de validation par les pairs et de reconnaissance tangible des compétences à travers des NFTs.
         </p>
-        <ul>
-          <li>Chaque contribution est certifiée sur la blockchain</li>
-          <li>Les compétences sont validées par les pairs</li>
-          <li>Les réalisations sont immortalisées sous forme de NFTs</li>
-          <li>La confiance est établie de manière décentralisée</li>
-        </ul>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Nos Valeurs</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Nos Valeurs Fondamentales</h2>
 
-        <h3 className="text-xl font-semibold mt-6 mb-3">1. Transparence</h3>
-        <ul>
-          <li>Certification immuable des contributions</li>
-          <li>Processus de validation transparent</li>
-          <li>Historique complet et vérifiable des projets</li>
-          <li>Documentation accessible et publique</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">2. Confiance</h3>
-        <ul>
-          <li>Validation multi-parties des contributions</li>
-          <li>Certification client intégrée</li>
-          <li>Système de réputation basé sur les $DAVANAC</li>
-          <li>Vérification d'identité sécurisée</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">3. Reconnaissance</h3>
-        <ul>
-          <li>NFTs non-cessibles comme preuves de contribution</li>
-          <li>Système de niveaux DAVANAC</li>
-          <li>Valorisation des compétences spécifiques</li>
-          <li>Portfolio professionnel vérifié</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">4. Collaboration</h3>
-        <ul>
-          <li>Promotion du travail d'équipe</li>
-          <li>Validation par les pairs</li>
-          <li>Partage des connaissances</li>
-          <li>Communauté active</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">5. Innovation</h3>
-        <ul>
-          <li>Utilisation de la blockchain Polygon</li>
-          <li>Stockage décentralisé IPFS</li>
-          <li>Smart contracts évolutifs</li>
-          <li>Interface utilisateur intuitive</li>
-        </ul>
-
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Technologie</h2>
+        <h3 className="text-xl font-semibold mt-6 mb-3">1. Transparence Absolue</h3>
         <p>
-          Rhizome Protocol s'appuie sur des technologies de pointe pour garantir fiabilité et transparence :
+          La transparence est l'ADN de Rhizome Protocol. Chaque contribution est certifiée de manière immuable sur la blockchain, créant un historique complet et vérifiable des projets. Notre processus de validation transparent et notre documentation publique garantissent une intégrité totale du système.
         </p>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">2. Confiance Décentralisée</h3>
+        <p>La confiance se construit à travers un système sophistiqué de validation multi-parties. Notre architecture intègre :</p>
         <ul>
-          <li><strong>Blockchain Polygon</strong> : Pour des transactions rapides et économiques</li>
-          <li><strong>Smart Contracts</strong> : Pour une logique métier immuable et transparente</li>
-          <li><strong>IPFS</strong> : Pour un stockage décentralisé et pérenne</li>
-          <li><strong>NFTs</strong> : Pour certifier les contributions de manière unique</li>
+          <li>Une certification client native</li>
+          <li>Un système de réputation basé sur les $DAVANAC</li>
+          <li>Une vérification d'identité sécurisée</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Communauté</h2>
-        <p>La plateforme s'articule autour de trois niveaux de reconnaissance :</p>
+        <h3 className="text-xl font-semibold mt-6 mb-3">3. Reconnaissance Méritocratique</h3>
+        <p>Nous valorisons l'excellence professionnelle à travers :</p>
+        <ul>
+          <li>Des NFTs non-cessibles comme preuves tangibles de contribution</li>
+          <li>Un système de niveaux DAVANAC évolutif</li>
+          <li>Un portfolio professionnel vérifié et immuable</li>
+        </ul>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">4. Collaboration Synergique</h3>
+        <ul>
+          <li>Promotion active du travail d'équipe</li>
+          <li>Système de validation par les pairs</li>
+          <li>Partage dynamique des connaissances</li>
+          <li>Animation d'une communauté vivante</li>
+        </ul>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">5. Innovation Technologique</h3>
+        <ul>
+          <li>La blockchain Polygon pour des transactions rapides et économiques</li>
+          <li>Le stockage décentralisé IPFS pour la pérennité des données</li>
+          <li>Des smart contracts évolutifs</li>
+          <li>Une interface utilisateur intuitive</li>
+        </ul>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Infrastructure Technologique</h2>
+        <p>Notre plateforme s'appuie sur des technologies décentralisées de pointe :</p>
+        <ul>
+          <li>Blockchain Polygon : Garantissant rapidité et efficacité</li>
+          <li>Smart Contracts : Assurant une logique métier transparente</li>
+          <li>IPFS : Offrant un stockage décentralisé permanent</li>
+          <li>NFTs : Certifiant l'unicité des contributions</li>
+        </ul>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Écosystème Communautaire</h2>
+        <p>Notre communauté s'structure autour de trois niveaux d'expertise :</p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Initié (0-1000 $DAVANAC)</h3>
         <ul>
-          <li>Premiers pas dans l'écosystème</li>
-          <li>Accès aux fonctionnalités de base</li>
-          <li>Création limitée de projets</li>
+          <li>Accès aux fonctionnalités essentielles</li>
+          <li>Première immersion dans l'écosystème</li>
+          <li>Création encadrée de projets</li>
         </ul>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Expert (1001-5000 $DAVANAC)</h3>
         <ul>
-          <li>Reconnaissance établie</li>
           <li>Création illimitée de projets</li>
-          <li>Participation aux votes communautaires</li>
+          <li>Participation active à la gouvernance</li>
+          <li>Reconnaissance établie dans l'écosystème</li>
         </ul>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Master (5001+ $DAVANAC)</h3>
         <ul>
-          <li>Excellence reconnue</li>
           <li>Statut d'ambassadeur</li>
-          <li>Rôle actif dans la gouvernance</li>
-          <li>Mentorat de la communauté</li>
+          <li>Rôle clé dans la gouvernance</li>
+          <li>Mission de mentorat communautaire</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Impact et Objectifs</h2>
-        <p>Rhizome Protocol vise à :</p>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Impact Transformateur</h2>
 
-        <h3 className="text-xl font-semibold mt-6 mb-3">1. Renforcer la Confiance Professionnelle</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-3">Renforcement de la Confiance Professionnelle</h3>
         <ul>
-          <li>Certification vérifiable des contributions</li>
           <li>Élimination des fausses déclarations</li>
-          <li>Validation par les pairs et les clients</li>
+          <li>Certification vérifiable des contributions</li>
+          <li>Validation multi-parties</li>
         </ul>
 
-        <h3 className="text-xl font-semibold mt-6 mb-3">2. Valoriser les Talents</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-3">Valorisation des Talents</h3>
         <ul>
           <li>Reconnaissance tangible des compétences</li>
-          <li>Portfolio professionnel vérifié</li>
-          <li>Historique de contributions certifié</li>
+          <li>Portfolio professionnel certifié</li>
+          <li>Historique immuable des contributions</li>
         </ul>
 
-        <h3 className="text-xl font-semibold mt-6 mb-3">3. Faciliter la Collaboration</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-3">Optimisation de la Collaboration</h3>
         <ul>
           <li>Processus de validation transparent</li>
           <li>Attribution équitable des contributions</li>
-          <li>Documentation claire des rôles</li>
+          <li>Documentation structurée des rôles</li>
         </ul>
 
-        <h3 className="text-xl font-semibold mt-6 mb-3">4. Innover dans la Gestion de Réputation</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-3">Innovation en Gestion de Réputation</h3>
         <ul>
-          <li>Système de tokens $DAVANAC</li>
+          <li>Économie de tokens $DAVANAC</li>
           <li>NFTs comme certificats de contribution</li>
-          <li>Niveaux de reconnaissance évolutifs</li>
+          <li>Système de reconnaissance évolutif</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Rejoignez-nous</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Appel à l'Action</h2>
         <p>
-          Contribuez à construire l'avenir de la certification professionnelle en rejoignant Rhizome Protocol. Ensemble, créons un écosystème où la confiance, la reconnaissance et la collaboration sont au cœur de chaque interaction professionnelle.
+          Rejoignez-nous dans cette révolution de la certification professionnelle. Ensemble, construisons un écosystème où la confiance, la reconnaissance et la collaboration définissent chaque interaction professionnelle. Rhizome Protocol n'est pas simplement une plateforme – c'est l'avenir de la validation professionnelle décentralisée.
         </p>
 
         <div className="mt-8 mb-12">
@@ -148,7 +135,7 @@ const About = () => {
 
         <hr className="my-8" />
 
-        <p className="text-center italic">Rhizome Protocol - Certifier. Valoriser. Innover.</p>
+        <p className="text-center italic">Construisons ensemble l'avenir de la certification professionnelle.</p>
       </div>
     </div>
   );
