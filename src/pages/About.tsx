@@ -4,16 +4,16 @@ const About = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto prose prose-lg">
-        <h1 className="text-4xl font-bold mb-8">À propos de davanac.team</h1>
+        <h1 className="text-4xl font-bold mb-8">À propos de Rhizome Protocol</h1>
         
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Vision</h2>
         <p>
-          Dans un monde professionnel de plus en plus collaboratif et décentralisé, nous imaginons un avenir où la confiance et la reconnaissance des contributions individuelles sont garanties par la technologie. davanac.team aspire à devenir la référence en matière de certification et de validation des contributions professionnelles, permettant à chacun de construire une réputation vérifiable et inaltérable.
+          Dans un monde professionnel de plus en plus collaboratif et décentralisé, nous imaginons un avenir où la confiance et la reconnaissance des contributions individuelles sont garanties par la technologie. Rhizome Protocol aspire à devenir la référence en matière de certification et de validation des contributions professionnelles, permettant à chacun de construire une réputation vérifiable et inaltérable.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Mission</h2>
         <p>
-          davanac.team a pour mission de révolutionner la façon dont les professionnels documentent, valident et partagent leurs contributions aux projets. Nous créons un écosystème transparent où :
+          Rhizome Protocol a pour mission de révolutionner la façon dont les professionnels documentent, valident et partagent leurs contributions aux projets. Nous créons un écosystème transparent où :
         </p>
         <ul>
           <li>Chaque contribution est certifiée sur la blockchain</li>
@@ -66,7 +66,7 @@ const About = () => {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Technologie</h2>
         <p>
-          davanac.team s'appuie sur des technologies de pointe pour garantir fiabilité et transparence :
+          Rhizome Protocol s'appuie sur des technologies de pointe pour garantir fiabilité et transparence :
         </p>
         <ul>
           <li><strong>Blockchain Polygon</strong> : Pour des transactions rapides et économiques</li>
@@ -101,7 +101,7 @@ const About = () => {
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Impact et Objectifs</h2>
-        <p>davanac.team vise à :</p>
+        <p>Rhizome Protocol vise à :</p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">1. Renforcer la Confiance Professionnelle</h3>
         <ul>
@@ -133,12 +133,12 @@ const About = () => {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Rejoignez-nous</h2>
         <p>
-          Contribuez à construire l'avenir de la certification professionnelle en rejoignant davanac.team. Ensemble, créons un écosystème où la confiance, la reconnaissance et la collaboration sont au cœur de chaque interaction professionnelle.
+          Contribuez à construire l'avenir de la certification professionnelle en rejoignant Rhizome Protocol. Ensemble, créons un écosystème où la confiance, la reconnaissance et la collaboration sont au cœur de chaque interaction professionnelle.
         </p>
 
         <div className="mt-8 mb-12">
           <a 
-            href="https://davanac.team/onboarding" 
+            href="https://Rhizome Protocol/onboarding" 
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Commencer maintenant →
@@ -147,7 +147,7 @@ const About = () => {
 
         <hr className="my-8" />
 
-        <p className="text-center italic">davanac.team - Certifier. Valoriser. Innover.</p>
+        <p className="text-center italic">Rhizome Protocol - Certifier. Valoriser. Innover.</p>
       </div>
     </div>
   );
