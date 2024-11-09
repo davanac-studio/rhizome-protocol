@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { UserCircle2, Users } from "lucide-react";
 import { Button } from "./ui/button";
+import { NewProjectDialog } from "./NewProjectDialog";
 
 const NavBar = () => {
+  const handleCreateProject = (project: any) => {
+    // Cette fonction sera appelée lors de la création d'un projet
+    console.log("Nouveau projet créé:", project);
+  };
+
   return (
     <nav className="bg-gray-50">
       <div className="container mx-auto px-4 py-3">
@@ -30,6 +36,7 @@ const NavBar = () => {
                 Créer un profil
               </Button>
             </Link>
+            <NewProjectDialog onProjectCreate={handleCreateProject} />
           </div>
         </div>
       </div>
