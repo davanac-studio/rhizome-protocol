@@ -35,26 +35,33 @@ export default function Index() {
     <rect width="100%" height="100%" fill="url(#fond)"/>
   
     <g filter="url(#glow)">
-      <path d="M 100,150 Q 300,200 500,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 200,100 Q 400,150 600,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 300,200 Q 500,150 700,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 400,150 Q 600,200 800,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 500,100 Q 700,150 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 600,200 Q 800,150 1000,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 700,150 Q 900,200 1100,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 100,150 Q 400,100 700,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 200,100 Q 500,200 800,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 300,200 Q 600,100 900,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 400,150 Q 700,200 1000,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 500,100 Q 800,150 1100,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 100,150 Q 600,50 1100,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 100,100 Q 600,250 1100,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 200,150 Q 500,100 800,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 300,100 Q 600,200 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 400,200 Q 700,100 1000,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 150,150 Q 450,200 750,150" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 250,100 Q 550,150 850,100" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
-      <path d="M 350,200 Q 650,150 950,200" stroke="#2a9d8f" stroke-width="1" opacity="0.4" fill="none"/>
+      <path d="M 100,150 C 200,100 250,120 300,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 250,220 350,180 500,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 300,50 500,250 700,150" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 400,100 600,150 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 500,250 800,150 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 350,180 450,150 500,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 450,50 550,200 700,150" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 500,180 700,50 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 600,250 850,150 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 500,200 C 550,150 650,180 700,150" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 500,200 C 650,250 750,150 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 500,200 C 700,150 900,250 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 700,150 C 750,100 850,150 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 700,150 C 850,200 950,150 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 900,100 C 950,150 1050,180 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 300,250 500,50 700,150" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 500,200 700,100 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 500,200 C 700,250 900,150 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 200,150 C 400,50 600,250 800,150" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 400,100 C 600,180 800,80 1000,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 400,250 700,50 1000,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 200,150 C 500,50 800,250 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 C 600,200 900,100 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 C 400,180 700,120 1000,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 200,150 Q 400,100 600,200 T 1000,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 300,100 Q 500,200 700,150 T 1100,200" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
+      <path d="M 100,150 Q 300,200 500,100 T 900,100" stroke="#2a9d8f" stroke-width="1" opacity="0.3" fill="none"/>
     </g>
   
     <g>
