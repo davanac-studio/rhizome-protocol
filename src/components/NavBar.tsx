@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { House, UserCircle2, Users } from "lucide-react";
+import { UserCircle2, Users } from "lucide-react";
 import { Button } from "./ui/button";
 
 const NavBar = () => {
@@ -7,11 +7,11 @@ const NavBar = () => {
     <nav className="bg-gray-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link to="/">
-            <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-              <House className="h-5 w-5" />
-            </Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-xl font-bold text-gray-900">
+              Project Pulse
+            </Link>
+          </div>
           
           <div className="flex items-center gap-4">
             <Link to="/users">
