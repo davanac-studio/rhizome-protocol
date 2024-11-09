@@ -31,7 +31,7 @@ export default function Index() {
             Rhizome Protocol
           </h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto px-4">
-            Certification décentralisé pour les projets culturels et créatifs
+            Certification décentralisée pour les projets culturels et créatifs
           </p>
         </div>
       </div>
