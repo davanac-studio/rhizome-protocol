@@ -17,6 +17,9 @@ const NavBar = () => {
             <Link to="/" className="text-gray-900 hover:text-gray-700">
               <Home className="h-6 w-6" />
             </Link>
+            <Link to="/about" className="text-gray-900 hover:text-gray-700">
+              À propos
+            </Link>
           </div>
           
           <div className="flex items-center gap-4">
