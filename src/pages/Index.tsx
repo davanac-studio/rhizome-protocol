@@ -28,7 +28,7 @@ export default function Index() {
       >
         <div className="text-center text-white z-10 animate-fadeIn">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Collaborez avec confiance
+            ReesHome Protocol
           </h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto px-4">
             Une plateforme qui réunit les talents et les projets dans un environnement de confiance et d'innovation
