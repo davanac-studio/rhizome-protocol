@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { ProjectCard } from "@/components/ProjectCard";
-import { projects as initialProjects } from "@/data/projects";
+import { projectsData } from "@/data/projects";
 
 export default function Index() {
-  const [projects, setProjects] = useState(initialProjects);
+  // Sort projects by date in descending order (most recent first)
+  const sortedProjects = [...projectsData].sort((a, b) => 
+    new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+  );
+  
+  const [projects, setProjects] = useState(sortedProjects);
 
   const handleCreateProject = (project: any) => {
-    setProjects((prev) => [...prev, project]);
+    // Add new project and re-sort the list
+    const updatedProjects = [project, ...projects].sort((a, b) => 
+      new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+    );
+    setProjects(updatedProjects);
   };
 
   return (
