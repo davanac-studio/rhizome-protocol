@@ -16,7 +16,7 @@ const Login = () => {
           title: "Connexion réussie",
           description: "Bienvenue sur Rhizome Protocol !",
         });
-        navigate("/");
+        navigate("/signup");
       }
       if (event === "SIGNED_OUT") {
         navigate("/login");
@@ -26,7 +26,7 @@ const Login = () => {
     // Check if user is already signed in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate("/");
+        navigate("/signup");
       }
     });
 
@@ -53,7 +53,7 @@ const Login = () => {
           }}
           theme="light"
           providers={[]}
-          redirectTo={`${window.location.origin}/`}
+          redirectTo={`${window.location.origin}/signup`}
           showLinks={true}
           view="sign_in"
           localization={{
