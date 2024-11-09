@@ -8,7 +8,7 @@ const NavBar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-xl font-bold text-gray-900">
+            <Link to="/" className="text-2xl font-bold text-gray-900">
               Project Pulse
             </Link>
           </div>
