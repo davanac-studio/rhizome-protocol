@@ -21,6 +21,9 @@ const Login = () => {
       if (event === "SIGNED_OUT") {
         navigate("/login");
       }
+      if (event === "USER_UPDATED") {
+        console.log("User updated:", session);
+      }
     });
 
     // Check if user is already signed in
@@ -49,6 +52,7 @@ const Login = () => {
             style: {
               button: { background: 'rgb(59, 130, 246)', color: 'white' },
               anchor: { color: 'rgb(59, 130, 246)' },
+              message: { color: 'red' },
             }
           }}
           theme="light"
