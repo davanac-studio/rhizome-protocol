@@ -33,7 +33,7 @@ export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => 
   }
 
   return (
-    <Button className="gap-2 bg-[#2a9d8f] hover:bg-[#2a9d8f]/90" onClick={() => setIsOpen(true)}>
+    <Button className="gap-2 bg-[#e76f51] hover:bg-[#e76f51]/90" onClick={() => setIsOpen(true)}>
       <PlusCircle className="h-5 w-5" />
       Nouveau Projet
     </Button>
