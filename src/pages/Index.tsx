@@ -20,6 +20,26 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div 
+        className="relative h-[400px] bg-cover bg-center flex items-center justify-center"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1519389950473-47ba0277781c")',
+          backgroundBlendMode: 'overlay',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        }}
+      >
+        <div className="text-center text-white z-10 animate-fadeIn">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Collaborez avec confiance
+          </h1>
+          <p className="text-xl md:text-2xl max-w-2xl mx-auto px-4">
+            Une plateforme qui réunit les talents et les projets dans un environnement de confiance et d'innovation
+          </p>
+        </div>
+      </div>
+
+      {/* Projects Gallery */}
       <div className="container py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
