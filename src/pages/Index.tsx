@@ -31,7 +31,7 @@ export default function Index() {
             Rhizome Protocol
           </h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto px-4">
-            Une plateforme qui réunit les talents et les projets dans un environnement de confiance et d'innovation
+            Certification de projets culturels et créatifs
           </p>
         </div>
       </div>
