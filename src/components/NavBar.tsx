@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { UserCircle2, Users } from "lucide-react";
+import { UserCircle2, Users, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
 
@@ -14,8 +14,8 @@ const NavBar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-2xl font-bold text-gray-900">
-              Project Pulse
+            <Link to="/" className="text-gray-900 hover:text-gray-700">
+              <Home className="h-6 w-6" />
             </Link>
           </div>
           
