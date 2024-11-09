@@ -18,7 +18,7 @@ const NavBar = () => {
               <Home className="h-6 w-6" />
             </Link>
             <Link to="/about" className="text-gray-900 hover:text-gray-700">
-              À propos
+              Comment ça marche ?
             </Link>
           </div>
           
