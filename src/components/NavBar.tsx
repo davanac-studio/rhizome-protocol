@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 const NavBar = () => {
   return (
-    <nav className="border-b bg-gray-50">
+    <nav className="bg-gray-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link to="/">
