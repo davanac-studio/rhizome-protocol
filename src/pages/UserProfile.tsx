@@ -119,14 +119,6 @@ const UserProfile = () => {
     );
   }
 
-  const projectCount = projectsData.filter(project => {
-    const isLeader = project.author.name === user?.name;
-    const isParticipant = project.participants?.some(
-      participant => participant.name === user?.name
-    );
-    return isLeader || isParticipant;
-  }).length;
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container py-8">
@@ -140,7 +132,7 @@ const UserProfile = () => {
         <div className="space-y-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
-              <ProfileHeader user={user} projectCount={projectCount} />
+              <ProfileHeader user={user} />
               <ProfileContent user={user} />
             </div>
           </div>
