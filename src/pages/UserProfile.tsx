@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { projectsData } from "@/data/projects";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileContent } from "@/components/profile/ProfileContent";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -140,15 +139,6 @@ const UserProfile = () => {
 
         <div className="space-y-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            {user.bannerUrl && (
-              <AspectRatio ratio={16 / 9} className="bg-muted">
-                <img
-                  src={user.bannerUrl}
-                  alt="Banner"
-                  className="object-cover w-full h-full"
-                />
-              </AspectRatio>
-            )}
             <div className="p-8">
               <ProfileHeader user={user} projectCount={projectCount} />
               <ProfileContent user={user} />
