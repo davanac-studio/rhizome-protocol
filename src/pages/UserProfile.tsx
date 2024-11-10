@@ -129,7 +129,7 @@ const UserProfile = () => {
           </Button>
         </Link>
 
-        <UserProjectsGallery username={user.username} />
+        <UserProjectsGallery userName={user.username} />
       </div>
     </div>
   );
