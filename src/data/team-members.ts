@@ -1,6 +1,7 @@
 export const teamMembers = {
   profile1: {
     name: "Sophie Martin",
+    username: "sophie-martin",
     avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
     role: "Développeuse Full Stack",
     contribution: 40,
@@ -16,6 +17,7 @@ export const teamMembers = {
   },
   profile2: {
     name: "Thomas Bernard",
+    username: "thomas-bernard",
     avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
     role: "Journaliste",
     contribution: 30,
@@ -28,6 +30,7 @@ export const teamMembers = {
   },
   profile3: {
     name: "Emma Dubois",
+    username: "emma-dubois",
     avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475",
     role: "Designer UX/UI",
     contribution: 30,
@@ -41,6 +44,7 @@ export const teamMembers = {
   },
   profile4: {
     name: "Lucas Petit",
+    username: "lucas-petit",
     avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
     role: "Journaliste",
     contribution: 20,
@@ -53,6 +57,7 @@ export const teamMembers = {
   },
   profile5: {
     name: "Julie Moreau",
+    username: "julie-moreau",
     avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     role: "Relations Publiques",
     contribution: 15,
