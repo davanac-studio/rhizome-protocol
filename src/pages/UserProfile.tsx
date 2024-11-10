@@ -24,7 +24,7 @@ const UserProfile = () => {
           .from('profiles')
           .select('*')
           .eq('username', username)
-          .single();
+          .maybeSingle(); // Changed from .single() to .maybeSingle()
 
         if (error) throw error;
 
@@ -46,6 +46,12 @@ const UserProfile = () => {
             spotify: data.spotify,
             instagram: data.instagram,
             facebook: data.facebook
+          });
+        } else {
+          toast({
+            title: "Utilisateur non trouvé",
+            description: "Cet utilisateur n'existe pas",
+            variant: "destructive"
           });
         }
       } catch (error: any) {
@@ -106,6 +112,12 @@ const UserProfile = () => {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container">
+          <Link to="/users">
+            <Button variant="ghost" className="mb-6">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour
+            </Button>
+          </Link>
           <div className="text-center">
             <p className="text-gray-600">Utilisateur non trouvé</p>
           </div>
