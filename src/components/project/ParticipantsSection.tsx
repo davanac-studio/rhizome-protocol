@@ -51,10 +51,12 @@ export const ParticipantsSection = ({
     setParticipants(newParticipants);
   };
 
+  const teamLeaderName = "John Gathwick";
+
   return (
     <div className="space-y-4 border rounded-lg p-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium">Team Leader ({user?.user_metadata?.first_name} {user?.user_metadata?.last_name})</label>
+        <label className="text-sm font-medium">Team Leader ({teamLeaderName})</label>
         <div className="flex items-center gap-2">
           <Input
             type="number"
@@ -100,7 +102,7 @@ export const ParticipantsSection = ({
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(teamMembers)
-                  .filter(([key]) => 
+                  .filter(([key]) => key !== 'profile1' && 
                     !participants.some(p => p.profile === key && p !== participant))
                   .map(([key, member]) => (
                     <SelectItem key={key} value={key}>
