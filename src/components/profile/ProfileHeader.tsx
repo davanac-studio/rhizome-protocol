@@ -111,7 +111,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 : user?.name}
             </h1>
             <p className="text-gray-500">@{user?.username}</p>
-            <p className="text-gray-600">{user?.expertise || "Data Journaliste"}</p>
+            <p className="text-gray-600 text-xl font-bold italic">{user?.expertise || "Data Journaliste"}</p>
             
             {user?.bio && (
               <p className="text-gray-600 max-w-2xl">
