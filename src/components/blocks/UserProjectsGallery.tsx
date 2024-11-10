@@ -64,14 +64,30 @@ export const UserProjectsGallery = () => {
 
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
-        teamLeaderProjects.map((project) => {
+        teamLeaderProjects.map((project: any) => {
           console.log('Transforming leader project:', project);
+          if (!project || !project.team_leader_profile) {
+            console.error('Invalid project data:', project);
+            return null;
+          }
           const transformedProject: DatabaseProject = {
-            ...project,
-            author: project.team_leader_profile
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            due_date: project.due_date,
+            thumbnail: project.thumbnail,
+            category: project.category,
+            client: project.client,
+            team_leader: project.team_leader,
+            team_leader_contribution: project.team_leader_contribution,
+            team_leader_contribution_description: project.team_leader_contribution_description,
+            author: project.team_leader_profile,
+            participants: project.participants || [],
+            github_link: project.github_link,
+            preview_link: project.preview_link
           };
           return transformDatabaseProject(transformedProject);
-        }) : 
+        }).filter(Boolean) : 
         [];
 
       console.log('Transformed leader projects:', leaderProjects);
@@ -123,12 +139,24 @@ export const UserProjectsGallery = () => {
       // Transform participant projects
       const participatingProjects = participantProjects ? 
         participantProjects
-          .filter(item => item.project && typeof item.project === 'object')
-          .map(item => {
+          .filter((item: any) => item.project && typeof item.project === 'object' && item.project.team_leader_profile)
+          .map((item: any) => {
             console.log('Transforming participant project:', item.project);
             const transformedProject: DatabaseProject = {
-              ...item.project,
-              author: item.project.team_leader_profile
+              id: item.project.id,
+              title: item.project.title,
+              description: item.project.description,
+              due_date: item.project.due_date,
+              thumbnail: item.project.thumbnail,
+              category: item.project.category,
+              client: item.project.client,
+              team_leader: item.project.team_leader,
+              team_leader_contribution: item.project.team_leader_contribution,
+              team_leader_contribution_description: item.project.team_leader_contribution_description,
+              author: item.project.team_leader_profile,
+              participants: item.project.participants || [],
+              github_link: item.project.github_link,
+              preview_link: item.project.preview_link
             };
             return transformDatabaseProject(transformedProject);
           })
