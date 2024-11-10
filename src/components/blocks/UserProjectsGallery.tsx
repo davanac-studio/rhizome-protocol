@@ -25,7 +25,7 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          author:team_leader (
+          author:profiles!projects_team_leader_fkey (
             id,
             first_name,
             last_name,
@@ -78,7 +78,7 @@ export const UserProjectsGallery = () => {
         .select(`
           project:projects (
             *,
-            author:team_leader (
+            author:profiles!projects_team_leader_fkey (
               id,
               first_name,
               last_name,
@@ -141,8 +141,8 @@ export const UserProjectsGallery = () => {
       return uniqueProjects;
     },
     refetchOnWindowFocus: true,
-    staleTime: 0, // Consider data as immediately stale
-    gcTime: 0, // Don't cache the data
+    staleTime: 0,
+    gcTime: 0,
   });
 
   if (isLoading) {
