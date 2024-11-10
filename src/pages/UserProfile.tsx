@@ -4,9 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
-import { projectsData } from "@/data/projects";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { ProfileContent } from "@/components/profile/ProfileContent";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -40,6 +38,7 @@ const UserProfile = () => {
             avatarUrl: data.avatar_url,
             bannerUrl: data.banner_url,
             bio: data.bio,
+            expertise: data.expertise,
             quote: data.quote,
             linkedin: data.linkedin,
             github: data.github,
@@ -133,7 +132,24 @@ const UserProfile = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
               <ProfileHeader user={user} />
-              <ProfileContent user={user} />
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <div className="bg-white rounded-lg">
+                        <div className="space-y-3">
+                          {user?.expertise && (
+                            <p className="text-gray-700">{user.expertise}</p>
+                          )}
+                          {user?.bio && (
+                            <p className="text-gray-700">{user.bio}</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
