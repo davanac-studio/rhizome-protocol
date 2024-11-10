@@ -55,28 +55,29 @@ export const initializeUsers = async () => {
         continue;
       }
 
+      // Préparer les données du profil avec gestion des champs optionnels
+      const profileData = {
+        id: authData.user.id,
+        username: member.name.toLowerCase().replace(' ', '.'),
+        first_name: member.name.split(' ')[0],
+        last_name: member.name.split(' ')[1] || '',
+        bio: member.bio,
+        avatar_url: member.avatar,
+        role: member.role,
+        expertise: member.expertise,
+        quote: member.quote,
+        linkedin: 'linkedin' in member ? member.linkedin : null,
+        github: 'github' in member ? member.github : null,
+        youtube: 'youtube' in member ? member.youtube : null,
+        spotify: 'spotify' in member ? member.spotify : null,
+        instagram: 'instagram' in member ? member.instagram : null,
+        facebook: 'facebook' in member ? member.facebook : null,
+      };
+
       // Ajouter le profil utilisateur
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert([
-          {
-            id: authData.user.id,
-            username: member.name.toLowerCase().replace(' ', '.'),
-            first_name: member.name.split(' ')[0],
-            last_name: member.name.split(' ')[1] || '',
-            bio: member.bio,
-            avatar_url: member.avatar,
-            role: member.role,
-            expertise: member.expertise,
-            quote: member.quote,
-            linkedin: member.linkedin,
-            github: member.github,
-            youtube: member.youtube,
-            spotify: member.spotify,
-            instagram: member.instagram,
-            facebook: member.facebook,
-          },
-        ]);
+        .insert([profileData]);
 
       if (profileError) {
         console.error(`Error creating profile for ${member.name}:`, profileError);
