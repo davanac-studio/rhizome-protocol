@@ -17,10 +17,6 @@ export const ProfileContent = ({ user }: { user: any }) => (
                 <p className="text-gray-700">{user.bio || "Aucune bio renseignée"}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Expertise</p>
-                <p className="text-gray-700">{user.expertise || "Non spécifiée"}</p>
-              </div>
-              <div>
                 <p className="text-sm text-gray-500">Citation</p>
                 <p className="text-gray-700 italic">{user.quote || "Aucune citation"}</p>
               </div>
