@@ -3,15 +3,15 @@ import { projectsData } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 
 interface UserProjectsGalleryProps {
-  userName: string;
+  username: string;  // Changed from userName to username to match usage
 }
 
-export const UserProjectsGallery = ({ userName }: UserProjectsGalleryProps) => {
-  // Filtrer les projets où l'utilisateur est soit leader soit participant
+export const UserProjectsGallery = ({ username }: UserProjectsGalleryProps) => {
+  // Updated parameter name in the function to match
   const userProjects = projectsData.filter(project => {
-    const isLeader = project.author.username === userName;
+    const isLeader = project.author.username === username;
     const isParticipant = project.participants?.some(
-      participant => participant.username === userName
+      participant => participant.username === username
     );
     return isLeader || isParticipant;
   });
