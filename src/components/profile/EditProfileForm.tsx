@@ -7,19 +7,12 @@ import { PersonalInfoSection } from "./PersonalInfoSection";
 import { SocialLinksSection } from "./SocialLinksSection";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
-import { Badge } from "@/components/ui/badge";
 
 interface EditProfileFormProps {
   user: any;
   onClose: () => void;
   onUpdate: (updatedUser: any) => void;
 }
-
-const getDavanacLevel = (davanacPoints: number = 0) => {
-  if (davanacPoints >= 5001) return { level: "DAVANAC Master", color: "bg-purple-500" };
-  if (davanacPoints >= 1001) return { level: "DAVANAC Expert", color: "bg-blue-500" };
-  return { level: "DAVANAC Initié", color: "bg-green-500" };
-};
 
 export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProps) => {
   const { user: authUser } = useAuth();
@@ -39,8 +32,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     instagram: user?.instagram || "",
     facebook: user?.facebook || "",
   });
-
-  const davanacLevel = getDavanacLevel(user?.davanac_points);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,20 +113,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-medium">Points DAVANAC</h3>
-          <p className="text-sm text-gray-500">
-            {user?.davanac_points || 0} $DAVANAC
-          </p>
-        </div>
-        <Badge className={`${davanacLevel.color} text-white`}>
-          {davanacLevel.level}
-        </Badge>
-      </div>
-
-      <Separator className="my-6" />
-
       <ProfileImageSection
         bannerUrl={formData.bannerUrl}
         avatarUrl={formData.avatarUrl}

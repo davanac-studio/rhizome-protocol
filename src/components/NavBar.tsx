@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Home } from "lucide-react";
+import { UserCircle2, Home, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -26,6 +27,29 @@ const NavBar = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Déconnexion réussie",
+        description: "Vous avez été déconnecté avec succès.",
+      });
+
+      navigate("/");
+    } catch (error: any) {
+      toast({
+        title: "Erreur de déconnexion",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <nav className="bg-gray-50">
       <div className="container mx-auto px-4 py-3">
@@ -41,13 +65,30 @@ const NavBar = () => {
           
           <div className="flex items-center gap-4">
             {user ? (
-              <NewProjectDialog onProjectCreate={handleCreateProject} />
-            ) : (
-              <Link to="/auth">
-                <Button variant="outline" className="hover:bg-gray-100">
-                  Se connecter
+              <>
+                <Link to={`/profile/${user.user_metadata.username || user.id}`}>
+                  <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+                    <UserCircle2 className="h-5 w-5" />
+                  </Button>
+                </Link>
+                <NewProjectDialog onProjectCreate={handleCreateProject} />
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="h-5 w-5" />
                 </Button>
-              </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="outline" className="hover:bg-gray-100">
+                    Se connecter
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
         </div>

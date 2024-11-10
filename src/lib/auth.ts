@@ -19,15 +19,15 @@ interface UserFormData {
 }
 
 export const createUser = async (formData: UserFormData) => {
-  // 1. Create auth account with metadata
+  // 1. Créer le compte auth
   const { data: authData, error: signUpError } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
     options: {
       data: {
-        username: formData.username,
         first_name: formData.firstName,
         last_name: formData.lastName,
+        username: formData.username,
       },
     },
   });
@@ -48,14 +48,28 @@ export const createUser = async (formData: UserFormData) => {
     throw new Error("Erreur lors de la création du compte");
   }
 
-  // 2. Create profile with all user data
+  // 2. Vérifier si un profil existe déjà
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', authData.user.id)
+    .single();
+
+  if (existingProfile) {
+    toast({
+      title: "Information",
+      description: "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.",
+    });
+    return true;
+  }
+
+  // 3. Créer le profil utilisateur avec le username
   const { error: profileError } = await supabase
     .from('profiles')
     .insert([
       {
         id: authData.user.id,
-        email: formData.email,
-        username: formData.username,
+        username: formData.username,  // Assurez-vous que le username est bien enregistré
         first_name: formData.firstName,
         last_name: formData.lastName,
         bio: formData.bio,
@@ -67,11 +81,8 @@ export const createUser = async (formData: UserFormData) => {
         spotify: formData.spotify,
         instagram: formData.instagram,
         facebook: formData.facebook,
-        davanac_points: 0,
       },
-    ])
-    .select()
-    .single();
+    ]);
 
   if (profileError) {
     console.error("Erreur lors de la création du profil:", profileError);
@@ -80,57 +91,8 @@ export const createUser = async (formData: UserFormData) => {
 
   toast({
     title: "Compte créé avec succès",
-    description: "Bienvenue sur Rhizome Protocol ! Vérifiez votre email pour confirmer votre compte.",
+    description: "Bienvenue sur Project Pulse ! Vérifiez votre email pour confirmer votre compte.",
   });
 
   return true;
-};
-
-// Function to sync user data between auth and profiles
-export const syncUserData = async (userId: string) => {
-  try {
-    const { data: authUser } = await supabase.auth.getUser();
-    
-    if (!authUser.user) return;
-
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-
-    if (profileError && profileError.code !== 'PGRST116') {
-      throw profileError;
-    }
-
-    // If profile doesn't exist, create it with auth data
-    if (!profile) {
-      const { error: insertError } = await supabase
-        .from('profiles')
-        .insert([
-          {
-            id: userId,
-            email: authUser.user.email,
-            username: authUser.user.user_metadata.username,
-            first_name: authUser.user.user_metadata.first_name,
-            last_name: authUser.user.user_metadata.last_name,
-            davanac_points: 0,
-          },
-        ])
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-    }
-
-    return true;
-  } catch (error: any) {
-    console.error('Error syncing user data:', error);
-    toast({
-      title: "Erreur de synchronisation",
-      description: "Impossible de synchroniser les données utilisateur",
-      variant: "destructive",
-    });
-    return false;
-  }
 };
