@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { ProfileBioQuote } from "@/components/profile/ProfileBioQuote";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -29,12 +29,23 @@ const UserProfile = () => {
 
         if (data) {
           setUser({
-            ...data,
             name: `${data.first_name} ${data.last_name}`,
             firstName: data.first_name,
             lastName: data.last_name,
+            username: data.username,
+            email: data.email,
+            role: data.role || "Membre",
             avatarUrl: data.avatar_url,
             bannerUrl: data.banner_url,
+            bio: data.bio,
+            expertise: data.expertise,
+            quote: data.quote,
+            linkedin: data.linkedin,
+            github: data.github,
+            youtube: data.youtube,
+            spotify: data.spotify,
+            instagram: data.instagram,
+            facebook: data.facebook
           });
         } else {
           toast({
@@ -123,8 +134,6 @@ const UserProfile = () => {
               <ProfileHeader user={user} />
             </div>
           </div>
-
-          <ProfileBioQuote bio={user.bio} quote={user.quote} />
         </div>
       </div>
     </div>
