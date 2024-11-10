@@ -7,6 +7,7 @@ import { FormField } from "./signup/FormField";
 import { ImageFields } from "./signup/ImageFields";
 import { PersonalInfoFields } from "./signup/PersonalInfoFields";
 import { BioField } from "./signup/BioField";
+import { supabase } from "@/lib/supabase";
 import {
   LinkedinIcon,
   YoutubeIcon,
@@ -19,6 +20,7 @@ import {
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -36,13 +38,64 @@ const SignUpForm = () => {
     facebook: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Compte créé avec succès",
-      description: "Bienvenue sur Project Pulse !",
-    });
-    navigate("/");
+    setLoading(true);
+
+    try {
+      // 1. Create auth user
+      const { error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            username: formData.username,
+          },
+        },
+      });
+
+      if (signUpError) throw signUpError;
+
+      // 2. Create user profile in profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            email: formData.email,
+            username: formData.username,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            bio: formData.bio,
+            avatar_url: formData.avatarUrl,
+            banner_url: formData.bannerUrl,
+            linkedin: formData.linkedin,
+            youtube: formData.youtube,
+            github: formData.github,
+            spotify: formData.spotify,
+            instagram: formData.instagram,
+            facebook: formData.facebook,
+          },
+        ]);
+
+      if (profileError) throw profileError;
+
+      toast({
+        title: "Compte créé avec succès",
+        description: "Bienvenue sur Project Pulse ! Vérifiez votre email pour confirmer votre compte.",
+      });
+
+      navigate("/login");
+    } catch (error: any) {
+      toast({
+        title: "Erreur lors de la création du compte",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFieldChange = (field: string, value: string) => {
@@ -124,11 +177,17 @@ const SignUpForm = () => {
       </div>
 
       <div className="flex gap-4">
-        <Button type="button" variant="outline" className="flex-1" onClick={() => navigate("/")}>
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="flex-1" 
+          onClick={() => navigate("/login")}
+          disabled={loading}
+        >
           Annuler
         </Button>
-        <Button type="submit" className="flex-1">
-          Créer mon compte
+        <Button type="submit" className="flex-1" disabled={loading}>
+          {loading ? "Création en cours..." : "Créer mon compte"}
         </Button>
       </div>
     </form>
