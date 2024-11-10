@@ -11,8 +11,11 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
   const { user: currentUser } = useAuth();
   const isOwnProfile = currentUser?.id === user.id;
 
+  console.log('Current user:', currentUser?.id);
+  console.log('Profile user:', user.id);
+  console.log('Is own profile:', isOwnProfile);
+
   const handleUpdate = () => {
-    // Recharger la page pour afficher les modifications
     window.location.reload();
   };
 
