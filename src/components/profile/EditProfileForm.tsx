@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/lib/supabase";
-import { ImageUploadField } from "./ImageUploadField";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { ProfileImageSection } from "./ProfileImageSection";
+import { PersonalInfoSection } from "./PersonalInfoSection";
+import { SocialLinksSection } from "./SocialLinksSection";
+import { Separator } from "@/components/ui/separator";
 
 interface EditProfileFormProps {
   user: any;
@@ -85,120 +84,35 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-4">
-        <ImageUploadField
-          label="Avatar"
-          value={formData.avatarUrl}
-          onChange={(value) => handleFieldChange("avatarUrl", value)}
-          type="avatar"
-        />
-        
-        {formData.avatarUrl && (
-          <div className="flex justify-center">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src={formData.avatarUrl} alt="Avatar preview" />
-              <AvatarFallback>
-                {formData.firstName.charAt(0)}{formData.lastName.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-        )}
+      <ProfileImageSection
+        bannerUrl={formData.bannerUrl}
+        avatarUrl={formData.avatarUrl}
+        firstName={formData.firstName}
+        lastName={formData.lastName}
+        onFieldChange={handleFieldChange}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium">Prénom</label>
-            <Input
-              value={formData.firstName}
-              onChange={(e) => handleFieldChange("firstName", e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Nom</label>
-            <Input
-              value={formData.lastName}
-              onChange={(e) => handleFieldChange("lastName", e.target.value)}
-            />
-          </div>
-        </div>
+      <Separator className="my-6" />
 
-        <ImageUploadField
-          label="Image de bannière"
-          value={formData.bannerUrl}
-          onChange={(value) => handleFieldChange("bannerUrl", value)}
-          type="banner"
-        />
+      <PersonalInfoSection
+        firstName={formData.firstName}
+        lastName={formData.lastName}
+        expertise={formData.expertise}
+        bio={formData.bio}
+        onFieldChange={handleFieldChange}
+      />
 
-        {formData.bannerUrl && (
-          <AspectRatio ratio={16 / 9} className="bg-muted overflow-hidden rounded-lg">
-            <img
-              src={formData.bannerUrl}
-              alt="Banner preview"
-              className="object-cover w-full h-full"
-            />
-          </AspectRatio>
-        )}
+      <Separator className="my-6" />
 
-        <div>
-          <label className="text-sm font-medium">Expertise</label>
-          <Input
-            value={formData.expertise}
-            onChange={(e) => handleFieldChange("expertise", e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Bio</label>
-          <Textarea
-            value={formData.bio}
-            onChange={(e) => handleFieldChange("bio", e.target.value)}
-            className="h-24"
-          />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Citation</label>
-          <Input
-            value={formData.quote}
-            onChange={(e) => handleFieldChange("quote", e.target.value)}
-          />
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-sm font-medium">Réseaux sociaux</h3>
-          <div className="space-y-3">
-            <Input
-              placeholder="LinkedIn URL"
-              value={formData.linkedin}
-              onChange={(e) => handleFieldChange("linkedin", e.target.value)}
-            />
-            <Input
-              placeholder="GitHub URL"
-              value={formData.github}
-              onChange={(e) => handleFieldChange("github", e.target.value)}
-            />
-            <Input
-              placeholder="YouTube URL"
-              value={formData.youtube}
-              onChange={(e) => handleFieldChange("youtube", e.target.value)}
-            />
-            <Input
-              placeholder="Spotify URL"
-              value={formData.spotify}
-              onChange={(e) => handleFieldChange("spotify", e.target.value)}
-            />
-            <Input
-              placeholder="Instagram URL"
-              value={formData.instagram}
-              onChange={(e) => handleFieldChange("instagram", e.target.value)}
-            />
-            <Input
-              placeholder="Facebook URL"
-              value={formData.facebook}
-              onChange={(e) => handleFieldChange("facebook", e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
+      <SocialLinksSection
+        linkedin={formData.linkedin}
+        github={formData.github}
+        youtube={formData.youtube}
+        spotify={formData.spotify}
+        instagram={formData.instagram}
+        facebook={formData.facebook}
+        onFieldChange={handleFieldChange}
+      />
 
       <div className="flex gap-4">
         <Button
