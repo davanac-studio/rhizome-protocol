@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { teamMembers } from "@/data/team-members";
 import { PlusCircle, MinusCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ParticipantsSectionProps {
   participants: Array<{
@@ -32,7 +34,29 @@ export const ParticipantsSection = ({
   setTeamLeaderContributionDescription
 }: ParticipantsSectionProps) => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
+
+  const { data: profiles, isLoading: isLoadingProfiles } = useQuery({
+    queryKey: ['profiles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .neq('id', user?.id); // Exclure le profil du team leader actuel
+
+      if (error) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger la liste des profils",
+          variant: "destructive",
+        });
+        throw error;
+      }
+
+      return data || [];
+    },
+  });
 
   const handleAddParticipant = () => {
     setParticipants([...participants, { profile: "", contribution: 0, contributionDescription: "" }]);
@@ -51,12 +75,14 @@ export const ParticipantsSection = ({
     setParticipants(newParticipants);
   };
 
-  const teamLeaderName = "John Gathwick";
+  if (isLoadingProfiles) {
+    return <div>Chargement des profils...</div>;
+  }
 
   return (
     <div className="space-y-4 border rounded-lg p-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium">Team Leader ({teamLeaderName})</label>
+        <label className="text-sm font-medium">Team Leader ({user?.user_metadata?.first_name} {user?.user_metadata?.last_name})</label>
         <div className="flex items-center gap-2">
           <Input
             type="number"
@@ -101,14 +127,13 @@ export const ParticipantsSection = ({
                 <SelectValue placeholder="Sélectionner un participant" />
               </SelectTrigger>
               <SelectContent>
-                {Object.entries(teamMembers)
-                  .filter(([key]) => key !== 'profile1' && 
-                    !participants.some(p => p.profile === key && p !== participant))
-                  .map(([key, member]) => (
-                    <SelectItem key={key} value={key}>
-                      {member.name}
-                    </SelectItem>
-                  ))}
+                {profiles?.filter(profile => 
+                  !participants.some(p => p.profile === profile.id && p !== participant)
+                ).map((profile) => (
+                  <SelectItem key={profile.id} value={profile.id}>
+                    {profile.first_name} {profile.last_name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <div className="flex items-center gap-2">
