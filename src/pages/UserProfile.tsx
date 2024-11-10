@@ -24,7 +24,7 @@ const UserProfile = () => {
         let { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .or(`username.eq.${username},id.eq.${username}`)
+          .eq('username', username)
           .maybeSingle();
 
         if (error) throw error;
