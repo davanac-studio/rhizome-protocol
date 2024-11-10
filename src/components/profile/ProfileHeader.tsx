@@ -22,7 +22,24 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [user, setUser] = useState(initialUser);
 
   const fetchUserData = async () => {
-    // Fetch user data logic here
+    if (!currentUser?.id) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', 'azert-reza')
+        .single();
+
+      if (error) throw error;
+      
+      if (data) {
+        setUser(data);
+        setIsOwnProfile(currentUser.id === data.id);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +52,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     };
 
     checkProfileOwnership();
-  }, [user?.username, currentUser?.id]);
+  }, [currentUser?.id]);
 
   const handleUpdate = async (updatedUser: any) => {
     setUser(updatedUser);
