@@ -29,22 +29,22 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
+      await supabase.auth.signOut();
       
-      if (error) {
-        throw error;
-      }
-
+      // Clear any local user data
+      localStorage.removeItem('user');
+      
       toast({
         title: "Déconnexion réussie",
         description: "Vous avez été déconnecté avec succès.",
       });
 
-      navigate("/");
+      // Force reload to clear all states
+      window.location.href = '/';
     } catch (error: any) {
       toast({
         title: "Erreur de déconnexion",
-        description: error.message,
+        description: error.message || "Une erreur est survenue lors de la déconnexion",
         variant: "destructive",
       });
     }
