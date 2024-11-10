@@ -29,29 +29,33 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // Clear local session first to ensure UI updates immediately
+      // Clear local session first
       clearSession();
       
-      // Try to sign out from Supabase, but don't block on errors
-      try {
-        await supabase.auth.signOut();
-      } catch (signOutError) {
-        console.error("Erreur Supabase lors de la déconnexion:", signOutError);
-        // We don't throw here because we want to continue with the local logout
+      // Try to sign out from Supabase only if we have a user
+      if (user) {
+        try {
+          const { error } = await supabase.auth.signOut();
+          if (error) throw error;
+        } catch (signOutError) {
+          console.error("Erreur Supabase lors de la déconnexion:", signOutError);
+        }
       }
       
       toast({
         title: "Déconnexion réussie",
         description: "Vous avez été déconnecté avec succès.",
       });
+      
+      // Always navigate home after logout
+      navigate("/");
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
       toast({
-        title: "Session terminée",
-        description: "Session terminée localement.",
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la déconnexion.",
+        variant: "destructive",
       });
-    } finally {
-      navigate("/");
     }
   };
 
