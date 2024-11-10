@@ -22,13 +22,25 @@ const Login = () => {
     });
 
     // Écouter les changements d'état d'authentification
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN") {
+        if (session) {
+          toast({
+            title: "Connexion réussie",
+            description: "Bienvenue sur Rhizome Protocol !",
+          });
+          navigate("/");
+        }
+      } else if (event === "SIGNED_OUT") {
         toast({
-          title: "Connexion réussie",
-          description: "Bienvenue sur Rhizome Protocol !",
+          title: "Déconnexion",
+          description: "Vous avez été déconnecté",
         });
-        navigate("/");
+      } else if (event === "USER_UPDATED") {
+        toast({
+          title: "Profil mis à jour",
+          description: "Vos informations ont été mises à jour",
+        });
       }
     });
 
