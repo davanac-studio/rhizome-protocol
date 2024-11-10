@@ -29,10 +29,24 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
+      // Vérifier si l'utilisateur est connecté avant de tenter la déconnexion
+      const session = await supabase.auth.getSession();
+      if (!session.data.session) {
+        // Si pas de session, on redirige simplement
+        navigate("/");
+        return;
+      }
+
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        throw error;
+        console.error("Erreur de déconnexion:", error);
+        toast({
+          title: "Erreur de déconnexion",
+          description: "Une erreur est survenue lors de la déconnexion.",
+          variant: "destructive",
+        });
+        return;
       }
 
       toast({
@@ -42,9 +56,10 @@ const NavBar = () => {
 
       navigate("/");
     } catch (error: any) {
+      console.error("Erreur lors de la déconnexion:", error);
       toast({
         title: "Erreur de déconnexion",
-        description: error.message,
+        description: "Une erreur est survenue lors de la déconnexion.",
         variant: "destructive",
       });
     }
