@@ -1,3 +1,22 @@
+create table public.profiles (
+  id uuid references auth.users on delete cascade primary key,
+  first_name text,
+  last_name text,
+  username text unique,
+  avatar_url text,
+  banner_url text,
+  bio text,
+  expertise text,
+  role text,
+  linkedin text,
+  youtube text,
+  github text,
+  spotify text,
+  instagram text,
+  facebook text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
 create table public.projects (
   id text primary key,
   title text not null,
@@ -9,7 +28,7 @@ create table public.projects (
   testimonial text,
   github_link text,
   preview_link text,
-  team_leader uuid references auth.users(id) not null,
+  team_leader uuid references public.profiles(id) not null,
   team_leader_contribution integer,
   team_leader_contribution_description text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
@@ -43,7 +62,7 @@ using (auth.uid() = team_leader);
 create table public.project_participants (
   id uuid primary key default uuid_generate_v4(),
   project_id text references public.projects(id) on delete cascade,
-  user_id uuid references auth.users(id) on delete cascade,
+  user_id uuid references public.profiles(id) on delete cascade,
   contribution integer,
   contribution_description text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
@@ -63,10 +82,3 @@ create policy "Users can manage their own participant entries"
 on public.project_participants for all
 to authenticated
 using (auth.uid() = user_id);
-
--- Create explicit foreign key relationship between projects and profiles
-alter table public.projects
-add constraint fk_team_leader
-foreign key (team_leader)
-references auth.users(id)
-on delete cascade;
