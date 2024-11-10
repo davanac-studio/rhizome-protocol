@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { teamMembers } from "@/data/team-members";
 import { PlusCircle, MinusCircle } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ParticipantsSectionProps {
   participants: Array<{
@@ -30,6 +31,7 @@ export const ParticipantsSection = ({
   teamLeaderContributionDescription,
   setTeamLeaderContributionDescription
 }: ParticipantsSectionProps) => {
+  const { user } = useAuth();
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
 
   const handleAddParticipant = () => {
@@ -49,10 +51,14 @@ export const ParticipantsSection = ({
     setParticipants(newParticipants);
   };
 
+  const teamLeaderName = user ? 
+    (user.user_metadata?.full_name || user.email?.split('@')[0] || 'Team Leader') 
+    : 'Team Leader';
+
   return (
     <div className="space-y-4 border rounded-lg p-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium">Team Leader (Sophie Martin)</label>
+        <label className="text-sm font-medium">Team Leader ({teamLeaderName})</label>
         <div className="flex items-center gap-2">
           <Input
             type="number"
