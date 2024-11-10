@@ -6,14 +6,26 @@ import { ProfileSocialButtons } from "./ProfileSocialButtons";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => {
+  const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
     const checkProfileOwnership = async () => {
+      if (!currentUser?.id) {
+        console.log('No current user ID found');
+        return;
+      }
+
+      if (!user?.username) {
+        console.log('No username found for profile');
+        return;
+      }
+
       try {
         const { data: userData, error } = await supabase
           .from('profiles')
@@ -21,23 +33,34 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
           .eq('username', user.username)
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error checking profile ownership:', error);
+          toast({
+            title: "Erreur",
+            description: "Impossible de vérifier le propriétaire du profil",
+            variant: "destructive",
+          });
+          return;
+        }
         
-        // Compare the profile's ID with the current user's ID
-        setIsOwnProfile(currentUser?.id === userData.id);
-        
-        console.log('Current user ID:', currentUser?.id);
-        console.log('Profile user ID:', userData.id);
-        console.log('Is own profile:', currentUser?.id === userData.id);
+        if (!userData?.id) {
+          console.log('No user data found for profile');
+          return;
+        }
+
+        setIsOwnProfile(currentUser.id === userData.id);
       } catch (error) {
         console.error('Error checking profile ownership:', error);
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de la vérification du profil",
+          variant: "destructive",
+        });
       }
     };
 
-    if (user.username && currentUser?.id) {
-      checkProfileOwnership();
-    }
-  }, [user.username, currentUser?.id]);
+    checkProfileOwnership();
+  }, [user?.username, currentUser?.id, toast]);
 
   const handleUpdate = () => {
     window.location.reload();
@@ -47,17 +70,17 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
     <>
       <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
         <Avatar className="h-24 w-24">
-          <AvatarImage src={user.avatarUrl || user.avatar} alt={user.name} />
-          <AvatarFallback>{user.firstName?.charAt(0) || user.name?.charAt(0)}</AvatarFallback>
+          <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
+          <AvatarFallback>{user?.firstName?.charAt(0) || user?.name?.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
           <div className="text-center md:text-left">
             <h1 className="text-2xl font-bold text-gray-900">
-              {user.firstName && user.lastName 
+              {user?.firstName && user?.lastName 
                 ? `${user.firstName} ${user.lastName}`
-                : user.name}
+                : user?.name}
             </h1>
-            <p className="text-gray-500">{user.role || "Membre"}</p>
+            <p className="text-gray-500">{user?.role || "Membre"}</p>
             <p className="text-sm text-gray-600 mt-1">{projectCount} projet{projectCount > 1 ? 's' : ''}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
@@ -77,12 +100,14 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
         </div>
       </div>
 
-      <EditProfileDialog
-        user={user}
-        open={isEditing}
-        onOpenChange={setIsEditing}
-        onUpdate={handleUpdate}
-      />
+      {isOwnProfile && (
+        <EditProfileDialog
+          user={user}
+          open={isEditing}
+          onOpenChange={setIsEditing}
+          onUpdate={handleUpdate}
+        />
+      )}
     </>
   );
 };
