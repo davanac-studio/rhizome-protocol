@@ -42,6 +42,10 @@ export const initializeUsers = async () => {
       });
 
       if (authError) {
+        if (authError.message.includes("User already registered")) {
+          console.log(`User ${member.name} already registered`);
+          continue;
+        }
         console.error(`Error creating auth user for ${member.name}:`, authError);
         continue;
       }
@@ -62,12 +66,24 @@ export const initializeUsers = async () => {
             last_name: member.name.split(' ')[1] || '',
             bio: member.bio,
             avatar_url: member.avatar,
+            role: member.role,
+            expertise: member.expertise,
+            quote: member.quote,
+            linkedin: member.linkedin,
+            github: member.github,
+            youtube: member.youtube,
+            spotify: member.spotify,
+            instagram: member.instagram,
+            facebook: member.facebook,
           },
         ]);
 
       if (profileError) {
         console.error(`Error creating profile for ${member.name}:`, profileError);
+        continue;
       }
+
+      console.log(`Successfully created user and profile for ${member.name}`);
     }
 
     console.log('Users initialization completed');
