@@ -30,7 +30,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       try {
         const { data: userData, error } = await supabase
           .from('profiles')
-          .select('id')
+          .select('*')
           .eq('username', user.username)
           .single();
 
@@ -50,6 +50,13 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         }
 
         setIsOwnProfile(currentUser.id === userData.id);
+        // Mise à jour des données utilisateur avec les données de la base de données
+        setUser({
+          ...user,
+          expertise: userData.expertise,
+          bio: userData.bio,
+          // autres champs si nécessaire
+        });
       } catch (error) {
         console.error('Error checking profile ownership:', error);
         toast({

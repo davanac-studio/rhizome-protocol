@@ -48,7 +48,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     setLoading(true);
 
     try {
-      console.log("Updating profile with data:", formData); // Ajout d'un log pour déboguer
+      console.log("Updating profile with data:", formData);
 
       const { error } = await supabase
         .from('profiles')
