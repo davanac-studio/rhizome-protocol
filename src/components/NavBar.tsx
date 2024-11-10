@@ -29,55 +29,34 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // Vérifier d'abord la session
-      const { data: sessionData } = await supabase.auth.getSession();
+      // Always clear the local session first
+      clearSession();
       
-      if (!sessionData.session) {
-        clearSession();
-        toast({
-          title: "Session expirée",
-          description: "Votre session a expiré. Vous avez été déconnecté.",
-        });
-        navigate("/");
-        return;
-      }
-
+      // Attempt to sign out from Supabase
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        if (error.status === 403 || error.message.includes('User not found')) {
-          clearSession();
-          toast({
-            title: "Session expirée",
-            description: "Votre session a expiré. Vous avez été déconnecté.",
-          });
-          navigate("/");
-          return;
-        }
-        
+        console.error("Erreur Supabase lors de la déconnexion:", error);
+        // Even if there's an error, we've already cleared the local session
         toast({
-          title: "Erreur de déconnexion",
-          description: "Une erreur est survenue lors de la déconnexion.",
-          variant: "destructive",
+          title: "Session terminée",
+          description: "Vous avez été déconnecté.",
         });
-        return;
+      } else {
+        toast({
+          title: "Déconnexion réussie",
+          description: "Vous avez été déconnecté avec succès.",
+        });
       }
-
-      clearSession();
-      toast({
-        title: "Déconnexion réussie",
-        description: "Vous avez été déconnecté avec succès.",
-      });
-      navigate("/");
-      
-    } catch (error: any) {
+    } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
-      clearSession();
+      // The local session is already cleared, so just inform the user
       toast({
-        title: "Erreur de déconnexion",
-        description: "Une erreur est survenue lors de la déconnexion.",
-        variant: "destructive",
+        title: "Session terminée",
+        description: "Vous avez été déconnecté.",
       });
+    } finally {
+      // Always navigate home after logout attempt
       navigate("/");
     }
   };
