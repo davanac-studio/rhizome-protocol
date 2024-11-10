@@ -67,5 +67,18 @@ export const teamMembers = {
     linkedin: "https://linkedin.com/in/julie-moreau",
     twitter: "https://twitter.com/julie-moreau",
     instagram: "https://instagram.com/julie-moreau"
+  },
+  profile6: {
+    name: "Azert Reza",
+    username: "azert-reza",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+    role: "Développeur Full Stack",
+    contribution: 25,
+    bio: "Développeur passionné par les nouvelles technologies et l'innovation. Expert en développement web et mobile.",
+    expertise: "Développeur Full Stack",
+    quote: "L'innovation naît de la simplicité",
+    linkedin: "https://linkedin.com/in/azert-reza",
+    github: "https://github.com/azert-reza",
+    twitter: "https://twitter.com/azert-reza"
   }
 } as const;
