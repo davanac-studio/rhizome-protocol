@@ -68,6 +68,10 @@ const SignUpForm = () => {
     try {
       const success = await createUser(formData);
       if (success) {
+        toast({
+          title: "Compte créé avec succès",
+          description: "Vous pouvez maintenant vous connecter avec vos identifiants.",
+        });
         navigate("/login");
       }
     } catch (error: any) {
