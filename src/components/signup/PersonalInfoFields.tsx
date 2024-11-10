@@ -5,8 +5,6 @@ interface PersonalInfoFieldsProps {
   firstName: string;
   lastName: string;
   username: string;
-  email: string;
-  password: string;
   onChange: (field: string, value: string) => void;
 }
 
@@ -14,8 +12,6 @@ export const PersonalInfoFields = ({
   firstName,
   lastName,
   username,
-  email,
-  password,
   onChange
 }: PersonalInfoFieldsProps) => {
   return (
@@ -46,26 +42,6 @@ export const PersonalInfoFields = ({
           value={username}
           onChange={(e) => onChange('username', e.target.value)}
           placeholder="Votre nom d'utilisateur"
-        />
-      </FormField>
-
-      <FormField label="Email" required>
-        <Input
-          required
-          type="email"
-          value={email}
-          onChange={(e) => onChange('email', e.target.value)}
-          placeholder="votre@email.com"
-        />
-      </FormField>
-
-      <FormField label="Mot de passe" required>
-        <Input
-          required
-          type="password"
-          value={password}
-          onChange={(e) => onChange('password', e.target.value)}
-          placeholder="Votre mot de passe"
         />
       </FormField>
     </>
