@@ -6,6 +6,7 @@ import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
 import { SocialLinksSection } from "./SocialLinksSection";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface EditProfileFormProps {
   user: any;
@@ -14,6 +15,7 @@ interface EditProfileFormProps {
 }
 
 export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProps) => {
+  const { user: authUser } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,10 +36,10 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!user?.id) {
+    if (!authUser) {
       toast({
-        title: "Erreur",
-        description: "Vous devez être connecté pour modifier votre profil",
+        title: "Erreur d'authentification",
+        description: "Votre session a expiré. Veuillez vous reconnecter.",
         variant: "destructive",
       });
       return;
@@ -62,7 +64,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
           instagram: formData.instagram,
           facebook: formData.facebook,
         })
-        .eq('id', user.id);
+        .eq('id', authUser.id);
 
       if (error) {
         throw error;
