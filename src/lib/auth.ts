@@ -18,6 +18,21 @@ interface UserFormData {
   facebook: string;
 }
 
+export const checkUsernameExists = async (username: string): Promise<boolean> => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('username', username)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error("Error checking username:", error);
+    return false;
+  }
+
+  return !!data;
+};
+
 export const createUser = async (formData: UserFormData) => {
   // 1. Créer le compte auth
   const { data: authData, error: signUpError } = await supabase.auth.signUp({
