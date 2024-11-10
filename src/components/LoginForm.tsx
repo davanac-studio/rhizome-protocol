@@ -4,11 +4,20 @@ import { useToast } from "./ui/use-toast";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { supabase } from "@/lib/supabase";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [isResetting, setIsResetting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,7 +42,6 @@ const LoginForm = () => {
         description: "Vous êtes maintenant connecté.",
       });
 
-      // Redirection vers la page de profil après connexion réussie
       navigate("/profile");
     } catch (error: any) {
       toast({
@@ -43,6 +51,32 @@ const LoginForm = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsResetting(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Email envoyé",
+        description: "Vérifiez votre boîte mail pour réinitialiser votre mot de passe.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erreur",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -88,6 +122,34 @@ const LoginForm = () => {
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? "Connexion en cours..." : "Se connecter"}
       </Button>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="link"
+            className="w-full text-sm text-muted-foreground hover:text-primary"
+          >
+            Mot de passe perdu ?
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Réinitialiser le mot de passe</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Email"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              required
+            />
+            <Button type="submit" className="w-full" disabled={isResetting}>
+              {isResetting ? "Envoi en cours..." : "Envoyer le lien"}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </form>
   );
 };
