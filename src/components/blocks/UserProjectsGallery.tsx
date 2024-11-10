@@ -46,17 +46,18 @@ export const UserProjectsGallery = () => {
         .eq('team_leader', user.id);
 
       if (leaderError) {
+        console.error('Error fetching team leader projects:', leaderError);
         toast({
           title: "Erreur",
           description: "Impossible de charger vos projets en tant que team leader",
           variant: "destructive",
         });
-        throw leaderError;
+        return [];
       }
 
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
-        teamLeaderProjects.map(project => transformDatabaseProject(project as DatabaseProject)) : 
+        teamLeaderProjects.map((project: unknown) => transformDatabaseProject(project as DatabaseProject)) : 
         [];
 
       // Fetch projects where user is a participant
@@ -92,12 +93,13 @@ export const UserProjectsGallery = () => {
         .eq('user_id', user.id);
 
       if (participantError) {
+        console.error('Error fetching participant projects:', participantError);
         toast({
           title: "Erreur",
           description: "Impossible de charger vos projets en tant que participant",
           variant: "destructive",
         });
-        throw participantError;
+        return leaderProjects;
       }
 
       // Transform participant projects
@@ -113,6 +115,7 @@ export const UserProjectsGallery = () => {
           index === self.findIndex((p) => p.id === project.id)
       );
 
+      console.log('Fetched projects:', uniqueProjects);
       return uniqueProjects;
     },
   });
