@@ -5,7 +5,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const UserProfile = () => {
@@ -132,24 +131,6 @@ const UserProfile = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
               <ProfileHeader user={user} />
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <div className="bg-white rounded-lg">
-                        <div className="space-y-3">
-                          {user?.expertise && (
-                            <p className="text-gray-700 font-bold italic">{user.expertise}</p>
-                          )}
-                          {user?.bio && (
-                            <p className="text-gray-700">{user.bio}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
