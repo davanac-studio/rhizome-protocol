@@ -2,15 +2,6 @@ import React from 'react';
 
 export const ProfileContent = ({ user }: { user: any }) => (
   <div className="space-y-6">
-    {user.bannerUrl && (
-      <div className="max-h-48 overflow-hidden rounded-lg">
-        <img
-          src={user.bannerUrl}
-          alt="Banner"
-          className="w-full h-48 object-cover"
-        />
-      </div>
-    )}
     <div className="grid grid-cols-1 gap-6">
       <div className="space-y-4">
         <div>

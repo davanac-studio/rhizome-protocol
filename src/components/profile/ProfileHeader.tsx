@@ -68,6 +68,15 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
 
   return (
     <>
+      {user.bannerUrl && (
+        <div className="max-h-48 overflow-hidden rounded-lg mb-6">
+          <img
+            src={user.bannerUrl}
+            alt="Banner"
+            className="w-full h-48 object-cover"
+          />
+        </div>
+      )}
       <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
         <Avatar className="h-24 w-24">
           <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
