@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Login = () => {
         if (session) {
           toast({
             title: "Connexion réussie",
-            description: "Bienvenue sur Rhizome Protocol !",
+            description: "Bienvenue sur Project Pulse !",
           });
           navigate("/");
         }
@@ -47,15 +48,20 @@ const Login = () => {
     return () => subscription.unsubscribe();
   }, [navigate, toast]);
 
+  const handleSignUpClick = () => {
+    navigate("/signup");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Rhizome Protocol</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Project Pulse</h2>
           <p className="mt-2 text-sm text-gray-600">
             Connectez-vous pour accéder à votre espace
           </p>
         </div>
+        
         <Auth
           supabaseClient={supabase}
           appearance={{ 
@@ -69,7 +75,7 @@ const Login = () => {
           theme="light"
           providers={[]}
           redirectTo={window.location.origin}
-          showLinks={true}
+          showLinks={false}
           view="sign_in"
           localization={{
             variables: {
@@ -78,20 +84,21 @@ const Login = () => {
                 password_label: 'Mot de passe',
                 button_label: 'Se connecter',
                 loading_button_label: 'Connexion en cours...',
-                social_provider_text: 'Se connecter avec {{provider}}',
-                link_text: "Vous n'avez pas de compte ? Inscrivez-vous",
-              },
-              sign_up: {
-                email_label: 'Email',
-                password_label: 'Mot de passe',
-                button_label: "S'inscrire",
-                loading_button_label: 'Inscription en cours...',
-                social_provider_text: "S'inscrire avec {{provider}}",
-                link_text: "Vous avez déjà un compte ? Connectez-vous",
-              },
+              }
             },
           }}
         />
+
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">Pas encore de compte ?</p>
+          <Button
+            onClick={handleSignUpClick}
+            variant="outline"
+            className="mt-2 w-full"
+          >
+            Créer un compte
+          </Button>
+        </div>
       </div>
     </div>
   );
