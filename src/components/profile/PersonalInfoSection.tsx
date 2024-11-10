@@ -40,6 +40,7 @@ export const PersonalInfoSection = ({
         <Input
           value={expertise}
           onChange={(e) => onFieldChange("expertise", e.target.value)}
+          placeholder="Votre domaine d'expertise"
         />
       </div>
 
