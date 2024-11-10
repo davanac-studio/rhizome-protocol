@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { Pencil, Mail, Globe, Twitter, Facebook, Linkedin } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { ProfileSocialButtons } from "./ProfileSocialButtons";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -96,47 +95,59 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24">
-          <Avatar className="h-48 w-48 rounded-full border-4 border-white shadow-lg absolute">
+        <div className="relative -mt-24 mb-6 flex flex-col items-center">
+          <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
             <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
             <AvatarFallback className="text-4xl">
               {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
             </AvatarFallback>
           </Avatar>
           
-          <div className="bg-white rounded-lg shadow-sm mt-32 p-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold text-gray-900">
-                {user?.firstName && user?.lastName 
-                  ? `${user.firstName} ${user.lastName}`
-                  : user?.name}
-              </h1>
-              <p className="text-xl text-gray-600">{user?.expertise || "Data Journaliste"}</p>
-              <p className="text-gray-500">@{user?.username}</p>
-              
-              {user?.bio && (
-                <p className="text-gray-600 max-w-2xl">
-                  {user.bio}
-                </p>
-              )}
-
-              <div className="flex gap-4">
-                <ProfileSocialButtons user={user} />
-                
-                {isOwnProfile && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                    Modifier le profil
-                  </Button>
-                )}
-              </div>
-            </div>
+          <div className="mt-4 text-center">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {user?.firstName && user?.lastName 
+                ? `${user.firstName} ${user.lastName}`
+                : user?.name}
+            </h1>
+            <p className="text-gray-600 mt-1">{user?.expertise || "News Producer"}</p>
+            <p className="text-gray-500 mt-1">@{user?.username}</p>
           </div>
+
+          <div className="flex gap-3 mt-4">
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Mail className="h-5 w-5 text-gray-600" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Globe className="h-5 w-5 text-gray-600" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Twitter className="h-5 w-5 text-gray-600" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Facebook className="h-5 w-5 text-gray-600" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Linkedin className="h-5 w-5 text-gray-600" />
+            </Button>
+          </div>
+
+          {isOwnProfile && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-4 flex items-center gap-2"
+              onClick={() => setIsEditing(true)}
+            >
+              <Pencil className="h-4 w-4" />
+              Modifier le profil
+            </Button>
+          )}
+
+          {user?.bio && (
+            <p className="mt-6 text-center text-gray-600 max-w-2xl">
+              {user.bio}
+            </p>
+          )}
         </div>
       </div>
 
