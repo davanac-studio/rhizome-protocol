@@ -97,11 +97,11 @@ export const UserProjectsGallery = () => {
 
       // Transform and combine both sets of projects
       const leaderProjects = teamLeaderProjects ? 
-        (teamLeaderProjects as DatabaseProject[]).map(transformDatabaseProject) : 
+        teamLeaderProjects.map(transformDatabaseProject) : 
         [];
 
       const participatingProjects = participantProjects ? 
-        transformParticipantProjects(participantProjects as unknown as ParticipantProject[]) : 
+        participantProjects.map(item => transformDatabaseProject(item.project)) :
         [];
 
       // Remove duplicates based on project ID
