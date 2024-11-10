@@ -9,6 +9,12 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
 
+interface EditProfileFormProps {
+  user: any;
+  onClose: () => void;
+  onUpdate: (updatedUser: any) => void;
+}
+
 const getDavanacLevel = (davanacPoints: number = 0) => {
   if (davanacPoints >= 5001) return { level: "DAVANAC Master", color: "bg-purple-500" };
   if (davanacPoints >= 1001) return { level: "DAVANAC Expert", color: "bg-blue-500" };
