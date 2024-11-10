@@ -38,13 +38,52 @@ const SignUpForm = () => {
     facebook: "",
   });
 
+  const validateForm = () => {
+    if (!formData.email || !formData.password || !formData.username) {
+      toast({
+        title: "Erreur de validation",
+        description: "Veuillez remplir tous les champs obligatoires",
+        variant: "destructive",
+      });
+      return false;
+    }
+    if (formData.password.length < 6) {
+      toast({
+        title: "Erreur de validation",
+        description: "Le mot de passe doit contenir au moins 6 caractères",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setLoading(true);
 
     try {
-      // 1. Create auth user
-      const { error: signUpError } = await supabase.auth.signUp({
+      // 1. Vérifier si l'email existe déjà
+      const { data: existingUsers } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('email', formData.email)
+        .single();
+
+      if (existingUsers) {
+        toast({
+          title: "Erreur",
+          description: "Cet email est déjà utilisé",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // 2. Créer le compte auth
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -58,11 +97,12 @@ const SignUpForm = () => {
 
       if (signUpError) throw signUpError;
 
-      // 2. Create user profile in profiles table
+      // 3. Créer le profil utilisateur
       const { error: profileError } = await supabase
         .from('profiles')
         .insert([
           {
+            id: authData?.user?.id, // Lier le profil à l'utilisateur auth
             email: formData.email,
             username: formData.username,
             first_name: formData.firstName,
@@ -86,6 +126,7 @@ const SignUpForm = () => {
         description: "Bienvenue sur Project Pulse ! Vérifiez votre email pour confirmer votre compte.",
       });
 
+      // Rediriger vers la page de connexion
       navigate("/login");
     } catch (error: any) {
       toast({
