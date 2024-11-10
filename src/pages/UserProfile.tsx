@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
@@ -104,12 +102,6 @@ const UserProfile = () => {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container">
-          <Link to="/users">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
           <div className="text-center">
             <p className="text-gray-600">Utilisateur non trouvé</p>
           </div>
@@ -122,13 +114,6 @@ const UserProfile = () => {
     <div className="min-h-screen bg-gray-50">
       <ProfileHeader user={user} />
       <div className="container max-w-5xl mx-auto px-4 py-8">
-        <Link to="/users">
-          <Button variant="ghost" className="mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour
-          </Button>
-        </Link>
-
         <UserProjectsGallery username={user.username} />
       </div>
     </div>
