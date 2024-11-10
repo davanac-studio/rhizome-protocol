@@ -29,9 +29,9 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
       
-      // Clear any local user data
       localStorage.removeItem('user');
       
       toast({
@@ -39,8 +39,7 @@ const NavBar = () => {
         description: "Vous avez été déconnecté avec succès.",
       });
 
-      // Force reload to clear all states
-      window.location.href = '/';
+      navigate('/');
     } catch (error: any) {
       toast({
         title: "Erreur de déconnexion",
@@ -77,13 +76,11 @@ const NavBar = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="outline" className="hover:bg-gray-100">
-                    Se connecter
-                  </Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button variant="outline" className="hover:bg-gray-100">
+                  Se connecter
+                </Button>
+              </Link>
             )}
           </div>
         </div>
