@@ -15,12 +15,10 @@ import {
   InstagramIcon,
   FacebookIcon,
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,63 +36,13 @@ const SignUpForm = () => {
     facebook: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // 1. Créer l'utilisateur dans auth.users
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-          },
-        },
-      });
-
-      if (authError) throw authError;
-
-      if (authData.user) {
-        // 2. Mettre à jour le profil avec les informations supplémentaires
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            username: formData.username,
-            avatar_url: formData.avatarUrl,
-            banner_url: formData.bannerUrl,
-            bio: formData.bio,
-            linkedin: formData.linkedin,
-            youtube: formData.youtube,
-            github: formData.github,
-            spotify: formData.spotify,
-            instagram: formData.instagram,
-            facebook: formData.facebook,
-          })
-          .eq('id', authData.user.id);
-
-        if (profileError) throw profileError;
-
-        toast({
-          title: "Compte créé avec succès",
-          description: "Bienvenue sur Project Pulse !",
-        });
-        navigate("/");
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        title: "Erreur lors de la création du compte",
-        description: error instanceof Error ? error.message : "Une erreur est survenue",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    toast({
+      title: "Compte créé avec succès",
+      description: "Bienvenue sur Project Pulse !",
+    });
+    navigate("/");
   };
 
   const handleFieldChange = (field: string, value: string) => {
@@ -176,17 +124,11 @@ const SignUpForm = () => {
       </div>
 
       <div className="flex gap-4">
-        <Button 
-          type="button" 
-          variant="outline" 
-          className="flex-1" 
-          onClick={() => navigate("/")}
-          disabled={isLoading}
-        >
+        <Button type="button" variant="outline" className="flex-1" onClick={() => navigate("/")}>
           Annuler
         </Button>
-        <Button type="submit" className="flex-1" disabled={isLoading}>
-          {isLoading ? "Création en cours..." : "Créer mon compte"}
+        <Button type="submit" className="flex-1">
+          Créer mon compte
         </Button>
       </div>
     </form>
