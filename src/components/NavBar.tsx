@@ -29,34 +29,44 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // Always clear the local session first
+      // First, check if we have a valid session
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      // Clear local session state first
       clearSession();
-      
-      // Attempt to sign out from Supabase
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        console.error("Erreur Supabase lors de la déconnexion:", error);
-        // Even if there's an error, we've already cleared the local session
-        toast({
-          title: "Session terminée",
-          description: "Vous avez été déconnecté.",
+
+      if (session) {
+        // Only attempt to sign out if we have a session
+        const { error } = await supabase.auth.signOut({
+          scope: 'local'  // Only clear the current tab's session
         });
+        
+        if (error && error.status !== 403) {
+          console.error("Erreur lors de la déconnexion:", error);
+          toast({
+            title: "Note",
+            description: "Session terminée localement.",
+          });
+        } else {
+          toast({
+            title: "Déconnexion réussie",
+            description: "Vous avez été déconnecté avec succès.",
+          });
+        }
       } else {
         toast({
-          title: "Déconnexion réussie",
-          description: "Vous avez été déconnecté avec succès.",
+          title: "Session terminée",
+          description: "Votre session était déjà expirée.",
         });
       }
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
-      // The local session is already cleared, so just inform the user
       toast({
-        title: "Session terminée",
-        description: "Vous avez été déconnecté.",
+        title: "Note",
+        description: "Session terminée localement.",
       });
     } finally {
-      // Always navigate home after logout attempt
+      // Always navigate home after logout
       navigate("/");
     }
   };
