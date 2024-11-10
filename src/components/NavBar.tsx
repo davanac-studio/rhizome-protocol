@@ -1,12 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserCircle2, Users, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "./ui/use-toast";
 
 const NavBar = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const handleCreateProject = (project: any) => {
     // Cette fonction sera appelée lors de la création d'un projet
     console.log("Nouveau projet créé:", project);
+  };
+
+  const handleNewProjectClick = () => {
+    if (!user) {
+      toast({
+        title: "Connexion requise",
+        description: "Vous devez être connecté pour créer un nouveau projet.",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
   };
 
   return (
@@ -28,18 +46,30 @@ const NavBar = () => {
                 <Users className="h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/profile">
-              <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                <UserCircle2 className="h-5 w-5" />
-              </Button>
-            </Link>
             
-            <Link to="/signup">
-              <Button variant="outline" className="hover:bg-gray-100">
-                Créer un profil
-              </Button>
-            </Link>
-            <NewProjectDialog onProjectCreate={handleCreateProject} />
+            {user ? (
+              <>
+                <Link to="/profile">
+                  <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+                    <UserCircle2 className="h-5 w-5" />
+                  </Button>
+                </Link>
+                <NewProjectDialog onProjectCreate={handleCreateProject} />
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" className="hover:bg-gray-100">
+                    Se connecter
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="outline" className="hover:bg-gray-100">
+                    Créer un profil
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
