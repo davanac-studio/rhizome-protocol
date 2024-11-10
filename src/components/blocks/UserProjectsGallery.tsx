@@ -25,7 +25,7 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          team_leader_profile:profiles (
+          profiles!team_leader (
             id,
             first_name,
             last_name,
@@ -34,8 +34,8 @@ export const UserProjectsGallery = () => {
             expertise,
             role
           ),
-          participants:project_participants (
-            user:profiles (
+          project_participants (
+            profiles!user_id (
               id,
               first_name,
               last_name,
@@ -60,13 +60,10 @@ export const UserProjectsGallery = () => {
         return [];
       }
 
-      console.log('Team leader projects:', teamLeaderProjects);
-
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
         teamLeaderProjects.map((project: any) => {
-          console.log('Transforming leader project:', project);
-          if (!project || !project.team_leader_profile) {
+          if (!project || !project.profiles) {
             console.error('Invalid project data:', project);
             return null;
           }
@@ -81,8 +78,12 @@ export const UserProjectsGallery = () => {
             team_leader: project.team_leader,
             team_leader_contribution: project.team_leader_contribution,
             team_leader_contribution_description: project.team_leader_contribution_description,
-            author: project.team_leader_profile,
-            participants: project.participants || [],
+            author: project.profiles,
+            participants: project.project_participants?.map((p: any) => ({
+              ...p.profiles,
+              contribution: p.contribution,
+              contribution_description: p.contribution_description
+            })) || [],
             github_link: project.github_link,
             preview_link: project.preview_link
           };
@@ -90,15 +91,13 @@ export const UserProjectsGallery = () => {
         }).filter(Boolean) : 
         [];
 
-      console.log('Transformed leader projects:', leaderProjects);
-
       // Fetch projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
         .select(`
           project:projects (
             *,
-            team_leader_profile:profiles (
+            profiles!team_leader (
               id,
               first_name,
               last_name,
@@ -107,8 +106,8 @@ export const UserProjectsGallery = () => {
               expertise,
               role
             ),
-            participants:project_participants (
-              user:profiles (
+            project_participants (
+              profiles!user_id (
                 id,
                 first_name,
                 last_name,
@@ -134,35 +133,34 @@ export const UserProjectsGallery = () => {
         return leaderProjects;
       }
 
-      console.log('Participant projects:', participantProjects);
-
       // Transform participant projects
       const participatingProjects = participantProjects ? 
         participantProjects
-          .filter((item: any) => item.project && typeof item.project === 'object' && item.project.team_leader_profile)
+          .filter((item: any) => item.project && typeof item.project === 'object' && item.project.profiles)
           .map((item: any) => {
-            console.log('Transforming participant project:', item.project);
+            const project = item.project;
             const transformedProject: DatabaseProject = {
-              id: item.project.id,
-              title: item.project.title,
-              description: item.project.description,
-              due_date: item.project.due_date,
-              thumbnail: item.project.thumbnail,
-              category: item.project.category,
-              client: item.project.client,
-              team_leader: item.project.team_leader,
-              team_leader_contribution: item.project.team_leader_contribution,
-              team_leader_contribution_description: item.project.team_leader_contribution_description,
-              author: item.project.team_leader_profile,
-              participants: item.project.participants || [],
-              github_link: item.project.github_link,
-              preview_link: item.project.preview_link
+              id: project.id,
+              title: project.title,
+              description: project.description,
+              due_date: project.due_date,
+              thumbnail: project.thumbnail,
+              category: project.category,
+              client: project.client,
+              team_leader: project.team_leader,
+              team_leader_contribution: project.team_leader_contribution,
+              team_leader_contribution_description: project.team_leader_contribution_description,
+              author: project.profiles,
+              participants: project.project_participants?.map((p: any) => ({
+                ...p.profiles,
+                contribution: p.contribution,
+                contribution_description: p.contribution_description
+              })) || [],
+              github_link: project.github_link,
+              preview_link: project.preview_link
             };
             return transformDatabaseProject(transformedProject);
-          })
-        : [];
-
-      console.log('Transformed participant projects:', participatingProjects);
+          }) : [];
 
       // Remove duplicates based on project ID
       const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(
@@ -170,7 +168,6 @@ export const UserProjectsGallery = () => {
           index === self.findIndex((p) => p.id === project.id)
       );
 
-      console.log('Final unique projects:', uniqueProjects);
       return uniqueProjects;
     },
     refetchOnWindowFocus: true,
