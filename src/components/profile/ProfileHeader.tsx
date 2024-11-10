@@ -96,16 +96,16 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative mt-8 mb-6">
+        <div className="relative -mt-24 mb-6">
           <div className="flex flex-col md:flex-row gap-6">
-            <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
+            <Avatar className="h-48 w-48 rounded-full border-4 border-white shadow-lg">
               <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
               <AvatarFallback className="text-4xl">
                 {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
               </AvatarFallback>
             </Avatar>
             
-            <div className="space-y-1">
+            <div className="space-y-1 pt-6">
               <h1 className="text-4xl font-bold text-gray-900">
                 {user?.firstName && user?.lastName 
                   ? `${user.firstName} ${user.lastName}`
