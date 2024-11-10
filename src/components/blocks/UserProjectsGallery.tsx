@@ -25,7 +25,7 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          author:profiles!projects_team_leader_fkey (
+          author:profiles (
             id,
             first_name,
             last_name,
@@ -78,7 +78,7 @@ export const UserProjectsGallery = () => {
         .select(`
           project:projects (
             *,
-            author:profiles!projects_team_leader_fkey (
+            author:profiles (
               id,
               first_name,
               last_name,
