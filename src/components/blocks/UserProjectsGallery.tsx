@@ -104,7 +104,7 @@ export const UserProjectsGallery = () => {
       const participatingProjects = participantProjects ? 
         participantProjects
           .filter(item => item.project && typeof item.project === 'object')
-          .map(item => transformDatabaseProject(item.project as DatabaseProject))
+          .map(item => transformDatabaseProject(item.project as unknown as DatabaseProject))
         : [];
 
       // Remove duplicates based on project ID
