@@ -19,12 +19,12 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
+    firstName: user?.first_name || user?.firstName || "",
+    lastName: user?.last_name || user?.lastName || "",
     bio: user?.bio || "",
     expertise: user?.expertise || "",
-    avatarUrl: user?.avatarUrl || "",
-    bannerUrl: user?.bannerUrl || "",
+    avatarUrl: user?.avatar_url || user?.avatarUrl || "",
+    bannerUrl: user?.banner_url || user?.bannerUrl || "",
     linkedin: user?.linkedin || "",
     youtube: user?.youtube || "",
     github: user?.github || "",
