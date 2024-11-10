@@ -84,15 +84,15 @@ const UserProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container">
-          <div className="space-y-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden p-8">
-              <div className="space-y-4">
-                <Skeleton className="h-24 w-24 rounded-full" />
-                <Skeleton className="h-8 w-48" />
-                <Skeleton className="h-4 w-32" />
-              </div>
+      <div className="min-h-screen bg-gray-50">
+        <div className="h-80 w-full bg-gray-200" />
+        <div className="container max-w-5xl mx-auto px-4">
+          <div className="relative -mt-24 mb-6 flex flex-col items-center">
+            <Skeleton className="h-48 w-48 rounded-full" />
+            <div className="mt-4 space-y-4 text-center">
+              <Skeleton className="h-8 w-48 mx-auto" />
+              <Skeleton className="h-4 w-32 mx-auto" />
+              <Skeleton className="h-4 w-24 mx-auto" />
             </div>
           </div>
         </div>
@@ -120,7 +120,8 @@ const UserProfile = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container py-8">
+      <ProfileHeader user={user} />
+      <div className="container max-w-5xl mx-auto px-4 py-8">
         <Link to="/users">
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -128,13 +129,7 @@ const UserProfile = () => {
           </Button>
         </Link>
 
-        <div className="space-y-8">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="p-8">
-              <ProfileHeader user={user} />
-            </div>
-          </div>
-        </div>
+        <UserProjectsGallery username={user.username} />
       </div>
     </div>
   );
