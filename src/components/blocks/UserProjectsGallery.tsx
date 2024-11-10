@@ -141,6 +141,8 @@ export const UserProjectsGallery = () => {
       return uniqueProjects;
     },
     refetchOnWindowFocus: true,
+    staleTime: 0, // Considérer les données comme immédiatement périmées
+    cacheTime: 0, // Ne pas mettre en cache les données
   });
 
   if (isLoading) {
