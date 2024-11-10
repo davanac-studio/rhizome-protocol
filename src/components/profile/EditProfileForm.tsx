@@ -72,12 +72,12 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
       const updatedUser = {
         ...user,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         bio: formData.bio,
         expertise: formData.expertise,
-        avatarUrl: formData.avatarUrl,
-        bannerUrl: formData.bannerUrl,
+        avatar_url: formData.avatarUrl,
+        banner_url: formData.bannerUrl,
         linkedin: formData.linkedin,
         youtube: formData.youtube,
         github: formData.github,
