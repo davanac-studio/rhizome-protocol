@@ -3,8 +3,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { DatabaseProject, ParticipantProject } from "@/types/database";
-import { transformDatabaseProject, transformParticipantProjects } from "@/utils/projectTransformers";
+import { DatabaseProject } from "@/types/database";
+import { transformDatabaseProject } from "@/utils/projectTransformers";
 
 export const UserProjectsGallery = () => {
   const { user } = useAuth();
@@ -54,6 +54,11 @@ export const UserProjectsGallery = () => {
         throw leaderError;
       }
 
+      // Transform team leader projects
+      const leaderProjects = teamLeaderProjects ? 
+        teamLeaderProjects.map(project => transformDatabaseProject(project as DatabaseProject)) : 
+        [];
+
       // Fetch projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
@@ -95,18 +100,12 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      // Transform and combine both sets of projects
-      const leaderProjects = teamLeaderProjects ? 
-        (teamLeaderProjects as DatabaseProject[]).map(transformDatabaseProject) : 
-        [];
-
+      // Transform participant projects
       const participatingProjects = participantProjects ? 
-        participantProjects.map(item => {
-          if (!item.project || typeof item.project !== 'object') return null;
-          const project = item.project as unknown as DatabaseProject;
-          return transformDatabaseProject(project);
-        }).filter((project): project is ReturnType<typeof transformDatabaseProject> => project !== null) :
-        [];
+        participantProjects
+          .filter(item => item.project && typeof item.project === 'object')
+          .map(item => transformDatabaseProject(item.project as DatabaseProject))
+        : [];
 
       // Remove duplicates based on project ID
       const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(
