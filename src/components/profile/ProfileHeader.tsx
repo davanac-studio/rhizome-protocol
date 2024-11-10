@@ -82,19 +82,21 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
           <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
           <AvatarFallback>{user?.firstName?.charAt(0) || user?.name?.charAt(0)}</AvatarFallback>
         </Avatar>
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 flex-grow">
           <div className="text-center md:text-left">
             <h1 className="text-2xl font-bold text-gray-900">
               {user?.firstName && user?.lastName 
                 ? `${user.firstName} ${user.lastName}`
                 : user?.name}
             </h1>
-            {user.expertise && (
+            {user?.expertise && (
               <p className="text-sm text-gray-600 mt-1">{user.expertise}</p>
             )}
-            <p className="text-sm text-gray-600 mt-1">{projectCount} projet{projectCount > 1 ? 's' : ''}</p>
+            <p className="text-sm text-gray-600 mt-1">
+              {projectCount} projet{projectCount > 1 ? 's' : ''}
+            </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
+          <div className="flex flex-col sm:flex-row gap-4 items-center ml-auto">
             <ProfileSocialButtons user={user} />
             {isOwnProfile && (
               <Button
