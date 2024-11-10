@@ -20,16 +20,23 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        // First try to fetch by username
-        let { data, error } = await supabase
+        console.log("Fetching profile for username:", username);
+        
+        const { data, error } = await supabase
           .from('profiles')
           .select('*')
           .eq('username', username)
-          .maybeSingle();
+          .single();
 
-        if (error) throw error;
+        console.log("Query response - Data:", data, "Error:", error);
+
+        if (error) {
+          console.error("Supabase error:", error);
+          throw error;
+        }
 
         if (data) {
+          console.log("Setting user data:", data);
           setUser({
             name: `${data.first_name} ${data.last_name}`,
             firstName: data.first_name,
@@ -49,6 +56,7 @@ const UserProfile = () => {
             facebook: data.facebook
           });
         } else {
+          console.log("No user data found");
           toast({
             title: "Utilisateur non trouvé",
             description: "Cet utilisateur n'existe pas",
@@ -56,7 +64,7 @@ const UserProfile = () => {
           });
         }
       } catch (error: any) {
-        console.error("Erreur lors de la récupération du profil:", error);
+        console.error("Error fetching profile:", error);
         toast({
           title: "Erreur",
           description: "Impossible de charger le profil",
@@ -72,13 +80,7 @@ const UserProfile = () => {
     }
   }, [username, toast]);
 
-  const projectCount = projectsData.filter(project => {
-    const isLeader = project.author.name === user?.name;
-    const isParticipant = project.participants?.some(
-      participant => participant.name === user?.name
-    );
-    return isLeader || isParticipant;
-  }).length;
+  // ... keep existing code (projectCount calculation)
 
   if (!username) {
     return (
@@ -127,6 +129,14 @@ const UserProfile = () => {
       </div>
     );
   }
+
+  const projectCount = projectsData.filter(project => {
+    const isLeader = project.author.name === user?.name;
+    const isParticipant = project.participants?.some(
+      participant => participant.name === user?.name
+    );
+    return isLeader || isParticipant;
+  }).length;
 
   return (
     <div className="min-h-screen bg-gray-50">
