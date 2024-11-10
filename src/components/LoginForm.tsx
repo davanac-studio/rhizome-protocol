@@ -37,15 +37,28 @@ const LoginForm = () => {
         throw error;
       }
 
+      // Récupérer les données du profil utilisateur
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profileError) {
+        console.error('Error fetching profile:', profileError);
+      }
+
       toast({
         title: "Connexion réussie",
         description: "Vous êtes maintenant connecté.",
       });
 
-      // Redirection vers le profil de l'utilisateur
-      const username = data.user.user_metadata?.username || 
+      // Utiliser le username du profil en priorité, sinon utiliser les métadonnées ou l'ID
+      const username = profileData?.username || 
+                      data.user.user_metadata?.username || 
                       data.user.user_metadata?.preferred_username || 
                       data.user.id;
+
       navigate(`/profile/${encodeURIComponent(username)}`);
     } catch (error: any) {
       toast({
