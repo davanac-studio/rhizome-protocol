@@ -96,8 +96,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6">
-          <div className="flex flex-col md:flex-row md:items-end gap-6">
+        <div className="relative mt-8 mb-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
               <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
               <AvatarFallback className="text-4xl">
