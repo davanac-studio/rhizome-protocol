@@ -29,8 +29,16 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
+      // Clear local session first to ensure UI updates immediately
       clearSession();
-      await supabase.auth.signOut();
+      
+      // Try to sign out from Supabase, but don't block on errors
+      try {
+        await supabase.auth.signOut();
+      } catch (signOutError) {
+        console.error("Erreur Supabase lors de la déconnexion:", signOutError);
+        // We don't throw here because we want to continue with the local logout
+      }
       
       toast({
         title: "Déconnexion réussie",
@@ -47,10 +55,8 @@ const NavBar = () => {
     }
   };
 
-  // Récupérer le username depuis les métadonnées de l'utilisateur
   const getProfilePath = () => {
     if (!user) return "/auth";
-    // Vérifier d'abord user_metadata.username, puis username, puis id comme fallback
     const username = user.user_metadata?.username || user.user_metadata?.preferred_username || user.id;
     return `/profile/${username}`;
   };
