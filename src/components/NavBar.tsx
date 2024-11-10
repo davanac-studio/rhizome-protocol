@@ -7,7 +7,7 @@ import { useToast } from "./ui/use-toast";
 import { supabase } from "@/lib/supabase";
 
 const NavBar = () => {
-  const { user } = useAuth();
+  const { user, clearSession } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -29,12 +29,24 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
+      // Vérifier d'abord la session
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        clearSession();
+        toast({
+          title: "Session expirée",
+          description: "Votre session a expiré. Vous avez été déconnecté.",
+        });
+        navigate("/");
+        return;
+      }
+
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        // Si l'erreur est liée à un utilisateur non trouvé ou une session invalide,
-        // on considère que l'utilisateur est déjà déconnecté
-        if (error.message.includes('User not found') || error.status === 403) {
+        if (error.status === 403 || error.message.includes('User not found')) {
+          clearSession();
           toast({
             title: "Session expirée",
             description: "Votre session a expiré. Vous avez été déconnecté.",
@@ -51,19 +63,22 @@ const NavBar = () => {
         return;
       }
 
+      clearSession();
       toast({
         title: "Déconnexion réussie",
         description: "Vous avez été déconnecté avec succès.",
       });
-
       navigate("/");
+      
     } catch (error: any) {
       console.error("Erreur lors de la déconnexion:", error);
+      clearSession();
       toast({
         title: "Erreur de déconnexion",
         description: "Une erreur est survenue lors de la déconnexion.",
         variant: "destructive",
       });
+      navigate("/");
     }
   };
 
