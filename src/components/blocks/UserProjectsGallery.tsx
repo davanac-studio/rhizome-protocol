@@ -13,7 +13,12 @@ export const UserProjectsGallery = () => {
   const { data: projects, isLoading } = useQuery({
     queryKey: ['userProjects', user?.id],
     queryFn: async () => {
-      if (!user?.id) return [];
+      if (!user?.id) {
+        console.log('No user ID found');
+        return [];
+      }
+
+      console.log('Fetching projects for user:', user.id);
 
       // Fetch projects where user is team leader
       const { data: teamLeaderProjects, error: leaderError } = await supabase
@@ -55,10 +60,17 @@ export const UserProjectsGallery = () => {
         return [];
       }
 
+      console.log('Team leader projects:', teamLeaderProjects);
+
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
-        teamLeaderProjects.map((project: unknown) => transformDatabaseProject(project as DatabaseProject)) : 
+        teamLeaderProjects.map((project: unknown) => {
+          console.log('Transforming leader project:', project);
+          return transformDatabaseProject(project as DatabaseProject);
+        }) : 
         [];
+
+      console.log('Transformed leader projects:', leaderProjects);
 
       // Fetch projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
@@ -102,12 +114,22 @@ export const UserProjectsGallery = () => {
         return leaderProjects;
       }
 
+      console.log('Participant projects:', participantProjects);
+
       // Transform participant projects
       const participatingProjects = participantProjects ? 
         participantProjects
-          .filter(item => item.project && typeof item.project === 'object')
-          .map(item => transformDatabaseProject(item.project as unknown as DatabaseProject))
+          .filter(item => {
+            console.log('Filtering participant project item:', item);
+            return item.project && typeof item.project === 'object';
+          })
+          .map(item => {
+            console.log('Transforming participant project:', item.project);
+            return transformDatabaseProject(item.project as unknown as DatabaseProject);
+          })
         : [];
+
+      console.log('Transformed participant projects:', participatingProjects);
 
       // Remove duplicates based on project ID
       const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(
@@ -115,9 +137,10 @@ export const UserProjectsGallery = () => {
           index === self.findIndex((p) => p.id === project.id)
       );
 
-      console.log('Fetched projects:', uniqueProjects);
+      console.log('Final unique projects:', uniqueProjects);
       return uniqueProjects;
     },
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {
