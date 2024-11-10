@@ -1,10 +1,10 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +12,8 @@ const Login = () => {
 
   useEffect(() => {
     // Check if user is already logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
       if (session) {
         toast({
           title: "Déjà connecté",
@@ -20,7 +21,9 @@ const Login = () => {
         });
         navigate("/");
       }
-    });
+    };
+    
+    checkSession();
 
     // Listen for authentication state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -36,11 +39,6 @@ const Login = () => {
         toast({
           title: "Déconnexion",
           description: "Vous avez été déconnecté",
-        });
-      } else if (event === "USER_UPDATED") {
-        toast({
-          title: "Profil mis à jour",
-          description: "Vos informations ont été mises à jour",
         });
       }
     });
