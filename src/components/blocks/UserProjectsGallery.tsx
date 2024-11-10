@@ -25,7 +25,7 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          team_leader_profile:profiles!projects_team_leader_fkey (
+          team_leader_profile:profiles (
             id,
             first_name,
             last_name,
@@ -64,11 +64,11 @@ export const UserProjectsGallery = () => {
 
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
-        teamLeaderProjects.map((project: unknown) => {
+        teamLeaderProjects.map((project) => {
           console.log('Transforming leader project:', project);
-          const transformedProject = {
-            ...project as DatabaseProject,
-            author: (project as any).team_leader_profile
+          const transformedProject: DatabaseProject = {
+            ...project,
+            author: project.team_leader_profile
           };
           return transformDatabaseProject(transformedProject);
         }) : 
@@ -82,7 +82,7 @@ export const UserProjectsGallery = () => {
         .select(`
           project:projects (
             *,
-            team_leader_profile:profiles!projects_team_leader_fkey (
+            team_leader_profile:profiles (
               id,
               first_name,
               last_name,
@@ -123,17 +123,14 @@ export const UserProjectsGallery = () => {
       // Transform participant projects
       const participatingProjects = participantProjects ? 
         participantProjects
-          .filter(item => {
-            console.log('Filtering participant project item:', item);
-            return item.project && typeof item.project === 'object';
-          })
+          .filter(item => item.project && typeof item.project === 'object')
           .map(item => {
             console.log('Transforming participant project:', item.project);
-            const transformedProject = {
+            const transformedProject: DatabaseProject = {
               ...item.project,
               author: item.project.team_leader_profile
             };
-            return transformDatabaseProject(transformedProject as DatabaseProject);
+            return transformDatabaseProject(transformedProject);
           })
         : [];
 
