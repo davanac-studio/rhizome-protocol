@@ -8,7 +8,6 @@ import Index from "./pages/Index";
 import ProjectDetails from "./pages/ProjectDetails";
 import Auth from "./pages/Auth";
 import UserProfile from "./pages/UserProfile";
-import UsersGallery from "./pages/UsersGallery";
 import About from "./pages/About";
 import NavBar from "./components/NavBar";
 
@@ -28,7 +27,6 @@ const App = () => (
               <Route path="/project/:id" element={<ProjectDetails />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/profile/:username" element={<UserProfile />} />
-              <Route path="/users" element={<UsersGallery />} />
               <Route path="/about" element={<About />} />
             </Routes>
           </div>
