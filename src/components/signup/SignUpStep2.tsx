@@ -48,8 +48,6 @@ export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2
         firstName={formData.firstName}
         lastName={formData.lastName}
         username={formData.username}
-        email=""
-        password=""
         onChange={onChange}
       />
 
