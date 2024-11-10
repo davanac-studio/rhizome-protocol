@@ -139,7 +139,7 @@ const UserProfile = () => {
                       <div className="bg-white rounded-lg">
                         <div className="space-y-3">
                           {user?.expertise && (
-                            <p className="text-gray-700">{user.expertise}</p>
+                            <p className="text-gray-700 font-bold italic">{user.expertise}</p>
                           )}
                           {user?.bio && (
                             <p className="text-gray-700">{user.bio}</p>
