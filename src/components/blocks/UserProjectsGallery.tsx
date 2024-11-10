@@ -18,14 +18,12 @@ export const UserProjectsGallery = () => {
         return [];
       }
 
-      console.log('Fetching projects for user:', user.id);
-
       // Fetch projects where user is team leader
       const { data: teamLeaderProjects, error: leaderError } = await supabase
         .from('projects')
         .select(`
           *,
-          profiles!team_leader (
+          team_leader_profile:profiles!inner(
             id,
             first_name,
             last_name,
@@ -34,8 +32,8 @@ export const UserProjectsGallery = () => {
             expertise,
             role
           ),
-          project_participants (
-            profiles!user_id (
+          participants:project_participants(
+            user:profiles!inner(
               id,
               first_name,
               last_name,
@@ -62,42 +60,34 @@ export const UserProjectsGallery = () => {
 
       // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
-        teamLeaderProjects.map((project: any) => {
-          if (!project || !project.profiles) {
-            console.error('Invalid project data:', project);
-            return null;
-          }
-          const transformedProject: DatabaseProject = {
-            id: project.id,
-            title: project.title,
-            description: project.description,
-            due_date: project.due_date,
-            thumbnail: project.thumbnail,
-            category: project.category,
-            client: project.client,
-            team_leader: project.team_leader,
-            team_leader_contribution: project.team_leader_contribution,
-            team_leader_contribution_description: project.team_leader_contribution_description,
-            author: project.profiles,
-            participants: project.project_participants?.map((p: any) => ({
-              ...p.profiles,
-              contribution: p.contribution,
-              contribution_description: p.contribution_description
-            })) || [],
-            github_link: project.github_link,
-            preview_link: project.preview_link
-          };
-          return transformDatabaseProject(transformedProject);
-        }).filter(Boolean) : 
-        [];
+        teamLeaderProjects.map((project: any) => ({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          due_date: project.due_date,
+          thumbnail: project.thumbnail,
+          category: project.category,
+          client: project.client,
+          team_leader: project.team_leader,
+          team_leader_contribution: project.team_leader_contribution,
+          team_leader_contribution_description: project.team_leader_contribution_description,
+          author: project.team_leader_profile,
+          participants: project.participants?.map((p: any) => ({
+            ...p.user,
+            contribution: p.contribution,
+            contribution_description: p.contribution_description
+          })) || [],
+          github_link: project.github_link,
+          preview_link: project.preview_link
+        })).map(transformDatabaseProject) : [];
 
       // Fetch projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
         .select(`
-          project:projects (
+          projects!inner (
             *,
-            profiles!team_leader (
+            team_leader_profile:profiles!inner(
               id,
               first_name,
               last_name,
@@ -106,8 +96,8 @@ export const UserProjectsGallery = () => {
               expertise,
               role
             ),
-            project_participants (
-              profiles!user_id (
+            participants:project_participants(
+              user:profiles!inner(
                 id,
                 first_name,
                 last_name,
@@ -135,32 +125,26 @@ export const UserProjectsGallery = () => {
 
       // Transform participant projects
       const participatingProjects = participantProjects ? 
-        participantProjects
-          .filter((item: any) => item.project && typeof item.project === 'object' && item.project.profiles)
-          .map((item: any) => {
-            const project = item.project;
-            const transformedProject: DatabaseProject = {
-              id: project.id,
-              title: project.title,
-              description: project.description,
-              due_date: project.due_date,
-              thumbnail: project.thumbnail,
-              category: project.category,
-              client: project.client,
-              team_leader: project.team_leader,
-              team_leader_contribution: project.team_leader_contribution,
-              team_leader_contribution_description: project.team_leader_contribution_description,
-              author: project.profiles,
-              participants: project.project_participants?.map((p: any) => ({
-                ...p.profiles,
-                contribution: p.contribution,
-                contribution_description: p.contribution_description
-              })) || [],
-              github_link: project.github_link,
-              preview_link: project.preview_link
-            };
-            return transformDatabaseProject(transformedProject);
-          }) : [];
+        participantProjects.map((item: any) => ({
+          id: item.projects.id,
+          title: item.projects.title,
+          description: item.projects.description,
+          due_date: item.projects.due_date,
+          thumbnail: item.projects.thumbnail,
+          category: item.projects.category,
+          client: item.projects.client,
+          team_leader: item.projects.team_leader,
+          team_leader_contribution: item.projects.team_leader_contribution,
+          team_leader_contribution_description: item.projects.team_leader_contribution_description,
+          author: item.projects.team_leader_profile,
+          participants: item.projects.participants?.map((p: any) => ({
+            ...p.user,
+            contribution: p.contribution,
+            contribution_description: p.contribution_description
+          })) || [],
+          github_link: item.projects.github_link,
+          preview_link: item.projects.preview_link
+        })).map(transformDatabaseProject) : [];
 
       // Remove duplicates based on project ID
       const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(
