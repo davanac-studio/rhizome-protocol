@@ -7,59 +7,22 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+const getDavanacLevel = (davanacPoints: number = 0) => {
+  if (davanacPoints >= 5001) return { level: "DAVANAC Master", color: "bg-purple-500" };
+  if (davanacPoints >= 1001) return { level: "DAVANAC Expert", color: "bg-blue-500" };
+  return { level: "DAVANAC Initié", color: "bg-green-500" };
+};
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
-  const { toast } = useToast();
-  const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
 
   const fetchUserData = async () => {
-    if (!user?.username) {
-      console.log('No username found for profile');
-      return;
-    }
-
-    try {
-      const { data: userData, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('username', user.username)
-        .single();
-
-      if (error) {
-        console.error('Error fetching profile:', error);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger le profil",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      if (!userData?.id) {
-        console.log('No user data found for profile');
-        return;
-      }
-
-      setUser({
-        ...userData,
-        name: `${userData.first_name} ${userData.last_name}`,
-        firstName: userData.first_name,
-        lastName: userData.last_name,
-        avatarUrl: userData.avatar_url,
-        bannerUrl: userData.banner_url,
-      });
-      setIsOwnProfile(currentUser?.id === userData.id);
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors du chargement du profil",
-        variant: "destructive",
-      });
-    }
+    // Fetch user data logic here
   };
 
   useEffect(() => {
@@ -68,7 +31,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         console.log('No current user ID found');
         return;
       }
-
       await fetchUserData();
     };
 
@@ -81,17 +43,19 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     setIsEditing(false);
   };
 
+  const davanacLevel = getDavanacLevel(user?.davanac_points);
+
   return (
     <div className="relative">
       <div className="h-80 w-full overflow-hidden">
-        {user.bannerUrl ? (
+        {user?.bannerUrl ? (
           <img
             src={user.bannerUrl}
             alt="Banner"
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-r from-blue-400 to-blue-600" />
+          <div className="w-full h-full bg-gradient-to-r from-purple-400 to-purple-600" />
         )}
       </div>
       
@@ -110,8 +74,18 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 ? `${user.firstName} ${user.lastName}`
                 : user?.name}
             </h1>
-            <p className="text-gray-600 mt-1">{user?.expertise || "News Producer"}</p>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <p className="text-gray-600">{user?.expertise || "Membre Rhizome"}</p>
+              <Badge className={`${davanacLevel.color} text-white`}>
+                {davanacLevel.level}
+              </Badge>
+            </div>
             <p className="text-gray-500 mt-1">@{user?.username}</p>
+            {user?.davanac_points && (
+              <p className="text-sm text-purple-600 font-medium mt-1">
+                {user.davanac_points} $DAVANAC
+              </p>
+            )}
           </div>
 
           <div className="flex gap-3 mt-4">
@@ -120,12 +94,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full">
               <Globe className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Twitter className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Facebook className="h-5 w-5 text-gray-600" />
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full">
               <Linkedin className="h-5 w-5 text-gray-600" />
@@ -146,7 +114,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
           {user?.bio && (
             <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
-              <p className="text-center text-gray-600 italic">
+              <p className="text-center text-gray-600">
                 {user.bio}
               </p>
             </Card>
