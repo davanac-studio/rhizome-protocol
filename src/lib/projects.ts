@@ -36,14 +36,14 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
 
   if (error) throw error;
 
-  // Insérer les participants
+  // Insert participants if any
   if (projectData.participants && projectData.participants.length > 0) {
     const { error: participantsError } = await supabase
       .from('project_participants')
       .insert(
         projectData.participants.map(participant => ({
           project_id: data.id,
-          user_id: participant.username, // Assuming username is used as user_id for now
+          user_id: participant.username,
           contribution: participant.contribution,
           contribution_description: participant.contributionDescription
         }))
@@ -52,6 +52,7 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     if (participantsError) throw participantsError;
   }
 
+  // Return the complete project data with author information
   return {
     ...data,
     author: {
