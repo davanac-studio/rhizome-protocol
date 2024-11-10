@@ -1,4 +1,4 @@
-import { ProfileHeader } from "@/components/ProfileHeader";
+import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 
 export default function UserProfile() {
