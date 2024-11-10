@@ -76,9 +76,9 @@ const SignUpForm = () => {
       if (success) {
         toast({
           title: "Compte créé avec succès",
-          description: "Vous pouvez maintenant vous connecter avec vos identifiants.",
+          description: "Votre compte a été créé avec succès.",
         });
-        navigate("/login");
+        navigate(`/profile?name=${encodeURIComponent(formData.firstName + ' ' + formData.lastName)}`);
       }
     } catch (error: any) {
       toast({
