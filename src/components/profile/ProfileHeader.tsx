@@ -94,7 +94,7 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
               <p className="text-sm text-gray-600 mt-1">{user.expertise}</p>
             )}
             <p className="text-sm text-gray-600 mt-1">
-              {projectCount} projet{projectCount > 1 ? 's' : ''}
+              {projectCount} projet{projectCount !== 1 ? 's' : ''}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
@@ -119,7 +119,7 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
           user={user}
           open={isEditing}
           onOpenChange={setIsEditing}
-          onUpdate={handleUpdate}
+          onUpdate={() => window.location.reload()}
         />
       )}
     </>
