@@ -91,7 +91,7 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      const leaderProjects = teamLeaderProjects.map(project => ({
+      const leaderProjects = teamLeaderProjects?.map(project => ({
         ...project,
         author: {
           name: `${project.author.first_name} ${project.author.last_name}`,
@@ -102,7 +102,7 @@ export const UserProjectsGallery = () => {
           contribution: project.team_leader_contribution,
           contributionDescription: project.team_leader_contribution_description
         },
-        participants: project.participants.map(p => ({
+        participants: project.participants?.map(p => ({
           name: `${p.user.first_name} ${p.user.last_name}`,
           username: p.user.username,
           avatar: p.user.avatar_url,
@@ -111,10 +111,10 @@ export const UserProjectsGallery = () => {
           contribution: p.contribution,
           contributionDescription: p.contribution_description
         }))
-      }));
+      })) || [];
 
       const participatingProjects = participantProjects
-        .map(p => p.project)
+        ?.map(p => p.project)
         .filter(Boolean)
         .map(project => ({
           ...project,
@@ -127,7 +127,7 @@ export const UserProjectsGallery = () => {
             contribution: project.team_leader_contribution,
             contributionDescription: project.team_leader_contribution_description
           },
-          participants: project.participants.map(p => ({
+          participants: project.participants?.map(p => ({
             name: `${p.user.first_name} ${p.user.last_name}`,
             username: p.user.username,
             avatar: p.user.avatar_url,
@@ -136,7 +136,7 @@ export const UserProjectsGallery = () => {
             contribution: p.contribution,
             contributionDescription: p.contribution_description
           }))
-        }));
+        })) || [];
 
       return [...leaderProjects, ...participatingProjects];
     },
