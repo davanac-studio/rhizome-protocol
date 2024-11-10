@@ -9,7 +9,7 @@ create table public.projects (
   testimonial text,
   github_link text,
   preview_link text,
-  team_leader text not null,
+  team_leader text not null references public.profiles(id),
   team_leader_contribution integer,
   team_leader_contribution_description text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null

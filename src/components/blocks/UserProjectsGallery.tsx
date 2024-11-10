@@ -25,7 +25,7 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          author:profiles (
+          team_leader_profile:profiles!projects_team_leader_fkey (
             id,
             first_name,
             last_name,
@@ -66,7 +66,11 @@ export const UserProjectsGallery = () => {
       const leaderProjects = teamLeaderProjects ? 
         teamLeaderProjects.map((project: unknown) => {
           console.log('Transforming leader project:', project);
-          return transformDatabaseProject(project as DatabaseProject);
+          const transformedProject = {
+            ...project as DatabaseProject,
+            author: (project as any).team_leader_profile
+          };
+          return transformDatabaseProject(transformedProject);
         }) : 
         [];
 
@@ -78,7 +82,7 @@ export const UserProjectsGallery = () => {
         .select(`
           project:projects (
             *,
-            author:profiles (
+            team_leader_profile:profiles!projects_team_leader_fkey (
               id,
               first_name,
               last_name,
@@ -125,7 +129,11 @@ export const UserProjectsGallery = () => {
           })
           .map(item => {
             console.log('Transforming participant project:', item.project);
-            return transformDatabaseProject(item.project as unknown as DatabaseProject);
+            const transformedProject = {
+              ...item.project,
+              author: item.project.team_leader_profile
+            };
+            return transformDatabaseProject(transformedProject as DatabaseProject);
           })
         : [];
 
