@@ -69,7 +69,9 @@ export const createUser = async (formData: UserFormData) => {
         facebook: formData.facebook,
         davanac_points: 0,
       },
-    ]);
+    ])
+    .select()
+    .single();
 
   if (profileError) {
     console.error("Erreur lors de la création du profil:", profileError);
@@ -78,7 +80,7 @@ export const createUser = async (formData: UserFormData) => {
 
   toast({
     title: "Compte créé avec succès",
-    description: "Bienvenue sur Project Pulse ! Vérifiez votre email pour confirmer votre compte.",
+    description: "Bienvenue sur Rhizome Protocol ! Vérifiez votre email pour confirmer votre compte.",
   });
 
   return true;
@@ -114,10 +116,14 @@ export const syncUserData = async (userId: string) => {
             last_name: authUser.user.user_metadata.last_name,
             davanac_points: 0,
           },
-        ]);
+        ])
+        .select()
+        .single();
 
       if (insertError) throw insertError;
     }
+
+    return true;
   } catch (error: any) {
     console.error('Error syncing user data:', error);
     toast({
@@ -125,5 +131,6 @@ export const syncUserData = async (userId: string) => {
       description: "Impossible de synchroniser les données utilisateur",
       variant: "destructive",
     });
+    return false;
   }
 };
