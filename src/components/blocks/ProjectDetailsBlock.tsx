@@ -53,6 +53,7 @@ export const ProjectDetailsBlock = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           <TeamMemberCard
             name={author.name}
+            username={author.username}
             avatar={author.avatar || ""}
             contribution={author.contribution}
             contributionDescription={author.contributionDescription}
@@ -69,6 +70,7 @@ export const ProjectDetailsBlock = ({
               <TeamMemberCard
                 key={index}
                 name={participant.name}
+                username={participant.username}
                 avatar={participant.avatar || ""}
                 contribution={participant.contribution}
                 contributionDescription={participant.contributionDescription}

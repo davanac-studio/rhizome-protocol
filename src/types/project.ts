@@ -2,6 +2,7 @@ export type ProjectRole = "Team Leader" | "Member";
 
 export interface ProjectMember {
   name: string;
+  username: string;
   avatar?: string;
   role: ProjectRole;
   contribution: number;
