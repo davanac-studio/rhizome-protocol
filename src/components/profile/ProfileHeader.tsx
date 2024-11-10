@@ -62,10 +62,6 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
     checkProfileOwnership();
   }, [user?.username, currentUser?.id, toast]);
 
-  const handleUpdate = () => {
-    window.location.reload();
-  };
-
   return (
     <>
       {user.bannerUrl && (
@@ -93,9 +89,6 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
             {user?.expertise && (
               <p className="text-sm text-gray-600 mt-1">{user.expertise}</p>
             )}
-            <p className="text-sm text-gray-600 mt-1">
-              {projectCount} projet{projectCount !== 1 ? 's' : ''}
-            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <ProfileSocialButtons user={user} />
