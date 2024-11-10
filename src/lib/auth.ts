@@ -48,30 +48,36 @@ export const createUser = async (formData: UserFormData) => {
     throw new Error("Erreur lors de la création du compte");
   }
 
-  // 2. Vérifier si un profil existe déjà
-  const { data: existingProfile } = await supabase
+  // 2. Vérifier si un profil existe déjà avec ce username
+  const { data: existingProfileByUsername } = await supabase
     .from('profiles')
     .select('username')
     .eq('username', formData.username)
     .single();
 
-  if (existingProfile) {
+  if (existingProfileByUsername) {
     toast({
       title: "Erreur",
       description: "Ce nom d'utilisateur est déjà pris",
       variant: "destructive",
     });
-    // Delete the auth user since we couldn't create the profile
+    // Supprimer le compte auth puisqu'on n'a pas pu créer le profil
     await supabase.auth.admin.deleteUser(authData.user.id);
     return false;
   }
 
-  // 3. Créer le profil utilisateur avec le username
-  const { error: profileError } = await supabase
+  // 3. Vérifier si un profil existe déjà pour cet ID
+  const { data: existingProfile } = await supabase
     .from('profiles')
-    .insert([
-      {
-        id: authData.user.id,
+    .select('id')
+    .eq('id', authData.user.id)
+    .single();
+
+  // Si le profil existe déjà, on le met à jour au lieu de le créer
+  if (existingProfile) {
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({
         username: formData.username,
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -84,14 +90,41 @@ export const createUser = async (formData: UserFormData) => {
         spotify: formData.spotify,
         instagram: formData.instagram,
         facebook: formData.facebook,
-      },
-    ]);
+      })
+      .eq('id', authData.user.id);
 
-  if (profileError) {
-    console.error("Erreur lors de la création du profil:", profileError);
-    // Delete the auth user since we couldn't create the profile
-    await supabase.auth.admin.deleteUser(authData.user.id);
-    throw profileError;
+    if (updateError) {
+      console.error("Erreur lors de la mise à jour du profil:", updateError);
+      throw updateError;
+    }
+  } else {
+    // 4. Créer le profil s'il n'existe pas
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([
+        {
+          id: authData.user.id,
+          username: formData.username,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          bio: formData.bio,
+          avatar_url: formData.avatarUrl,
+          banner_url: formData.bannerUrl,
+          linkedin: formData.linkedin,
+          youtube: formData.youtube,
+          github: formData.github,
+          spotify: formData.spotify,
+          instagram: formData.instagram,
+          facebook: formData.facebook,
+        },
+      ]);
+
+    if (profileError) {
+      console.error("Erreur lors de la création du profil:", profileError);
+      // Supprimer le compte auth puisqu'on n'a pas pu créer le profil
+      await supabase.auth.admin.deleteUser(authData.user.id);
+      throw profileError;
+    }
   }
 
   toast({
