@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { ProfileBio } from "@/components/profile/ProfileBio";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -134,6 +135,8 @@ const UserProfile = () => {
               <ProfileHeader user={user} />
             </div>
           </div>
+          
+          <ProfileBio bio={user.bio} />
         </div>
       </div>
     </div>
