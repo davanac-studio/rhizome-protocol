@@ -10,35 +10,34 @@ import { supabase } from "@/lib/supabase";
 export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
-  const [profileEmail, setProfileEmail] = useState<string | null>(null);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
-    const fetchProfileEmail = async () => {
+    const checkProfileOwnership = async () => {
       try {
         const { data: userData, error } = await supabase
           .from('profiles')
-          .select('email')
+          .select('id')
           .eq('username', user.username)
           .single();
 
         if (error) throw error;
         
-        setProfileEmail(userData.email);
-        setIsOwnProfile(currentUser?.email === userData.email);
+        // Compare the profile's ID with the current user's ID
+        setIsOwnProfile(currentUser?.id === userData.id);
         
-        console.log('Current user email:', currentUser?.email);
-        console.log('Profile user email:', userData.email);
-        console.log('Is own profile:', currentUser?.email === userData.email);
+        console.log('Current user ID:', currentUser?.id);
+        console.log('Profile user ID:', userData.id);
+        console.log('Is own profile:', currentUser?.id === userData.id);
       } catch (error) {
-        console.error('Error fetching profile email:', error);
+        console.error('Error checking profile ownership:', error);
       }
     };
 
-    if (user.username) {
-      fetchProfileEmail();
+    if (user.username && currentUser?.id) {
+      checkProfileOwnership();
     }
-  }, [user.username, currentUser?.email]);
+  }, [user.username, currentUser?.id]);
 
   const handleUpdate = () => {
     window.location.reload();
