@@ -20,25 +20,51 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
+  const { toast } = useToast();
 
   const fetchUserData = async () => {
     if (!currentUser?.id) return;
     
     try {
-      const { data, error } = await supabase
+      // First, let's verify the username for the given email
+      const { data: userData, error: userError } = await supabase
         .from('profiles')
         .select('*')
-        .eq('username', 'azert-reza')
+        .eq('email', 'gaworo3646@lineacr.com')
         .single();
 
-      if (error) throw error;
-      
-      if (data) {
-        setUser(data);
-        setIsOwnProfile(currentUser.id === data.id);
+      if (userError) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de vérifier l'utilisateur",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (userData) {
+        if (userData.username !== 'azert-reza') {
+          toast({
+            title: "Attention",
+            description: "Le username ne correspond pas à 'azert-reza'",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Vérification réussie",
+            description: "Le username correspond bien à 'azert-reza'",
+          });
+        }
+        setUser(userData);
+        setIsOwnProfile(currentUser.id === userData.id);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les données utilisateur",
+        variant: "destructive",
+      });
     }
   };
 
