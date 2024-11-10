@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 interface TeamMemberCardProps {
   name: string;
+  username: string;
   avatar: string;
   contribution: number;
   contributionDescription?: string;
@@ -13,6 +14,7 @@ interface TeamMemberCardProps {
 
 export const TeamMemberCard = ({
   name,
+  username,
   avatar,
   contribution,
   contributionDescription,
@@ -21,7 +23,7 @@ export const TeamMemberCard = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/profile?name=${encodeURIComponent(name)}`);
+    navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
   return (

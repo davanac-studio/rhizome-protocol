@@ -20,9 +20,9 @@ export const ProjectCard = ({ project }: { project: Project }) => {
     navigate(`/project/${project.id}`);
   };
 
-  const handleProfileClick = (e: React.MouseEvent, name: string) => {
+  const handleProfileClick = (e: React.MouseEvent, username: string) => {
     e.stopPropagation();
-    navigate(`/profile?name=${encodeURIComponent(name)}`);
+    navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
   return (
