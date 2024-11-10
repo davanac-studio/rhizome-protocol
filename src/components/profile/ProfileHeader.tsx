@@ -89,7 +89,6 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
                 ? `${user.firstName} ${user.lastName}`
                 : user?.name}
             </h1>
-            <p className="text-gray-500">{user?.role || "Membre"}</p>
             <p className="text-sm text-gray-600 mt-1">{projectCount} projet{projectCount > 1 ? 's' : ''}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
