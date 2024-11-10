@@ -6,6 +6,7 @@ import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { Card } from "@/components/ui/card";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -144,9 +145,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           )}
 
           {user?.bio && (
-            <p className="mt-6 text-center text-gray-600 max-w-2xl">
-              {user.bio}
-            </p>
+            <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
+              <p className="text-center text-gray-600 italic">
+                {user.bio}
+              </p>
+            </Card>
           )}
         </div>
       </div>
