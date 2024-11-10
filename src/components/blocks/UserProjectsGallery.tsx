@@ -4,6 +4,41 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 
+interface ProjectUser {
+  id: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  avatar_url: string;
+  expertise: string;
+  role: string;
+}
+
+interface ProjectParticipant {
+  user: ProjectUser;
+  contribution: number;
+  contribution_description: string;
+}
+
+interface DatabaseProject {
+  id: string;
+  title: string;
+  description: string;
+  due_date: string;
+  thumbnail: string;
+  category: string;
+  client: string;
+  team_leader: string;
+  team_leader_contribution: number;
+  team_leader_contribution_description: string;
+  author: ProjectUser;
+  participants: ProjectParticipant[];
+}
+
+interface ParticipantProject {
+  project: DatabaseProject;
+}
+
 export const UserProjectsGallery = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -91,7 +126,7 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      const leaderProjects = (teamLeaderProjects || []).map(project => ({
+      const leaderProjects = (teamLeaderProjects as DatabaseProject[] || []).map(project => ({
         ...project,
         author: {
           name: `${project.author?.first_name || ''} ${project.author?.last_name || ''}`.trim(),
@@ -113,7 +148,7 @@ export const UserProjectsGallery = () => {
         }))
       }));
 
-      const participatingProjects = (participantProjects || [])
+      const participatingProjects = (participantProjects as ParticipantProject[] || [])
         .map(p => p.project)
         .filter(Boolean)
         .map(project => ({
