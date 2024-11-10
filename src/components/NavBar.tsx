@@ -29,40 +29,21 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // First, check if we have a valid session
-      const { data: { session } } = await supabase.auth.getSession();
-      
       // Clear local session state first
       clearSession();
-
-      if (session) {
-        // Only attempt to sign out if we have a session
-        const { error } = await supabase.auth.signOut({
-          scope: 'local'  // Only clear the current tab's session
-        });
-        
-        if (error && error.status !== 403) {
-          console.error("Erreur lors de la déconnexion:", error);
-          toast({
-            title: "Note",
-            description: "Session terminée localement.",
-          });
-        } else {
-          toast({
-            title: "Déconnexion réussie",
-            description: "Vous avez été déconnecté avec succès.",
-          });
-        }
-      } else {
-        toast({
-          title: "Session terminée",
-          description: "Votre session était déjà expirée.",
-        });
-      }
+      
+      // Attempt to sign out from Supabase
+      await supabase.auth.signOut();
+      
+      toast({
+        title: "Déconnexion réussie",
+        description: "Vous avez été déconnecté avec succès.",
+      });
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
+      // Even if there's an error, we've cleared the local session
       toast({
-        title: "Note",
+        title: "Session terminée",
         description: "Session terminée localement.",
       });
     } finally {
