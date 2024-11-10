@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectForm } from "./project/ProjectForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NewProjectDialogProps {
   onProjectCreate: (project: any) => void;
@@ -11,10 +12,15 @@ interface NewProjectDialogProps {
 export const NewProjectDialog = ({ onProjectCreate }: NewProjectDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const handleProjectCreate = (project: any) => {
+  const handleProjectCreate = async (project: any) => {
     onProjectCreate(project);
     setIsOpen(false);
+    
+    // Invalidate the projects query to force a refresh
+    await queryClient.invalidateQueries({ queryKey: ['userProjects'] });
+    
     toast({
       title: "Succès",
       description: "Projet créé avec succès !",
