@@ -51,9 +51,7 @@ export const ParticipantsSection = ({
     setParticipants(newParticipants);
   };
 
-  const teamLeaderName = user ? 
-    (user.user_metadata?.full_name || user.email?.split('@')[0] || 'Team Leader') 
-    : 'Team Leader';
+  const teamLeaderName = "John Gathwick";
 
   return (
     <div className="space-y-4 border rounded-lg p-4">
