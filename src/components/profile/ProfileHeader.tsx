@@ -1,19 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { ProfileSocialButtons } from "./ProfileSocialButtons";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
-  const isOwnProfile = currentUser?.email === user.email;
+  const [profileEmail, setProfileEmail] = useState<string | null>(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
 
-  console.log('Current user email:', currentUser?.email);
-  console.log('Profile user email:', user.email);
-  console.log('Is own profile:', isOwnProfile);
+  useEffect(() => {
+    const fetchProfileEmail = async () => {
+      try {
+        const { data: userData, error } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('username', user.username)
+          .single();
+
+        if (error) throw error;
+        
+        setProfileEmail(userData.email);
+        setIsOwnProfile(currentUser?.email === userData.email);
+        
+        console.log('Current user email:', currentUser?.email);
+        console.log('Profile user email:', userData.email);
+        console.log('Is own profile:', currentUser?.email === userData.email);
+      } catch (error) {
+        console.error('Error fetching profile email:', error);
+      }
+    };
+
+    if (user.username) {
+      fetchProfileEmail();
+    }
+  }, [user.username, currentUser?.email]);
 
   const handleUpdate = () => {
     window.location.reload();
