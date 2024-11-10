@@ -18,7 +18,7 @@ export const ProfileContent = ({ user }: { user: any }) => (
               </div>
               <div>
                 <p className="text-sm text-gray-500">Expertise</p>
-                <p className="text-gray-700">{user.expertise || "Non spécifiée"}</p>
+                <p className="text-gray-700">{user.expertise || "Aucune expertise renseignée"}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Citation</p>
