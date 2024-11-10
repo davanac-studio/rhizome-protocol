@@ -28,35 +28,22 @@ const NavBar = () => {
   };
 
   const handleLogout = async () => {
-    try {
-      // Clear local session first
-      clearSession();
-      
-      // Try to sign out from Supabase only if we have a user
-      if (user) {
-        try {
-          const { error } = await supabase.auth.signOut();
-          if (error) throw error;
-        } catch (signOutError) {
-          console.error("Erreur Supabase lors de la déconnexion:", signOutError);
-        }
-      }
-      
-      toast({
-        title: "Déconnexion réussie",
-        description: "Vous avez été déconnecté avec succès.",
-      });
-      
-      // Always navigate home after logout
-      navigate("/");
-    } catch (error) {
-      console.error("Erreur lors de la déconnexion:", error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la déconnexion.",
-        variant: "destructive",
-      });
-    }
+    // Always clear the local session first
+    clearSession();
+    
+    // Attempt to sign out from Supabase, but don't let failures block the logout process
+    await supabase.auth.signOut().catch((error) => {
+      console.error("Erreur Supabase lors de la déconnexion:", error);
+      // We intentionally don't throw here to ensure the logout completes
+    });
+    
+    // Show success message and redirect regardless of Supabase logout result
+    toast({
+      title: "Déconnexion réussie",
+      description: "Vous avez été déconnecté avec succès.",
+    });
+    
+    navigate("/");
   };
 
   const getProfilePath = () => {
