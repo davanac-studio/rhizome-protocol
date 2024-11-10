@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { UserCircle2, Users, Home, LogOut } from "lucide-react";
+import { UserCircle2, Home, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
@@ -64,12 +64,6 @@ const NavBar = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <Link to="/users">
-              <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                <Users className="h-5 w-5" />
-              </Button>
-            </Link>
-            
             {user ? (
               <>
                 <Link to={`/profile/${user.user_metadata.username || user.id}`}>
