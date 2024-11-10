@@ -96,44 +96,46 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6 flex flex-col items-start">
-          <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
-            <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
-            <AvatarFallback className="text-4xl">
-              {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
-          
-          <div className="mt-4 space-y-2 text-left">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {user?.firstName && user?.lastName 
-                ? `${user.firstName} ${user.lastName}`
-                : user?.name}
-            </h1>
-            <p className="text-gray-500">@{user?.username}</p>
-            <p className="text-xl font-bold italic text-gray-600">{user?.expertise || "Data Journaliste"}</p>
+        <div className="relative -mt-24 mb-6">
+          <div className="flex flex-col md:flex-row md:items-end gap-6">
+            <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
+              <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
+              <AvatarFallback className="text-4xl">
+                {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
             
-            {user?.bio && (
-              <p className="text-gray-600 max-w-2xl">
-                {user.bio}
-              </p>
-            )}
+            <div className="space-y-1">
+              <h1 className="text-4xl font-bold text-gray-900">
+                {user?.firstName && user?.lastName 
+                  ? `${user.firstName} ${user.lastName}`
+                  : user?.name}
+              </h1>
+              <p className="text-xl text-gray-600">{user?.expertise || "Data Journaliste"}</p>
+              <p className="text-gray-500">@{user?.username}</p>
+              
+              {user?.bio && (
+                <p className="text-gray-600 max-w-2xl mt-4">
+                  {user.bio}
+                </p>
+              )}
 
-            <div className="flex mt-4">
-              <ProfileSocialButtons user={user} />
+              <div className="flex gap-4 mt-4">
+                <ProfileSocialButtons user={user} />
+                
+                {isOwnProfile && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    <Pencil className="h-4 w-4" />
+                    Modifier le profil
+                  </Button>
+                )}
+              </div>
             </div>
-
-            {isOwnProfile && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4 flex items-center gap-2"
-                onClick={() => setIsEditing(true)}
-              >
-                <Pencil className="h-4 w-4" />
-                Modifier le profil
-              </Button>
-            )}
           </div>
         </div>
       </div>
