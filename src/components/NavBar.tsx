@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { UserCircle2, Users, Home } from "lucide-react";
+import { UserCircle2, Users, Home, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -11,7 +12,6 @@ const NavBar = () => {
   const { toast } = useToast();
 
   const handleCreateProject = (project: any) => {
-    // Cette fonction sera appelée lors de la création d'un projet
     console.log("Nouveau projet créé:", project);
   };
 
@@ -24,6 +24,29 @@ const NavBar = () => {
       });
       navigate("/login");
       return;
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Déconnexion réussie",
+        description: "Vous avez été déconnecté avec succès.",
+      });
+
+      navigate("/");
+    } catch (error: any) {
+      toast({
+        title: "Erreur de déconnexion",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -55,6 +78,14 @@ const NavBar = () => {
                   </Button>
                 </Link>
                 <NewProjectDialog onProjectCreate={handleCreateProject} />
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="h-5 w-5" />
+                </Button>
               </>
             ) : (
               <>
