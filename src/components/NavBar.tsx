@@ -22,7 +22,7 @@ const NavBar = () => {
         description: "Vous devez être connecté pour créer un nouveau projet.",
         variant: "destructive",
       });
-      navigate("/login");
+      navigate("/auth");
       return;
     }
   };
@@ -89,14 +89,9 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
+                <Link to="/auth">
                   <Button variant="outline" className="hover:bg-gray-100">
                     Se connecter
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button variant="outline" className="hover:bg-gray-100">
-                    Créer un profil
                   </Button>
                 </Link>
               </>
