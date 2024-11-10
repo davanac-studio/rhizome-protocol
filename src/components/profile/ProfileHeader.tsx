@@ -53,9 +53,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         // Mise à jour des données utilisateur avec les données de la base de données
         setUser({
           ...user,
-          expertise: userData.expertise,
-          bio: userData.bio,
-          // autres champs si nécessaire
+          // Suppression du champ expertise
         });
       } catch (error) {
         console.error('Error checking profile ownership:', error);
@@ -98,9 +96,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 : user?.name}
             </h1>
             <p className="text-sm text-gray-600">@{user?.username}</p>
-            {user?.expertise && (
-              <p className="text-sm text-gray-600 mt-1">{user.expertise}</p>
-            )}
+            {/* Suppression du champ expertise */}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <ProfileSocialButtons user={user} />
