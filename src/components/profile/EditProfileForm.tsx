@@ -83,6 +83,17 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Avatar */}
+      <div>
+        <label className="text-sm font-medium">Avatar</label>
+        <Input
+          value={formData.avatarUrl}
+          onChange={(e) => handleFieldChange("avatarUrl", e.target.value)}
+          placeholder="URL de l'avatar"
+        />
+      </div>
+
+      {/* Prénom et Nom */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="text-sm font-medium">Prénom</label>
@@ -100,6 +111,26 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         </div>
       </div>
 
+      {/* Image de bannière */}
+      <div>
+        <label className="text-sm font-medium">Image de bannière</label>
+        <Input
+          value={formData.bannerUrl}
+          onChange={(e) => handleFieldChange("bannerUrl", e.target.value)}
+          placeholder="URL de la bannière"
+        />
+      </div>
+
+      {/* Expertise */}
+      <div>
+        <label className="text-sm font-medium">Expertise</label>
+        <Input
+          value={formData.expertise}
+          onChange={(e) => handleFieldChange("expertise", e.target.value)}
+        />
+      </div>
+
+      {/* Bio */}
       <div>
         <label className="text-sm font-medium">Bio</label>
         <Textarea
@@ -109,22 +140,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         />
       </div>
 
-      <div>
-        <label className="text-sm font-medium">Rôle</label>
-        <Input
-          value={formData.role}
-          onChange={(e) => handleFieldChange("role", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium">Expertise</label>
-        <Input
-          value={formData.expertise}
-          onChange={(e) => handleFieldChange("expertise", e.target.value)}
-        />
-      </div>
-
+      {/* Citation */}
       <div>
         <label className="text-sm font-medium">Citation</label>
         <Input
@@ -133,15 +149,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         />
       </div>
 
-      <ImageFields
-        avatarUrl={formData.avatarUrl}
-        bannerUrl={formData.bannerUrl}
-        firstName={formData.firstName}
-        lastName={formData.lastName}
-        onAvatarChange={(value) => handleFieldChange("avatarUrl", value)}
-        onBannerChange={(value) => handleFieldChange("bannerUrl", value)}
-      />
-
+      {/* Réseaux sociaux */}
       <div className="space-y-4">
         <h3 className="text-sm font-medium">Réseaux sociaux</h3>
         <div className="space-y-3">
@@ -151,14 +159,14 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
             onChange={(e) => handleFieldChange("linkedin", e.target.value)}
           />
           <Input
-            placeholder="YouTube URL"
-            value={formData.youtube}
-            onChange={(e) => handleFieldChange("youtube", e.target.value)}
-          />
-          <Input
             placeholder="GitHub URL"
             value={formData.github}
             onChange={(e) => handleFieldChange("github", e.target.value)}
+          />
+          <Input
+            placeholder="YouTube URL"
+            value={formData.youtube}
+            onChange={(e) => handleFieldChange("youtube", e.target.value)}
           />
           <Input
             placeholder="Spotify URL"
