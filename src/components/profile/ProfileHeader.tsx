@@ -96,7 +96,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6 flex flex-col items-center">
+        <div className="relative -mt-24 mb-6 flex flex-col items-start">
           <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
             <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
             <AvatarFallback className="text-4xl">
@@ -104,14 +104,14 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </AvatarFallback>
           </Avatar>
           
-          <div className="mt-4 text-center space-y-2">
+          <div className="mt-4 space-y-2 text-left">
             <h1 className="text-3xl font-bold text-gray-900">
               {user?.firstName && user?.lastName 
                 ? `${user.firstName} ${user.lastName}`
                 : user?.name}
             </h1>
             <p className="text-gray-500">@{user?.username}</p>
-            <p className="text-gray-600">{user?.expertise || "Data Journaliste"}</p>
+            <p className="text-xl font-bold italic text-gray-600">{user?.expertise || "Data Journaliste"}</p>
             
             {user?.bio && (
               <p className="text-gray-600 max-w-2xl">
@@ -119,7 +119,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
               </p>
             )}
 
-            <div className="flex justify-center mt-4">
+            <div className="flex mt-4">
               <ProfileSocialButtons user={user} />
             </div>
 
