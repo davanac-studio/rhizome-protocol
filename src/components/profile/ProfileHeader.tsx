@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Pencil, Mail, Globe, Twitter, Facebook, Linkedin } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { ProfileSocialButtons } from "./ProfileSocialButtons";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -103,51 +104,37 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </AvatarFallback>
           </Avatar>
           
-          <div className="mt-4 text-center">
+          <div className="mt-4 text-center space-y-2">
             <h1 className="text-3xl font-bold text-gray-900">
               {user?.firstName && user?.lastName 
                 ? `${user.firstName} ${user.lastName}`
                 : user?.name}
             </h1>
-            <p className="text-gray-600 mt-1">{user?.expertise || "News Producer"}</p>
-            <p className="text-gray-500 mt-1">@{user?.username}</p>
+            <p className="text-gray-500">@{user?.username}</p>
+            <p className="text-gray-600">{user?.expertise || "Data Journaliste"}</p>
+            
+            {user?.bio && (
+              <p className="text-gray-600 max-w-2xl">
+                {user.bio}
+              </p>
+            )}
+
+            <div className="flex justify-center mt-4">
+              <ProfileSocialButtons user={user} />
+            </div>
+
+            {isOwnProfile && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-4 flex items-center gap-2"
+                onClick={() => setIsEditing(true)}
+              >
+                <Pencil className="h-4 w-4" />
+                Modifier le profil
+              </Button>
+            )}
           </div>
-
-          <div className="flex gap-3 mt-4">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Mail className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Globe className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Twitter className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Facebook className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Linkedin className="h-5 w-5 text-gray-600" />
-            </Button>
-          </div>
-
-          {isOwnProfile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4 flex items-center gap-2"
-              onClick={() => setIsEditing(true)}
-            >
-              <Pencil className="h-4 w-4" />
-              Modifier le profil
-            </Button>
-          )}
-
-          {user?.bio && (
-            <p className="mt-6 text-center text-gray-600 max-w-2xl">
-              {user.bio}
-            </p>
-          )}
         </div>
       </div>
 
