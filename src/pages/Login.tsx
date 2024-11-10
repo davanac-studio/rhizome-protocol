@@ -10,26 +10,25 @@ const Login = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Vérifier si l'utilisateur est déjà connecté
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        toast({
+          title: "Déjà connecté",
+          description: "Redirection vers votre espace...",
+        });
+        navigate("/");
+      }
+    });
+
+    // Écouter les changements d'état d'authentification
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
         toast({
           title: "Connexion réussie",
           description: "Bienvenue sur Rhizome Protocol !",
         });
-        navigate("/signup");
-      }
-      if (event === "SIGNED_OUT") {
-        navigate("/login");
-      }
-      if (event === "USER_UPDATED") {
-        console.log("User updated:", session);
-      }
-    });
-
-    // Check if user is already signed in
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate("/signup");
+        navigate("/");
       }
     });
 
@@ -57,7 +56,7 @@ const Login = () => {
           }}
           theme="light"
           providers={[]}
-          redirectTo={`${window.location.origin}/signup`}
+          redirectTo={window.location.origin}
           showLinks={true}
           view="sign_in"
           localization={{
@@ -68,15 +67,15 @@ const Login = () => {
                 button_label: 'Se connecter',
                 loading_button_label: 'Connexion en cours...',
                 social_provider_text: 'Se connecter avec {{provider}}',
-                link_text: "Vous avez déjà un compte ? Connectez-vous",
+                link_text: "Vous n'avez pas de compte ? Inscrivez-vous",
               },
               sign_up: {
                 email_label: 'Email',
                 password_label: 'Mot de passe',
-                button_label: 'S\'inscrire',
+                button_label: "S'inscrire",
                 loading_button_label: 'Inscription en cours...',
-                social_provider_text: 'S\'inscrire avec {{provider}}',
-                link_text: "Vous n'avez pas de compte ? Inscrivez-vous",
+                social_provider_text: "S'inscrire avec {{provider}}",
+                link_text: "Vous avez déjà un compte ? Connectez-vous",
               },
             },
           }}
