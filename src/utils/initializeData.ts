@@ -14,7 +14,7 @@ export const initializeUsers = async () => {
     }
 
     // Créer les utilisateurs dans auth
-    for (const member of teamMembers) {
+    for (const member of Object.values(teamMembers)) {
       const { error: authError } = await supabase.auth.signUp({
         email: `${member.name.toLowerCase().replace(' ', '.')}@rhizome.dev`,
         password: 'Rhizome2024!',
@@ -36,12 +36,6 @@ export const initializeUsers = async () => {
             lastName: member.name.split(' ')[1] || '',
             bio: member.role,
             avatarUrl: member.avatar,
-            linkedin: member.linkedin || '',
-            github: member.github || '',
-            youtube: member.youtube || '',
-            spotify: member.spotify || '',
-            instagram: member.instagram || '',
-            facebook: member.facebook || '',
           },
         ]);
 

@@ -13,7 +13,7 @@ const UsersGallery = () => {
     <div className="container py-8">
       <h1 className="text-3xl font-bold mb-8">Notre équipe</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {teamMembers.map((member, index) => (
+        {Object.values(teamMembers).map((member, index) => (
           <Card key={index} className="p-6">
             <div className="flex items-center space-x-4">
               <Avatar className="w-16 h-16">
