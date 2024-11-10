@@ -29,18 +29,20 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // Vérifier si l'utilisateur est connecté avant de tenter la déconnexion
-      const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        // Si pas de session, on redirige simplement
-        navigate("/");
-        return;
-      }
-
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        console.error("Erreur de déconnexion:", error);
+        // Si l'erreur est liée à un utilisateur non trouvé ou une session invalide,
+        // on considère que l'utilisateur est déjà déconnecté
+        if (error.message.includes('User not found') || error.status === 403) {
+          toast({
+            title: "Session expirée",
+            description: "Votre session a expiré. Vous avez été déconnecté.",
+          });
+          navigate("/");
+          return;
+        }
+        
         toast({
           title: "Erreur de déconnexion",
           description: "Une erreur est survenue lors de la déconnexion.",
