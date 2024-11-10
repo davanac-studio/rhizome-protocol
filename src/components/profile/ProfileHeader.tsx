@@ -15,6 +15,53 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
 
+  const fetchUserData = async () => {
+    if (!user?.username) {
+      console.log('No username found for profile');
+      return;
+    }
+
+    try {
+      const { data: userData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', user.username)
+        .single();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger le profil",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (!userData?.id) {
+        console.log('No user data found for profile');
+        return;
+      }
+
+      setUser({
+        ...userData,
+        name: `${userData.first_name} ${userData.last_name}`,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        avatarUrl: userData.avatar_url,
+        bannerUrl: userData.banner_url,
+      });
+      setIsOwnProfile(currentUser?.id === userData.id);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors du chargement du profil",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     const checkProfileOwnership = async () => {
       if (!currentUser?.id) {
@@ -22,54 +69,16 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         return;
       }
 
-      if (!user?.username) {
-        console.log('No username found for profile');
-        return;
-      }
-
-      try {
-        const { data: userData, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('username', user.username)
-          .single();
-
-        if (error) {
-          console.error('Error checking profile ownership:', error);
-          toast({
-            title: "Erreur",
-            description: "Impossible de vérifier le propriétaire du profil",
-            variant: "destructive",
-          });
-          return;
-        }
-        
-        if (!userData?.id) {
-          console.log('No user data found for profile');
-          return;
-        }
-
-        setIsOwnProfile(currentUser.id === userData.id);
-        // Mise à jour des données utilisateur avec les données de la base de données
-        setUser({
-          ...user,
-          // Suppression du champ expertise
-        });
-      } catch (error) {
-        console.error('Error checking profile ownership:', error);
-        toast({
-          title: "Erreur",
-          description: "Une erreur est survenue lors de la vérification du profil",
-          variant: "destructive",
-        });
-      }
+      await fetchUserData();
     };
 
     checkProfileOwnership();
-  }, [user?.username, currentUser?.id, toast]);
+  }, [user?.username, currentUser?.id]);
 
-  const handleUpdate = (updatedUser: any) => {
+  const handleUpdate = async (updatedUser: any) => {
     setUser(updatedUser);
+    await fetchUserData(); // Refresh the data after update
+    setIsEditing(false);
   };
 
   return (
@@ -96,7 +105,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 : user?.name}
             </h1>
             <p className="text-sm text-gray-600">@{user?.username}</p>
-            {/* Suppression du champ expertise */}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <ProfileSocialButtons user={user} />
