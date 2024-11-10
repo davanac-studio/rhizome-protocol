@@ -10,7 +10,7 @@ interface EditProfileDialogProps {
   user: any;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onUpdate: () => void;
+  onUpdate: (updatedUser: any) => void;
 }
 
 export const EditProfileDialog = ({

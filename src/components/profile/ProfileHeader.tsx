@@ -8,11 +8,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 
-export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => {
+export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
   const [isOwnProfile, setIsOwnProfile] = useState(false);
+  const [user, setUser] = useState(initialUser);
 
   useEffect(() => {
     const checkProfileOwnership = async () => {
@@ -61,6 +62,10 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
 
     checkProfileOwnership();
   }, [user?.username, currentUser?.id, toast]);
+
+  const handleUpdate = (updatedUser: any) => {
+    setUser(updatedUser);
+  };
 
   return (
     <>
@@ -112,7 +117,7 @@ export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount:
           user={user}
           open={isEditing}
           onOpenChange={setIsEditing}
-          onUpdate={() => window.location.reload()}
+          onUpdate={handleUpdate}
         />
       )}
     </>

@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 interface EditProfileFormProps {
   user: any;
   onClose: () => void;
-  onUpdate: () => void;
+  onUpdate: (updatedUser: any) => void;
 }
 
 export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProps) => {
@@ -70,12 +70,28 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         throw error;
       }
 
+      const updatedUser = {
+        ...user,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        bio: formData.bio,
+        expertise: formData.expertise,
+        avatarUrl: formData.avatarUrl,
+        bannerUrl: formData.bannerUrl,
+        linkedin: formData.linkedin,
+        youtube: formData.youtube,
+        github: formData.github,
+        spotify: formData.spotify,
+        instagram: formData.instagram,
+        facebook: formData.facebook,
+      };
+
       toast({
         title: "Profil mis à jour",
         description: "Vos modifications ont été enregistrées avec succès.",
       });
       
-      onUpdate();
+      onUpdate(updatedUser);
       onClose();
     } catch (error: any) {
       console.error('Error updating profile:', error);
