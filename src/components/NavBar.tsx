@@ -11,8 +11,16 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleCreateProject = (project: any) => {
-    console.log("Nouveau projet créé:", project);
+  const handleLogout = async () => {
+    clearSession();
+    await supabase.auth.signOut().catch((error) => {
+      console.error("Erreur Supabase lors de la déconnexion:", error);
+    });
+    toast({
+      title: "Déconnexion réussie",
+      description: "Vous avez été déconnecté avec succès.",
+    });
+    navigate("/");
   };
 
   const handleNewProjectClick = () => {
@@ -25,25 +33,6 @@ const NavBar = () => {
       navigate("/auth");
       return;
     }
-  };
-
-  const handleLogout = async () => {
-    // Always clear the local session first
-    clearSession();
-    
-    // Attempt to sign out from Supabase, but don't let failures block the logout process
-    await supabase.auth.signOut().catch((error) => {
-      console.error("Erreur Supabase lors de la déconnexion:", error);
-      // We intentionally don't throw here to ensure the logout completes
-    });
-    
-    // Show success message and redirect regardless of Supabase logout result
-    toast({
-      title: "Déconnexion réussie",
-      description: "Vous avez été déconnecté avec succès.",
-    });
-    
-    navigate("/");
   };
 
   const getProfilePath = () => {
@@ -69,33 +58,21 @@ const NavBar = () => {
             {user ? (
               <>
                 <Link to={getProfilePath()}>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="hover:bg-gray-100"
-                    title="Voir mon profil"
-                  >
+                  <Button variant="ghost" size="icon" className="hover:bg-gray-100" title="Voir mon profil">
                     <UserCircle2 className="h-5 w-5" />
                   </Button>
                 </Link>
-                <NewProjectDialog onProjectCreate={handleCreateProject} />
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="hover:bg-gray-100"
-                  onClick={handleLogout}
-                >
+                <NewProjectDialog />
+                <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                 </Button>
               </>
             ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="outline" className="hover:bg-gray-100">
-                    Se connecter
-                  </Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button variant="outline" className="hover:bg-gray-100">
+                  Se connecter
+                </Button>
+              </Link>
             )}
           </div>
         </div>

@@ -5,14 +5,6 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError) throw userError;
 
-  const { data: profileData, error: profileError } = await supabase
-    .from('profiles')
-    .select('username, first_name, last_name, avatar_url, expertise')
-    .eq('id', userData.user.id)
-    .single();
-
-  if (profileError) throw profileError;
-
   const { data, error } = await supabase
     .from('projects')
     .insert([
@@ -36,23 +28,5 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
 
   if (error) throw error;
 
-  // Return the complete project data with author information
-  return {
-    ...data,
-    id: data.id,
-    dueDate: data.due_date,
-    author: {
-      name: `${profileData.first_name} ${profileData.last_name}`,
-      username: profileData.username,
-      avatar: profileData.avatar_url,
-      expertise: profileData.expertise,
-      role: "Team Leader" as const,
-      contribution: data.team_leader_contribution,
-      contributionDescription: data.team_leader_contribution_description
-    },
-    links: {
-      github: data.github_link,
-      preview: data.preview_link
-    }
-  };
+  return data;
 };
