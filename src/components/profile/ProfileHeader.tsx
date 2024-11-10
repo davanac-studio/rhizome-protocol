@@ -9,10 +9,10 @@ import { useAuth } from "@/contexts/AuthContext";
 export const ProfileHeader = ({ user, projectCount }: { user: any, projectCount: number }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
-  const isOwnProfile = currentUser?.id === user.user_id;
+  const isOwnProfile = currentUser?.email === user.email;
 
-  console.log('Current user:', currentUser?.id);
-  console.log('Profile user:', user.user_id);
+  console.log('Current user email:', currentUser?.email);
+  console.log('Profile user email:', user.email);
   console.log('Is own profile:', isOwnProfile);
 
   const handleUpdate = () => {
