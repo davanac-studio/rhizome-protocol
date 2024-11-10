@@ -28,7 +28,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
@@ -42,7 +42,11 @@ const LoginForm = () => {
         description: "Vous êtes maintenant connecté.",
       });
 
-      navigate("/profile");
+      // Redirection vers le profil de l'utilisateur
+      const username = data.user.user_metadata?.username || 
+                      data.user.user_metadata?.preferred_username || 
+                      data.user.id;
+      navigate(`/profile/${encodeURIComponent(username)}`);
     } catch (error: any) {
       toast({
         title: "Erreur de connexion",
