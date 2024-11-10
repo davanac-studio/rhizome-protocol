@@ -9,9 +9,9 @@ interface UserProjectsGalleryProps {
 export const UserProjectsGallery = ({ userName }: UserProjectsGalleryProps) => {
   // Filtrer les projets où l'utilisateur est soit leader soit participant
   const userProjects = projectsData.filter(project => {
-    const isLeader = project.author.name === userName;
+    const isLeader = project.author.username === userName;
     const isParticipant = project.participants?.some(
-      participant => participant.name === userName
+      participant => participant.username === userName
     );
     return isLeader || isParticipant;
   });
