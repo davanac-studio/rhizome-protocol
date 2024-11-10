@@ -9,16 +9,8 @@ export const ProfileContent = ({ user }: { user: any }) => (
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="space-y-3">
               <div>
-                <p className="text-sm text-gray-500">Nom complet</p>
-                <p className="text-gray-700">{`${user.firstName || ''} ${user.lastName || ''}`}</p>
-              </div>
-              <div>
                 <p className="text-sm text-gray-500">Nom d'utilisateur</p>
                 <p className="text-gray-700">@{user.username}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="text-gray-700">{user.email || "Non renseigné"}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Bio</p>
