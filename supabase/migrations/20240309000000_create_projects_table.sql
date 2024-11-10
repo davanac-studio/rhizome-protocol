@@ -1,5 +1,5 @@
 create table public.projects (
-  id uuid default gen_random_uuid() primary key,
+  id text primary key,
   title text not null,
   description text not null,
   due_date date not null,
@@ -9,8 +9,8 @@ create table public.projects (
   testimonial text,
   github_link text,
   preview_link text,
-  team_leader uuid references auth.users(id) not null,
-  team_leader_contribution integer not null,
+  team_leader text not null,
+  team_leader_contribution integer,
   team_leader_contribution_description text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -27,14 +27,14 @@ using (true);
 create policy "Users can insert their own projects" 
 on public.projects for insert 
 to authenticated 
-with check (auth.uid() = team_leader);
+with check (true);
 
 create policy "Users can update their own projects" 
 on public.projects for update 
 to authenticated 
-using (auth.uid() = team_leader);
+using (true);
 
 create policy "Users can delete their own projects" 
 on public.projects for delete 
 to authenticated 
-using (auth.uid() = team_leader);
+using (true);
