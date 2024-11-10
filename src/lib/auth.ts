@@ -25,9 +25,9 @@ export const createUser = async (formData: UserFormData) => {
     password: formData.password,
     options: {
       data: {
+        username: formData.username,
         first_name: formData.firstName,
         last_name: formData.lastName,
-        username: formData.username,
       },
     },
   });
@@ -51,16 +51,19 @@ export const createUser = async (formData: UserFormData) => {
   // 2. Vérifier si un profil existe déjà
   const { data: existingProfile } = await supabase
     .from('profiles')
-    .select('id')
-    .eq('id', authData.user.id)
+    .select('username')
+    .eq('username', formData.username)
     .single();
 
   if (existingProfile) {
     toast({
-      title: "Information",
-      description: "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.",
+      title: "Erreur",
+      description: "Ce nom d'utilisateur est déjà pris",
+      variant: "destructive",
     });
-    return true;
+    // Delete the auth user since we couldn't create the profile
+    await supabase.auth.admin.deleteUser(authData.user.id);
+    return false;
   }
 
   // 3. Créer le profil utilisateur avec le username
@@ -69,7 +72,7 @@ export const createUser = async (formData: UserFormData) => {
     .insert([
       {
         id: authData.user.id,
-        username: formData.username,  // Assurez-vous que le username est bien enregistré
+        username: formData.username,
         first_name: formData.firstName,
         last_name: formData.lastName,
         bio: formData.bio,
@@ -86,6 +89,8 @@ export const createUser = async (formData: UserFormData) => {
 
   if (profileError) {
     console.error("Erreur lors de la création du profil:", profileError);
+    // Delete the auth user since we couldn't create the profile
+    await supabase.auth.admin.deleteUser(authData.user.id);
     throw profileError;
   }
 
