@@ -20,23 +20,17 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        console.log("Fetching profile for username:", username);
-        
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
           .eq('username', username)
           .maybeSingle();
 
-        console.log("Query response - Data:", data, "Error:", error);
-
         if (error && error.code !== 'PGRST116') {
-          console.error("Supabase error:", error);
           throw error;
         }
 
         if (data) {
-          console.log("Setting user data:", data);
           setUser({
             name: `${data.first_name} ${data.last_name}`,
             firstName: data.first_name,
@@ -56,7 +50,6 @@ const UserProfile = () => {
             facebook: data.facebook
           });
         } else {
-          console.log("No user data found");
           toast({
             title: "Utilisateur non trouvé",
             description: "Cet utilisateur n'existe pas",
@@ -64,7 +57,6 @@ const UserProfile = () => {
           });
         }
       } catch (error: any) {
-        console.error("Error fetching profile:", error);
         toast({
           title: "Erreur",
           description: "Impossible de charger le profil",
