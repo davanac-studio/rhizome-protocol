@@ -29,10 +29,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      // Clear local session state first
       clearSession();
-      
-      // Attempt to sign out from Supabase
       await supabase.auth.signOut();
       
       toast({
@@ -41,15 +38,21 @@ const NavBar = () => {
       });
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
-      // Even if there's an error, we've cleared the local session
       toast({
         title: "Session terminée",
         description: "Session terminée localement.",
       });
     } finally {
-      // Always navigate home after logout
       navigate("/");
     }
+  };
+
+  // Récupérer le username depuis les métadonnées de l'utilisateur
+  const getProfilePath = () => {
+    if (!user) return "/auth";
+    // Vérifier d'abord user_metadata.username, puis username, puis id comme fallback
+    const username = user.user_metadata?.username || user.user_metadata?.preferred_username || user.id;
+    return `/profile/${username}`;
   };
 
   return (
@@ -68,8 +71,13 @@ const NavBar = () => {
           <div className="flex items-center gap-4">
             {user ? (
               <>
-                <Link to={`/profile/${user.user_metadata.username || user.id}`}>
-                  <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+                <Link to={getProfilePath()}>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="hover:bg-gray-100"
+                    title="Voir mon profil"
+                  >
                     <UserCircle2 className="h-5 w-5" />
                   </Button>
                 </Link>
