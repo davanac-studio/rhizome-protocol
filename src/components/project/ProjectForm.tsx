@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ParticipantsSection } from "./ParticipantsSection";
 import { useToast } from "@/components/ui/use-toast";
 import { TEAM_LEADER_CONTRIBUTION } from "@/data/team-config";
-import { teamMembers } from "@/data/team-members";
+import { createProject } from "@/lib/projects";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProjectFormProps {
   onSubmit: (project: any) => void;
@@ -15,6 +16,8 @@ interface ProjectFormProps {
 
 export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -43,9 +46,18 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
     return total <= 100;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!user) {
+      toast({
+        title: "Erreur",
+        description: "Vous devez être connecté pour créer un projet",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!validateContributions()) {
       toast({
         title: "Erreur",
@@ -55,24 +67,40 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       return;
     }
 
-    const newProject = {
-      ...formData,
-      id: crypto.randomUUID(),
-      author: {
-        ...teamMembers.profile1,
-        role: "Team Leader",
-        contribution: teamLeaderContribution,
-        contributionDescription: teamLeaderContributionDescription
-      },
-      participants: participants.map(p => ({
-        ...teamMembers[p.profile as keyof typeof teamMembers],
-        role: "Member" as const,
-        contribution: p.contribution,
-        contributionDescription: p.contributionDescription
-      }))
-    };
+    setLoading(true);
 
-    onSubmit(newProject);
+    try {
+      const projectData = {
+        ...formData,
+        author: {
+          role: "Team Leader" as const,
+          contribution: teamLeaderContribution,
+          contributionDescription: teamLeaderContributionDescription
+        },
+        participants: participants.map(p => ({
+          username: p.profile,
+          contribution: p.contribution,
+          contributionDescription: p.contributionDescription
+        }))
+      };
+
+      const newProject = await createProject(projectData);
+      onSubmit(newProject);
+      
+      toast({
+        title: "Succès",
+        description: "Projet créé avec succès !",
+      });
+    } catch (error: any) {
+      console.error('Error creating project:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Une erreur est survenue lors de la création du projet",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
