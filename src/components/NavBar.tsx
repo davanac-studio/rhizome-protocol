@@ -32,14 +32,16 @@ const NavBar = () => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       
-      localStorage.removeItem('user');
+      // Clear all auth related data
+      localStorage.clear();
       
       toast({
         title: "Déconnexion réussie",
         description: "Vous avez été déconnecté avec succès.",
       });
 
-      navigate('/');
+      // Force a page reload to clear all states
+      window.location.href = '/';
     } catch (error: any) {
       toast({
         title: "Erreur de déconnexion",
