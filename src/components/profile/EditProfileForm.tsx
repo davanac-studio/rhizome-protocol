@@ -33,6 +33,16 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user?.id) {
+      toast({
+        title: "Erreur",
+        description: "ID utilisateur non trouvé",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
