@@ -96,16 +96,16 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6">
-          <div className="flex flex-col md:flex-row gap-6">
-            <Avatar className="h-48 w-48 rounded-full border-4 border-white shadow-lg">
-              <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
-              <AvatarFallback className="text-4xl">
-                {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            
-            <div className="space-y-1 pt-6">
+        <div className="relative -mt-24">
+          <Avatar className="h-48 w-48 rounded-full border-4 border-white shadow-lg absolute">
+            <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
+            <AvatarFallback className="text-4xl">
+              {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+          
+          <div className="bg-white rounded-lg shadow-sm mt-32 p-8">
+            <div className="space-y-4">
               <h1 className="text-4xl font-bold text-gray-900">
                 {user?.firstName && user?.lastName 
                   ? `${user.firstName} ${user.lastName}`
@@ -115,12 +115,12 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
               <p className="text-gray-500">@{user?.username}</p>
               
               {user?.bio && (
-                <p className="text-gray-600 max-w-2xl mt-4">
+                <p className="text-gray-600 max-w-2xl">
                   {user.bio}
                 </p>
               )}
 
-              <div className="flex gap-4 mt-4">
+              <div className="flex gap-4">
                 <ProfileSocialButtons user={user} />
                 
                 {isOwnProfile && (
