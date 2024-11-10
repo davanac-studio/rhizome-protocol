@@ -103,7 +103,8 @@ export const UserProjectsGallery = () => {
       const participatingProjects = participantProjects ? 
         participantProjects.map(item => {
           if (!item.project || typeof item.project !== 'object') return null;
-          return transformDatabaseProject(item.project as DatabaseProject);
+          const project = item.project as unknown as DatabaseProject;
+          return transformDatabaseProject(project);
         }).filter((project): project is ReturnType<typeof transformDatabaseProject> => project !== null) :
         [];
 
