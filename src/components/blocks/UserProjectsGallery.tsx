@@ -101,10 +101,16 @@ export const UserProjectsGallery = () => {
         [];
 
       const participatingProjects = participantProjects ? 
-        transformParticipantProjects(participantProjects as ParticipantProject[]) : 
+        transformParticipantProjects(participantProjects as unknown as ParticipantProject[]) : 
         [];
 
-      return [...leaderProjects, ...participatingProjects];
+      // Remove duplicates based on project ID
+      const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(
+        (project, index, self) =>
+          index === self.findIndex((p) => p.id === project.id)
+      );
+
+      return uniqueProjects;
     },
   });
 
