@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const UserProfile = () => {
   const { username } = useParams();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
@@ -21,43 +22,46 @@ const UserProfile = () => {
           .eq('username', username)
           .maybeSingle();
 
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
           throw error;
         }
 
-        if (data) {
-          setUser({
-            name: `${data.first_name} ${data.last_name}`,
-            firstName: data.first_name,
-            lastName: data.last_name,
-            username: data.username,
-            email: data.email,
-            role: data.role || "Membre",
-            avatarUrl: data.avatar_url,
-            bannerUrl: data.banner_url,
-            bio: data.bio,
-            expertise: data.expertise,
-            quote: data.quote,
-            linkedin: data.linkedin,
-            github: data.github,
-            youtube: data.youtube,
-            spotify: data.spotify,
-            instagram: data.instagram,
-            facebook: data.facebook
-          });
-        } else {
+        if (!data) {
           toast({
             title: "Utilisateur non trouvé",
             description: "Cet utilisateur n'existe pas",
             variant: "destructive"
           });
+          navigate('/'); // Redirection vers la page d'accueil
+          return;
         }
+
+        setUser({
+          name: `${data.first_name} ${data.last_name}`,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          username: data.username,
+          email: data.email,
+          role: data.role || "Membre",
+          avatarUrl: data.avatar_url,
+          bannerUrl: data.banner_url,
+          bio: data.bio,
+          expertise: data.expertise,
+          quote: data.quote,
+          linkedin: data.linkedin,
+          github: data.github,
+          youtube: data.youtube,
+          spotify: data.spotify,
+          instagram: data.instagram,
+          facebook: data.facebook
+        });
       } catch (error: any) {
         toast({
           title: "Erreur",
           description: "Impossible de charger le profil",
           variant: "destructive"
         });
+        navigate('/');
       } finally {
         setLoading(false);
       }
@@ -66,7 +70,7 @@ const UserProfile = () => {
     if (username) {
       fetchUserProfile();
     }
-  }, [username, toast]);
+  }, [username, toast, navigate]);
 
   if (!username) {
     return (
@@ -99,15 +103,7 @@ const UserProfile = () => {
   }
 
   if (!user) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container">
-          <div className="text-center">
-            <p className="text-gray-600">Utilisateur non trouvé</p>
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
