@@ -66,23 +66,7 @@ const SignUpForm = () => {
     setLoading(true);
 
     try {
-      // 1. Vérifier si l'email existe déjà
-      const { data: existingUsers } = await supabase
-        .from('profiles')
-        .select('email')
-        .eq('email', formData.email)
-        .single();
-
-      if (existingUsers) {
-        toast({
-          title: "Erreur",
-          description: "Cet email est déjà utilisé",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // 2. Créer le compte auth
+      // 1. Créer le compte auth
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -95,15 +79,28 @@ const SignUpForm = () => {
         },
       });
 
-      if (signUpError) throw signUpError;
+      if (signUpError) {
+        if (signUpError.message.includes("User already registered")) {
+          toast({
+            title: "Erreur",
+            description: "Un compte existe déjà avec cet email",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw signUpError;
+      }
 
-      // 3. Créer le profil utilisateur
+      if (!authData.user?.id) {
+        throw new Error("Erreur lors de la création du compte");
+      }
+
+      // 2. Créer le profil utilisateur
       const { error: profileError } = await supabase
         .from('profiles')
         .insert([
           {
-            id: authData?.user?.id, // Lier le profil à l'utilisateur auth
-            email: formData.email,
+            id: authData.user.id,
             username: formData.username,
             first_name: formData.firstName,
             last_name: formData.lastName,
@@ -126,7 +123,6 @@ const SignUpForm = () => {
         description: "Bienvenue sur Project Pulse ! Vérifiez votre email pour confirmer votre compte.",
       });
 
-      // Rediriger vers la page de connexion
       navigate("/login");
     } catch (error: any) {
       toast({
