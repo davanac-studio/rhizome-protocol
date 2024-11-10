@@ -20,11 +20,12 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const { data, error } = await supabase
+        // First try to fetch by username
+        let { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('username', username)
-          .maybeSingle(); // Changed from .single() to .maybeSingle()
+          .or(`username.eq.${username},id.eq.${username}`)
+          .maybeSingle();
 
         if (error) throw error;
 
@@ -55,6 +56,7 @@ const UserProfile = () => {
           });
         }
       } catch (error: any) {
+        console.error("Erreur lors de la récupération du profil:", error);
         toast({
           title: "Erreur",
           description: "Impossible de charger le profil",
