@@ -73,6 +73,10 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       const projectData = {
         ...formData,
         author: {
+          name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
+          username: user.email?.split('@')[0] || '',
+          avatar: user.user_metadata?.avatar_url,
+          expertise: user.user_metadata?.expertise || '',
           role: "Team Leader" as const,
           contribution: teamLeaderContribution,
           contributionDescription: teamLeaderContributionDescription
