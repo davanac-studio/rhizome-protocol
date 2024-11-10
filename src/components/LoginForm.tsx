@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "./ui/use-toast";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useToast } from "./ui/use-toast";
 import { supabase } from "@/lib/supabase";
-import { FormField } from "./signup/FormField";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -15,25 +14,27 @@ const LoginForm = () => {
     password: "",
   });
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
 
-      if (error) throw error;
-
-      if (data.user) {
-        toast({
-          title: "Connexion réussie",
-          description: "Bienvenue sur Project Pulse !",
-        });
-        navigate("/profile");
+      if (error) {
+        throw error;
       }
+
+      toast({
+        title: "Connexion réussie",
+        description: "Vous êtes maintenant connecté.",
+      });
+
+      // Redirection vers la page de profil après connexion réussie
+      navigate("/profile");
     } catch (error: any) {
       toast({
         title: "Erreur de connexion",
@@ -45,53 +46,48 @@ const LoginForm = () => {
     }
   };
 
-  const handleFieldChange = (field: string, value: string) => {
-    setFormData({ ...formData, [field]: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto p-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold">Connexion</h2>
+        <h2 className="text-2xl font-bold">Se connecter</h2>
         <p className="text-muted-foreground mt-2">
-          Connectez-vous à votre compte Project Pulse
+          Entrez vos identifiants pour accéder à votre compte
         </p>
       </div>
 
       <div className="space-y-4">
-        <FormField label="Email" required>
+        <div>
           <Input
             type="email"
+            name="email"
+            placeholder="Email"
             value={formData.email}
-            onChange={(e) => handleFieldChange("email", e.target.value)}
+            onChange={handleChange}
             required
           />
-        </FormField>
-
-        <FormField label="Mot de passe" required>
+        </div>
+        <div>
           <Input
             type="password"
+            name="password"
+            placeholder="Mot de passe"
             value={formData.password}
-            onChange={(e) => handleFieldChange("password", e.target.value)}
+            onChange={handleChange}
             required
           />
-        </FormField>
+        </div>
       </div>
 
-      <div className="flex gap-4">
-        <Button 
-          type="button" 
-          variant="outline" 
-          className="flex-1" 
-          onClick={() => navigate("/signup")}
-          disabled={loading}
-        >
-          Créer un compte
-        </Button>
-        <Button type="submit" className="flex-1" disabled={loading}>
-          {loading ? "Connexion..." : "Se connecter"}
-        </Button>
-      </div>
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? "Connexion en cours..." : "Se connecter"}
+      </Button>
     </form>
   );
 };
