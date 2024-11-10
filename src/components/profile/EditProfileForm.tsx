@@ -17,18 +17,18 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    bio: user.bio || "",
-    expertise: user.expertise || "",
-    avatarUrl: user.avatarUrl || "",
-    bannerUrl: user.bannerUrl || "",
-    linkedin: user.linkedin || "",
-    youtube: user.youtube || "",
-    github: user.github || "",
-    spotify: user.spotify || "",
-    instagram: user.instagram || "",
-    facebook: user.facebook || "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    bio: user?.bio || "",
+    expertise: user?.expertise || "",
+    avatarUrl: user?.avatarUrl || "",
+    bannerUrl: user?.bannerUrl || "",
+    linkedin: user?.linkedin || "",
+    youtube: user?.youtube || "",
+    github: user?.github || "",
+    spotify: user?.spotify || "",
+    instagram: user?.instagram || "",
+    facebook: user?.facebook || "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +37,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     if (!user?.id) {
       toast({
         title: "Erreur",
-        description: "ID utilisateur non trouvé",
+        description: "Vous devez être connecté pour modifier votre profil",
         variant: "destructive",
       });
       return;
@@ -64,7 +64,9 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         })
         .eq('id', user.id);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       toast({
         title: "Profil mis à jour",
@@ -74,6 +76,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       onUpdate();
       onClose();
     } catch (error: any) {
+      console.error('Error updating profile:', error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de la mise à jour du profil.",
