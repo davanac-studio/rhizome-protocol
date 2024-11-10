@@ -26,11 +26,11 @@ const UserProfile = () => {
           .from('profiles')
           .select('*')
           .eq('username', username)
-          .single();
+          .maybeSingle();
 
         console.log("Query response - Data:", data, "Error:", error);
 
-        if (error) {
+        if (error && error.code !== 'PGRST116') {
           console.error("Supabase error:", error);
           throw error;
         }
@@ -79,8 +79,6 @@ const UserProfile = () => {
       fetchUserProfile();
     }
   }, [username, toast]);
-
-  // ... keep existing code (projectCount calculation)
 
   if (!username) {
     return (
