@@ -63,13 +63,13 @@ export const createUser = async (formData: UserFormData) => {
     return true;
   }
 
-  // 3. Créer le profil utilisateur
+  // 3. Créer le profil utilisateur avec le username
   const { error: profileError } = await supabase
     .from('profiles')
     .insert([
       {
         id: authData.user.id,
-        username: formData.username,
+        username: formData.username,  // Assurez-vous que le username est bien enregistré
         first_name: formData.firstName,
         last_name: formData.lastName,
         bio: formData.bio,
@@ -84,7 +84,10 @@ export const createUser = async (formData: UserFormData) => {
       },
     ]);
 
-  if (profileError) throw profileError;
+  if (profileError) {
+    console.error("Erreur lors de la création du profil:", profileError);
+    throw profileError;
+  }
 
   toast({
     title: "Compte créé avec succès",
