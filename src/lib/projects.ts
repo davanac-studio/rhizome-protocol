@@ -36,33 +36,23 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
 
   if (error) throw error;
 
-  // Insert participants if any
-  if (projectData.participants && projectData.participants.length > 0) {
-    const { error: participantsError } = await supabase
-      .from('project_participants')
-      .insert(
-        projectData.participants.map(participant => ({
-          project_id: data.id,
-          user_id: participant.username,
-          contribution: participant.contribution,
-          contribution_description: participant.contributionDescription
-        }))
-      );
-
-    if (participantsError) throw participantsError;
-  }
-
   // Return the complete project data with author information
   return {
     ...data,
+    id: data.id,
+    dueDate: data.due_date,
     author: {
       name: `${profileData.first_name} ${profileData.last_name}`,
       username: profileData.username,
       avatar: profileData.avatar_url,
       expertise: profileData.expertise,
       role: "Team Leader" as const,
-      contribution: projectData.author.contribution,
-      contributionDescription: projectData.author.contributionDescription
+      contribution: data.team_leader_contribution,
+      contributionDescription: data.team_leader_contribution_description
+    },
+    links: {
+      github: data.github_link,
+      preview: data.preview_link
     }
   };
 };
