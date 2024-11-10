@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/contexts/AuthContext";
 
 const UserProfile = () => {
   const { username } = useParams();
@@ -12,6 +13,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const { user: currentUser } = useAuth();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -32,7 +34,7 @@ const UserProfile = () => {
             description: "Cet utilisateur n'existe pas",
             variant: "destructive"
           });
-          navigate('/'); // Redirection vers la page d'accueil
+          navigate('/');
           return;
         }
 
@@ -110,7 +112,7 @@ const UserProfile = () => {
     <div className="min-h-screen bg-gray-50">
       <ProfileHeader user={user} />
       <div className="container max-w-5xl mx-auto px-4 py-8">
-        <UserProjectsGallery username={user.username} />
+        {currentUser?.id === user.id && <UserProjectsGallery />}
       </div>
     </div>
   );
