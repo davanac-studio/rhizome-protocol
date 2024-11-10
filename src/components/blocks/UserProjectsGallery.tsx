@@ -3,41 +3,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-
-interface ProjectUser {
-  id: string;
-  first_name: string;
-  last_name: string;
-  username: string;
-  avatar_url: string;
-  expertise: string;
-  role: string;
-}
-
-interface ProjectParticipant {
-  user: ProjectUser;
-  contribution: number;
-  contribution_description: string;
-}
-
-interface DatabaseProject {
-  id: string;
-  title: string;
-  description: string;
-  due_date: string;
-  thumbnail: string;
-  category: string;
-  client: string;
-  team_leader: string;
-  team_leader_contribution: number;
-  team_leader_contribution_description: string;
-  author: ProjectUser;
-  participants: ProjectParticipant[];
-}
-
-interface ParticipantProject {
-  project: DatabaseProject;
-}
+import { DatabaseProject, ParticipantProject } from "@/types/database";
+import { transformDatabaseProject, transformParticipantProjects } from "@/utils/projectTransformers";
 
 export const UserProjectsGallery = () => {
   const { user } = useAuth();
@@ -126,52 +93,12 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      const leaderProjects = (teamLeaderProjects as DatabaseProject[] || []).map(project => ({
-        ...project,
-        author: {
-          name: `${project.author?.first_name || ''} ${project.author?.last_name || ''}`.trim(),
-          username: project.author?.username || '',
-          avatar: project.author?.avatar_url || '',
-          expertise: project.author?.expertise || '',
-          role: "Team Leader" as const,
-          contribution: project.team_leader_contribution || 0,
-          contributionDescription: project.team_leader_contribution_description || ''
-        },
-        participants: (project.participants || []).map(p => ({
-          name: `${p.user?.first_name || ''} ${p.user?.last_name || ''}`.trim(),
-          username: p.user?.username || '',
-          avatar: p.user?.avatar_url || '',
-          expertise: p.user?.expertise || '',
-          role: "Member" as const,
-          contribution: p.contribution || 0,
-          contributionDescription: p.contribution_description || ''
-        }))
-      }));
+      const leaderProjects = (teamLeaderProjects as DatabaseProject[] || [])
+        .map(transformDatabaseProject);
 
-      const participatingProjects = (participantProjects as ParticipantProject[] || [])
-        .map(p => p.project)
-        .filter(Boolean)
-        .map(project => ({
-          ...project,
-          author: {
-            name: `${project.author?.first_name || ''} ${project.author?.last_name || ''}`.trim(),
-            username: project.author?.username || '',
-            avatar: project.author?.avatar_url || '',
-            expertise: project.author?.expertise || '',
-            role: "Team Leader" as const,
-            contribution: project.team_leader_contribution || 0,
-            contributionDescription: project.team_leader_contribution_description || ''
-          },
-          participants: (project.participants || []).map(p => ({
-            name: `${p.user?.first_name || ''} ${p.user?.last_name || ''}`.trim(),
-            username: p.user?.username || '',
-            avatar: p.user?.avatar_url || '',
-            expertise: p.user?.expertise || '',
-            role: "Member" as const,
-            contribution: p.contribution || 0,
-            contributionDescription: p.contribution_description || ''
-          }))
-        }));
+      const participatingProjects = transformParticipantProjects(
+        participantProjects as ParticipantProject[] || []
+      );
 
       return [...leaderProjects, ...participatingProjects];
     },
