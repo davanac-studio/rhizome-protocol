@@ -77,7 +77,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
   const handleUpdate = async (updatedUser: any) => {
     setUser(updatedUser);
-    await fetchUserData(); // Refresh the data after update
+    await fetchUserData();
     setIsEditing(false);
   };
 
@@ -106,7 +106,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </h1>
             <p className="text-sm text-gray-600">@{user?.username}</p>
             {user?.expertise && (
-              <p className="text-gray-700 font-bold italic mt-1">{user.expertise}</p>
+              <p className="text-gray-700 mt-1">{user.expertise}</p>
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
