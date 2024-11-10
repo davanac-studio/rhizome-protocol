@@ -15,6 +15,7 @@ export const UserProjectsGallery = () => {
     queryFn: async () => {
       if (!user?.id) return [];
 
+      // Fetch projects where user is team leader
       const { data: teamLeaderProjects, error: leaderError } = await supabase
         .from('projects')
         .select(`
@@ -53,6 +54,7 @@ export const UserProjectsGallery = () => {
         throw leaderError;
       }
 
+      // Fetch projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
         .select(`
@@ -93,12 +95,14 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      const leaderProjects = (teamLeaderProjects as DatabaseProject[])
-        .map(transformDatabaseProject);
+      // Transform and combine both sets of projects
+      const leaderProjects = teamLeaderProjects ? 
+        (teamLeaderProjects as DatabaseProject[]).map(transformDatabaseProject) : 
+        [];
 
-      const participatingProjects = transformParticipantProjects(
-        participantProjects as unknown as ParticipantProject[]
-      );
+      const participatingProjects = participantProjects ? 
+        transformParticipantProjects(participantProjects as ParticipantProject[]) : 
+        [];
 
       return [...leaderProjects, ...participatingProjects];
     },
