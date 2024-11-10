@@ -28,16 +28,19 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
   thumbnail: project.thumbnail,
   category: project.category,
   client: project.client,
-  author: transformToProjectMember(
-    project.author?.first_name,
-    project.author?.last_name,
-    project.author?.username,
-    project.author?.avatar_url,
-    project.author?.expertise,
-    "Team Leader",
-    project.team_leader_contribution,
-    project.team_leader_contribution_description
-  ),
+  author: {
+    ...transformToProjectMember(
+      project.author?.first_name,
+      project.author?.last_name,
+      project.author?.username,
+      project.author?.avatar_url,
+      project.author?.expertise,
+      "Team Leader",
+      project.team_leader_contribution,
+      project.team_leader_contribution_description
+    ),
+    role: "Team Leader" as const
+  },
   participants: project.participants?.map(p => 
     transformToProjectMember(
       p.user?.first_name,
@@ -59,6 +62,6 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
 export const transformParticipantProjects = (participantProjects: ParticipantProject[]): Project[] => {
   return participantProjects
     .map(p => p.project)
-    .filter(Boolean)
+    .filter((project): project is DatabaseProject => !!project)
     .map(transformDatabaseProject);
 };

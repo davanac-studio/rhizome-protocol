@@ -93,11 +93,11 @@ export const UserProjectsGallery = () => {
         throw participantError;
       }
 
-      const leaderProjects = (teamLeaderProjects as DatabaseProject[] || [])
+      const leaderProjects = (teamLeaderProjects as DatabaseProject[])
         .map(transformDatabaseProject);
 
       const participatingProjects = transformParticipantProjects(
-        participantProjects as ParticipantProject[] || []
+        participantProjects as unknown as ParticipantProject[]
       );
 
       return [...leaderProjects, ...participatingProjects];
