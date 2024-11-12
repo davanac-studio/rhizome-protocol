@@ -28,20 +28,21 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
   thumbnail: project.thumbnail,
   category: project.category,
   client: project.client,
+  testimonial: project.testimonial,
   author: {
     ...transformToProjectMember(
-      project.author?.first_name,
-      project.author?.last_name,
-      project.author?.username,
-      project.author?.avatar_url,
-      project.author?.expertise,
+      project.team_leader_profile?.first_name,
+      project.team_leader_profile?.last_name,
+      project.team_leader_profile?.username,
+      project.team_leader_profile?.avatar_url,
+      project.team_leader_profile?.expertise,
       "Team Leader",
       project.team_leader_contribution,
       project.team_leader_contribution_description
     ),
     role: "Team Leader" as const
   },
-  participants: project.participants?.map(p => 
+  participants: project.project_participants?.map(p => 
     transformToProjectMember(
       p.user?.first_name,
       p.user?.last_name,

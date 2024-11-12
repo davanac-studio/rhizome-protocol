@@ -22,11 +22,12 @@ export interface DatabaseProject {
   thumbnail: string;
   category: string;
   client: string;
+  testimonial?: string;
   team_leader: string;
   team_leader_contribution: number;
   team_leader_contribution_description: string;
-  author: DatabaseUser;
-  participants: DatabaseParticipant[];
+  team_leader_profile: DatabaseUser;
+  project_participants: DatabaseParticipant[];
   github_link?: string;
   preview_link?: string;
 }

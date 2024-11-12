@@ -31,7 +31,7 @@ export const UserProjectsGallery = () => {
             expertise
           ),
           project_participants (
-            participant:profiles!project_participants_user_id_fkey (
+            user:profiles!project_participants_user_id_fkey (
               id,
               first_name,
               last_name,
@@ -65,7 +65,10 @@ export const UserProjectsGallery = () => {
             contributionDescription: project.team_leader_contribution_description
           },
           participants: project.project_participants?.map((p: any) => ({
-            ...p.participant,
+            name: `${p.user.first_name} ${p.user.last_name}`,
+            username: p.user.username,
+            avatar: p.user.avatar_url,
+            expertise: p.user.expertise,
             role: "Member",
             contribution: p.contribution,
             contributionDescription: p.contribution_description
@@ -87,7 +90,7 @@ export const UserProjectsGallery = () => {
               expertise
             ),
             project_participants (
-              participant:profiles!project_participants_user_id_fkey (
+              user:profiles!project_participants_user_id_fkey (
                 id,
                 first_name,
                 last_name,
@@ -124,7 +127,10 @@ export const UserProjectsGallery = () => {
               contributionDescription: item.projects.team_leader_contribution_description
             },
             participants: item.projects.project_participants?.map((p: any) => ({
-              ...p.participant,
+              name: `${p.user.first_name} ${p.user.last_name}`,
+              username: p.user.username,
+              avatar: p.user.avatar_url,
+              expertise: p.user.expertise,
               role: "Member",
               contribution: p.contribution,
               contributionDescription: p.contribution_description
@@ -139,8 +145,8 @@ export const UserProjectsGallery = () => {
 
       return uniqueProjects;
     },
-    staleTime: 1000, // Add a small stale time to prevent immediate refetches
-    gcTime: 5 * 60 * 1000, // Changed from cacheTime to gcTime for v5 compatibility
+    staleTime: 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   if (isLoading) {
