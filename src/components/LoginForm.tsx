@@ -34,7 +34,29 @@ const LoginForm = () => {
       });
 
       if (error) {
-        throw error;
+        if (error.message.includes("Invalid login credentials")) {
+          toast({
+            title: "Erreur de connexion",
+            description: "Email ou mot de passe incorrect",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Erreur de connexion",
+            description: "Une erreur est survenue lors de la connexion",
+            variant: "destructive",
+          });
+        }
+        return;
+      }
+
+      if (!data.user) {
+        toast({
+          title: "Erreur de connexion",
+          description: "Impossible de récupérer les informations utilisateur",
+          variant: "destructive",
+        });
+        return;
       }
 
       // Récupérer les données du profil utilisateur
@@ -46,6 +68,12 @@ const LoginForm = () => {
 
       if (profileError) {
         console.error('Error fetching profile:', profileError);
+        toast({
+          title: "Erreur",
+          description: "Impossible de récupérer votre profil",
+          variant: "destructive",
+        });
+        return;
       }
 
       toast({
@@ -80,17 +108,18 @@ const LoginForm = () => {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
 
-      if (error) throw error;
+      if (error) {
+        toast({
+          title: "Erreur",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
 
       toast({
         title: "Email envoyé",
         description: "Vérifiez votre boîte mail pour réinitialiser votre mot de passe.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Erreur",
-        description: error.message,
-        variant: "destructive",
       });
     } finally {
       setIsResetting(false);
