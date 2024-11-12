@@ -41,8 +41,14 @@ export const NewProjectDialog = () => {
       };
 
       const newProject = await createProject(projectToCreate);
+      
+      // Update the cache with the new project instead of invalidating
+      await queryClient.setQueryData(['userProjects'], (oldData: any) => {
+        if (!oldData) return [newProject];
+        return [...oldData, newProject];
+      });
+
       setIsOpen(false);
-      await queryClient.invalidateQueries({ queryKey: ['userProjects'] });
       toast({
         title: "Succès",
         description: "Projet créé avec succès !",
