@@ -23,24 +23,22 @@ export const UserProjectsGallery = () => {
         .from('projects')
         .select(`
           *,
-          profiles!team_leader (
+          team_leader_profile:profiles!projects_team_leader_fkey (
             id,
             first_name,
             last_name,
             username,
             avatar_url,
-            expertise,
-            role
+            expertise
           ),
           project_participants (
-            profiles!user_id (
+            participant:profiles!project_participants_user_id_fkey (
               id,
               first_name,
               last_name,
               username,
               avatar_url,
-              expertise,
-              role
+              expertise
             ),
             contribution,
             contribution_description
@@ -62,11 +60,17 @@ export const UserProjectsGallery = () => {
       const leaderProjects = teamLeaderProjects ? 
         teamLeaderProjects.map((project: any) => ({
           ...project,
-          author: project.profiles,
+          author: {
+            ...project.team_leader_profile,
+            role: "Team Leader",
+            contribution: project.team_leader_contribution,
+            contributionDescription: project.team_leader_contribution_description
+          },
           participants: project.project_participants?.map((p: any) => ({
-            ...p.profiles,
+            ...p.participant,
+            role: "Member",
             contribution: p.contribution,
-            contribution_description: p.contribution_description
+            contributionDescription: p.contribution_description
           })) || []
         })).map(transformDatabaseProject) : [];
 
@@ -74,26 +78,24 @@ export const UserProjectsGallery = () => {
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
         .select(`
-          project:projects!inner (
+          projects (
             *,
-            profiles!team_leader (
+            team_leader_profile:profiles!projects_team_leader_fkey (
               id,
               first_name,
               last_name,
               username,
               avatar_url,
-              expertise,
-              role
+              expertise
             ),
             project_participants (
-              profiles!user_id (
+              participant:profiles!project_participants_user_id_fkey (
                 id,
                 first_name,
                 last_name,
                 username,
                 avatar_url,
-                expertise,
-                role
+                expertise
               ),
               contribution,
               contribution_description
@@ -114,15 +116,23 @@ export const UserProjectsGallery = () => {
 
       // Transform participant projects
       const participatingProjects = participantProjects ? 
-        participantProjects.map((item: any) => ({
-          ...item.project,
-          author: item.project.profiles,
-          participants: item.project.project_participants?.map((p: any) => ({
-            ...p.profiles,
-            contribution: p.contribution,
-            contribution_description: p.contribution_description
-          })) || []
-        })).map(transformDatabaseProject) : [];
+        participantProjects
+          .filter((item: any) => item.projects !== null)
+          .map((item: any) => ({
+            ...item.projects,
+            author: {
+              ...item.projects.team_leader_profile,
+              role: "Team Leader",
+              contribution: item.projects.team_leader_contribution,
+              contributionDescription: item.projects.team_leader_contribution_description
+            },
+            participants: item.projects.project_participants?.map((p: any) => ({
+              ...p.participant,
+              role: "Member",
+              contribution: p.contribution,
+              contributionDescription: p.contribution_description
+            })) || []
+          })).map(transformDatabaseProject) : [];
 
       // Remove duplicates based on project ID
       const uniqueProjects = [...leaderProjects, ...participatingProjects].filter(

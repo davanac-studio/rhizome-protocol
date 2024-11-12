@@ -63,6 +63,107 @@ export type Database = {
         }
         Relationships: []
       }
+      project_participants: {
+        Row: {
+          contribution: number | null
+          contribution_description: string | null
+          created_at: string
+          id: string
+          project_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          contribution?: number | null
+          contribution_description?: string | null
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          contribution?: number | null
+          contribution_description?: string | null
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_participants_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          category: string
+          client: string
+          created_at: string
+          description: string
+          due_date: string
+          github_link: string | null
+          id: string
+          preview_link: string | null
+          team_leader: string
+          team_leader_contribution: number | null
+          team_leader_contribution_description: string | null
+          testimonial: string | null
+          thumbnail: string
+          title: string
+        }
+        Insert: {
+          category: string
+          client: string
+          created_at?: string
+          description: string
+          due_date: string
+          github_link?: string | null
+          id: string
+          preview_link?: string | null
+          team_leader: string
+          team_leader_contribution?: number | null
+          team_leader_contribution_description?: string | null
+          testimonial?: string | null
+          thumbnail: string
+          title: string
+        }
+        Update: {
+          category?: string
+          client?: string
+          created_at?: string
+          description?: string
+          due_date?: string
+          github_link?: string | null
+          id?: string
+          preview_link?: string | null
+          team_leader?: string
+          team_leader_contribution?: number | null
+          team_leader_contribution_description?: string | null
+          testimonial?: string | null
+          thumbnail?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_team_leader_fkey"
+            columns: ["team_leader"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
