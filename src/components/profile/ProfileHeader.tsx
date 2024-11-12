@@ -149,14 +149,15 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             <div className="flex gap-3 mt-4">
               <Button
                 variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 h-10 px-4"
                 onClick={() => setIsEditing(true)}
               >
                 <Pencil className="h-4 w-4" />
                 Modifier le profil
               </Button>
-              <NewProjectDialog />
+              <div className="h-10">
+                <NewProjectDialog />
+              </div>
             </div>
           )}
         </div>
