@@ -6,12 +6,14 @@ import { ProjectForm } from "./project/ProjectForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { createProject } from "@/lib/projects";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const NewProjectDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleProjectCreate = async (projectData: any) => {
     try {
@@ -45,6 +47,9 @@ export const NewProjectDialog = () => {
         title: "Succès",
         description: "Projet créé avec succès !",
       });
+      
+      // Navigate to the new project's page
+      navigate(`/project/${newProject.id}`);
     } catch (error: any) {
       console.error("Erreur lors de la création du projet:", error);
       toast({
