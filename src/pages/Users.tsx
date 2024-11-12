@@ -38,6 +38,24 @@ const Users = () => {
         <h1 className="text-2xl font-bold">Communauté</h1>
       </div>
 
+      <div className="text-center max-w-3xl mx-auto mb-16 space-y-8">
+        <div className="text-4xl">👣</div>
+        <h2 className="text-2xl font-semibold">
+          Nous sommes des compagnons de route
+        </h2>
+        <div className="space-y-4 text-gray-600">
+          <p>
+            Nomades, nous développons des compétences techniques et stratégiques complémentaires, au service de nos clients et partenaires.
+          </p>
+          <p>
+            Indépendants, nous nous agrégeons selon la nature et la temporalité des projets que nous initions et auxquels nous contribuons.
+          </p>
+          <p>
+            Nous partageons des valeurs d'honnêteté intellectuelle, de transparence et de confiance mutuelle
+          </p>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {users?.map((user) => (
           <Link key={user.id} to={`/profile/${user.username}`}>
