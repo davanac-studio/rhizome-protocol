@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserCircle2, Home, LogOut, Users } from "lucide-react";
 import { Button } from "./ui/button";
-import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
 import { supabase } from "@/lib/supabase";
@@ -23,18 +22,6 @@ const NavBar = () => {
       description: "Vous avez été déconnecté avec succès.",
     });
     navigate("/");
-  };
-
-  const handleNewProjectClick = () => {
-    if (!user) {
-      toast({
-        title: "Connexion requise",
-        description: "Vous devez être connecté pour créer un nouveau projet.",
-        variant: "destructive",
-      });
-      navigate("/auth");
-      return;
-    }
   };
 
   const getProfilePath = () => {
@@ -72,7 +59,6 @@ const NavBar = () => {
                     <UserCircle2 className="h-5 w-5" />
                   </Button>
                 </Link>
-                <NewProjectDialog />
                 <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                 </Button>

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { NewProjectDialog } from "@/components/NewProjectDialog";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserProfile() {
   const { username } = useParams();
   const [user, setUser] = useState<any>(null);
   const { toast } = useToast();
+  const { user: currentUser } = useAuth();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -47,6 +50,8 @@ export default function UserProfile() {
     }
   }, [username, toast]);
 
+  const isOwnProfile = currentUser && user && currentUser.id === user.id;
+
   if (!user) {
     return (
       <div className="container mx-auto py-8 flex justify-center items-center min-h-[50vh]">
@@ -59,7 +64,10 @@ export default function UserProfile() {
 
   return (
     <div className="container mx-auto py-8">
-      <ProfileHeader user={user} />
+      <div className="flex justify-between items-center mb-6">
+        <ProfileHeader user={user} />
+        {isOwnProfile && <NewProjectDialog />}
+      </div>
     </div>
   );
 }
