@@ -37,8 +37,7 @@ const EditProject = () => {
               expertise
             ),
             contribution,
-            contribution_description,
-            avatar
+            contribution_description
           )
         `)
         .eq('id', id)
@@ -109,7 +108,7 @@ const EditProject = () => {
         description: "Le projet a été mis à jour avec succès",
       });
 
-      navigate(`/projects/${id}`);
+      navigate(`/project/${id}`);
     } catch (error) {
       console.error('Error updating project:', error);
       toast({
@@ -145,7 +144,7 @@ const EditProject = () => {
   return (
     <ProjectForm
       onSubmit={handleSubmit}
-      onCancel={() => navigate(`/projects/${id}`)}
+      onCancel={() => navigate(`/project/${id}`)}
       initialData={initialFormData}
       initialParticipants={project.participants?.map(p => ({
         profile: p.id,
