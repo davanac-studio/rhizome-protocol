@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -14,9 +13,11 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const { toast } = useToast();
 
-  const { data: project, isLoading } = useQuery({
+  const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
+      if (!id) throw new Error("ID du projet manquant");
+
       const { data: projectData, error } = await supabase
         .from('projects')
         .select(`
@@ -30,7 +31,7 @@ const ProjectDetails = () => {
             expertise
           ),
           project_participants (
-            participant:profiles!project_participants_user_id_fkey (
+            user:profiles!project_participants_user_id_fkey (
               id,
               first_name,
               last_name,
@@ -43,7 +44,7 @@ const ProjectDetails = () => {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         toast({
@@ -72,14 +73,35 @@ const ProjectDetails = () => {
           contributionDescription: projectData.team_leader_contribution_description
         },
         participants: projectData.project_participants?.map((p: any) => ({
-          ...p.participant,
+          ...p.user,
           role: "Member",
           contribution: p.contribution,
           contributionDescription: p.contribution_description
         })) || []
       });
-    }
+    },
+    retry: false
   });
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="container py-8">
+          <Link to="/">
+            <Button variant="ghost" className="mb-6">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour aux Projets
+            </Button>
+          </Link>
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Une erreur est survenue lors du chargement du projet
+            </h2>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
