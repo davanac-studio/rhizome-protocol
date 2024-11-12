@@ -1,9 +1,15 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { UserCircle2, Home, LogOut, Users } from "lucide-react";
+import { UserCircle2, Home, LogOut, Users, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
 import { supabase } from "@/lib/supabase";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NavBar = () => {
   const { user, clearSession } = useAuth();
@@ -39,30 +45,41 @@ const NavBar = () => {
               <Home className="h-6 w-6" />
             </Link>
             {!isHomePage && (
-              <>
-                <Link to="/about" className="text-gray-900 hover:text-gray-700">
-                  Comment ça marche ?
-                </Link>
-                <Link to="/users" className="text-gray-900 hover:text-gray-700 flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Communauté
-                </Link>
-              </>
+              <Link to="/about" className="text-gray-900 hover:text-gray-700">
+                Comment ça marche ?
+              </Link>
             )}
           </div>
           
           <div className="flex items-center gap-4">
             {user ? (
-              <>
-                <Link to={getProfilePath()}>
-                  <Button variant="ghost" size="icon" className="hover:bg-gray-100" title="Voir mon profil">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2">
                     <UserCircle2 className="h-5 w-5" />
+                    <span className="hidden sm:inline">Mon compte</span>
+                    <ChevronDown className="h-4 w-4" />
                   </Button>
-                </Link>
-                <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={handleLogout}>
-                  <LogOut className="h-5 w-5" />
-                </Button>
-              </>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to={getProfilePath()} className="flex items-center gap-2">
+                      <UserCircle2 className="h-4 w-4" />
+                      Mon profil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/users" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Communauté
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 text-red-600">
+                    <LogOut className="h-4 w-4" />
+                    Se déconnecter
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link to="/auth">
                 <Button variant="outline" className="hover:bg-gray-100">
