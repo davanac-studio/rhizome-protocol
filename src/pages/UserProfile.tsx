@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { UserProjectsGallery } from "@/components/blocks/UserProjectsGallery";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -59,9 +58,8 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className="container mx-auto py-8">
       <ProfileHeader user={user} />
-      <UserProjectsGallery />
     </div>
   );
 }
