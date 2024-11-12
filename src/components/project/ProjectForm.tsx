@@ -10,13 +10,28 @@ import { useAuth } from "@/contexts/AuthContext";
 interface ProjectFormProps {
   onSubmit: (project: any) => void;
   onCancel: () => void;
+  initialData?: ProjectFormData;
+  initialParticipants?: Array<{
+    profile: string;
+    contribution: number;
+    contributionDescription: string;
+  }>;
+  initialTeamLeaderContribution?: number;
+  initialTeamLeaderContributionDescription?: string;
 }
 
-export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
+export const ProjectForm = ({ 
+  onSubmit, 
+  onCancel,
+  initialData,
+  initialParticipants = [],
+  initialTeamLeaderContribution = TEAM_LEADER_CONTRIBUTION,
+  initialTeamLeaderContributionDescription = ""
+}: ProjectFormProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<ProjectFormData>({
+  const [formData, setFormData] = useState<ProjectFormData>(initialData || {
     title: "",
     description: "",
     dueDate: "",
@@ -34,10 +49,10 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
     profile: string;
     contribution: number;
     contributionDescription: string;
-  }>>([]);
+  }>>(initialParticipants);
 
-  const [teamLeaderContribution, setTeamLeaderContribution] = useState(TEAM_LEADER_CONTRIBUTION);
-  const [teamLeaderContributionDescription, setTeamLeaderContributionDescription] = useState("");
+  const [teamLeaderContribution, setTeamLeaderContribution] = useState(initialTeamLeaderContribution);
+  const [teamLeaderContributionDescription, setTeamLeaderContributionDescription] = useState(initialTeamLeaderContributionDescription);
 
   const validateContributions = () => {
     const total = teamLeaderContribution + participants.reduce((acc, curr) => acc + curr.contribution, 0);
@@ -59,8 +74,6 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       });
       return;
     }
-
-    console.log("Form submission - Participants data:", participants);
 
     if (!validateContributions()) {
       toast({
@@ -87,7 +100,6 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         }))
       };
 
-      console.log("Submitting project with data:", projectData);
       await onSubmit(projectData);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -98,7 +110,9 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Créer un Nouveau Projet</h1>
+        <h1 className="text-3xl font-bold">
+          {initialData ? "Modifier le Projet" : "Créer un Nouveau Projet"}
+        </h1>
         <Button variant="outline" onClick={onCancel} type="button">Retour</Button>
       </div>
 
@@ -118,7 +132,7 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         disabled={isSubmitting} 
         className="w-full"
       >
-        {isSubmitting ? "Création en cours..." : "Créer le Projet"}
+        {isSubmitting ? "Enregistrement en cours..." : (initialData ? "Enregistrer les Modifications" : "Créer le Projet")}
       </Button>
     </form>
   );
