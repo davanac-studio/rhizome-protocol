@@ -7,13 +7,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const { user: currentUser } = useAuth();
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
+  const [loading, setLoading] = useState(true);
 
   const fetchUserData = async () => {
     if (!user?.username) {
@@ -26,7 +29,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         .from('profiles')
         .select('*')
         .eq('username', user.username)
-        .single();
+        .maybeSingle(); // Using maybeSingle() instead of single() to handle non-existent profiles
 
       if (error) {
         console.error('Error fetching profile:', error);
@@ -38,8 +41,13 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         return;
       }
       
-      if (!userData?.id) {
-        console.log('No user data found for profile');
+      if (!userData) {
+        toast({
+          title: "Profil introuvable",
+          description: "Ce profil n'existe pas",
+          variant: "destructive",
+        });
+        navigate('/'); // Redirect to home page
         return;
       }
 
@@ -59,6 +67,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         description: "Une erreur est survenue lors du chargement du profil",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +76,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     const checkProfileOwnership = async () => {
       if (!currentUser?.id) {
         console.log('No current user ID found');
+        setLoading(false);
         return;
       }
 
@@ -80,6 +91,24 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     await fetchUserData();
     setIsEditing(false);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <p>Chargement du profil...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <h1 className="text-2xl font-bold mb-4">Profil introuvable</h1>
+        <p className="text-gray-600 mb-4">Ce profil n'existe pas ou a été supprimé.</p>
+        <Button onClick={() => navigate('/')}>Retourner à l'accueil</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="relative">
