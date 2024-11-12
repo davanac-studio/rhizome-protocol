@@ -22,14 +22,19 @@ export const NewProjectDialog = () => {
         throw new Error("Vous devez être connecté pour créer un projet");
       }
 
-      // Check if project already exists
-      const { data: existingProjects } = await supabase
+      // Check if project already exists before attempting to create it
+      const { data: existingProjects, error: checkError } = await supabase
         .from('projects')
-        .select('id, title')
+        .select('id')
         .eq('title', projectData.title)
-        .eq('team_leader', user.id);
+        .eq('team_leader', user.id)
+        .single();
 
-      if (existingProjects && existingProjects.length > 0) {
+      if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows returned
+        throw new Error("Erreur lors de la vérification du titre");
+      }
+
+      if (existingProjects) {
         throw new Error("Un projet avec ce titre existe déjà");
       }
 
@@ -53,12 +58,8 @@ export const NewProjectDialog = () => {
 
       const newProject = await createProject(projectToCreate);
       
-      // Update the cache manually without triggering a refetch
       queryClient.setQueryData(['userProjects', user.id], (oldData: any) => {
         if (!oldData) return [newProject];
-        // Ensure we don't add duplicates
-        const existingProject = oldData.find((p: any) => p.id === newProject.id);
-        if (existingProject) return oldData;
         return [...oldData, newProject];
       });
 
@@ -76,6 +77,7 @@ export const NewProjectDialog = () => {
         description: error.message || "Une erreur est survenue lors de la création du projet",
         variant: "destructive",
       });
+      throw error; // Re-throw to prevent form reset
     }
   };
 
