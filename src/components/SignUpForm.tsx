@@ -17,6 +17,7 @@ const SignUpForm = () => {
     email: "",
     password: "",
     bio: "",
+    expertise: "",
     avatarUrl: "",
     bannerUrl: "",
     linkedin: "",
@@ -60,7 +61,7 @@ const SignUpForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.username) {
+    if (!formData.username || !formData.expertise) {
       toast({
         title: "Erreur de validation",
         description: "Veuillez remplir tous les champs obligatoires",
