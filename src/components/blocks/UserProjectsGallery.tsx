@@ -3,7 +3,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { DatabaseProject } from "@/types/database";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
 
 export const UserProjectsGallery = () => {
@@ -56,7 +55,6 @@ export const UserProjectsGallery = () => {
         return [];
       }
 
-      // Transform team leader projects
       const leaderProjects = teamLeaderProjects ? 
         teamLeaderProjects.map((project: any) => ({
           ...project,
@@ -114,7 +112,6 @@ export const UserProjectsGallery = () => {
         return leaderProjects;
       }
 
-      // Transform participant projects
       const participatingProjects = participantProjects ? 
         participantProjects
           .filter((item: any) => item.projects !== null)
@@ -142,9 +139,8 @@ export const UserProjectsGallery = () => {
 
       return uniqueProjects;
     },
-    refetchOnWindowFocus: true,
-    staleTime: 0,
-    gcTime: 0,
+    staleTime: 1000, // Add a small stale time to prevent immediate refetches
+    cacheTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 
   if (isLoading) {

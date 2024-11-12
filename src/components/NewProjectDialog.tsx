@@ -21,7 +21,6 @@ export const NewProjectDialog = () => {
         throw new Error("Vous devez être connecté pour créer un projet");
       }
 
-      // Ensure all required fields are present
       const projectToCreate = {
         ...projectData,
         links: {
@@ -42,9 +41,12 @@ export const NewProjectDialog = () => {
 
       const newProject = await createProject(projectToCreate);
       
-      // Update the cache with the new project instead of invalidating
-      await queryClient.setQueryData(['userProjects'], (oldData: any) => {
+      // Update the cache manually without triggering a refetch
+      queryClient.setQueryData(['userProjects', user.id], (oldData: any) => {
         if (!oldData) return [newProject];
+        // Ensure we don't add duplicates
+        const existingProject = oldData.find((p: any) => p.id === newProject.id);
+        if (existingProject) return oldData;
         return [...oldData, newProject];
       });
 
@@ -54,7 +56,6 @@ export const NewProjectDialog = () => {
         description: "Projet créé avec succès !",
       });
       
-      // Navigate to the new project's page
       navigate(`/project/${newProject.id}`);
     } catch (error: any) {
       console.error("Erreur lors de la création du projet:", error);
