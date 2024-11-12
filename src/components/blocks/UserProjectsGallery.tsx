@@ -140,7 +140,7 @@ export const UserProjectsGallery = () => {
       return uniqueProjects;
     },
     staleTime: 1000, // Add a small stale time to prevent immediate refetches
-    cacheTime: 5 * 60 * 1000, // Cache for 5 minutes
+    gcTime: 5 * 60 * 1000, // Changed from cacheTime to gcTime for v5 compatibility
   });
 
   if (isLoading) {
