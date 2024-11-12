@@ -43,7 +43,7 @@ export const ParticipantsSection = ({
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .neq('id', user?.id); // Exclure le profil du team leader actuel
+        .neq('id', user?.id);
 
       if (error) {
         toast({
