@@ -15,7 +15,30 @@ export const NewProjectDialog = () => {
 
   const handleProjectCreate = async (projectData: any) => {
     try {
-      const newProject = await createProject(projectData);
+      if (!user) {
+        throw new Error("Vous devez être connecté pour créer un projet");
+      }
+
+      // Ensure all required fields are present
+      const projectToCreate = {
+        ...projectData,
+        links: {
+          github: projectData.links?.github || "",
+          preview: projectData.links?.preview || "",
+        },
+        author: {
+          name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
+          username: user.email?.split('@')[0] || '',
+          avatar: user.user_metadata?.avatar_url,
+          expertise: user.user_metadata?.expertise || '',
+          role: "Team Leader" as const,
+          contribution: projectData.author?.contribution || 0,
+          contributionDescription: projectData.author?.contributionDescription || ""
+        },
+        participants: projectData.participants || []
+      };
+
+      const newProject = await createProject(projectToCreate);
       setIsOpen(false);
       await queryClient.invalidateQueries({ queryKey: ['userProjects'] });
       toast({
@@ -23,6 +46,7 @@ export const NewProjectDialog = () => {
         description: "Projet créé avec succès !",
       });
     } catch (error: any) {
+      console.error("Erreur lors de la création du projet:", error);
       toast({
         title: "Erreur",
         description: error.message || "Une erreur est survenue lors de la création du projet",

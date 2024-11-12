@@ -79,6 +79,7 @@ export type Database = {
           testimonial: string | null
           thumbnail: string
           title: string
+          uuid: string | null
         }
         Insert: {
           category: string
@@ -95,6 +96,7 @@ export type Database = {
           testimonial?: string | null
           thumbnail: string
           title: string
+          uuid?: string | null
         }
         Update: {
           category?: string
@@ -111,6 +113,7 @@ export type Database = {
           testimonial?: string | null
           thumbnail?: string
           title?: string
+          uuid?: string | null
         }
         Relationships: []
       }
