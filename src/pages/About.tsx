@@ -7,11 +7,6 @@ const About = () => {
       <div className="max-w-4xl mx-auto prose prose-lg">
         <h1 className="text-4xl font-bold mb-8">Manifeste Rhizome Protocol</h1>
         
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Vision</h2>
-        <p>
-          Dans un monde professionnel en constante évolution, la confiance et la reconnaissance authentique des compétences sont devenues des enjeux majeurs. Rhizome Protocol émerge comme une solution révolutionnaire, transformant la façon dont les professionnels documentent, valident et partagent leurs contributions aux projets.
-        </p>
-
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Mission</h2>
         <p>
           Nous bâtissons un écosystème transparent et décentralisé où chaque contribution professionnelle est immortalisée et validée sur la blockchain. Notre plateforme repose sur des principes fondamentaux de certification immuable, de validation par les pairs et de reconnaissance tangible des compétences à travers des NFTs.
@@ -63,30 +58,6 @@ const About = () => {
           <li>Smart Contracts : Assurant une logique métier transparente</li>
           <li>IPFS : Offrant un stockage décentralisé permanent</li>
           <li>NFTs : Certifiant l'unicité des contributions</li>
-        </ul>
-
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Écosystème Communautaire</h2>
-        <p>Notre communauté s'structure autour de trois niveaux d'expertise :</p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Initié (0-1000 $DAVANAC)</h3>
-        <ul>
-          <li>Accès aux fonctionnalités essentielles</li>
-          <li>Première immersion dans l'écosystème</li>
-          <li>Création encadrée de projets</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Expert (1001-5000 $DAVANAC)</h3>
-        <ul>
-          <li>Création illimitée de projets</li>
-          <li>Participation active à la gouvernance</li>
-          <li>Reconnaissance établie dans l'écosystème</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-3">DAVANAC Master (5001+ $DAVANAC)</h3>
-        <ul>
-          <li>Statut d'ambassadeur</li>
-          <li>Rôle clé dans la gouvernance</li>
-          <li>Mission de mentorat communautaire</li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Impact Transformateur</h2>
