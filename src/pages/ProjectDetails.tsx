@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectHeader } from "@/components/ProjectHeader";
@@ -8,10 +8,12 @@ import { ProjectDetailsComponent } from "@/components/ProjectDetails";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
+import { useAuth } from "@/contexts/AuthContext";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
@@ -131,15 +133,25 @@ const ProjectDetails = () => {
     );
   }
 
+  const isProjectCreator = user?.id === project.author.id;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container py-8">
-        <Link to="/">
-          <Button variant="ghost" className="mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour aux Projets
-          </Button>
-        </Link>
+        <div className="flex justify-between items-center mb-6">
+          <Link to="/">
+            <Button variant="ghost">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour aux Projets
+            </Button>
+          </Link>
+          {user && isProjectCreator && (
+            <Button variant="outline" className="flex items-center gap-2">
+              <Pencil className="w-4 h-4" />
+              Modifier le projet
+            </Button>
+          )}
+        </div>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <img
