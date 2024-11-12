@@ -1,7 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Pencil } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectHeader } from "@/components/ProjectHeader";
 import { ProjectDetailsComponent } from "@/components/ProjectDetails";
@@ -14,6 +13,7 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const { toast } = useToast();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
@@ -85,6 +85,12 @@ const ProjectDetails = () => {
     retry: false
   });
 
+  const handleEditClick = () => {
+    if (id) {
+      navigate(`/projects/${id}/edit`);
+    }
+  };
+
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -146,7 +152,11 @@ const ProjectDetails = () => {
             </Button>
           </Link>
           {user && isProjectCreator && (
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handleEditClick}
+            >
               <Pencil className="w-4 h-4" />
               Modifier le projet
             </Button>
