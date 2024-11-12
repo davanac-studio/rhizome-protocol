@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectHeader } from "@/components/ProjectHeader";
 import { ProjectDetailsComponent } from "@/components/ProjectDetails";
@@ -85,12 +85,6 @@ const ProjectDetails = () => {
     retry: false
   });
 
-  const handleEditClick = () => {
-    if (id) {
-      navigate(`/projects/${id}/edit`);
-    }
-  };
-
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -139,28 +133,16 @@ const ProjectDetails = () => {
     );
   }
 
-  const isProjectCreator = user?.id === project.author.id;
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container py-8">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center mb-6">
           <Link to="/">
             <Button variant="ghost">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Retour aux Projets
             </Button>
           </Link>
-          {user && isProjectCreator && (
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2"
-              onClick={handleEditClick}
-            >
-              <Pencil className="w-4 h-4" />
-              Modifier le projet
-            </Button>
-          )}
         </div>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
