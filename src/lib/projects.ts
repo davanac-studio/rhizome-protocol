@@ -50,15 +50,15 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
   if (projectData.participants && projectData.participants.length > 0) {
     const participantsData = await Promise.all(
       projectData.participants.map(async (participant) => {
-        // Fetch the user profile to get the correct user_id
+        // Since we already have the profile ID from the form selection
         const { data: profileData } = await supabase
           .from('profiles')
           .select('id, avatar_url')
-          .eq('username', participant.username)
+          .eq('id', participant.profile)
           .single();
 
         if (!profileData) {
-          console.error(`Profile not found for username: ${participant.username}`);
+          console.error(`Profile not found for ID: ${participant.profile}`);
           return null;
         }
 
