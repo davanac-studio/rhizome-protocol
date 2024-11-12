@@ -1,14 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, MinusCircle, Search } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
-import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { PlusCircle } from "lucide-react";
+import { TeamLeaderForm } from "./TeamLeaderForm";
+import { ParticipantForm } from "./ParticipantForm";
 
 interface ParticipantsSectionProps {
   participants: Array<{
@@ -35,31 +28,7 @@ export const ParticipantsSection = ({
   teamLeaderContributionDescription,
   setTeamLeaderContributionDescription
 }: ParticipantsSectionProps) => {
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const [openCommandMenu, setOpenCommandMenu] = useState<number | null>(null);
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
-
-  const { data: profiles } = useQuery({
-    queryKey: ['profiles'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .neq('id', user?.id);
-
-      if (error) {
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger la liste des profils",
-          variant: "destructive",
-        });
-        throw error;
-      }
-
-      return data || [];
-    },
-  });
 
   const handleAddParticipant = () => {
     setParticipants([...participants, { profile: "", contribution: 0, contributionDescription: "" }]);
@@ -80,108 +49,22 @@ export const ParticipantsSection = ({
 
   return (
     <div className="space-y-4 border rounded-lg p-4">
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Team Leader ({user?.user_metadata?.first_name} {user?.user_metadata?.last_name})</label>
-        <div className="flex items-center gap-2">
-          <Input
-            type="number"
-            min="0"
-            max="100"
-            value={teamLeaderContribution}
-            onChange={(e) => setTeamLeaderContribution(Number(e.target.value))}
-            className="w-24"
-          />
-          <span className="text-sm text-gray-500">% contribution</span>
-        </div>
-        <div className="mt-2">
-          <label className="text-sm font-medium">Description de la contribution</label>
-          <Textarea
-            value={teamLeaderContributionDescription}
-            onChange={(e) => setTeamLeaderContributionDescription(e.target.value)}
-            placeholder="Décrivez la contribution du team leader..."
-            className="mt-1"
-          />
-        </div>
-      </div>
+      <TeamLeaderForm
+        contribution={teamLeaderContribution}
+        contributionDescription={teamLeaderContributionDescription}
+        onContributionChange={setTeamLeaderContribution}
+        onDescriptionChange={setTeamLeaderContributionDescription}
+      />
 
       {participants.map((participant, index) => (
-        <div key={index} className="space-y-2 pt-2 border-t">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Participant {index + 1}</label>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => handleRemoveParticipant(index)}
-            >
-              <MinusCircle className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Popover open={openCommandMenu === index} onOpenChange={(open) => setOpenCommandMenu(open ? index : null)}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  className="w-full justify-between"
-                >
-                  {participant.profile ? 
-                    profiles?.find(p => p.id === participant.profile)?.first_name + " " + 
-                    profiles?.find(p => p.id === participant.profile)?.last_name
-                    : "Sélectionner un participant"}
-                  <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
-                <Command>
-                  <CommandInput placeholder="Rechercher un participant..." />
-                  <CommandEmpty>Aucun participant trouvé.</CommandEmpty>
-                  <CommandGroup>
-                    {profiles?.filter(profile => 
-                      !participants.some(p => p.profile === profile.id && p !== participant)
-                    ).map((profile) => (
-                      <CommandItem
-                        key={profile.id}
-                        value={profile.id}
-                        onSelect={() => {
-                          handleParticipantChange(index, 'profile', profile.id);
-                          setOpenCommandMenu(null);
-                        }}
-                      >
-                        {profile.first_name} {profile.last_name}
-                        {profile.expertise && (
-                          <span className="ml-2 text-sm text-muted-foreground">
-                            ({profile.expertise})
-                          </span>
-                        )}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            <div className="flex items-center gap-2">
-              <Input
-                type="number"
-                min="0"
-                max={100 - teamLeaderContribution}
-                value={participant.contribution}
-                onChange={(e) => handleParticipantChange(index, 'contribution', Number(e.target.value))}
-                className="w-24"
-              />
-              <span className="text-sm text-gray-500">%</span>
-            </div>
-          </div>
-          <div className="mt-2">
-            <label className="text-sm font-medium">Description de la contribution</label>
-            <Textarea
-              value={participant.contributionDescription}
-              onChange={(e) => handleParticipantChange(index, 'contributionDescription', e.target.value)}
-              placeholder="Décrivez la contribution du participant..."
-              className="mt-1"
-            />
-          </div>
-        </div>
+        <ParticipantForm
+          key={index}
+          index={index}
+          participant={participant}
+          onRemove={() => handleRemoveParticipant(index)}
+          onChange={(field, value) => handleParticipantChange(index, field, value)}
+          existingParticipants={participants.map(p => p.profile).filter((_, i) => i !== index)}
+        />
       ))}
 
       <div className="flex justify-between items-center pt-2">
