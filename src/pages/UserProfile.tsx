@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { ProfileProjects } from "@/components/profile/ProfileProjects";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -71,6 +72,7 @@ export default function UserProfile() {
   return (
     <div className="container mx-auto py-8">
       <ProfileHeader user={user} />
+      <ProfileProjects username={username || ''} />
     </div>
   );
 }
