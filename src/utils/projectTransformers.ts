@@ -2,6 +2,7 @@ import { DatabaseProject, ParticipantProject } from "@/types/database";
 import { Project, ProjectMember } from "@/types/project";
 
 const transformToProjectMember = (
+  id: string = '',
   firstName: string = '',
   lastName: string = '',
   username: string = '',
@@ -11,6 +12,7 @@ const transformToProjectMember = (
   contribution: number = 0,
   contributionDescription: string = ''
 ): ProjectMember => ({
+  id,
   name: `${firstName} ${lastName}`.trim(),
   username,
   avatar: avatarUrl,
@@ -31,6 +33,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
   testimonial: project.testimonial,
   author: {
     ...transformToProjectMember(
+      project.team_leader_profile?.id,
       project.team_leader_profile?.first_name,
       project.team_leader_profile?.last_name,
       project.team_leader_profile?.username,
@@ -44,6 +47,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
   },
   participants: project.project_participants?.map(p => 
     transformToProjectMember(
+      p.user?.id,
       p.user?.first_name,
       p.user?.last_name,
       p.user?.username,

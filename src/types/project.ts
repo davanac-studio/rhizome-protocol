@@ -1,6 +1,7 @@
 export type ProjectRole = "Team Leader" | "Member";
 
 export interface ProjectMember {
+  id: string;  // Added this line
   name: string;
   username: string;
   avatar?: string;
@@ -8,7 +9,7 @@ export interface ProjectMember {
   contribution: number;
   contributionDescription?: string;
   expertise?: string;
-  profile?: string; // Add this line to support the profile ID
+  profile?: string;
 }
 
 export interface NFTCertification {
