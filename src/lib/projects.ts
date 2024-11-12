@@ -9,13 +9,18 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     throw new Error("Utilisateur non authentifié");
   }
 
+  // Format the date to ISO string if it exists, otherwise use current date
+  const formattedDueDate = projectData.dueDate 
+    ? new Date(projectData.dueDate).toISOString()
+    : new Date().toISOString();
+
   const { data, error } = await supabase
     .from('projects')
     .insert([
       {
         title: projectData.title,
         description: projectData.description,
-        due_date: projectData.dueDate,
+        due_date: formattedDueDate,
         thumbnail: projectData.thumbnail,
         category: projectData.category,
         client: projectData.client,
