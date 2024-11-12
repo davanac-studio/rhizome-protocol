@@ -17,7 +17,7 @@ interface ProjectFormProps {
 export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<ProjectFormData>({
     title: "",
     description: "",
@@ -49,6 +49,10 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (isSubmitting) {
+      return; // Prevent double submission
+    }
+
     if (!user) {
       toast({
         title: "Erreur",
@@ -67,7 +71,7 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       return;
     }
 
-    setLoading(true);
+    setIsSubmitting(true);
 
     try {
       const projectData = {
@@ -104,7 +108,7 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         variant: "destructive"
       });
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -112,7 +116,7 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Créer un Nouveau Projet</h1>
-        <Button variant="outline" onClick={onCancel}>Retour</Button>
+        <Button variant="outline" onClick={onCancel} type="button">Retour</Button>
       </div>
 
       <ProjectFormFields formData={formData} setFormData={setFormData} />
@@ -126,8 +130,12 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         setTeamLeaderContributionDescription={setTeamLeaderContributionDescription}
       />
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Création en cours..." : "Créer le Projet"}
+      <Button 
+        type="submit" 
+        disabled={isSubmitting} 
+        className="w-full"
+      >
+        {isSubmitting ? "Création en cours..." : "Créer le Projet"}
       </Button>
     </form>
   );
