@@ -8,6 +8,7 @@ export interface ProjectMember {
   contribution: number;
   contributionDescription?: string;
   expertise?: string;
+  profile?: string; // Add this line to support the profile ID
 }
 
 export interface NFTCertification {
