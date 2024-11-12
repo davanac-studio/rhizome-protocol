@@ -48,58 +48,23 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
 
   // If there are participants, create entries in project_participants table
   if (projectData.participants && projectData.participants.length > 0) {
-    const validParticipants = projectData.participants.filter(
-      participant => participant.profile && typeof participant.profile === 'string'
-    );
+    const participantsData = projectData.participants
+      .filter(participant => participant.profile)
+      .map(participant => ({
+        project_id: projectId,
+        user_id: participant.profile,
+        contribution: participant.contribution,
+        contribution_description: participant.contributionDescription,
+      }));
 
-    if (validParticipants.length > 0) {
-      const participantsData = await Promise.all(
-        validParticipants.map(async (participant) => {
-          try {
-            const { data: profileData, error: profileError } = await supabase
-              .from('profiles')
-              .select('id, avatar_url')
-              .eq('id', participant.profile)
-              .single();
+    if (participantsData.length > 0) {
+      const { error: participantsError } = await supabase
+        .from('project_participants')
+        .insert(participantsData);
 
-            if (profileError) {
-              console.error(`Error fetching profile: ${profileError.message}`);
-              return null;
-            }
-
-            if (!profileData) {
-              console.error(`Profile not found for ID: ${participant.profile}`);
-              return null;
-            }
-
-            return {
-              project_id: projectId,
-              user_id: profileData.id,
-              avatar: profileData.avatar_url,
-              contribution: participant.contribution,
-              contribution_description: participant.contributionDescription
-            };
-          } catch (error) {
-            console.error(`Error processing participant: ${error}`);
-            return null;
-          }
-        })
-      );
-
-      // Filter out any null values from failed profile lookups
-      const validParticipantsData = participantsData.filter(
-        (data): data is NonNullable<typeof data> => data !== null
-      );
-
-      if (validParticipantsData.length > 0) {
-        const { error: participantsError } = await supabase
-          .from('project_participants')
-          .insert(validParticipantsData);
-
-        if (participantsError) {
-          console.error("Erreur lors de l'ajout des participants:", participantsError);
-          throw participantsError;
-        }
+      if (participantsError) {
+        console.error("Erreur lors de l'ajout des participants:", participantsError);
+        throw participantsError;
       }
     }
   }

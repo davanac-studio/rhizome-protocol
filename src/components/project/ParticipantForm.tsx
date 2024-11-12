@@ -39,7 +39,7 @@ export const ParticipantForm = ({
       <div className="grid grid-cols-2 gap-4">
         <ParticipantSearch
           value={participant.profile}
-          onSelect={(profileId, profileData) => {
+          onSelect={(profileId) => {
             onChange('profile', profileId);
           }}
           existingParticipants={existingParticipants}

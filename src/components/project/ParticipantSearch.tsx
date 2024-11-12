@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 
 interface ParticipantSearchProps {
   value: string;
-  onSelect: (profileId: string, profileData: any) => void;
+  onSelect: (profileId: string) => void;
   existingParticipants: string[];
 }
 
@@ -50,7 +50,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
               <CommandItem
                 key={profile.id}
                 value={profile.id}
-                onSelect={() => onSelect(profile.id, profile)}
+                onSelect={() => onSelect(profile.id)}
               >
                 {profile.first_name} {profile.last_name}
                 {profile.expertise && (
