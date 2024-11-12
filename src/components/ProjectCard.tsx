@@ -25,6 +25,14 @@ export const ProjectCard = ({ project }: { project: Project }) => {
     navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
+  // Ensure author exists and has required properties
+  const author = project.author || {
+    name: "Unknown",
+    username: "unknown",
+    avatar: "",
+    role: "Team Leader" as const,
+  };
+
   return (
     <Button
       variant="ghost"
@@ -84,15 +92,15 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             <div className="flex -space-x-2">
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger onClick={(e) => handleProfileClick(e, project.author.name)}>
+                  <TooltipTrigger onClick={(e) => handleProfileClick(e, author.username)}>
                     <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
-                      <AvatarImage src={project.author.avatar} alt={project.author.name} />
-                      <AvatarFallback>{project.author.name.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={author.avatar} alt={author.name} />
+                      <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="font-medium">{project.author.name}</p>
-                    <p className="text-xs text-muted-foreground">{project.author.role}</p>
+                    <p className="font-medium">{author.name}</p>
+                    <p className="text-xs text-muted-foreground">{author.role}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -100,7 +108,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
               {project.participants?.map((participant, index) => (
                 <TooltipProvider key={index}>
                   <Tooltip>
-                    <TooltipTrigger onClick={(e) => handleProfileClick(e, participant.name)}>
+                    <TooltipTrigger onClick={(e) => handleProfileClick(e, participant.username)}>
                       <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
                         <AvatarImage src={participant.avatar} alt={participant.name} />
                         <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
