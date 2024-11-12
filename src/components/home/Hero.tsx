@@ -24,7 +24,7 @@ export const Hero = () => {
           </Link>
           <Link to="/users">
             <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 text-primary border-primary">
-              Rejoindre la communauté
+              Qui participe ?
             </Button>
           </Link>
         </div>
