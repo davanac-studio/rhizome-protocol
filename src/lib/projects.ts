@@ -51,7 +51,7 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     const participantsData = projectData.participants.map(participant => ({
       project_id: projectId,
       user_id: participant.profile,
-      avatar: participant.avatar, // Add the avatar field
+      avatar: participant.avatar,
       contribution: participant.contribution,
       contribution_description: participant.contributionDescription
     }));

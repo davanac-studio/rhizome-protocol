@@ -65,6 +65,7 @@ export type Database = {
       }
       project_participants: {
         Row: {
+          avatar: string | null
           contribution: number | null
           contribution_description: string | null
           created_at: string
@@ -73,6 +74,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          avatar?: string | null
           contribution?: number | null
           contribution_description?: string | null
           created_at?: string
@@ -81,6 +83,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          avatar?: string | null
           contribution?: number | null
           contribution_description?: string | null
           created_at?: string
