@@ -19,7 +19,7 @@ export const Hero = () => {
         <div className="flex flex-wrap justify-center gap-4">
           <Link to="/about">
             <Button size="lg" className="bg-primary hover:bg-primary/90">
-              Comment ça marche ?
+              Manifesto
             </Button>
           </Link>
           <Link to="/users">
