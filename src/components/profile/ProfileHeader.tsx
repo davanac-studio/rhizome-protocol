@@ -137,20 +137,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
           <ProfileSocial />
 
-          {isOwnProfile && (
-            <div className="flex flex-col gap-3 mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-                onClick={() => setIsEditing(true)}
-              >
-                <Pencil className="h-4 w-4" />
-                Modifier le profil
-              </Button>
-            </div>
-          )}
-
           {user?.bio && (
             <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
               <p className="text-center text-gray-600 italic">
@@ -160,7 +146,16 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           )}
 
           {isOwnProfile && (
-            <div className="mt-4">
+            <div className="flex gap-3 mt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+                onClick={() => setIsEditing(true)}
+              >
+                <Pencil className="h-4 w-4" />
+                Modifier le profil
+              </Button>
               <NewProjectDialog />
             </div>
           )}
