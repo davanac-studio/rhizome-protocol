@@ -1,10 +1,15 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { UserCircle2, Home, LogOut, Users } from "lucide-react";
+import { UserCircle2, Home, LogOut, Users, ChevronDown, Plus } from "lucide-react";
 import { Button } from "./ui/button";
-import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
 import { supabase } from "@/lib/supabase";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NavBar = () => {
   const { user, clearSession } = useAuth();
@@ -23,18 +28,6 @@ const NavBar = () => {
       description: "Vous avez été déconnecté avec succès.",
     });
     navigate("/");
-  };
-
-  const handleNewProjectClick = () => {
-    if (!user) {
-      toast({
-        title: "Connexion requise",
-        description: "Vous devez être connecté pour créer un nouveau projet.",
-        variant: "destructive",
-      });
-      navigate("/auth");
-      return;
-    }
   };
 
   const getProfilePath = () => {
@@ -67,12 +60,29 @@ const NavBar = () => {
           <div className="flex items-center gap-4">
             {user ? (
               <>
-                <Link to={getProfilePath()}>
-                  <Button variant="ghost" size="icon" className="hover:bg-gray-100" title="Voir mon profil">
-                    <UserCircle2 className="h-5 w-5" />
-                  </Button>
-                </Link>
-                <NewProjectDialog />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center gap-2">
+                      <UserCircle2 className="h-5 w-5" />
+                      <span>Mon compte</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link to={getProfilePath()} className="flex items-center gap-2">
+                        <UserCircle2 className="h-4 w-4" />
+                        Mon profil
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/new-project" className="flex items-center gap-2">
+                        <Plus className="h-4 w-4" />
+                        Nouveau projet
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                 </Button>
