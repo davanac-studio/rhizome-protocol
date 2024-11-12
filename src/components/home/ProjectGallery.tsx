@@ -49,6 +49,7 @@ export const ProjectGallery = () => {
         client: project.client,
         testimonial: project.testimonial,
         author: {
+          id: project.team_leader_profile.id, // Added the id field
           name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
           username: project.team_leader_profile.username || '',
           avatar: project.team_leader_profile.avatar_url,
@@ -58,6 +59,7 @@ export const ProjectGallery = () => {
           contributionDescription: project.team_leader_contribution_description
         },
         participants: project.project_participants?.map(p => ({
+          id: p.user.id, // Added the id field
           name: `${p.user.first_name} ${p.user.last_name}`,
           username: p.user.username || '',
           avatar: p.avatar || p.user.avatar_url,
