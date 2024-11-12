@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Pencil, Mail, Globe, Twitter, Facebook, Linkedin } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -9,6 +8,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { NewProjectDialog } from "@/components/NewProjectDialog";
+import { ProfileAvatar } from "./ProfileAvatar";
+import { ProfileBanner } from "./ProfileBanner";
+import { ProfileInfo } from "./ProfileInfo";
+import { ProfileSocial } from "./ProfileSocial";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -30,7 +33,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         .from('profiles')
         .select('*')
         .eq('username', user.username)
-        .maybeSingle(); // Using maybeSingle() instead of single() to handle non-existent profiles
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching profile:', error);
@@ -113,71 +116,40 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
   return (
     <div className="relative">
-      <div className="h-80 w-full overflow-hidden">
-        {user.bannerUrl ? (
-          <img
-            src={user.bannerUrl}
-            alt="Banner"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-r from-blue-400 to-blue-600" />
-        )}
-      </div>
+      <ProfileBanner bannerUrl={user.bannerUrl} />
       
       <div className="container max-w-5xl mx-auto px-4">
         <div className="relative -mt-24 mb-6 flex flex-col items-center">
-          <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
-            <AvatarImage src={user?.avatarUrl || user?.avatar} alt={user?.name} />
-            <AvatarFallback className="text-4xl">
-              {user?.firstName?.charAt(0) || user?.name?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
+          <ProfileAvatar
+            avatarUrl={user?.avatarUrl}
+            avatar={user?.avatar}
+            firstName={user?.firstName}
+            name={user?.name}
+          />
           
-          <div className="mt-4 text-center">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {user?.firstName && user?.lastName 
-                ? `${user.firstName} ${user.lastName}`
-                : user?.name}
-            </h1>
-            <p className="text-gray-600 mt-1">{user?.expertise || "News Producer"}</p>
-            <p className="text-gray-500 mt-1">@{user?.username}</p>
-          </div>
+          <ProfileInfo
+            firstName={user?.firstName}
+            lastName={user?.lastName}
+            name={user?.name}
+            expertise={user?.expertise}
+            username={user?.username}
+          />
 
-          <div className="flex gap-3 mt-4">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Mail className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Globe className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Twitter className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Facebook className="h-5 w-5 text-gray-600" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Linkedin className="h-5 w-5 text-gray-600" />
-            </Button>
-          </div>
+          <ProfileSocial />
 
-          <div className="flex flex-col gap-3 mt-4">
-            {isOwnProfile && (
-              <>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                  onClick={() => setIsEditing(true)}
-                >
-                  <Pencil className="h-4 w-4" />
-                  Modifier le profil
-                </Button>
-                <NewProjectDialog />
-              </>
-            )}
-          </div>
+          {isOwnProfile && (
+            <div className="flex flex-col gap-3 mt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+                onClick={() => setIsEditing(true)}
+              >
+                <Pencil className="h-4 w-4" />
+                Modifier le profil
+              </Button>
+            </div>
+          )}
 
           {user?.bio && (
             <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
@@ -185,6 +157,12 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 {user.bio}
               </p>
             </Card>
+          )}
+
+          {isOwnProfile && (
+            <div className="mt-4">
+              <NewProjectDialog />
+            </div>
           )}
         </div>
       </div>
