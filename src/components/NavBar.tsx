@@ -9,6 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 const NavBar = () => {
@@ -59,34 +60,34 @@ const NavBar = () => {
           
           <div className="flex items-center gap-4">
             {user ? (
-              <>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="flex items-center gap-2">
-                      <UserCircle2 className="h-5 w-5" />
-                      <span>Mon compte</span>
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem asChild>
-                      <Link to={getProfilePath()} className="flex items-center gap-2">
-                        <UserCircle2 className="h-4 w-4" />
-                        Mon profil
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/new-project" className="flex items-center gap-2">
-                        <Plus className="h-4 w-4" />
-                        Nouveau projet
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={handleLogout}>
-                  <LogOut className="h-5 w-5" />
-                </Button>
-              </>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2">
+                    <UserCircle2 className="h-5 w-5" />
+                    <span>Mon compte</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to={getProfilePath()} className="flex items-center gap-2">
+                      <UserCircle2 className="h-4 w-4" />
+                      Mon profil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/new-project" className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
+                      Nouveau projet
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 text-red-600">
+                    <LogOut className="h-4 w-4" />
+                    Se déconnecter
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link to="/auth">
                 <Button variant="outline" className="hover:bg-gray-100">
