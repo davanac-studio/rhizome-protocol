@@ -52,7 +52,7 @@ export const fetchUserProjects = async (username: string): Promise<Project[]> =>
     throw projectsError;
   }
 
-  return projects.map((project: any) => transformDatabaseProject({
+  return projects.map(project => transformDatabaseProject({
     ...project,
     author: {
       ...project.team_leader_profile,
@@ -60,7 +60,7 @@ export const fetchUserProjects = async (username: string): Promise<Project[]> =>
       contribution: project.team_leader_contribution,
       contributionDescription: project.team_leader_contribution_description
     },
-    participants: project.project_participants?.map((p: any) => ({
+    participants: project.project_participants?.map(p => ({
       ...p.user,
       role: "Member",
       contribution: p.contribution,
