@@ -48,21 +48,44 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
 
   // If there are participants, create entries in project_participants table
   if (projectData.participants && projectData.participants.length > 0) {
-    const participantsData = projectData.participants.map(participant => ({
-      project_id: projectId,
-      user_id: participant.profile,
-      avatar: participant.avatar,
-      contribution: participant.contribution,
-      contribution_description: participant.contributionDescription
-    }));
+    const participantsData = await Promise.all(
+      projectData.participants.map(async (participant) => {
+        // Fetch the user profile to get the correct user_id
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('id, avatar_url')
+          .eq('username', participant.username)
+          .single();
 
-    const { error: participantsError } = await supabase
-      .from('project_participants')
-      .insert(participantsData);
+        if (!profileData) {
+          console.error(`Profile not found for username: ${participant.username}`);
+          return null;
+        }
 
-    if (participantsError) {
-      console.error("Erreur lors de l'ajout des participants:", participantsError);
-      throw participantsError;
+        return {
+          project_id: projectId,
+          user_id: profileData.id,
+          avatar: profileData.avatar_url,
+          contribution: participant.contribution,
+          contribution_description: participant.contributionDescription
+        };
+      })
+    );
+
+    // Filter out any null values from failed profile lookups
+    const validParticipantsData = participantsData.filter(
+      (data): data is NonNullable<typeof data> => data !== null
+    );
+
+    if (validParticipantsData.length > 0) {
+      const { error: participantsError } = await supabase
+        .from('project_participants')
+        .insert(validParticipantsData);
+
+      if (participantsError) {
+        console.error("Erreur lors de l'ajout des participants:", participantsError);
+        throw participantsError;
+      }
     }
   }
 
