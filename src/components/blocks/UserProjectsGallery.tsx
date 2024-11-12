@@ -79,7 +79,7 @@ export const UserProjectsGallery = () => {
       const { data: participantProjects, error: participantError } = await supabase
         .from('project_participants')
         .select(`
-          projects (
+          project:projects (
             *,
             team_leader_profile:profiles!projects_team_leader_fkey (
               id,
@@ -117,16 +117,16 @@ export const UserProjectsGallery = () => {
 
       const participatingProjects = participantProjects ? 
         participantProjects
-          .filter((item: any) => item.projects !== null)
+          .filter((item: any) => item.project !== null)
           .map((item: any) => ({
-            ...item.projects,
+            ...item.project,
             author: {
-              ...item.projects.team_leader_profile,
+              ...item.project.team_leader_profile,
               role: "Team Leader",
-              contribution: item.projects.team_leader_contribution,
-              contributionDescription: item.projects.team_leader_contribution_description
+              contribution: item.project.team_leader_contribution,
+              contributionDescription: item.project.team_leader_contribution_description
             },
-            participants: item.projects.project_participants?.map((p: any) => ({
+            participants: item.project.project_participants?.map((p: any) => ({
               name: `${p.user.first_name} ${p.user.last_name}`,
               username: p.user.username,
               avatar: p.user.avatar_url,
