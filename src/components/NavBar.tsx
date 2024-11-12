@@ -45,17 +45,6 @@ const NavBar = () => {
             <Link to="/" className="text-gray-900 hover:text-gray-700">
               <Home className="h-6 w-6" />
             </Link>
-            {!isHomePage && (
-              <>
-                <Link to="/about" className="text-gray-900 hover:text-gray-700">
-                  Comment ça marche ?
-                </Link>
-                <Link to="/users" className="text-gray-900 hover:text-gray-700 flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Communauté
-                </Link>
-              </>
-            )}
           </div>
           
           <div className="flex items-center gap-4">
@@ -79,6 +68,18 @@ const NavBar = () => {
                     <Link to="/new-project" className="flex items-center gap-2">
                       <Plus className="h-4 w-4" />
                       Nouveau projet
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/about" className="flex items-center gap-2">
+                      Comment ça marche ?
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/users" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Communauté
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
