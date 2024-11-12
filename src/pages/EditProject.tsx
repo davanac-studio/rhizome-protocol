@@ -37,36 +37,17 @@ const EditProject = () => {
               expertise
             ),
             contribution,
-            contribution_description
+            contribution_description,
+            avatar
           )
         `)
         .eq('id', id)
         .single();
 
-      if (error) {
-        console.error('Error fetching project:', error);
-        throw error;
-      }
+      if (error) throw error;
+      if (!project) throw new Error('Project not found');
 
-      if (!project) {
-        throw new Error('Project not found');
-      }
-
-      return transformDatabaseProject({
-        ...project,
-        author: {
-          ...project.team_leader_profile,
-          role: "Team Leader",
-          contribution: project.team_leader_contribution,
-          contributionDescription: project.team_leader_contribution_description
-        },
-        participants: project.project_participants?.map((p: any) => ({
-          ...p.user,
-          role: "Member",
-          contribution: p.contribution,
-          contributionDescription: p.contribution_description
-        })) || []
-      });
+      return transformDatabaseProject(project);
     }
   });
 
@@ -128,7 +109,7 @@ const EditProject = () => {
         description: "Le projet a été mis à jour avec succès",
       });
 
-      navigate(`/project/${id}`);
+      navigate(`/projects/${id}`);
     } catch (error) {
       console.error('Error updating project:', error);
       toast({
@@ -140,23 +121,11 @@ const EditProject = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="flex justify-center items-center min-h-[200px]">
-          <p className="text-gray-600">Chargement du projet...</p>
-        </div>
-      </div>
-    );
+    return <div>Chargement...</div>;
   }
 
   if (!project) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-700">Projet non trouvé</h2>
-        </div>
-      </div>
-    );
+    return <div>Projet non trouvé</div>;
   }
 
   const initialFormData = {
@@ -174,20 +143,18 @@ const EditProject = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <ProjectForm
-        onSubmit={handleSubmit}
-        onCancel={() => navigate(`/project/${id}`)}
-        initialData={initialFormData}
-        initialParticipants={project.participants?.map(p => ({
-          profile: p.id,
-          contribution: p.contribution,
-          contributionDescription: p.contributionDescription || ""
-        }))}
-        initialTeamLeaderContribution={project.author.contribution}
-        initialTeamLeaderContributionDescription={project.author.contributionDescription || ""}
-      />
-    </div>
+    <ProjectForm
+      onSubmit={handleSubmit}
+      onCancel={() => navigate(`/projects/${id}`)}
+      initialData={initialFormData}
+      initialParticipants={project.participants?.map(p => ({
+        profile: p.id,
+        contribution: p.contribution,
+        contributionDescription: p.contributionDescription || ""
+      }))}
+      initialTeamLeaderContribution={project.author.contribution}
+      initialTeamLeaderContributionDescription={project.author.contributionDescription || ""}
+    />
   );
 };
 
