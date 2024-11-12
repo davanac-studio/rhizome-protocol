@@ -5,7 +5,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { TEAM_LEADER_CONTRIBUTION } from "@/data/team-config";
 import { ProjectFormFields } from "./ProjectFormFields";
 import { ProjectFormData } from "@/types/form";
-import { teamMembers } from "@/data/team-members";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface ProjectFormProps {
@@ -49,7 +48,7 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
     e.preventDefault();
     
     if (isSubmitting) {
-      return; // Prevent double submission
+      return;
     }
 
     if (!user) {
@@ -60,6 +59,8 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       });
       return;
     }
+
+    console.log("Form submission - Participants data:", participants);
 
     if (!validateContributions()) {
       toast({
@@ -80,15 +81,16 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
           contributionDescription: teamLeaderContributionDescription
         },
         participants: participants.map(p => ({
-          ...teamMembers[p.profile],
-          role: "Member" as const,
+          profile: p.profile,
           contribution: p.contribution,
           contributionDescription: p.contributionDescription
         }))
       };
 
+      console.log("Submitting project with data:", projectData);
       await onSubmit(projectData);
     } catch (error) {
+      console.error("Error submitting form:", error);
       setIsSubmitting(false);
     }
   };

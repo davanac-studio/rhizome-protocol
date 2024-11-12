@@ -18,6 +18,12 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
   // Generate a unique ID for the project
   const projectId = uuidv4();
 
+  console.log("Creating project with data:", {
+    projectId,
+    title: projectData.title,
+    participants: projectData.participants
+  });
+
   // Start a transaction by creating the project first
   const { data: project, error: projectError } = await supabase
     .from('projects')
@@ -46,26 +52,44 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     throw projectError;
   }
 
+  console.log("Project created successfully:", project);
+
   // If there are participants, create entries in project_participants table
   if (projectData.participants && projectData.participants.length > 0) {
+    console.log("Processing participants:", projectData.participants);
+
     const participantsData = projectData.participants
-      .filter(participant => participant.profile)
-      .map(participant => ({
-        project_id: projectId,
-        user_id: participant.profile,
-        contribution: participant.contribution,
-        contribution_description: participant.contributionDescription,
-      }));
+      .filter(participant => {
+        if (!participant.profile) {
+          console.log("Skipping participant with no profile:", participant);
+          return false;
+        }
+        return true;
+      })
+      .map(participant => {
+        console.log("Creating participant data:", participant);
+        return {
+          project_id: projectId,
+          user_id: participant.profile,
+          contribution: participant.contribution,
+          contribution_description: participant.contributionDescription,
+        };
+      });
+
+    console.log("Final participants data to insert:", participantsData);
 
     if (participantsData.length > 0) {
-      const { error: participantsError } = await supabase
+      const { data: insertedParticipants, error: participantsError } = await supabase
         .from('project_participants')
-        .insert(participantsData);
+        .insert(participantsData)
+        .select();
 
       if (participantsError) {
         console.error("Erreur lors de l'ajout des participants:", participantsError);
         throw participantsError;
       }
+
+      console.log("Participants added successfully:", insertedParticipants);
     }
   }
 
