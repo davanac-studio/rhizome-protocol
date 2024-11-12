@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { NewProjectDialog } from "@/components/NewProjectDialog";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -14,43 +13,50 @@ export default function UserProfile() {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      if (!username) {
+        console.log('No username found for profile');
+        return;
+      }
+
       try {
-        const { data, error } = await supabase
+        const { data: userData, error } = await supabase
           .from('profiles')
           .select('*')
           .eq('username', username)
-          .single();
+          .maybeSingle();
 
         if (error) {
-          throw error;
+          console.error('Error fetching profile:', error);
+          toast({
+            title: "Erreur",
+            description: "Impossible de charger le profil",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        if (!userData) {
+          toast({
+            title: "Profil introuvable",
+            description: "Ce profil n'existe pas",
+            variant: "destructive",
+          });
+          return;
         }
 
-        if (data) {
-          setUser({
-            ...data,
-            name: `${data.first_name} ${data.last_name}`,
-            firstName: data.first_name,
-            lastName: data.last_name,
-            avatarUrl: data.avatar_url,
-            bannerUrl: data.banner_url,
-          });
-        }
-      } catch (error: any) {
+        setUser(userData);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
         toast({
           title: "Erreur",
-          description: "Impossible de charger le profil utilisateur",
+          description: "Une erreur est survenue lors du chargement du profil",
           variant: "destructive",
         });
-        console.error('Error fetching user profile:', error);
       }
     };
 
-    if (username) {
-      fetchUserProfile();
-    }
+    fetchUserProfile();
   }, [username, toast]);
-
-  const isOwnProfile = currentUser && user && currentUser.id === user.id;
 
   if (!user) {
     return (
@@ -64,10 +70,7 @@ export default function UserProfile() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <ProfileHeader user={user} />
-        {isOwnProfile && <NewProjectDialog />}
-      </div>
+      <ProfileHeader user={user} />
     </div>
   );
 }

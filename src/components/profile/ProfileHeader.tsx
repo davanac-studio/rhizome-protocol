@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { NewProjectDialog } from "@/components/NewProjectDialog";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -161,17 +162,22 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </Button>
           </div>
 
-          {isOwnProfile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4 flex items-center gap-2"
-              onClick={() => setIsEditing(true)}
-            >
-              <Pencil className="h-4 w-4" />
-              Modifier le profil
-            </Button>
-          )}
+          <div className="flex flex-col gap-3 mt-4">
+            {isOwnProfile && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={() => setIsEditing(true)}
+                >
+                  <Pencil className="h-4 w-4" />
+                  Modifier le profil
+                </Button>
+                <NewProjectDialog />
+              </>
+            )}
+          </div>
 
           {user?.bio && (
             <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
