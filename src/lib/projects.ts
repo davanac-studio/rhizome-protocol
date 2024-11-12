@@ -41,9 +41,12 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     .single();
 
   if (error) {
-    console.error("Erreur Supabase:", error);
-    throw new Error(error.message);
+    console.error("Erreur lors de la création du projet:", error);
+    throw error;
   }
+
+  // Log the created project data for verification
+  console.log("Projet créé avec succès:", data);
 
   return data;
 };
