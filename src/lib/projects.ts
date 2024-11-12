@@ -18,7 +18,8 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
   // Generate a unique ID for the project
   const projectId = uuidv4();
 
-  const { data, error } = await supabase
+  // Start a transaction by creating the project first
+  const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert([
       {
@@ -40,13 +41,29 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     .select()
     .single();
 
-  if (error) {
-    console.error("Erreur lors de la création du projet:", error);
-    throw error;
+  if (projectError) {
+    console.error("Erreur lors de la création du projet:", projectError);
+    throw projectError;
   }
 
-  // Log the created project data for verification
-  console.log("Projet créé avec succès:", data);
+  // If there are participants, create entries in project_participants table
+  if (projectData.participants && projectData.participants.length > 0) {
+    const participantsData = projectData.participants.map(participant => ({
+      project_id: projectId,
+      user_id: participant.profile, // This is the user ID from the form
+      contribution: participant.contribution,
+      contribution_description: participant.contributionDescription
+    }));
 
-  return data;
+    const { error: participantsError } = await supabase
+      .from('project_participants')
+      .insert(participantsData);
+
+    if (participantsError) {
+      console.error("Erreur lors de l'ajout des participants:", participantsError);
+      throw participantsError;
+    }
+  }
+
+  return project;
 };
