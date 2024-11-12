@@ -46,7 +46,7 @@ const NavBar = () => {
             </Link>
             {!isHomePage && (
               <Link to="/about" className="text-gray-900 hover:text-gray-700">
-                Comment ça marche ?
+                Manifesto
               </Link>
             )}
           </div>
