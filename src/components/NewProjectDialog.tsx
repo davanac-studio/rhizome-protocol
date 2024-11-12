@@ -7,7 +7,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createProject } from "@/lib/projects";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
 
 export const NewProjectDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,22 +19,6 @@ export const NewProjectDialog = () => {
     try {
       if (!user) {
         throw new Error("Vous devez être connecté pour créer un projet");
-      }
-
-      // Check if project already exists before attempting to create it
-      const { data: existingProjects, error: checkError } = await supabase
-        .from('projects')
-        .select('id')
-        .eq('title', projectData.title)
-        .eq('team_leader', user.id)
-        .single();
-
-      if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows returned
-        throw new Error("Erreur lors de la vérification du titre");
-      }
-
-      if (existingProjects) {
-        throw new Error("Un projet avec ce titre existe déjà");
       }
 
       const projectToCreate = {
