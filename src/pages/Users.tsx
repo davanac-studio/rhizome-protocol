@@ -22,10 +22,6 @@ const Users = () => {
   if (isLoading) {
     return (
       <div className="container mx-auto py-8">
-        <div className="flex items-center space-x-2 mb-6">
-          <UsersIcon className="h-6 w-6" />
-          <h1 className="text-2xl font-bold">Communauté</h1>
-        </div>
         <div className="text-center py-12">Chargement...</div>
       </div>
     );
@@ -33,11 +29,6 @@ const Users = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex items-center space-x-2 mb-6">
-        <UsersIcon className="h-6 w-6" />
-        <h1 className="text-2xl font-bold">Communauté</h1>
-      </div>
-
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-8">
         <div className="text-4xl">👣</div>
         <h2 className="text-2xl font-semibold">
