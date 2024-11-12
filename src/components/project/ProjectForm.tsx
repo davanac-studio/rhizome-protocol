@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { ParticipantsSection } from "./ParticipantsSection";
 import { useToast } from "@/components/ui/use-toast";
 import { TEAM_LEADER_CONTRIBUTION } from "@/data/team-config";
-import { createProject } from "@/lib/projects";
-import { useAuth } from "@/contexts/AuthContext";
 import { ProjectFormFields } from "./ProjectFormFields";
 import { ProjectFormData } from "@/types/form";
 import { teamMembers } from "@/data/team-members";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProjectFormProps {
   onSubmit: (project: any) => void;
@@ -77,11 +76,6 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
       const projectData = {
         ...formData,
         author: {
-          name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
-          username: user.email?.split('@')[0] || '',
-          avatar: user.user_metadata?.avatar_url,
-          expertise: user.user_metadata?.expertise || '',
-          role: "Team Leader" as const,
           contribution: teamLeaderContribution,
           contributionDescription: teamLeaderContributionDescription
         },
@@ -93,21 +87,8 @@ export const ProjectForm = ({ onSubmit, onCancel }: ProjectFormProps) => {
         }))
       };
 
-      const newProject = await createProject(projectData);
-      onSubmit(newProject);
-      
-      toast({
-        title: "Succès",
-        description: "Projet créé avec succès !",
-      });
-    } catch (error: any) {
-      console.error('Error creating project:', error);
-      toast({
-        title: "Erreur",
-        description: error.message || "Une erreur est survenue lors de la création du projet",
-        variant: "destructive"
-      });
-    } finally {
+      await onSubmit(projectData);
+    } catch (error) {
       setIsSubmitting(false);
     }
   };

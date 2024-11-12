@@ -14,9 +14,14 @@ export const NewProjectDialog = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleProjectCreate = async (projectData: any) => {
+    if (isSubmitting) return; // Prevent double submission
+    
     try {
+      setIsSubmitting(true);
+      
       if (!user) {
         throw new Error("Vous devez être connecté pour créer un projet");
       }
@@ -60,7 +65,9 @@ export const NewProjectDialog = () => {
         description: error.message || "Une erreur est survenue lors de la création du projet",
         variant: "destructive",
       });
-      throw error; // Re-throw to prevent form reset
+      throw error;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
