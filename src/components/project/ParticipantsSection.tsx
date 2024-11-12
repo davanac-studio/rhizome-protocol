@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, MinusCircle } from "lucide-react";
+import { PlusCircle, MinusCircle, Search } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface ParticipantsSectionProps {
   participants: Array<{
@@ -34,7 +37,29 @@ export const ParticipantsSection = ({
 }: ParticipantsSectionProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [openCommandMenu, setOpenCommandMenu] = useState<number | null>(null);
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
+
+  const { data: profiles } = useQuery({
+    queryKey: ['profiles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .neq('id', user?.id);
+
+      if (error) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger la liste des profils",
+          variant: "destructive",
+        });
+        throw error;
+      }
+
+      return data || [];
+    },
+  });
 
   const handleAddParticipant = () => {
     setParticipants([...participants, { profile: "", contribution: 0, contributionDescription: "" }]);
@@ -93,12 +118,48 @@ export const ParticipantsSection = ({
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input
-              type="text"
-              value={participant.profile}
-              onChange={(e) => handleParticipantChange(index, 'profile', e.target.value)}
-              placeholder="ID du participant"
-            />
+            <Popover open={openCommandMenu === index} onOpenChange={(open) => setOpenCommandMenu(open ? index : null)}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className="w-full justify-between"
+                >
+                  {participant.profile ? 
+                    profiles?.find(p => p.id === participant.profile)?.first_name + " " + 
+                    profiles?.find(p => p.id === participant.profile)?.last_name
+                    : "Sélectionner un participant"}
+                  <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command>
+                  <CommandInput placeholder="Rechercher un participant..." />
+                  <CommandEmpty>Aucun participant trouvé.</CommandEmpty>
+                  <CommandGroup>
+                    {profiles?.filter(profile => 
+                      !participants.some(p => p.profile === profile.id && p !== participant)
+                    ).map((profile) => (
+                      <CommandItem
+                        key={profile.id}
+                        value={profile.id}
+                        onSelect={() => {
+                          handleParticipantChange(index, 'profile', profile.id);
+                          setOpenCommandMenu(null);
+                        }}
+                      >
+                        {profile.first_name} {profile.last_name}
+                        {profile.expertise && (
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            ({profile.expertise})
+                          </span>
+                        )}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
