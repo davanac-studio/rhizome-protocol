@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
+import { useState } from "react";
 
 interface ParticipantSearchProps {
   value: string;
@@ -12,6 +13,8 @@ interface ParticipantSearchProps {
 }
 
 export const ParticipantSearch = ({ value, onSelect, existingParticipants }: ParticipantSearchProps) => {
+  const [open, setOpen] = useState(false);
+
   const { data: profiles } = useQuery({
     queryKey: ['profiles'],
     queryFn: async () => {
@@ -24,8 +27,13 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
     },
   });
 
+  const handleSelect = (profileId: string) => {
+    onSelect(profileId);
+    setOpen(false);
+  };
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -50,7 +58,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
               <CommandItem
                 key={profile.id}
                 value={profile.id}
-                onSelect={() => onSelect(profile.id)}
+                onSelect={() => handleSelect(profile.id)}
               >
                 {profile.first_name} {profile.last_name}
                 {profile.expertise && (
