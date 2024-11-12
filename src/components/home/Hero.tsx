@@ -22,7 +22,7 @@ export const Hero = () => {
               Comment ça marche ?
             </Button>
           </Link>
-          <Link to="/auth">
+          <Link to="/users">
             <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 text-primary border-primary">
               Rejoindre la communauté
             </Button>
