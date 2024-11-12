@@ -63,6 +63,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         avatarUrl: userData.avatar_url,
         bannerUrl: userData.banner_url,
       });
+      
+      // Vérifier si l'utilisateur connecté est le propriétaire du profil
       setIsOwnProfile(currentUser?.id === userData.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -79,7 +81,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   useEffect(() => {
     const checkProfileOwnership = async () => {
       if (!currentUser?.id) {
-        console.log('No current user ID found');
+        setIsOwnProfile(false);
         setLoading(false);
         return;
       }
@@ -145,7 +147,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </Card>
           )}
 
-          {isOwnProfile && (
+          {/* N'afficher les boutons que si l'utilisateur est connecté et que c'est son profil */}
+          {currentUser && isOwnProfile && (
             <div className="flex gap-3 mt-4">
               <Button
                 variant="outline"
