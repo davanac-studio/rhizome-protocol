@@ -1,5 +1,6 @@
 import { supabase } from "./supabase";
 import { Project } from "@/types/project";
+import { v4 as uuidv4 } from 'uuid';
 
 export const createProject = async (projectData: Omit<Project, "id">) => {
   const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -14,10 +15,14 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
     ? new Date(projectData.dueDate).toISOString()
     : new Date().toISOString();
 
+  // Generate a unique ID for the project
+  const projectId = uuidv4();
+
   const { data, error } = await supabase
     .from('projects')
     .insert([
       {
+        id: projectId,
         title: projectData.title,
         description: projectData.description,
         due_date: formattedDueDate,
