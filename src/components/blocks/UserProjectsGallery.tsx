@@ -1,19 +1,41 @@
 import { ProjectCard } from "@/components/ProjectCard";
-import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
+import { useParams } from "react-router-dom";
 
 export const UserProjectsGallery = () => {
-  const { user } = useAuth();
+  const { username } = useParams();
   const { toast } = useToast();
 
   const { data: projects, isLoading } = useQuery({
-    queryKey: ['userProjects', user?.id],
+    queryKey: ['userProjects', username],
     queryFn: async () => {
-      if (!user?.id) {
-        console.log('No user ID found');
+      if (!username) {
+        console.log('No username found');
+        return [];
+      }
+
+      // First, get the user's profile ID from their username
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', username)
+        .single();
+
+      if (profileError) {
+        console.error('Error fetching profile:', profileError);
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger le profil",
+          variant: "destructive",
+        });
+        return [];
+      }
+
+      if (!profile?.id) {
+        console.log('No profile found for username:', username);
         return [];
       }
 
@@ -40,16 +62,17 @@ export const UserProjectsGallery = () => {
               expertise
             ),
             contribution,
-            contribution_description
+            contribution_description,
+            avatar
           )
         `)
-        .eq('team_leader', user.id);
+        .eq('team_leader', profile.id);
 
       if (leaderError) {
         console.error('Error fetching team leader projects:', leaderError);
         toast({
           title: "Erreur",
-          description: "Impossible de charger vos projets en tant que team leader",
+          description: "Impossible de charger les projets en tant que team leader",
           variant: "destructive",
         });
         return [];
@@ -67,7 +90,7 @@ export const UserProjectsGallery = () => {
           participants: project.project_participants?.map((p: any) => ({
             name: `${p.user.first_name} ${p.user.last_name}`,
             username: p.user.username,
-            avatar: p.user.avatar_url,
+            avatar: p.avatar || p.user.avatar_url,
             expertise: p.user.expertise,
             role: "Member",
             contribution: p.contribution,
@@ -99,17 +122,18 @@ export const UserProjectsGallery = () => {
                 expertise
               ),
               contribution,
-              contribution_description
+              contribution_description,
+              avatar
             )
           )
         `)
-        .eq('user_id', user.id);
+        .eq('user_id', profile.id);
 
       if (participantError) {
         console.error('Error fetching participant projects:', participantError);
         toast({
           title: "Erreur",
-          description: "Impossible de charger vos projets en tant que participant",
+          description: "Impossible de charger les projets en tant que participant",
           variant: "destructive",
         });
         return leaderProjects;
@@ -129,7 +153,7 @@ export const UserProjectsGallery = () => {
             participants: item.project.project_participants?.map((p: any) => ({
               name: `${p.user.first_name} ${p.user.last_name}`,
               username: p.user.username,
-              avatar: p.user.avatar_url,
+              avatar: p.avatar || p.user.avatar_url,
               expertise: p.user.expertise,
               role: "Member",
               contribution: p.contribution,
@@ -152,7 +176,7 @@ export const UserProjectsGallery = () => {
   if (isLoading) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">Chargement de vos projets...</p>
+        <p className="text-gray-500">Chargement des projets...</p>
       </div>
     );
   }
@@ -160,14 +184,14 @@ export const UserProjectsGallery = () => {
   if (!projects?.length) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">Vous n'avez pas encore de projets</p>
+        <p className="text-gray-500">Aucun projet trouvé pour ce profil</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Vos Projets</h2>
+      <h2 className="text-2xl font-bold">Projets</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
