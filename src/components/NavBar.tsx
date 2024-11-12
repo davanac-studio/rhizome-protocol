@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { UserCircle2, Home, LogOut } from "lucide-react";
+import { UserCircle2, Home, LogOut, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { NewProjectDialog } from "./NewProjectDialog";
 import { useAuth } from "@/contexts/AuthContext";
@@ -51,6 +51,10 @@ const NavBar = () => {
             </Link>
             <Link to="/about" className="text-gray-900 hover:text-gray-700">
               Comment ça marche ?
+            </Link>
+            <Link to="/users" className="text-gray-900 hover:text-gray-700 flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Communauté
             </Link>
           </div>
           
