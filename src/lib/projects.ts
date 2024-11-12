@@ -50,7 +50,8 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
   if (projectData.participants && projectData.participants.length > 0) {
     const participantsData = projectData.participants.map(participant => ({
       project_id: projectId,
-      user_id: participant.profile, // Now this property exists in the type
+      user_id: participant.profile,
+      avatar: participant.avatar, // Add the avatar field
       contribution: participant.contribution,
       contribution_description: participant.contributionDescription
     }));

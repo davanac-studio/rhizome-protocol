@@ -47,7 +47,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
       p.user?.first_name,
       p.user?.last_name,
       p.user?.username,
-      p.user?.avatar_url,
+      p.avatar || p.user?.avatar_url, // Use the new avatar field, fallback to user's avatar_url
       p.user?.expertise,
       "Member",
       p.contribution,

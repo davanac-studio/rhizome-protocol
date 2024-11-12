@@ -12,6 +12,7 @@ export interface DatabaseParticipant {
   user: DatabaseUser;
   contribution: number;
   contribution_description: string;
+  avatar?: string; // Add the new avatar field
 }
 
 export interface DatabaseProject {
