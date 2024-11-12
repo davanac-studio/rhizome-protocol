@@ -63,60 +63,6 @@ export type Database = {
         }
         Relationships: []
       }
-      projects: {
-        Row: {
-          category: string
-          client: string
-          created_at: string
-          description: string
-          due_date: string
-          github_link: string | null
-          id: number
-          preview_link: string | null
-          team_leader: string
-          team_leader_contribution: number
-          team_leader_contribution_description: string | null
-          testimonial: string | null
-          thumbnail: string
-          title: string
-          uuid: string | null
-        }
-        Insert: {
-          category: string
-          client: string
-          created_at?: string
-          description: string
-          due_date: string
-          github_link?: string | null
-          id?: never
-          preview_link?: string | null
-          team_leader: string
-          team_leader_contribution: number
-          team_leader_contribution_description?: string | null
-          testimonial?: string | null
-          thumbnail: string
-          title: string
-          uuid?: string | null
-        }
-        Update: {
-          category?: string
-          client?: string
-          created_at?: string
-          description?: string
-          due_date?: string
-          github_link?: string | null
-          id?: never
-          preview_link?: string | null
-          team_leader?: string
-          team_leader_contribution?: number
-          team_leader_contribution_description?: string | null
-          testimonial?: string | null
-          thumbnail?: string
-          title?: string
-          uuid?: string | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
