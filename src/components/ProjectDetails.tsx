@@ -13,8 +13,8 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
   const certification = project.certification || createCertification(project.id);
 
   return (
-    <div className="space-y-8 mt-12">
-      <div className="prose max-w-none mb-8">
+    <div className="space-y-12 mt-12">
+      <div className="prose max-w-none">
         <p className="text-gray-600 text-lg leading-relaxed">
           {project.description}
         </p>
@@ -28,7 +28,7 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
       />
 
       {project.testimonial ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <TestimonialBlock testimonial={project.testimonial} />
           </div>
