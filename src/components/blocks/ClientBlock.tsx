@@ -16,7 +16,7 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
       const { data } = await supabase
         .from('profiles')
         .select('*')
-        .eq('username', client)
+        .eq('id', client)
         .single();
       
       if (data) {
