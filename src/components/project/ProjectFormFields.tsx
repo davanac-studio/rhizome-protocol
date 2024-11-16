@@ -11,7 +11,7 @@ interface ProjectFormFieldsProps {
 export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsProps) => {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Titre</label>
           <Input
@@ -21,28 +21,6 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
             placeholder="Entrez le titre du projet"
           />
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Client</label>
-          <Input
-            required
-            value={formData.client}
-            onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-            placeholder="Nom du client"
-          />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Description</label>
-        <Textarea
-          required
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          placeholder="Description détaillée du projet"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Catégorie</label>
           <Select
@@ -83,6 +61,16 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
         />
       </div>
 
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Description</label>
+        <Textarea
+          required
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          placeholder="Description détaillée du projet"
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Lien de démonstration</label>
@@ -108,6 +96,16 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
             placeholder="Autre lien de présentation"
           />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Client</label>
+        <Input
+          required
+          value={formData.client}
+          onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+          placeholder="Nom du client"
+        />
       </div>
 
       <div className="space-y-2">
