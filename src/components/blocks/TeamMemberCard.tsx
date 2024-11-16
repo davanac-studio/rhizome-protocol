@@ -36,7 +36,7 @@ export const TeamMemberCard = ({
       className="w-full p-0 h-auto hover:bg-transparent"
       onClick={handleClick}
     >
-      <Card className="p-4 w-full h-[280px] flex flex-col">
+      <Card className="p-4 w-full">
         <div className="flex items-start gap-4 mb-4">
           <Avatar className="flex-shrink-0">
             <AvatarImage src={avatar} alt={name} />
@@ -50,18 +50,17 @@ export const TeamMemberCard = ({
           </div>
         </div>
         
-        <div className="flex-grow overflow-y-auto">
-          {bio && (
-            <div className="text-sm text-gray-600 text-left mb-4">
-              <p className="break-words">{bio}</p>
-            </div>
-          )}
-          {!isClient && contributionDescription && (
-            <div className="text-sm text-gray-600 text-left mb-4">
-              <p className="break-words">{contributionDescription}</p>
-            </div>
-          )}
-        </div>
+        {bio && (
+          <div className="text-sm text-gray-600 text-left mb-4">
+            <p className="break-words">{bio}</p>
+          </div>
+        )}
+        
+        {!isClient && contributionDescription && (
+          <div className="text-sm text-gray-600 text-left mb-4">
+            <p className="break-words">{contributionDescription}</p>
+          </div>
+        )}
 
         {!isClient && contribution !== null && (
           <div className="text-left mt-2 pt-2 border-t">
