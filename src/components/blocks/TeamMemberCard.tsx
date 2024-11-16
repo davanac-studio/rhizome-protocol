@@ -26,6 +26,8 @@ export const TeamMemberCard = ({
     navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
+  const isClient = contributionDescription === "Client du projet";
+
   return (
     <Button 
       variant="ghost" 
@@ -55,7 +57,7 @@ export const TeamMemberCard = ({
             )}
           </div>
 
-          {contribution !== null && (
+          {!isClient && contribution !== null && (
             <div className="text-left">
               <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
             </div>
