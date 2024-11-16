@@ -82,10 +82,10 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           </div>
 
           <div className="flex items-center justify-between text-gray-600">
-            <div className="flex items-center gap-2 max-w-[50%]">
+            <div className="flex items-center gap-2 max-w-[60%]">
               <UserCircle2 className="w-4 h-4 flex-shrink-0" />
               <span className="text-sm truncate">
-                Commanditaire : {project.client}
+                Commanditaire : {project.client || "Non spécifié"}
               </span>
             </div>
             
