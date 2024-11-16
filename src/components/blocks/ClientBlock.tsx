@@ -61,7 +61,7 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Client</h3>
+        <h3 className="text-lg font-semibold">Commanditaire</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           <TeamMemberCard
             name={clientProfile.name}
