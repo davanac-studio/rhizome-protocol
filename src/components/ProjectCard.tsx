@@ -29,7 +29,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
       if (!isUUID) {
         setClientProfile({
           name: project.client,
-          avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+          avatar: null
         });
         return;
       }
@@ -43,7 +43,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
       if (data) {
         setClientProfile({
           name: `${data.first_name} ${data.last_name}`,
-          avatar: data.avatar_url || "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+          avatar: data.avatar_url
         });
       }
     };
@@ -120,10 +120,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             <div className="flex items-center gap-2">
               {clientProfile?.avatar ? (
                 <Avatar className="w-6 h-6">
-                  <AvatarImage 
-                    src={clientProfile.avatar} 
-                    alt={clientProfile.name}
-                  />
+                  <AvatarImage src={clientProfile.avatar} alt={clientProfile.name} />
                   <AvatarFallback>
                     <UserCircle2 className="w-4 h-4" />
                   </AvatarFallback>
