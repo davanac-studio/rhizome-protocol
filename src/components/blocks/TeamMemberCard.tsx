@@ -36,30 +36,30 @@ export const TeamMemberCard = ({
       className="w-full p-0 h-auto hover:bg-transparent"
       onClick={handleClick}
     >
-      <Card className="p-4 w-full flex flex-col hover:shadow-md transition-all duration-300">
+      <Card className="p-4 w-full overflow-hidden">
         <div className="flex flex-col h-full">
           <div className="flex items-start gap-4 mb-4">
             <Avatar className="flex-shrink-0">
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col min-w-0">
+            <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
               <h4 className="font-semibold text-left truncate">{name}</h4>
               {expertise && (
-                <p className="text-sm text-gray-600 text-left break-words">{expertise}</p>
+                <p className="text-sm text-gray-600 text-left break-words line-clamp-2">{expertise}</p>
               )}
             </div>
           </div>
           
-          <div className="flex-grow">
+          <div className="flex-grow overflow-hidden">
             {bio && (
-              <div className="text-sm text-gray-600 text-left mb-4 break-words">
-                <p>{bio}</p>
+              <div className="text-sm text-gray-600 text-left mb-4">
+                <p className="break-words line-clamp-3">{bio}</p>
               </div>
             )}
             {!isClient && contributionDescription && (
-              <div className="text-sm text-gray-600 text-left mb-4 break-words">
-                <p>{contributionDescription}</p>
+              <div className="text-sm text-gray-600 text-left mb-4">
+                <p className="break-words line-clamp-3">{contributionDescription}</p>
               </div>
             )}
           </div>
