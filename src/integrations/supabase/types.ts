@@ -111,7 +111,7 @@ export type Database = {
       projects: {
         Row: {
           category: string
-          client: string
+          client: string | null
           created_at: string
           description: string
           due_date: string
@@ -127,7 +127,7 @@ export type Database = {
         }
         Insert: {
           category: string
-          client: string
+          client?: string | null
           created_at?: string
           description: string
           due_date: string
@@ -143,7 +143,7 @@ export type Database = {
         }
         Update: {
           category?: string
-          client?: string
+          client?: string | null
           created_at?: string
           description?: string
           due_date?: string
@@ -158,6 +158,13 @@ export type Database = {
           title?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "projects_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "projects_team_leader_fkey"
             columns: ["team_leader"]
