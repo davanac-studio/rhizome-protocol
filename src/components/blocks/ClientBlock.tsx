@@ -25,7 +25,8 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
           username: data.username,
           avatar: data.avatar_url,
           expertise: data.expertise,
-          contributionDescription: "Client du projet"
+          contributionDescription: "Client du projet",
+          contribution: null // Forcer la contribution à null pour le client
         });
       }
     };
