@@ -11,10 +11,45 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
   const categories = project.category.split(", ");
+  const [clientProfile, setClientProfile] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchClientProfile = async () => {
+      if (!project.client) return;
+
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const isUUID = uuidRegex.test(project.client);
+
+      if (!isUUID) {
+        setClientProfile({
+          name: project.client,
+          avatar: null
+        });
+        return;
+      }
+
+      const { data } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, avatar_url')
+        .eq('id', project.client)
+        .single();
+      
+      if (data) {
+        setClientProfile({
+          name: `${data.first_name} ${data.last_name}`,
+          avatar: data.avatar_url
+        });
+      }
+    };
+
+    fetchClientProfile();
+  }, [project.client]);
 
   const handleProjectClick = () => {
     navigate(`/project/${project.id}`);
@@ -82,10 +117,17 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           </div>
 
           <div className="flex items-center justify-between text-gray-600">
-            <div className="flex items-center gap-2 max-w-[60%]">
-              <UserCircle2 className="w-4 h-4 flex-shrink-0" />
+            <div className="flex items-center gap-2">
+              {clientProfile?.avatar ? (
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src={clientProfile.avatar} alt={clientProfile.name} />
+                  <AvatarFallback>{clientProfile.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+              ) : (
+                <UserCircle2 className="w-6 h-6" />
+              )}
               <span className="text-sm truncate">
-                Commanditaire : {project.client || "Non spécifié"}
+                {clientProfile?.name || "Non spécifié"}
               </span>
             </div>
             
