@@ -38,34 +38,34 @@ export const TeamMemberCard = ({
     >
       <Card className="p-4 w-full flex flex-col hover:shadow-md transition-all duration-300">
         <div className="flex flex-col h-full">
-          <div className="flex items-start space-x-4 mb-4">
-            <Avatar>
+          <div className="flex items-start gap-4 mb-4">
+            <Avatar className="flex-shrink-0">
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
             </Avatar>
-            <div className="space-y-1 text-left">
-              <h4 className="font-semibold">{name}</h4>
+            <div className="flex flex-col min-w-0">
+              <h4 className="font-semibold text-left truncate">{name}</h4>
               {expertise && (
-                <p className="text-sm text-gray-600">{expertise}</p>
+                <p className="text-sm text-gray-600 text-left break-words">{expertise}</p>
               )}
             </div>
           </div>
           
           <div className="flex-grow">
             {bio && (
-              <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
+              <div className="text-sm text-gray-600 text-left mb-4 break-words">
                 <p>{bio}</p>
               </div>
             )}
             {!isClient && contributionDescription && (
-              <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
+              <div className="text-sm text-gray-600 text-left mb-4 break-words">
                 <p>{contributionDescription}</p>
               </div>
             )}
           </div>
 
           {!isClient && contribution !== null && (
-            <div className="text-left">
+            <div className="text-left mt-2">
               <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
             </div>
           )}
