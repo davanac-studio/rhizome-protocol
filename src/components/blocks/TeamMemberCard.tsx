@@ -26,7 +26,7 @@ export const TeamMemberCard = ({
     navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
-  const isClient = contributionDescription === "Client du projet";
+  const isClient = expertise === "Client";
 
   return (
     <Button 
@@ -50,7 +50,7 @@ export const TeamMemberCard = ({
           </div>
           
           <div className="flex-grow">
-            {contributionDescription && (
+            {!isClient && contributionDescription && (
               <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
                 <p>{contributionDescription}</p>
               </div>
