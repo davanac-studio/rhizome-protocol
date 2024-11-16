@@ -137,7 +137,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             username={user?.username}
           />
 
-          <ProfileSocial />
+          <ProfileSocial user={user} />
 
           {user?.bio && (
             <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
@@ -147,7 +147,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             </Card>
           )}
 
-          {/* N'afficher les boutons que si l'utilisateur est connecté et que c'est son profil */}
           {currentUser && isOwnProfile && (
             <div className="flex gap-3 mt-4">
               <Button
