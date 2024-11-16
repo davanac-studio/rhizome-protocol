@@ -52,11 +52,12 @@ export const TeamMemberCard = ({
           </div>
           
           <div className="flex-grow">
-            {isClient && bio ? (
+            {bio && (
               <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
                 <p>{bio}</p>
               </div>
-            ) : !isClient && contributionDescription && (
+            )}
+            {!isClient && contributionDescription && (
               <div className="text-sm text-gray-600 text-left mb-4 break-words whitespace-normal">
                 <p>{contributionDescription}</p>
               </div>
