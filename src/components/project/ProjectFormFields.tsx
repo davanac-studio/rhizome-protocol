@@ -97,7 +97,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Lien de prévisualisation</label>
+          <label className="text-sm font-medium">Autre lien de présentation</label>
           <Input
             type="url"
             value={formData.links.preview}
@@ -105,7 +105,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
               ...formData,
               links: { ...formData.links, preview: e.target.value }
             })}
-            placeholder="URL de prévisualisation"
+            placeholder="Autre lien de présentation"
           />
         </div>
       </div>
