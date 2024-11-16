@@ -21,6 +21,11 @@ export const ProjectGallery = () => {
             avatar_url,
             expertise
           ),
+          client_profile:profiles!projects_client_fkey (
+            id,
+            first_name,
+            last_name
+          ),
           project_participants (
             user:profiles!project_participants_user_id_fkey (
               id,
@@ -46,10 +51,12 @@ export const ProjectGallery = () => {
         dueDate: project.due_date,
         thumbnail: project.thumbnail,
         category: project.category,
-        client: project.client,
+        client: project.client_profile ? 
+          `${project.client_profile.first_name} ${project.client_profile.last_name}`.trim() : 
+          "Non spécifié",
         testimonial: project.testimonial,
         author: {
-          id: project.team_leader_profile.id, // Added the id field
+          id: project.team_leader_profile.id,
           name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
           username: project.team_leader_profile.username || '',
           avatar: project.team_leader_profile.avatar_url,
@@ -59,7 +66,7 @@ export const ProjectGallery = () => {
           contributionDescription: project.team_leader_contribution_description
         },
         participants: project.project_participants?.map(p => ({
-          id: p.user.id, // Added the id field
+          id: p.user.id,
           name: `${p.user.first_name} ${p.user.last_name}`,
           username: p.user.username || '',
           avatar: p.avatar || p.user.avatar_url,
