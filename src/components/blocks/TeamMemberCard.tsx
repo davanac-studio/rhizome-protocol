@@ -43,22 +43,22 @@ export const TeamMemberCard = ({
             <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col min-w-0 flex-1">
-            <h4 className="font-semibold text-left truncate">{name}</h4>
+            <h4 className="font-semibold text-left whitespace-normal break-words">{name}</h4>
             {expertise && (
-              <p className="text-sm text-gray-600 text-left break-words">{expertise}</p>
+              <p className="text-sm text-gray-600 text-left whitespace-normal break-words">{expertise}</p>
             )}
           </div>
         </div>
         
         {bio && (
           <div className="text-sm text-gray-600 text-left mb-4">
-            <p className="break-words">{bio}</p>
+            <p className="whitespace-normal break-words">{bio}</p>
           </div>
         )}
         
         {!isClient && contributionDescription && (
           <div className="text-sm text-gray-600 text-left mb-4">
-            <p className="break-words">{contributionDescription}</p>
+            <p className="whitespace-normal break-words">{contributionDescription}</p>
           </div>
         )}
 
