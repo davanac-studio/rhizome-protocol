@@ -53,7 +53,7 @@ export const ProjectGallery = () => {
         category: project.category,
         client: project.client_profile ? 
           `${project.client_profile.first_name} ${project.client_profile.last_name}`.trim() : 
-          "Non spécifié",
+          project.client || "Non spécifié",
         testimonial: project.testimonial,
         author: {
           id: project.team_leader_profile.id,
