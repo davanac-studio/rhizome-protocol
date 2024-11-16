@@ -10,7 +10,6 @@ interface ProjectDetailsProps {
 }
 
 export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
-  // Si le projet n'a pas de certification, on en crée une fictive
   const certification = project.certification || createCertification(project.id);
 
   return (
@@ -28,13 +27,23 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         participants={project.participants}
       />
 
-      <ClientBlock 
-        client={project.client}
-        testimonial={project.testimonial}
-      />
-
-      {project.testimonial && (
-        <TestimonialBlock testimonial={project.testimonial} />
+      {project.testimonial ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-1">
+            <ClientBlock 
+              client={project.client}
+              testimonial={project.testimonial}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <TestimonialBlock testimonial={project.testimonial} />
+          </div>
+        </div>
+      ) : (
+        <ClientBlock 
+          client={project.client}
+          testimonial={project.testimonial}
+        />
       )}
 
       <CertificationBlock certification={certification} />

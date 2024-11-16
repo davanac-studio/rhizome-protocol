@@ -13,12 +13,10 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
 
   useEffect(() => {
     const fetchClientProfile = async () => {
-      // Validate if client string is a UUID
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       const isUUID = uuidRegex.test(client);
 
       if (!isUUID) {
-        // If client is not a UUID, create a simple profile object
         setClientProfile({
           name: client,
           username: client.toLowerCase().replace(/\s+/g, '-'),
@@ -31,7 +29,6 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
         return;
       }
 
-      // If client is a UUID, fetch from profiles table
       const { data } = await supabase
         .from('profiles')
         .select('*')
@@ -59,21 +56,17 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Commanditaire</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          <TeamMemberCard
-            name={clientProfile.name}
-            username={clientProfile.username}
-            avatar={clientProfile.avatar || ""}
-            contribution={null}
-            contributionDescription={clientProfile.contributionDescription}
-            expertise={clientProfile.expertise}
-            bio={clientProfile.bio}
-          />
-        </div>
-      </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">Commanditaire</h3>
+      <TeamMemberCard
+        name={clientProfile.name}
+        username={clientProfile.username}
+        avatar={clientProfile.avatar || ""}
+        contribution={null}
+        contributionDescription={clientProfile.contributionDescription}
+        expertise={clientProfile.expertise}
+        bio={clientProfile.bio}
+      />
     </div>
   );
 };
