@@ -25,7 +25,8 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
           avatar: null,
           expertise: "Client",
           contributionDescription: "Client du projet",
-          contribution: null
+          contribution: null,
+          bio: "Client externe"
         });
         return;
       }
@@ -42,9 +43,10 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
           name: `${data.first_name} ${data.last_name}`,
           username: data.username,
           avatar: data.avatar_url,
-          expertise: data.expertise,
+          expertise: "Client",
           contributionDescription: "Client du projet",
-          contribution: null
+          contribution: null,
+          bio: data.bio || "Client externe"
         });
       }
     };
@@ -68,6 +70,7 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
             contribution={null}
             contributionDescription={clientProfile.contributionDescription}
             expertise={clientProfile.expertise}
+            bio={clientProfile.bio}
           />
         </div>
       </div>
