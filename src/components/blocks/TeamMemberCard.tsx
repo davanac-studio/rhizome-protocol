@@ -46,7 +46,7 @@ export const TeamMemberCard = ({
             <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
               <h4 className="font-semibold text-left truncate">{name}</h4>
               {expertise && (
-                <p className="text-sm text-gray-600 text-left break-words line-clamp-2">{expertise}</p>
+                <p className="text-sm text-gray-600 text-left break-words line-clamp-3">{expertise}</p>
               )}
             </div>
           </div>
@@ -54,12 +54,12 @@ export const TeamMemberCard = ({
           <div className="flex-grow overflow-hidden">
             {bio && (
               <div className="text-sm text-gray-600 text-left mb-4">
-                <p className="break-words line-clamp-3">{bio}</p>
+                <p className="break-words line-clamp-4">{bio}</p>
               </div>
             )}
             {!isClient && contributionDescription && (
               <div className="text-sm text-gray-600 text-left mb-4">
-                <p className="break-words line-clamp-3">{contributionDescription}</p>
+                <p className="break-words line-clamp-4">{contributionDescription}</p>
               </div>
             )}
           </div>
