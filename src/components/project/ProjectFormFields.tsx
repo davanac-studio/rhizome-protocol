@@ -2,6 +2,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProjectFormData } from "@/types/form";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
 interface ProjectFormFieldsProps {
   formData: ProjectFormData;
@@ -9,6 +11,18 @@ interface ProjectFormFieldsProps {
 }
 
 export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsProps) => {
+  const { data: profiles } = useQuery({
+    queryKey: ['profiles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name, expertise');
+      
+      if (error) throw error;
+      return data || [];
+    }
+  });
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -100,12 +114,26 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Client</label>
-        <Input
-          required
+        <Select
           value={formData.client}
-          onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-          placeholder="Nom du client"
-        />
+          onValueChange={(value) => setFormData({ ...formData, client: value })}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Sélectionnez un client" />
+          </SelectTrigger>
+          <SelectContent>
+            {profiles?.map((profile) => (
+              <SelectItem key={profile.id} value={profile.id}>
+                {profile.first_name} {profile.last_name}
+                {profile.expertise && (
+                  <span className="ml-2 text-sm text-muted-foreground">
+                    ({profile.expertise})
+                  </span>
+                )}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="space-y-2">
