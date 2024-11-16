@@ -7,7 +7,7 @@ interface TeamMemberCardProps {
   name: string;
   username: string;
   avatar: string;
-  contribution: number;
+  contribution: number | null;
   contributionDescription?: string;
   expertise?: string;
 }
@@ -55,9 +55,11 @@ export const TeamMemberCard = ({
             )}
           </div>
 
-          <div className="text-left">
-            <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
-          </div>
+          {contribution !== null && (
+            <div className="text-left">
+              <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
+            </div>
+          )}
         </div>
       </Card>
     </Button>

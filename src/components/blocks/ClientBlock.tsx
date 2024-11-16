@@ -25,7 +25,6 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
           username: data.username,
           avatar: data.avatar_url,
           expertise: data.expertise,
-          contribution: 0,
           contributionDescription: "Client du projet"
         });
       }
@@ -47,7 +46,7 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
             name={clientProfile.name}
             username={clientProfile.username}
             avatar={clientProfile.avatar || ""}
-            contribution={clientProfile.contribution}
+            contribution={null}
             contributionDescription={clientProfile.contributionDescription}
             expertise={clientProfile.expertise}
           />
