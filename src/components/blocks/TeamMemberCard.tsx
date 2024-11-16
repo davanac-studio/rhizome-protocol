@@ -36,40 +36,38 @@ export const TeamMemberCard = ({
       className="w-full p-0 h-auto hover:bg-transparent"
       onClick={handleClick}
     >
-      <Card className="p-4 w-full overflow-hidden">
-        <div className="flex flex-col h-full">
-          <div className="flex items-start gap-4 mb-4">
-            <Avatar className="flex-shrink-0">
-              <AvatarImage src={avatar} alt={name} />
-              <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-              <h4 className="font-semibold text-left truncate">{name}</h4>
-              {expertise && (
-                <p className="text-sm text-gray-600 text-left break-words line-clamp-3">{expertise}</p>
-              )}
+      <Card className="p-4 w-full h-[280px] flex flex-col">
+        <div className="flex items-start gap-4 mb-4">
+          <Avatar className="flex-shrink-0">
+            <AvatarImage src={avatar} alt={name} />
+            <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0 flex-1">
+            <h4 className="font-semibold text-left truncate">{name}</h4>
+            {expertise && (
+              <p className="text-sm text-gray-600 text-left break-words">{expertise}</p>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex-grow overflow-y-auto">
+          {bio && (
+            <div className="text-sm text-gray-600 text-left mb-4">
+              <p className="break-words">{bio}</p>
             </div>
-          </div>
-          
-          <div className="flex-grow overflow-hidden">
-            {bio && (
-              <div className="text-sm text-gray-600 text-left mb-4">
-                <p className="break-words line-clamp-4">{bio}</p>
-              </div>
-            )}
-            {!isClient && contributionDescription && (
-              <div className="text-sm text-gray-600 text-left mb-4">
-                <p className="break-words line-clamp-4">{contributionDescription}</p>
-              </div>
-            )}
-          </div>
-
-          {!isClient && contribution !== null && (
-            <div className="text-left mt-2">
-              <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
+          )}
+          {!isClient && contributionDescription && (
+            <div className="text-sm text-gray-600 text-left mb-4">
+              <p className="break-words">{contributionDescription}</p>
             </div>
           )}
         </div>
+
+        {!isClient && contribution !== null && (
+          <div className="text-left mt-2 pt-2 border-t">
+            <span className="text-sm text-gray-600">Contribution: {contribution}%</span>
+          </div>
+        )}
       </Card>
     </Button>
   );
