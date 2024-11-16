@@ -13,24 +13,6 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
 
   useEffect(() => {
     const fetchClientProfile = async () => {
-      // Validate if client string is a UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const isUUID = uuidRegex.test(client);
-
-      if (!isUUID) {
-        // If client is not a UUID, create a simple profile object
-        setClientProfile({
-          name: client,
-          username: client.toLowerCase().replace(/\s+/g, '-'),
-          avatar: null,
-          expertise: "Client",
-          contributionDescription: "Client du projet",
-          contribution: null
-        });
-        return;
-      }
-
-      // If client is a UUID, fetch from profiles table
       const { data } = await supabase
         .from('profiles')
         .select('*')
@@ -44,7 +26,7 @@ export const ClientBlock = ({ client }: ClientBlockProps) => {
           avatar: data.avatar_url,
           expertise: data.expertise,
           contributionDescription: "Client du projet",
-          contribution: null
+          contribution: null // Forcer la contribution à null pour le client
         });
       }
     };
