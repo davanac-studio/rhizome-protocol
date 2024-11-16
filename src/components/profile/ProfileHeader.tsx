@@ -12,6 +12,7 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileBanner } from "./ProfileBanner";
 import { ProfileInfo } from "./ProfileInfo";
 import { ProfileSocial } from "./ProfileSocial";
+import { Badge } from "@/components/ui/badge";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -21,6 +22,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
+  const [projectCount, setProjectCount] = useState(0);
 
   const fetchUserData = async () => {
     if (!user?.username) {
@@ -51,7 +53,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           description: "Ce profil n'existe pas",
           variant: "destructive",
         });
-        navigate('/'); // Redirect to home page
+        navigate('/');
         return;
       }
 
@@ -64,7 +66,19 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         bannerUrl: userData.banner_url,
       });
       
-      // Vérifier si l'utilisateur connecté est le propriétaire du profil
+      // Fetch project count where user is either team leader or participant
+      const { count: leaderCount } = await supabase
+        .from('projects')
+        .select('*', { count: 'exact', head: true })
+        .eq('team_leader', userData.id);
+
+      const { count: participantCount } = await supabase
+        .from('project_participants')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', userData.id);
+
+      setProjectCount((leaderCount || 0) + (participantCount || 0));
+      
       setIsOwnProfile(currentUser?.id === userData.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -136,6 +150,12 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             expertise={user?.expertise}
             username={user?.username}
           />
+
+          <div className="mt-2">
+            <Badge variant="secondary" className="text-sm">
+              {projectCount} projet{projectCount !== 1 ? 's' : ''}
+            </Badge>
+          </div>
 
           <ProfileSocial user={user} />
 
