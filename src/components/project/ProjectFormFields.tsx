@@ -93,7 +93,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
               ...formData,
               links: { ...formData.links, github: e.target.value }
             })}
-            placeholder="URL du repository GitHub"
+            placeholder="URL de démonstration"
           />
         </div>
         <div className="space-y-2">
