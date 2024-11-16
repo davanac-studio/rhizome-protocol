@@ -85,7 +85,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Lien GitHub</label>
+          <label className="text-sm font-medium">Lien de démonstration</label>
           <Input
             type="url"
             value={formData.links.github}
