@@ -31,6 +31,12 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
 
+  // Fonction pour calculer la taille du nœud en fonction du nombre de projets
+  const getNodeSize = (value: number) => {
+    // Base size of 20px, increasing by 5px per project, with a max of 50px
+    return Math.min(20 + (value * 5), 50);
+  };
+
   useEffect(() => {
     if (!svgRef.current || !data.nodes.length) return;
 
@@ -48,10 +54,10 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     const simulation = d3.forceSimulation<NetworkNode>(data.nodes)
       .force("link", d3.forceLink<NetworkNode, NetworkLink>(data.links)
         .id(d => d.id)
-        .distance(100))
-      .force("charge", d3.forceManyBody().strength(-300))
+        .distance(150))
+      .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(50));
+      .force("collision", d3.forceCollide().radius(d => getNodeSize(d.value) + 10));
 
     // Create the links
     const link = svg.append("g")
@@ -74,7 +80,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
 
     // Add circles for nodes
     node.append("circle")
-      .attr("r", d => Math.sqrt(d.value) * 10)
+      .attr("r", d => getNodeSize(d.value))
       .attr("fill", "#4f46e5")
       .attr("stroke", "#fff")
       .attr("stroke-width", 2)
@@ -87,14 +93,14 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     node.append("clipPath")
       .attr("id", d => `clip-${d.id}`)
       .append("circle")
-      .attr("r", d => Math.sqrt(d.value) * 10);
+      .attr("r", d => getNodeSize(d.value));
 
     node.append("image")
       .attr("xlink:href", d => d.avatar || "")
-      .attr("x", d => -Math.sqrt(d.value) * 10)
-      .attr("y", d => -Math.sqrt(d.value) * 10)
-      .attr("width", d => Math.sqrt(d.value) * 20)
-      .attr("height", d => Math.sqrt(d.value) * 20)
+      .attr("x", d => -getNodeSize(d.value))
+      .attr("y", d => -getNodeSize(d.value))
+      .attr("width", d => getNodeSize(d.value) * 2)
+      .attr("height", d => getNodeSize(d.value) * 2)
       .attr("clip-path", d => `url(#clip-${d.id})`)
       .style("display", d => d.avatar ? null : "none")
       .style("cursor", "pointer")
@@ -105,7 +111,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     // Add labels
     node.append("text")
       .text(d => d.name)
-      .attr("x", d => Math.sqrt(d.value) * 12)
+      .attr("x", d => getNodeSize(d.value) + 5)
       .attr("y", 5)
       .attr("font-size", "12px")
       .attr("fill", "#4b5563");
