@@ -8,6 +8,7 @@ interface NetworkNode extends d3.SimulationNodeDatum {
   name: string;
   avatar: string | null;
   value: number;
+  expertise: string;
 }
 
 interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
@@ -169,7 +170,10 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
                 <AvatarImage src={selectedNode?.avatar || undefined} />
                 <AvatarFallback>{selectedNode?.name[0]}</AvatarFallback>
               </Avatar>
-              <span>{selectedNode?.name}</span>
+              <div className="flex flex-col">
+                <span>{selectedNode?.name}</span>
+                <span className="text-sm text-muted-foreground">{selectedNode?.expertise}</span>
+              </div>
             </DialogTitle>
           </DialogHeader>
           <div className="p-6">
