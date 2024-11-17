@@ -8,6 +8,7 @@ interface Profile {
   first_name: string | null;
   last_name: string | null;
   avatar_url: string | null;
+  expertise: string | null;
 }
 
 interface NetworkNode {
@@ -15,6 +16,7 @@ interface NetworkNode {
   name: string;
   avatar: string | null;
   value: number;
+  expertise: string;
 }
 
 interface NetworkLink {
@@ -38,14 +40,16 @@ export const ParticipantNetwork = () => {
             id,
             first_name,
             last_name,
-            avatar_url
+            avatar_url,
+            expertise
           ),
           project_participants (
             user:profiles!project_participants_user_id_fkey (
               id,
               first_name,
               last_name,
-              avatar_url
+              avatar_url,
+              expertise
             )
           )
         `);
@@ -65,6 +69,7 @@ export const ParticipantNetwork = () => {
               id: leaderId,
               name: `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim(),
               avatar: teamLeader.avatar_url,
+              expertise: teamLeader.expertise || 'Non spécifié',
               value: 1
             });
           } else {
@@ -84,6 +89,7 @@ export const ParticipantNetwork = () => {
               id: participantId,
               name: `${participant.first_name || ''} ${participant.last_name || ''}`.trim(),
               avatar: participant.avatar_url,
+              expertise: participant.expertise || 'Non spécifié',
               value: 1
             });
           } else {
