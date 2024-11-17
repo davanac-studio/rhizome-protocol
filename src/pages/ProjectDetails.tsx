@@ -1,17 +1,16 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import { ProjectHeader } from "@/components/ProjectHeader";
-import { ProjectDetailsComponent } from "@/components/ProjectDetails";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useAuth } from "@/contexts/AuthContext";
+import { extractIdFromSlug } from "@/utils/slugUtils";
+import { ProjectError } from "@/components/project/ProjectError";
+import { ProjectContent } from "@/components/project/ProjectContent";
 
 const ProjectDetails = () => {
   const { idWithSlug } = useParams();
-  const id = idWithSlug?.split('-')[0];
+  const id = extractIdFromSlug(idWithSlug);
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -95,32 +94,12 @@ const ProjectDetails = () => {
     enabled: !!id
   });
 
-  const handleEditClick = () => {
-    if (id) {
-      navigate(`/project/${idWithSlug}/edit`);
-    }
-  };
-
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container py-8">
-          <Link to="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour aux Projets
-            </Button>
-          </Link>
-          <div className="text-center py-12">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Une erreur est survenue lors du chargement du projet
-            </h2>
-            <p className="text-gray-600">
-              Le projet n'a pas pu être chargé. Veuillez réessayer ultérieurement.
-            </p>
-          </div>
-        </div>
-      </div>
+      <ProjectError 
+        title="Une erreur est survenue lors du chargement du projet"
+        description="Le projet n'a pas pu être chargé. Veuillez réessayer ultérieurement."
+      />
     );
   }
 
@@ -136,65 +115,27 @@ const ProjectDetails = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container py-8">
-          <Link to="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour aux Projets
-            </Button>
-          </Link>
-          <div className="text-center py-12">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Projet non trouvé
-            </h2>
-            <p className="text-gray-600">
-              Le projet que vous recherchez n'existe pas ou a été supprimé.
-            </p>
-          </div>
-        </div>
-      </div>
+      <ProjectError 
+        title="Projet non trouvé"
+        description="Le projet que vous recherchez n'existe pas ou a été supprimé."
+      />
     );
   }
 
   const isProjectCreator = user?.id === project.author.id;
+  const handleEditClick = () => {
+    if (idWithSlug) {
+      navigate(`/project/${idWithSlug}/edit`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container py-8">
-        <div className="flex justify-between items-center mb-6">
-          <Link to="/">
-            <Button variant="ghost">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour aux Projets
-            </Button>
-          </Link>
-          {user && isProjectCreator && (
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2"
-              onClick={handleEditClick}
-            >
-              <Pencil className="w-4 h-4" />
-              Modifier le projet
-            </Button>
-          )}
-        </div>
-
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <img
-            src={project.thumbnail}
-            alt={project.title}
-            className="w-full h-96 object-cover"
-          />
-          
-          <div className="p-8">
-            <ProjectHeader project={project} />
-            <ProjectDetailsComponent project={project} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <ProjectContent 
+      project={project}
+      isProjectCreator={isProjectCreator}
+      onEditClick={handleEditClick}
+      idWithSlug={idWithSlug || ''}
+    />
   );
 };
 
