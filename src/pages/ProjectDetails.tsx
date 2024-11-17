@@ -19,9 +19,16 @@ const ProjectDetails = () => {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
-      if (!id) throw new Error("ID du projet manquant");
+      if (!id) {
+        toast({
+          title: "Erreur",
+          description: "ID du projet invalide",
+          variant: "destructive"
+        });
+        throw new Error("Invalid project ID");
+      }
 
-      const { data: projectData, error } = await supabase
+      const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select(`
           *,
@@ -47,15 +54,16 @@ const ProjectDetails = () => {
           )
         `)
         .eq('id', id)
-        .maybeSingle();
+        .single();
 
-      if (error) {
+      if (projectError) {
+        console.error('Error fetching project:', projectError);
         toast({
           title: "Erreur",
           description: "Impossible de charger le projet",
           variant: "destructive"
         });
-        throw error;
+        throw projectError;
       }
 
       if (!projectData) {
@@ -83,7 +91,8 @@ const ProjectDetails = () => {
         })) || []
       });
     },
-    retry: false
+    retry: false,
+    enabled: !!id
   });
 
   const handleEditClick = () => {
@@ -102,10 +111,13 @@ const ProjectDetails = () => {
               Retour aux Projets
             </Button>
           </Link>
-          <div className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900">
+          <div className="text-center py-12">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Une erreur est survenue lors du chargement du projet
             </h2>
+            <p className="text-gray-600">
+              Le projet n'a pas pu être chargé. Veuillez réessayer ultérieurement.
+            </p>
           </div>
         </div>
       </div>
@@ -132,8 +144,13 @@ const ProjectDetails = () => {
               Retour aux Projets
             </Button>
           </Link>
-          <div className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900">Projet non trouvé</h2>
+          <div className="text-center py-12">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Projet non trouvé
+            </h2>
+            <p className="text-gray-600">
+              Le projet que vous recherchez n'existe pas ou a été supprimé.
+            </p>
           </div>
         </div>
       </div>
