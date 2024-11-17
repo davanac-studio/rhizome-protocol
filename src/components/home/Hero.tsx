@@ -10,9 +10,6 @@ export const Hero = () => {
         <NetworkBackground />
       </div>
       <div className="relative z-10 container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fadeIn">
-          Rhizome Protocol
-        </h1>
         <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto animate-fadeIn">
           Certification décentralisée pour les projets culturels et créatifs
         </p>
