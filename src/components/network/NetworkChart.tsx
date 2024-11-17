@@ -11,8 +11,8 @@ interface NetworkNode extends d3.SimulationNodeDatum {
 }
 
 interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
-  source: string;
-  target: string;
+  source: NetworkNode | string;
+  target: NetworkNode | string;
   projectId: string;
   projectTitle: string;
 }
@@ -112,10 +112,22 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     // Update positions on each tick
     simulation.on("tick", () => {
       link
-        .attr("x1", d => (d.source as NetworkNode).x!)
-        .attr("y1", d => (d.source as NetworkNode).y!)
-        .attr("x2", d => (d.target as NetworkNode).x!)
-        .attr("y2", d => (d.target as NetworkNode).y!);
+        .attr("x1", d => {
+          const source = typeof d.source === 'string' ? data.nodes.find(n => n.id === d.source) : d.source as NetworkNode;
+          return source?.x || 0;
+        })
+        .attr("y1", d => {
+          const source = typeof d.source === 'string' ? data.nodes.find(n => n.id === d.source) : d.source as NetworkNode;
+          return source?.y || 0;
+        })
+        .attr("x2", d => {
+          const target = typeof d.target === 'string' ? data.nodes.find(n => n.id === d.target) : d.target as NetworkNode;
+          return target?.x || 0;
+        })
+        .attr("y2", d => {
+          const target = typeof d.target === 'string' ? data.nodes.find(n => n.id === d.target) : d.target as NetworkNode;
+          return target?.y || 0;
+        });
 
       node.attr("transform", d => `translate(${d.x},${d.y})`);
     });
