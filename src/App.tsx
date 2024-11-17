@@ -26,8 +26,8 @@ const App = () => (
             <NavBar />
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/project/:id" element={<ProjectDetails />} />
-              <Route path="/project/:id/edit" element={<EditProject />} />
+              <Route path="/project/:idWithSlug" element={<ProjectDetails />} />
+              <Route path="/project/:idWithSlug/edit" element={<EditProject />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/profile/:username" element={<UserProfile />} />
               <Route path="/about" element={<About />} />

@@ -10,7 +10,8 @@ import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useAuth } from "@/contexts/AuthContext";
 
 const ProjectDetails = () => {
-  const { id } = useParams();
+  const { idWithSlug } = useParams();
+  const id = idWithSlug?.split('-')[0];
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ const ProjectDetails = () => {
 
   const handleEditClick = () => {
     if (id) {
-      navigate(`/project/${id}/edit`);
+      navigate(`/project/${idWithSlug}/edit`);
     }
   };
 

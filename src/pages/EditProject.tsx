@@ -5,9 +5,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { ProjectForm } from "@/components/project/ProjectForm";
 import { useAuth } from "@/contexts/AuthContext";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
+import { slugify } from "@/utils/slugify";
 
 const EditProject = () => {
-  const { id } = useParams();
+  const { idWithSlug } = useParams();
+  const id = idWithSlug?.split('-')[0];
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -108,7 +110,8 @@ const EditProject = () => {
         description: "Le projet a été mis à jour avec succès",
       });
 
-      navigate(`/project/${id}`);
+      const slug = slugify(updatedProject.title);
+      navigate(`/project/${id}-${slug}`);
     } catch (error) {
       console.error('Error updating project:', error);
       toast({

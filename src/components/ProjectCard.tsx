@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { slugify } from "@/utils/slugify";
 
 interface ClientProfile {
   name: string;
@@ -62,7 +63,8 @@ export const ProjectCard = ({ project }: { project: Project }) => {
   }, [project.client]);
 
   const handleProjectClick = () => {
-    navigate(`/project/${project.id}`);
+    const slug = slugify(project.title);
+    navigate(`/project/${project.id}-${slug}`);
   };
 
   const handleProfileClick = (e: React.MouseEvent, username: string) => {
@@ -70,7 +72,6 @@ export const ProjectCard = ({ project }: { project: Project }) => {
     navigate(`/profile/${encodeURIComponent(username)}`);
   };
 
-  // Ensure author exists and has required properties
   const author = project.author || {
     name: "Unknown",
     username: "unknown",
