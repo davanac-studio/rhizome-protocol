@@ -57,7 +57,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         .distance(150))
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(d => getNodeSize(d.value) + 10));
+      .force("collision", d3.forceCollide().radius((d: NetworkNode) => getNodeSize(d.value) + 10));
 
     // Create the links
     const link = svg.append("g")
