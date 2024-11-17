@@ -1,13 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { NetworkChart } from "./NetworkChart";
+import { NetworkBackground } from "./NetworkBackground";
 import { Card } from "@/components/ui/card";
-
-interface Participant {
-  id: string;
-  name: string;
-  avatar_url: string | null;
-}
 
 interface NetworkNode {
   id: string;
@@ -17,8 +12,8 @@ interface NetworkNode {
 }
 
 interface NetworkLink {
-  source: string;
-  target: string;
+  source: NetworkNode;
+  target: NetworkNode;
   projectId: string;
   projectTitle: string;
 }
@@ -91,9 +86,11 @@ export const ParticipantNetwork = () => {
 
           // Create links between team leader and participants
           if (teamLeader) {
+            const sourceNode = nodes.get(teamLeader.id)!;
+            const targetNode = nodes.get(participantId)!;
             links.push({
-              source: teamLeader.id,
-              target: participantId,
+              source: sourceNode,
+              target: targetNode,
               projectId: project.id,
               projectTitle: project.title
             });
@@ -102,9 +99,11 @@ export const ParticipantNetwork = () => {
           // Create links between participants
           project.project_participants?.forEach(({ user: otherUser }) => {
             if (!otherUser || otherUser.id === participantId) return;
+            const sourceNode = nodes.get(participantId)!;
+            const targetNode = nodes.get(otherUser.id)!;
             links.push({
-              source: participantId,
-              target: otherUser.id,
+              source: sourceNode,
+              target: targetNode,
               projectId: project.id,
               projectTitle: project.title
             });
@@ -116,8 +115,8 @@ export const ParticipantNetwork = () => {
         nodes: Array.from(nodes.values()),
         links: links.filter((link, index, self) => 
           index === self.findIndex(l => 
-            (l.source === link.source && l.target === link.target) ||
-            (l.source === link.target && l.target === link.source)
+            (l.source.id === link.source.id && l.target.id === link.target.id) ||
+            (l.source.id === link.target.id && l.target.id === link.source.id)
           )
         )
       };
@@ -135,10 +134,13 @@ export const ParticipantNetwork = () => {
   if (!networkData) return null;
 
   return (
-    <Card className="p-4">
+    <Card className="relative p-4">
       <h2 className="text-2xl font-bold mb-4">Réseau des collaborations</h2>
-      <div className="h-[600px] w-full">
-        <NetworkChart data={networkData} />
+      <div className="relative h-[600px] w-full">
+        <NetworkBackground />
+        <div className="relative z-10 h-full">
+          <NetworkChart data={networkData} />
+        </div>
       </div>
     </Card>
   );
