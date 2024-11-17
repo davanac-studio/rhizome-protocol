@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { NetworkChart } from "./NetworkChart";
 import { NetworkBackground } from "./NetworkBackground";
 import { Card } from "@/components/ui/card";
+import { Database } from "@/integrations/supabase/types";
 
 interface NetworkNode {
   id: string;
@@ -17,6 +18,8 @@ interface NetworkLink {
   projectId: string;
   projectTitle: string;
 }
+
+type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 export const ParticipantNetwork = () => {
   const { data: networkData, isLoading } = useQuery({
@@ -51,13 +54,13 @@ export const ParticipantNetwork = () => {
 
       projects?.forEach(project => {
         // Add team leader to nodes
-        const teamLeader = project.team_leader_profile;
+        const teamLeader = project.team_leader_profile as Profile;
         if (teamLeader) {
           const leaderId = teamLeader.id;
           if (!nodes.has(leaderId)) {
             nodes.set(leaderId, {
               id: leaderId,
-              name: `${teamLeader.first_name} ${teamLeader.last_name}`,
+              name: `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim(),
               avatar: teamLeader.avatar_url,
               value: 1
             });
@@ -75,7 +78,7 @@ export const ParticipantNetwork = () => {
           if (!nodes.has(participantId)) {
             nodes.set(participantId, {
               id: participantId,
-              name: `${user.first_name} ${user.last_name}`,
+              name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
               avatar: user.avatar_url,
               value: 1
             });
