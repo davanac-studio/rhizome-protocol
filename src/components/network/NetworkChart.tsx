@@ -44,9 +44,9 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("style", "max-width: 100%; height: auto;");
 
     // Create the simulation
-    const simulation = d3.forceSimulation(data.nodes as d3.SimulationNodeDatum[])
-      .force("link", d3.forceLink(data.links)
-        .id((d: any) => d.id)
+    const simulation = d3.forceSimulation<NetworkNode>(data.nodes)
+      .force("link", d3.forceLink<NetworkNode, NetworkLink>(data.links)
+        .id(d => d.id)
         .distance(100))
       .force("charge", d3.forceManyBody().strength(-300))
       .force("center", d3.forceCenter(width / 2, height / 2))

@@ -57,7 +57,7 @@ export const ParticipantNetwork = () => {
 
       projects?.forEach(project => {
         // Add team leader to nodes
-        const teamLeader = project.team_leader_profile as Profile;
+        const teamLeader = project.team_leader_profile as unknown as Profile;
         if (teamLeader) {
           const leaderId = teamLeader.id;
           if (!nodes.has(leaderId)) {
@@ -77,7 +77,7 @@ export const ParticipantNetwork = () => {
         project.project_participants?.forEach(({ user }) => {
           if (!user) return;
           
-          const participant = user as Profile;
+          const participant = user as unknown as Profile;
           const participantId = participant.id;
           if (!nodes.has(participantId)) {
             nodes.set(participantId, {
@@ -103,10 +103,10 @@ export const ParticipantNetwork = () => {
 
           // Create links between participants
           project.project_participants?.forEach(({ user: otherUser }) => {
-            if (!otherUser || otherUser.id === participantId) return;
+            if (!otherUser || (otherUser as unknown as Profile).id === participantId) return;
             links.push({
               source: participantId,
-              target: otherUser.id,
+              target: (otherUser as unknown as Profile).id,
               projectId: project.id,
               projectTitle: project.title
             });
