@@ -3,9 +3,10 @@ import { supabase } from "@/lib/supabase";
 import { NetworkChart } from "./NetworkChart";
 import { Card } from "@/components/ui/card";
 
-interface Participant {
+interface Profile {
   id: string;
-  name: string;
+  first_name: string | null;
+  last_name: string | null;
   avatar_url: string | null;
 }
 
@@ -56,13 +57,13 @@ export const ParticipantNetwork = () => {
 
       projects?.forEach(project => {
         // Add team leader to nodes
-        const teamLeader = project.team_leader_profile;
+        const teamLeader = project.team_leader_profile as Profile;
         if (teamLeader) {
           const leaderId = teamLeader.id;
           if (!nodes.has(leaderId)) {
             nodes.set(leaderId, {
               id: leaderId,
-              name: `${teamLeader.first_name} ${teamLeader.last_name}`,
+              name: `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim(),
               avatar: teamLeader.avatar_url,
               value: 1
             });
@@ -76,12 +77,13 @@ export const ParticipantNetwork = () => {
         project.project_participants?.forEach(({ user }) => {
           if (!user) return;
           
-          const participantId = user.id;
+          const participant = user as Profile;
+          const participantId = participant.id;
           if (!nodes.has(participantId)) {
             nodes.set(participantId, {
               id: participantId,
-              name: `${user.first_name} ${user.last_name}`,
-              avatar: user.avatar_url,
+              name: `${participant.first_name || ''} ${participant.last_name || ''}`.trim(),
+              avatar: participant.avatar_url,
               value: 1
             });
           } else {

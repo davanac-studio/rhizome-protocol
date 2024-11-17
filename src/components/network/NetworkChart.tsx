@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface NetworkNode extends d3.SimulationNodeDatum {
   id: string;
@@ -26,6 +28,7 @@ interface NetworkChartProps {
 
 export const NetworkChart = ({ data }: NetworkChartProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
 
   useEffect(() => {
     if (!svgRef.current || !data.nodes.length) return;
@@ -73,7 +76,11 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("r", d => Math.sqrt(d.value) * 10)
       .attr("fill", "#4f46e5")
       .attr("stroke", "#fff")
-      .attr("stroke-width", 2);
+      .attr("stroke-width", 2)
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        setSelectedNode(d);
+      });
 
     // Add avatars if available
     node.append("clipPath")
@@ -88,7 +95,11 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("width", d => Math.sqrt(d.value) * 20)
       .attr("height", d => Math.sqrt(d.value) * 20)
       .attr("clip-path", d => `url(#clip-${d.id})`)
-      .style("display", d => d.avatar ? null : "none");
+      .style("display", d => d.avatar ? null : "none")
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        setSelectedNode(d);
+      });
 
     // Add labels
     node.append("text")
@@ -97,10 +108,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("y", 5)
       .attr("font-size", "12px")
       .attr("fill", "#4b5563");
-
-    // Add tooltips
-    node.append("title")
-      .text(d => `${d.name}\n${d.value} projet(s)`);
 
     // Update positions on each tick
     simulation.on("tick", () => {
@@ -137,9 +144,29 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
   }, [data]);
 
   return (
-    <svg
-      ref={svgRef}
-      className="w-full h-full"
-    />
+    <>
+      <svg
+        ref={svgRef}
+        className="w-full h-full"
+      />
+      <Dialog open={!!selectedNode} onOpenChange={() => setSelectedNode(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-4">
+              <Avatar>
+                <AvatarImage src={selectedNode?.avatar || undefined} />
+                <AvatarFallback>{selectedNode?.name[0]}</AvatarFallback>
+              </Avatar>
+              <span>{selectedNode?.name}</span>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="p-6">
+            <p className="text-lg font-medium">
+              {selectedNode?.value} projet{selectedNode?.value !== 1 ? 's' : ''}
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
