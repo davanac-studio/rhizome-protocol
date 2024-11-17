@@ -127,28 +127,33 @@ export const ProjectCard = ({ project }: { project: Project }) => {
           </div>
 
           <div className="flex items-center justify-between text-gray-600">
-            <div className="flex items-center gap-2">
-              {clientProfile?.avatar_url ? (
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src={clientProfile.avatar_url} alt={clientProfile.name} />
-                  <AvatarFallback>
-                    <UserCircle2 className="w-4 h-4" />
-                  </AvatarFallback>
-                </Avatar>
-              ) : (
-                <UserCircle2 className="w-6 h-6" />
-              )}
-              <span className="text-sm truncate">
-                {clientProfile?.name || "Non spécifié"}
-              </span>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex items-center gap-2">
+                    <Avatar className="w-6 h-6">
+                      <AvatarImage src={clientProfile?.avatar_url || undefined} />
+                      <AvatarFallback>
+                        <UserCircle2 className="w-4 h-4" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm truncate">
+                      {clientProfile?.name || "Non spécifié"}
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Client</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             
             <div className="flex -space-x-2">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger onClick={(e) => handleProfileClick(e, author.username)}>
                     <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
-                      <AvatarImage src={author.avatar} alt={author.name} />
+                      <AvatarImage src={author.avatar} />
                       <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </TooltipTrigger>
@@ -164,7 +169,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
                   <Tooltip>
                     <TooltipTrigger onClick={(e) => handleProfileClick(e, participant.username)}>
                       <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
-                        <AvatarImage src={participant.avatar} alt={participant.name} />
+                        <AvatarImage src={participant.avatar} />
                         <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                     </TooltipTrigger>
