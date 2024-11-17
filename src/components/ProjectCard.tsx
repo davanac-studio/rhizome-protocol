@@ -14,10 +14,15 @@ import {
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+interface ClientProfile {
+  name: string;
+  avatar_url: string | null;
+}
+
 export const ProjectCard = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
   const categories = project.category.split(", ");
-  const [clientProfile, setClientProfile] = useState<any>(null);
+  const [clientProfile, setClientProfile] = useState<ClientProfile | null>(null);
 
   useEffect(() => {
     const fetchClientProfile = async () => {
@@ -34,15 +39,20 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         return;
       }
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('profiles')
         .select('first_name, last_name, avatar_url')
         .eq('id', project.client)
         .single();
       
+      if (error) {
+        console.error('Error fetching client profile:', error);
+        return;
+      }
+      
       if (data) {
         setClientProfile({
-          name: `${data.first_name} ${data.last_name}`,
+          name: `${data.first_name} ${data.last_name}`.trim(),
           avatar_url: data.avatar_url
         });
       }
