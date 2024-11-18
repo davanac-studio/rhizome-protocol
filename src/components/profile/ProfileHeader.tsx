@@ -130,7 +130,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           <ProfileAvatar
             avatarUrl={user?.avatarUrl}
             avatar={user?.avatar}
-            firstName={user?.firstName}
             name={user?.name}
           />
           
