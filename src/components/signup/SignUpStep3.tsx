@@ -17,10 +17,10 @@ export const SignUpStep3 = ({
   return (
     <div className="space-y-6">
       <ImageUploadField
-        label="Avatar"
         value={avatarUrl}
         onChange={(value) => onChange('avatarUrl', value)}
         type="avatar"
+        buttonText="Choisir un avatar"
       />
 
       <div className="flex gap-4">
