@@ -22,7 +22,7 @@ export const ProfileImageSection = ({
   return (
     <div className="space-y-4">
       <ImageUploadField
-        label="Image de bannière"
+        label=""
         value={bannerUrl}
         onChange={(value) => onFieldChange("bannerUrl", value)}
         type="banner"

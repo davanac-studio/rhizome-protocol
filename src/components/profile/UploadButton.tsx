@@ -8,6 +8,10 @@ interface UploadButtonProps {
 }
 
 export const UploadButton = ({ uploading, type, onClick }: UploadButtonProps) => {
+  const buttonText = type === 'banner' 
+    ? uploading ? "Téléchargement..." : "Modifier la bannière"
+    : uploading ? "Téléchargement..." : "Choisir une image";
+
   return (
     <Button
       type="button"
@@ -18,7 +22,7 @@ export const UploadButton = ({ uploading, type, onClick }: UploadButtonProps) =>
     >
       <UploadCloud className="h-8 w-8 text-muted-foreground" />
       <span className="text-muted-foreground">
-        {uploading ? "Téléchargement..." : "Choisir une image"}
+        {buttonText}
       </span>
     </Button>
   );
