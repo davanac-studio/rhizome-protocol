@@ -61,13 +61,7 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
   return (
     <div>
       <label className="text-sm font-medium">{label}</label>
-      <div className="flex gap-2 mt-1">
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={`URL de ${type === 'avatar' ? "l'avatar" : 'la bannière'}`}
-          className="flex-1"
-        />
+      <div className="flex justify-center mt-2">
         <div className="relative">
           <Input
             type="file"
@@ -82,6 +76,11 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
           </Button>
         </div>
       </div>
+      {value && (
+        <div className="mt-2 text-sm text-muted-foreground text-center">
+          Image sélectionnée
+        </div>
+      )}
     </div>
   );
 };
