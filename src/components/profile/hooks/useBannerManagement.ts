@@ -7,14 +7,9 @@ export const useBannerManagement = (currentUser: any) => {
     setIsCropping(true);
   };
 
-  const handleBannerUpdate = (newBannerUrl: string) => {
-    return newBannerUrl;
-  };
-
   return {
     isCropping,
     setIsCropping,
-    handleBannerAdjust,
-    handleBannerUpdate
+    handleBannerAdjust
   };
 };

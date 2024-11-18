@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { NewProjectDialog } from "@/components/NewProjectDialog";
-import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileBanner } from "./ProfileBanner";
-import { ProfileInfo } from "./ProfileInfo";
-import { ProfileSocial } from "./ProfileSocial";
 import { BannerCropHandler } from "./BannerCropHandler";
 import { useBannerManagement } from "./hooks/useBannerManagement";
+import { ProfileHeaderContent } from "./ProfileHeaderContent";
 import 'react-image-crop/dist/ReactCrop.css';
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
@@ -28,13 +22,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const {
     isCropping,
     setIsCropping,
-    handleBannerAdjust,
-    handleBannerUpdate
+    handleBannerAdjust
   } = useBannerManagement(currentUser);
 
   const fetchUserData = async () => {
     if (!user?.username) {
-      console.log('No username found for profile');
       setLoading(false);
       return;
     }
@@ -45,16 +37,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         .select('*')
         .eq('username', user.username);
 
-      if (error) {
-        console.error('Error fetching profile:', error);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger le profil",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
+      if (error) throw error;
       
       if (!userData || userData.length === 0) {
         toast({
@@ -93,17 +76,13 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   };
 
   useEffect(() => {
-    const checkProfileOwnership = async () => {
-      if (!currentUser?.id) {
-        setIsOwnProfile(false);
-        setLoading(false);
-        return;
-      }
+    if (!currentUser?.id) {
+      setIsOwnProfile(false);
+      setLoading(false);
+      return;
+    }
 
-      await fetchUserData();
-    };
-
-    checkProfileOwnership();
+    fetchUserData();
   }, [user?.username, currentUser?.id]);
 
   const handleUpdate = async (updatedUser: any) => {
@@ -139,48 +118,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       />
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6 flex flex-col items-center">
-          <ProfileAvatar
-            avatarUrl={user?.avatarUrl}
-            avatar={user?.avatar}
-            name={user?.name}
-          />
-          
-          <ProfileInfo
-            firstName={user?.firstName}
-            lastName={user?.lastName}
-            name={user?.name}
-            username={user?.username}
-            accountType={user?.accountType}
-            entreprise={user?.entreprise}
-          />
-
-          <ProfileSocial user={user} />
-
-          {user?.bio && (
-            <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
-              <p className="text-center text-gray-600 italic">
-                {user.bio}
-              </p>
-            </Card>
-          )}
-
-          {currentUser && isOwnProfile && (
-            <div className="flex gap-3 mt-4">
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 h-10 px-4"
-                onClick={() => setIsEditing(true)}
-              >
-                <Pencil className="h-4 w-4" />
-                Modifier le profil
-              </Button>
-              <div className="h-10">
-                <NewProjectDialog />
-              </div>
-            </div>
-          )}
-        </div>
+        <ProfileHeaderContent 
+          user={user}
+          isOwnProfile={isOwnProfile}
+          onEdit={() => setIsEditing(true)}
+        />
       </div>
 
       {isOwnProfile && (
