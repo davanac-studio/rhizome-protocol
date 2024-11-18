@@ -2,7 +2,6 @@ import { Label } from "@/components/ui/label";
 import { ImageCropDialog } from "./ImageCropDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadButton } from "./UploadButton";
-import { ImagePreview } from "./ImagePreview";
 import { useImageProcessing } from "./useImageProcessing";
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -59,8 +58,6 @@ export const ImageUploadField = ({
           type={type}
           onClick={() => document.getElementById(`${type}-upload`)?.click()}
         />
-
-        <ImagePreview src={value} type={type} />
       </div>
 
       <input
