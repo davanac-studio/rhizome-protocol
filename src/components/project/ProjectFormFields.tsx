@@ -16,7 +16,8 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, first_name, last_name, expertise');
+        .select('id, first_name, last_name, expertise, account_type')
+        .eq('account_type', 'entreprise');
       
       if (error) throw error;
       return data || [];
