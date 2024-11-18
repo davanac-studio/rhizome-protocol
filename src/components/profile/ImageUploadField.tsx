@@ -147,26 +147,23 @@ export const ImageUploadField = ({
   return (
     <div>
       <label className="text-sm font-medium">{label}</label>
-      <div className="flex gap-2 mt-1">
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={`URL de ${type === 'avatar' ? "l'avatar" : 'la bannière'}`}
-          className="flex-1"
-        />
-        <div className="relative">
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={handleImageSelect}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            disabled={uploading}
-          />
-          <Button type="button" variant="outline" disabled={uploading}>
-            <Upload className="h-4 w-4 mr-2" />
-            {uploading ? "Upload..." : "Upload"}
-          </Button>
-        </div>
+      <div className="flex justify-between items-center mt-1">
+        <Button 
+          type="button" 
+          variant="outline" 
+          disabled={uploading}
+          className="w-full"
+          onClick={() => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => handleImageSelect(e as any);
+            input.click();
+          }}
+        >
+          <Upload className="h-4 w-4 mr-2" />
+          {uploading ? "Upload en cours..." : "Choisir une image"}
+        </Button>
       </div>
 
       <ImageCropDialog
