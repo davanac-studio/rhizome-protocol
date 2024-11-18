@@ -55,7 +55,7 @@ export const PersonalInfoSection = ({
           expertise={expertise}
           entreprise={entreprise}
           enterprises={enterprises}
-          required={required}
+          required={false}
           onFieldChange={onFieldChange}
         />
       ) : (

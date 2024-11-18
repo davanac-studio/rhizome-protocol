@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/lib/supabase";
 import { ProfileImageSection } from "./ProfileImageSection";
@@ -7,17 +6,9 @@ import { PersonalInfoSection } from "./PersonalInfoSection";
 import { SocialLinksSection } from "./SocialLinksSection";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useNavigate } from "react-router-dom";
+import { DangerZone } from "./DangerZone";
+import { FormActions } from "./FormActions";
 
 interface EditProfileFormProps {
   user: any;
@@ -30,7 +21,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [formData, setFormData] = useState({
     firstName: user?.first_name || user?.firstName || "",
     lastName: user?.last_name || user?.lastName || "",
@@ -71,7 +61,8 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       return;
     }
 
-    if (!formData.entreprise) {
+    // Only validate enterprise field if account type is 'entreprise'
+    if (formData.accountType === 'entreprise' && !formData.entreprise) {
       toast({
         title: "Erreur de validation",
         description: "L'entreprise est obligatoire",
@@ -112,9 +103,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         })
         .eq('id', authUser.id);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       const updatedUser = {
         ...user,
@@ -160,9 +149,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const handleDeleteAccount = async () => {
     if (!authUser) return;
     
-    setIsDeletingAccount(true);
     try {
-      // Delete profile (this will cascade to delete the auth user due to foreign key constraint)
       const { error } = await supabase
         .from('profiles')
         .delete()
@@ -184,8 +171,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         description: "Une erreur est survenue lors de la suppression du compte.",
         variant: "destructive",
       });
-    } finally {
-      setIsDeletingAccount(false);
     }
   };
 
@@ -226,53 +211,11 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         onFieldChange={handleFieldChange}
       />
 
-      <div className="flex gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onClose}
-          disabled={loading}
-        >
-          Annuler
-        </Button>
-        <Button type="submit" disabled={loading}>
-          {loading ? "Enregistrement..." : "Enregistrer les modifications"}
-        </Button>
-      </div>
+      <FormActions onClose={onClose} loading={loading} />
 
       <Separator className="my-6" />
 
-      <div className="rounded-lg border border-destructive/50 p-6 bg-destructive/5">
-        <h3 className="text-lg font-semibold text-destructive mb-4">Zone de danger</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          La suppression de votre compte est irréversible. Toutes vos données seront définitivement effacées.
-        </p>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" disabled={isDeletingAccount}>
-              {isDeletingAccount ? "Suppression..." : "Supprimer mon compte"}
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Êtes-vous absolument sûr ?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Cette action est irréversible. Elle supprimera définitivement votre compte et toutes les données associées.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Annuler</AlertDialogCancel>
-              <Button 
-                variant="destructive" 
-                onClick={handleDeleteAccount}
-                disabled={isDeletingAccount}
-              >
-                {isDeletingAccount ? "Suppression..." : "Je suis sûr, supprimer mon compte"}
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+      <DangerZone onDeleteAccount={handleDeleteAccount} />
     </form>
   );
 };
