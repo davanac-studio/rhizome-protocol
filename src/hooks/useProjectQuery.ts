@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useNavigate } from "react-router-dom";
 
-export const useProjectQuery = (id: string | undefined) => {
+export const useProjectQuery = (idWithSlug: string | undefined) => {
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Extract the ID from the slug (e.g., "123-my-project" -> "123")
+  const id = idWithSlug?.split('-')[0];
 
   return useQuery({
     queryKey: ['project', id],

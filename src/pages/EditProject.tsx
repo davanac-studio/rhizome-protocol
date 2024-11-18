@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ProjectForm } from "@/components/project/ProjectForm";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -7,17 +7,15 @@ import { slugify } from "@/utils/slugify";
 import { EditProjectError } from "@/components/project/EditProjectError";
 import { EditProjectLoading } from "@/components/project/EditProjectLoading";
 import { useProjectQuery } from "@/hooks/useProjectQuery";
+import { Button } from "@/components/ui/button";
 
 const EditProject = () => {
   const { idWithSlug } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
-
-  // Extract the full ID from the URL parameter, including any hyphens that might be part of the ID
-  const id = idWithSlug?.includes('-') ? idWithSlug.split('-')[0] : idWithSlug;
   
-  const { data: project, isLoading, error } = useProjectQuery(id);
+  const { data: project, isLoading, error } = useProjectQuery(idWithSlug);
 
   if (error) {
     return (
@@ -67,7 +65,7 @@ const EditProject = () => {
           team_leader_contribution: updatedProject.author.contribution,
           team_leader_contribution_description: updatedProject.author.contributionDescription,
         })
-        .eq('id', id);
+        .eq('id', project.id);
 
       if (updateError) throw updateError;
 
@@ -75,7 +73,7 @@ const EditProject = () => {
       const { error: deleteParticipantsError } = await supabase
         .from('project_participants')
         .delete()
-        .eq('project_id', id);
+        .eq('project_id', project.id);
 
       if (deleteParticipantsError) throw deleteParticipantsError;
 
@@ -84,7 +82,7 @@ const EditProject = () => {
           .from('project_participants')
           .insert(
             updatedProject.participants.map((participant: any) => ({
-              project_id: id,
+              project_id: project.id,
               user_id: participant.profile,
               contribution: participant.contribution,
               contribution_description: participant.contributionDescription,
@@ -100,7 +98,7 @@ const EditProject = () => {
       });
 
       const slug = slugify(updatedProject.title);
-      navigate(`/project/${id}-${slug}`);
+      navigate(`/project/${project.id}-${slug}`);
     } catch (error) {
       console.error('Error updating project:', error);
       toast({
