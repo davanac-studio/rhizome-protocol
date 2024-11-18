@@ -12,7 +12,6 @@ export const ProfileInfo = ({
   firstName, 
   lastName, 
   name, 
-  expertise, 
   username,
   accountType,
   entreprise 
@@ -26,7 +25,6 @@ export const ProfileInfo = ({
             : name
         )}
       </h1>
-      <p className="text-gray-600 mt-1">{expertise || "News Producer"}</p>
       <p className="text-gray-500 mt-1">@{username}</p>
     </div>
   );
