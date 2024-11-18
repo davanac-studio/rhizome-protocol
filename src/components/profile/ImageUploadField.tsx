@@ -5,7 +5,7 @@ import { ImageCropDialog } from "./ImageCropDialog";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadCloud } from "lucide-react";
-import type { PixelCrop } from "react-image-crop";
+import { Crop, PixelCrop } from 'react-image-crop';
 
 interface ImageUploadFieldProps {
   label: string;
@@ -26,8 +26,8 @@ export const ImageUploadField = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [crop, setCrop] = useState<PixelCrop>({
-    unit: 'px',
+  const [crop, setCrop] = useState<Crop>({
+    unit: '%',
     x: 0,
     y: 0,
     width: 100,
@@ -92,13 +92,12 @@ export const ImageUploadField = ({
     return filePath;
   };
 
-  const handleCropComplete = async (crop: PixelCrop) => {
+  const handleCropComplete = async (pixelCrop: PixelCrop) => {
     if (!selectedFile || !imgRef.current) return;
 
     try {
       setUploading(true);
 
-      // Wait for the image to be fully loaded
       await new Promise((resolve) => {
         if (imgRef.current?.complete) {
           resolve(null);
@@ -107,7 +106,7 @@ export const ImageUploadField = ({
         }
       });
 
-      const croppedBlob = await getCroppedImg(imgRef.current, crop);
+      const croppedBlob = await getCroppedImg(imgRef.current, pixelCrop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
       const filePath = await uploadImage(file);
       
@@ -183,7 +182,7 @@ export const ImageUploadField = ({
         previewUrl={previewUrl}
         crop={crop}
         onCropChange={setCrop}
-        onConfirm={() => handleCropComplete(crop)}
+        onConfirm={() => handleCropComplete(crop as PixelCrop)}
         uploading={uploading}
         aspectRatio={type === 'avatar' ? 1 : 16/9}
         imgRef={imgRef}
