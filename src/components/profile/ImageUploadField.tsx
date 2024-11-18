@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadCloud } from "lucide-react";
 import { Crop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 interface ImageUploadFieldProps {
   label: string;
@@ -28,10 +29,10 @@ export const ImageUploadField = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
-    x: 0,
-    y: 0,
-    width: 100,
-    height: 100
+    x: 25,
+    y: 25,
+    width: 50,
+    height: 50
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +47,8 @@ export const ImageUploadField = ({
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
+    
+    // Convert percentage values to pixels
     const pixelCrop = {
       x: (crop.x * image.width) / 100,
       y: (crop.y * image.height) / 100,
@@ -53,24 +56,24 @@ export const ImageUploadField = ({
       height: (crop.height * image.height) / 100,
     };
 
-    canvas.width = Math.floor(pixelCrop.width * scaleX);
-    canvas.height = Math.floor(pixelCrop.height * scaleY);
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+    
     const ctx = canvas.getContext('2d');
-
     if (!ctx) {
       throw new Error('No 2d context');
     }
 
     ctx.drawImage(
       image,
-      Math.floor(pixelCrop.x * scaleX),
-      Math.floor(pixelCrop.y * scaleY),
-      Math.floor(pixelCrop.width * scaleX),
-      Math.floor(pixelCrop.height * scaleY),
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
       0,
       0,
-      Math.floor(pixelCrop.width * scaleX),
-      Math.floor(pixelCrop.height * scaleY)
+      pixelCrop.width,
+      pixelCrop.height
     );
 
     return new Promise((resolve) => {
@@ -105,13 +108,12 @@ export const ImageUploadField = ({
     try {
       setUploading(true);
 
-      await new Promise((resolve) => {
-        if (imgRef.current?.complete) {
-          resolve(null);
-        } else {
-          imgRef.current?.addEventListener('load', () => resolve(null));
-        }
-      });
+      // Ensure image is loaded
+      if (!imgRef.current.complete) {
+        await new Promise((resolve) => {
+          imgRef.current!.addEventListener('load', resolve);
+        });
+      }
 
       const croppedBlob = await getCroppedImg(imgRef.current, crop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
