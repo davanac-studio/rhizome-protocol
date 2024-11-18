@@ -49,12 +49,12 @@ export const ImageUploadField = ({
     setShowCropDialog(true);
   };
 
-  const getCroppedImg = (image: HTMLImageElement, crop: PixelCrop): Promise<Blob> => {
+  const getCroppedImg = async (image: HTMLImageElement, crop: PixelCrop): Promise<Blob> => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = crop.width;
-    canvas.height = crop.height;
+    canvas.width = Math.floor(crop.width * scaleX);
+    canvas.height = Math.floor(crop.height * scaleY);
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
@@ -63,14 +63,14 @@ export const ImageUploadField = ({
 
     ctx.drawImage(
       image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
+      Math.floor(crop.x * scaleX),
+      Math.floor(crop.y * scaleY),
+      Math.floor(crop.width * scaleX),
+      Math.floor(crop.height * scaleY),
       0,
       0,
-      crop.width,
-      crop.height
+      Math.floor(crop.width * scaleX),
+      Math.floor(crop.height * scaleY)
     );
 
     return new Promise((resolve) => {
@@ -79,7 +79,7 @@ export const ImageUploadField = ({
           throw new Error('Canvas is empty');
         }
         resolve(blob);
-      }, 'image/jpeg', 0.95);
+      }, 'image/jpeg', 1);
     });
   };
 
@@ -99,6 +99,15 @@ export const ImageUploadField = ({
 
     try {
       setUploading(true);
+
+      // Wait for the image to be fully loaded
+      await new Promise((resolve) => {
+        if (imgRef.current?.complete) {
+          resolve(null);
+        } else {
+          imgRef.current?.addEventListener('load', () => resolve(null));
+        }
+      });
 
       const croppedBlob = await getCroppedImg(imgRef.current, crop as PixelCrop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
