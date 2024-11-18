@@ -6,18 +6,16 @@ interface ProfileBannerProps {
 
 export const ProfileBanner = ({ bannerUrl }: ProfileBannerProps) => {
   return (
-    <div className="w-full bg-gray-100 max-h-[300px]">
-      <AspectRatio ratio={16 / 9}>
-        {bannerUrl ? (
-          <img
-            src={bannerUrl}
-            alt="Profile banner"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-200" />
-        )}
-      </AspectRatio>
+    <div className="relative w-full h-[240px] bg-gray-100 overflow-hidden">
+      {bannerUrl ? (
+        <img
+          src={bannerUrl}
+          alt="Profile banner"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-200" />
+      )}
     </div>
   );
 };

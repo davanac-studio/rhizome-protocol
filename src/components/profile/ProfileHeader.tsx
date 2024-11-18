@@ -126,7 +126,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       <ProfileBanner bannerUrl={user.bannerUrl} />
       
       <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative -mt-24 mb-6 flex flex-col items-center">
+        <div className="relative -mt-20 mb-6 flex flex-col items-center">
           <ProfileAvatar
             avatarUrl={user?.avatarUrl}
             avatar={user?.avatar}
