@@ -24,29 +24,19 @@ export const PersonalInfoFields = ({
       <PersonalDetailsBlock
         firstName={firstName}
         lastName={lastName}
+        username={username}
         entreprise={entreprise}
         onChange={onChange}
       />
 
-      <div className="space-y-4">
-        <FormField label="Nom d'utilisateur" required>
-          <Input
-            required
-            value={username}
-            onChange={(e) => onChange('username', e.target.value)}
-            placeholder="Votre nom d'utilisateur"
-          />
-        </FormField>
-
-        <FormField label="Expertise" required>
-          <Input
-            required
-            value={expertise}
-            onChange={(e) => onChange('expertise', e.target.value)}
-            placeholder="Votre domaine d'expertise"
-          />
-        </FormField>
-      </div>
+      <FormField label="Expertise" required>
+        <Input
+          required
+          value={expertise}
+          onChange={(e) => onChange('expertise', e.target.value)}
+          placeholder="Votre domaine d'expertise"
+        />
+      </FormField>
     </div>
   );
 };

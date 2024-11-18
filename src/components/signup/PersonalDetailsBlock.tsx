@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 interface PersonalDetailsBlockProps {
   firstName: string;
   lastName: string;
+  username: string;
   entreprise: string;
   onChange: (field: string, value: string) => void;
 }
@@ -12,6 +13,7 @@ interface PersonalDetailsBlockProps {
 export const PersonalDetailsBlock = ({
   firstName,
   lastName,
+  username,
   entreprise,
   onChange
 }: PersonalDetailsBlockProps) => {
@@ -38,6 +40,15 @@ export const PersonalDetailsBlock = ({
             />
           </FormField>
         </div>
+
+        <FormField label="Nom d'utilisateur" required>
+          <Input
+            required
+            value={username}
+            onChange={(e) => onChange('username', e.target.value)}
+            placeholder="Votre nom d'utilisateur"
+          />
+        </FormField>
 
         <FormField label="Entreprise">
           <Input
