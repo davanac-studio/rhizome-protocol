@@ -41,15 +41,6 @@ export const ParticularFields = ({
         </FormField>
       </div>
 
-      <FormField label="Expertise" required={true}>
-        <Input
-          value={expertise}
-          onChange={(e) => onFieldChange("expertise", e.target.value)}
-          placeholder="Votre domaine d'expertise"
-          required={true}
-        />
-      </FormField>
-
       <FormField label="Entreprise" required={required}>
         <Select
           value={entreprise}
@@ -67,6 +58,15 @@ export const ParticularFields = ({
             ))}
           </SelectContent>
         </Select>
+      </FormField>
+
+      <FormField label="Expertise" required={true}>
+        <Input
+          value={expertise}
+          onChange={(e) => onFieldChange("expertise", e.target.value)}
+          placeholder="Votre domaine d'expertise"
+          required={true}
+        />
       </FormField>
     </>
   );
