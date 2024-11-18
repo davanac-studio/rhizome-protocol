@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserCircle2, LogOut, Users, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,8 +15,6 @@ const NavBar = () => {
   const { user, clearSession } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
 
   const handleLogout = async () => {
     clearSession();
@@ -44,11 +42,9 @@ const NavBar = () => {
             <Link to="/" className="text-xl font-bold text-gray-900 hover:text-gray-700">
               Rhizome Protocol
             </Link>
-            {!isHomePage && (
-              <Link to="/about" className="text-gray-900 hover:text-gray-700">
-                Manifesto
-              </Link>
-            )}
+            <Link to="/about" className="text-gray-900 hover:text-gray-700">
+              Manifesto
+            </Link>
           </div>
           
           <div className="flex items-center gap-4">
