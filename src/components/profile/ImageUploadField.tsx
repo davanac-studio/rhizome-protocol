@@ -1,19 +1,13 @@
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload, Crop } from "lucide-react";
+import { Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import ReactCrop, { Crop as CropType, PixelCrop } from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Crop as CropType, PixelCrop } from 'react-image-crop';
+import { ImageCropDialog } from "./ImageCropDialog";
+import { ImagePreview } from "./ImagePreview";
 
 interface ImageUploadFieldProps {
   label: string;
@@ -83,20 +77,20 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
   };
 
   const handleUpload = async () => {
+    if (!user) {
+      toast({
+        title: "Erreur d'authentification",
+        description: "Vous devez être connecté pour uploader des fichiers",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!imgRef.current || !previewUrl) {
+      return;
+    }
+
     try {
-      if (!user) {
-        toast({
-          title: "Erreur d'authentification",
-          description: "Vous devez être connecté pour uploader des fichiers",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (!imgRef.current || !previewUrl) {
-        return;
-      }
-
       setUploading(true);
 
       const croppedBlob = await getCroppedImg(imgRef.current, crop as PixelCrop);
@@ -165,65 +159,19 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
         </div>
       </div>
 
-      <Dialog open={showCropDialog} onOpenChange={setShowCropDialog}>
-        <DialogContent className="max-w-[800px]">
-          <DialogHeader>
-            <DialogTitle>Recadrer l'image</DialogTitle>
-          </DialogHeader>
-          
-          {previewUrl && (
-            <div className="mt-4">
-              <ReactCrop
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-                aspect={type === 'avatar' ? 1 : 16/9}
-                className="max-h-[500px] object-contain"
-              >
-                <img
-                  ref={imgRef}
-                  src={previewUrl}
-                  alt="Preview"
-                  className="max-w-full h-auto"
-                />
-              </ReactCrop>
-            </div>
-          )}
+      <ImageCropDialog
+        open={showCropDialog}
+        onOpenChange={setShowCropDialog}
+        previewUrl={previewUrl}
+        crop={crop}
+        onCropChange={setCrop}
+        onConfirm={handleUpload}
+        uploading={uploading}
+        aspectRatio={type === 'avatar' ? 1 : 16/9}
+        imgRef={imgRef}
+      />
 
-          <DialogFooter className="flex gap-2 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setShowCropDialog(false);
-                setPreviewUrl(null);
-              }}
-              disabled={uploading}
-            >
-              Annuler
-            </Button>
-            <Button
-              onClick={handleUpload}
-              disabled={uploading}
-            >
-              <Crop className="h-4 w-4 mr-2" />
-              {uploading ? "Upload en cours..." : "Valider et uploader"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {value && (
-        <div className="mt-4">
-          <img
-            src={value}
-            alt="Current"
-            className={`rounded-lg ${
-              type === 'avatar'
-                ? 'w-32 h-32 object-cover'
-                : 'w-full aspect-video object-cover'
-            }`}
-          />
-        </div>
-      )}
+      <ImagePreview src={value} type={type} />
     </div>
   );
 };
