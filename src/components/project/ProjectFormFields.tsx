@@ -11,7 +11,7 @@ interface ProjectFormFieldsProps {
 }
 
 export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsProps) => {
-  const { data: profiles } = useQuery({
+  const { data: profiles, isLoading } = useQuery({
     queryKey: ['profiles'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -120,19 +120,25 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
           onValueChange={(value) => setFormData({ ...formData, client: value })}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Sélectionnez un client" />
+            <SelectValue placeholder={isLoading ? "Chargement..." : "Sélectionnez un client"} />
           </SelectTrigger>
           <SelectContent>
-            {profiles?.map((profile) => (
-              <SelectItem key={profile.id} value={profile.id}>
-                {profile.first_name} {profile.last_name}
-                {profile.expertise && (
-                  <span className="ml-2 text-sm text-muted-foreground">
-                    ({profile.expertise})
-                  </span>
-                )}
+            {profiles && profiles.length > 0 ? (
+              profiles.map((profile) => (
+                <SelectItem key={profile.id} value={profile.id}>
+                  {profile.first_name} {profile.last_name}
+                  {profile.expertise && (
+                    <span className="ml-2 text-sm text-muted-foreground">
+                      ({profile.expertise})
+                    </span>
+                  )}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem value="" disabled>
+                {isLoading ? "Chargement des clients..." : "Aucun client entreprise disponible"}
               </SelectItem>
-            ))}
+            )}
           </SelectContent>
         </Select>
       </div>
