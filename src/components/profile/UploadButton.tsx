@@ -10,7 +10,7 @@ interface UploadButtonProps {
 export const UploadButton = ({ uploading, type, onClick }: UploadButtonProps) => {
   const buttonText = type === 'banner' 
     ? uploading ? "Téléchargement..." : "Modifier la bannière"
-    : uploading ? "Téléchargement..." : "Choisir une image";
+    : uploading ? "Téléchargement..." : "Modifier l'avatar";
 
   return (
     <Button

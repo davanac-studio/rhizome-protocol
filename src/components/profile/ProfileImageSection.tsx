@@ -39,7 +39,7 @@ export const ProfileImageSection = ({
       )}
 
       <ImageUploadField
-        label={`Avatar${required ? ' *' : ''}`}
+        label=""
         value={avatarUrl}
         onChange={(value) => onFieldChange("avatarUrl", value)}
         type="avatar"
