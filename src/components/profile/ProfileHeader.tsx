@@ -25,6 +25,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const fetchUserData = async () => {
     if (!user?.username) {
       console.log('No username found for profile');
+      setLoading(false);
       return;
     }
 
@@ -32,8 +33,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       const { data: userData, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('username', user.username)
-        .maybeSingle();
+        .eq('username', user.username);
 
       if (error) {
         console.error('Error fetching profile:', error);
@@ -42,10 +42,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           description: "Impossible de charger le profil",
           variant: "destructive",
         });
+        setLoading(false);
         return;
       }
       
-      if (!userData) {
+      if (!userData || userData.length === 0) {
         toast({
           title: "Profil introuvable",
           description: "Ce profil n'existe pas",
@@ -55,17 +56,19 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         return;
       }
 
+      const profile = userData[0]; // Get the first result since we know it exists
+      
       setUser({
-        ...userData,
-        name: `${userData.first_name} ${userData.last_name}`,
-        firstName: userData.first_name,
-        lastName: userData.last_name,
-        avatarUrl: userData.avatar_url,
-        bannerUrl: userData.banner_url,
+        ...profile,
+        name: `${profile.first_name} ${profile.last_name}`,
+        firstName: profile.first_name,
+        lastName: profile.last_name,
+        avatarUrl: profile.avatar_url,
+        bannerUrl: profile.banner_url,
       });
       
       // Vérifier si l'utilisateur connecté est le propriétaire du profil
-      setIsOwnProfile(currentUser?.id === userData.id);
+      setIsOwnProfile(currentUser?.id === profile.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
       toast({
