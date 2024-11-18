@@ -15,10 +15,10 @@ export const ImagePreview = ({ src, type }: ImagePreviewProps) => {
       <img
         src={decryptedSrc}
         alt="Current"
-        className={`rounded-lg ${
+        className={`${
           type === 'avatar'
-            ? 'w-32 h-32 object-cover'
-            : 'w-full aspect-video object-cover'
+            ? 'w-32 h-32 object-cover rounded-full'
+            : 'w-full aspect-video object-cover rounded-lg'
         }`}
       />
     </div>
