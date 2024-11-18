@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Crop as CropType, PixelCrop } from 'react-image-crop';
 import { ImageCropDialog } from "./ImageCropDialog";
 import { ImagePreview } from "./ImagePreview";
+import { encryptStorageUrl } from "@/utils/urlEncryption";
 
 interface ImageUploadFieldProps {
   label: string;
@@ -121,7 +122,9 @@ export const ImageUploadField = ({
         .from('profiles')
         .getPublicUrl(filePath);
 
-      onChange(publicUrl);
+      // Encrypt the URL before storing it
+      const encryptedUrl = encryptStorageUrl(publicUrl);
+      onChange(encryptedUrl);
       setShowCropDialog(false);
       setPreviewUrl(null);
       

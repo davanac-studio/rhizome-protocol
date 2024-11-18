@@ -1,3 +1,5 @@
+import { decryptStorageUrl } from "@/utils/urlEncryption";
+
 interface ImagePreviewProps {
   src: string;
   type: "avatar" | "banner";
@@ -6,10 +8,12 @@ interface ImagePreviewProps {
 export const ImagePreview = ({ src, type }: ImagePreviewProps) => {
   if (!src) return null;
 
+  const decryptedSrc = decryptStorageUrl(src);
+
   return (
     <div className="mt-4">
       <img
-        src={src}
+        src={decryptedSrc}
         alt="Current"
         className={`rounded-lg ${
           type === 'avatar'
