@@ -138,7 +138,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             firstName={user?.firstName}
             lastName={user?.lastName}
             name={user?.name}
-            expertise={user?.expertise}
             username={user?.username}
             accountType={user?.accountType}
             entreprise={user?.entreprise}
