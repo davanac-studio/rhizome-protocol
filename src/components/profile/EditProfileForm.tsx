@@ -24,6 +24,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const [formData, setFormData] = useState({
     firstName: user?.first_name || user?.firstName || "",
     lastName: user?.last_name || user?.lastName || "",
+    username: user?.username || "",
     bio: user?.bio || "",
     expertise: user?.expertise || "",
     entreprise: user?.entreprise || "",
@@ -42,7 +43,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
     if (!formData.avatarUrl) {
       toast({
         title: "Erreur de validation",
@@ -61,7 +61,15 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       return;
     }
 
-    // Only validate enterprise field if account type is 'entreprise'
+    if (!formData.username) {
+      toast({
+        title: "Erreur de validation",
+        description: "Le nom d'utilisateur est obligatoire",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (formData.accountType === 'entreprise' && !formData.entreprise) {
       toast({
         title: "Erreur de validation",
@@ -86,6 +94,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       const { error } = await supabase
         .from('profiles')
         .update({
+          username: formData.username,
           first_name: formData.firstName,
           last_name: formData.lastName,
           bio: formData.bio,
@@ -107,6 +116,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
       const updatedUser = {
         ...user,
+        username: formData.username,
         firstName: formData.firstName,
         lastName: formData.lastName,
         bio: formData.bio,
@@ -193,6 +203,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         expertise={formData.expertise}
         entreprise={formData.entreprise}
         bio={formData.bio}
+        username={formData.username}
         accountType={formData.accountType}
         onFieldChange={handleFieldChange}
         required={true}

@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { ParticularFields } from "./fields/ParticularFields";
 import { EnterpriseFields } from "./fields/EnterpriseFields";
 import { BioField } from "./fields/BioField";
+import { UsernameField } from "./fields/UsernameField";
 import { Enterprise } from "./types/Enterprise";
 
 interface PersonalInfoSectionProps {
@@ -11,6 +12,7 @@ interface PersonalInfoSectionProps {
   expertise: string;
   entreprise: string;
   bio: string;
+  username: string;
   accountType: string;
   required?: boolean;
   onFieldChange: (field: string, value: string) => void;
@@ -22,6 +24,7 @@ export const PersonalInfoSection = ({
   expertise,
   entreprise,
   bio,
+  username,
   accountType,
   required = false,
   onFieldChange,
@@ -48,6 +51,11 @@ export const PersonalInfoSection = ({
 
   return (
     <div className="space-y-4">
+      <UsernameField
+        username={username}
+        onFieldChange={onFieldChange}
+      />
+
       {accountType === 'particulier' ? (
         <ParticularFields
           firstName={firstName}
