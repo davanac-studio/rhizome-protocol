@@ -15,7 +15,7 @@ const SignUpForm = () => {
     accountType: 'particulier',
     firstName: "",
     lastName: "",
-    username: "@",
+    username: "",
     email: "",
     password: "",
     bio: "",
@@ -60,7 +60,7 @@ const SignUpForm = () => {
       });
       return false;
     }
-    if (!formData.username || formData.username === '@') {
+    if (!formData.username) {
       toast({
         title: "Erreur de validation",
         description: "Veuillez choisir un nom d'utilisateur",
@@ -100,13 +100,16 @@ const SignUpForm = () => {
     setLoading(true);
 
     try {
-      const success = await createUser(formData);
+      const success = await createUser({
+        ...formData,
+        username: `@${formData.username}`, // Add @ before sending to API
+      });
       if (success) {
         toast({
           title: "Compte créé avec succès",
           description: "Votre compte a été créé avec succès.",
         });
-        navigate(`/profile/${encodeURIComponent(formData.username)}`);
+        navigate(`/profile/${encodeURIComponent('@' + formData.username)}`);
       }
     } catch (error: any) {
       toast({
@@ -120,6 +123,10 @@ const SignUpForm = () => {
   };
 
   const handleFieldChange = (field: string, value: string) => {
+    // For username field, remove @ if it's at the start
+    if (field === 'username') {
+      value = value.startsWith('@') ? value.slice(1) : value;
+    }
     setFormData({ ...formData, [field]: value });
   };
 
