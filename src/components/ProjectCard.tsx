@@ -1,66 +1,15 @@
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { Project } from "@/types/project";
-import { Button } from "@/components/ui/button";
-import { CalendarIcon, UserCircle2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { generateProjectSlug } from "@/utils/slugify";
+import { useNavigate } from "react-router-dom";
 
-interface ClientProfile {
-  name: string;
-  avatar_url: string | null;
+interface ProjectCardProps {
+  project: Project;
 }
 
-export const ProjectCard = ({ project }: { project: Project }) => {
+export const ProjectCard = ({ project }: ProjectCardProps) => {
   const navigate = useNavigate();
-  const categories = project.category.split(", ");
-  const [clientProfile, setClientProfile] = useState<ClientProfile | null>(null);
-
-  useEffect(() => {
-    const fetchClientProfile = async () => {
-      if (!project.client) return;
-
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const isUUID = uuidRegex.test(project.client);
-
-      if (!isUUID) {
-        setClientProfile({
-          name: project.client,
-          avatar_url: null
-        });
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('first_name, last_name, avatar_url')
-        .eq('id', project.client)
-        .single();
-      
-      if (error) {
-        console.error('Error fetching client profile:', error);
-        return;
-      }
-      
-      if (data) {
-        setClientProfile({
-          name: `${data.first_name} ${data.last_name}`.trim(),
-          avatar_url: data.avatar_url
-        });
-      }
-    };
-
-    fetchClientProfile();
-  }, [project.client]);
 
   const handleProjectClick = () => {
     const slug = generateProjectSlug(project.title, project.id);
@@ -69,122 +18,57 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
   const handleProfileClick = (e: React.MouseEvent, username: string) => {
     e.stopPropagation();
-    navigate(`/profile/${encodeURIComponent(username)}`);
-  };
-
-  const author = project.author || {
-    name: "Unknown",
-    username: "unknown",
-    avatar: "",
-    role: "Team Leader" as const,
+    navigate(`/profile/${username}`);
   };
 
   return (
-    <Button
-      variant="ghost"
-      className="p-0 h-auto w-full hover:bg-transparent"
+    <Card
+      className="group cursor-pointer overflow-hidden transition-all hover:shadow-lg"
       onClick={handleProjectClick}
     >
-      <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 w-full hover:scale-[1.02] animate-fadeIn">
-        <div className="relative">
-          <img
-            src={project.thumbnail}
-            alt={project.title}
-            className="w-full h-52 object-cover brightness-75 group-hover:brightness-90 transition-all"
-          />
-          <div className="absolute top-4 right-4">
-            <Badge variant="secondary" className="bg-green-100/90 text-green-700">
-              Certifié
-            </Badge>
-          </div>
+      <div className="aspect-video w-full overflow-hidden">
+        <img
+          src={project.thumbnail}
+          alt={project.title}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-4">
+        <div className="mb-2 flex items-center gap-2">
+          <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+            {project.category}
+          </Badge>
         </div>
-        
-        <div className="p-4">
-          <h3 className="font-bold text-xl mb-2 text-left break-words line-clamp-2 min-h-[3.5rem] overflow-hidden text-ellipsis whitespace-normal">
-            {project.title}
-          </h3>
-          
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
-            <CalendarIcon className="w-4 h-4" />
-            <span className="text-sm">
-              {new Date(project.dueDate).toLocaleDateString('fr-FR')}
-            </span>
-          </div>
-          
-          <p className="text-gray-600 mb-4 text-left text-sm line-clamp-3 min-h-[5.5rem] overflow-hidden text-ellipsis whitespace-normal break-words">
-            {project.description}
-          </p>
-          
-          <div className="flex items-center gap-2 mb-3 flex-wrap">
-            {categories.map((category, index) => (
-              <Badge 
-                key={index} 
-                variant="secondary" 
-                className="bg-blue-100 text-blue-700 hover:bg-blue-200"
+        <h3 className="mb-2 text-xl font-semibold text-gray-900">
+          {project.title}
+        </h3>
+        <p className="mb-4 line-clamp-2 text-sm text-gray-600">
+          {project.description}
+        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <img
+              src={project.author.avatar || "/default-avatar.png"}
+              alt={project.author.name}
+              className="h-8 w-8 rounded-full"
+            />
+            <div>
+              <p
+                className="text-sm font-medium text-gray-900 hover:underline"
+                onClick={(e) => handleProfileClick(e, project.author.username)}
               >
-                {category}
-              </Badge>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between text-gray-600">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="flex items-center gap-2">
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage src={clientProfile?.avatar_url || undefined} />
-                      <AvatarFallback>
-                        <UserCircle2 className="w-4 h-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm truncate">
-                      {clientProfile?.name || "Non spécifié"}
-                    </span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Client</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            
-            <div className="flex -space-x-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger onClick={(e) => handleProfileClick(e, author.username)}>
-                    <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
-                      <AvatarImage src={author.avatar} />
-                      <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="font-medium">{author.name}</p>
-                    <p className="text-xs text-muted-foreground">{author.role}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              {project.participants?.map((participant, index) => (
-                <TooltipProvider key={index}>
-                  <Tooltip>
-                    <TooltipTrigger onClick={(e) => handleProfileClick(e, participant.username)}>
-                      <Avatar className="w-8 h-8 border-2 border-white cursor-pointer">
-                        <AvatarImage src={participant.avatar} />
-                        <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="font-medium">{participant.name}</p>
-                      <p className="text-xs text-muted-foreground">{participant.role}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
+                {project.author.name}
+              </p>
+              <p className="text-xs text-gray-500">{project.author.expertise}</p>
             </div>
           </div>
+          <div className="text-right">
+            <p className="text-xs text-gray-500">
+              {new Date(project.dueDate).toLocaleDateString("fr-FR")}
+            </p>
+          </div>
         </div>
-      </Card>
-    </Button>
+      </div>
+    </Card>
   );
 };

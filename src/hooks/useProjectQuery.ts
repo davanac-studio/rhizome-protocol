@@ -3,13 +3,13 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useNavigate } from "react-router-dom";
+import { extractIdFromSlug } from "@/utils/slugify";
 
 export const useProjectQuery = (idWithSlug: string | undefined) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Extract the ID from the slug (e.g., "123-my-project" -> "123")
-  const id = idWithSlug?.split('-')[0];
+  const id = extractIdFromSlug(idWithSlug);
 
   return useQuery({
     queryKey: ['project', id],

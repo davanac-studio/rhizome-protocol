@@ -1,13 +1,11 @@
 export const slugify = (text: string): string => {
   return text
     .toString()
+    .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim()
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
+    .replace(/(^-|-$)+/g, '');
 };
 
 export const generateProjectSlug = (title: string, id: string): string => {
@@ -17,10 +15,6 @@ export const generateProjectSlug = (title: string, id: string): string => {
 
 export const extractIdFromSlug = (idWithSlug: string | undefined): string | undefined => {
   if (!idWithSlug) return undefined;
-  
-  // L'ID est un UUID, donc il a toujours 36 caractères
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
-  const match = idWithSlug.match(uuidRegex);
-  
-  return match ? match[0] : undefined;
+  const parts = idWithSlug.split('-');
+  return parts[0];
 };
