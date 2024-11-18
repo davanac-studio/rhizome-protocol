@@ -1,51 +1,35 @@
 import { useState, useRef } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { ImageCropDialog } from "./ImageCropDialog";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
-import { Crop as CropType, PixelCrop } from 'react-image-crop';
-import { ImageCropDialog } from "./ImageCropDialog";
-import { ImagePreview } from "./ImagePreview";
+import { UploadCloud } from "lucide-react";
+import type { PixelCrop } from "react-image-crop";
 
 interface ImageUploadFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
   type: "avatar" | "banner";
-  allowUnauthenticatedUpload?: boolean;
 }
 
-export const ImageUploadField = ({ 
-  label, 
-  value, 
-  onChange, 
+export const ImageUploadField = ({
+  label,
+  value,
+  onChange,
   type,
-  allowUnauthenticatedUpload = false 
 }: ImageUploadFieldProps) => {
-  const [uploading, setUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [showCropDialog, setShowCropDialog] = useState(false);
-  const [crop, setCrop] = useState<CropType>({
-    unit: '%',
-    width: 90,
-    height: 90,
-    x: 5,
-    y: 5
-  });
-  const imgRef = useRef<HTMLImageElement>(null);
   const { toast } = useToast();
-  const { user } = useAuth();
+  const [uploading, setUploading] = useState(false);
+  const [showCropDialog, setShowCropDialog] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [crop, setCrop] = useState<PixelCrop>();
 
-  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files || event.target.files.length === 0) {
-      return;
-    }
-
-    const file = event.target.files[0];
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewUrl(previewUrl);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+    setSelectedFile(e.target.files[0]);
     setShowCropDialog(true);
   };
 
@@ -58,7 +42,7 @@ export const ImageUploadField = ({
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
-      throw new Error("No 2d context");
+      throw new Error('No 2d context');
     }
 
     ctx.drawImage(
@@ -83,19 +67,24 @@ export const ImageUploadField = ({
     });
   };
 
-  const handleUpload = async () => {
-    if (!allowUnauthenticatedUpload && !user) {
-      toast({
-        title: "Erreur d'authentification",
-        description: "Vous devez être connecté pour uploader des fichiers",
-        variant: "destructive",
-      });
-      return;
+  const uploadImage = async (file: File) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('profiles')
+      .upload(filePath, file);
+
+    if (uploadError) {
+      throw uploadError;
     }
 
-    if (!imgRef.current || !previewUrl) {
-      return;
-    }
+    return filePath;
+  };
+
+  const handleCropComplete = async (crop: PixelCrop) => {
+    if (!selectedFile || !imgRef.current) return;
 
     try {
       setUploading(true);
@@ -111,38 +100,25 @@ export const ImageUploadField = ({
 
       const croppedBlob = await getCroppedImg(imgRef.current, crop as PixelCrop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
-
-      const folderPath = type === 'avatar' ? 'avatars' : 'banners';
-      const filePath = `${folderPath}/${user?.id || 'temp'}-${Date.now()}.jpg`;
-
-      const { error: uploadError, data } = await supabase.storage
-        .from('profiles')
-        .upload(filePath, file, {
-          upsert: true,
-          contentType: 'image/jpeg',
-        });
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      const { data: { publicUrl } } = supabase.storage
+      const filePath = await uploadImage(file);
+      
+      const { data } = supabase.storage
         .from('profiles')
         .getPublicUrl(filePath);
 
-      onChange(publicUrl);
+      onChange(data.publicUrl);
       setShowCropDialog(false);
-      setPreviewUrl(null);
-      
+      setSelectedFile(null);
+
       toast({
-        title: "Upload réussi",
-        description: "Votre image a été uploadée avec succès.",
+        title: "Image mise à jour",
+        description: "Votre image a été mise à jour avec succès.",
       });
-    } catch (error: any) {
-      console.error('Upload error:', error);
+    } catch (error) {
+      console.error('Error:', error);
       toast({
-        title: "Erreur lors de l'upload",
-        description: error.message,
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour de l'image.",
         variant: "destructive",
       });
     } finally {
@@ -151,40 +127,58 @@ export const ImageUploadField = ({
   };
 
   return (
-    <div>
-      <label className="text-sm font-medium">{label}</label>
-      <div className="flex justify-between items-center mt-1">
-        <Button 
-          type="button" 
-          variant="outline" 
+    <div className="space-y-4">
+      <Label>{label}</Label>
+      
+      <div className="flex flex-col items-center gap-4">
+        <Button
+          variant="outline"
+          className="w-full h-32 flex flex-col items-center justify-center gap-2 border-dashed"
+          onClick={() => document.getElementById(`${type}-upload`)?.click()}
           disabled={uploading}
-          className="w-full"
-          onClick={() => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = (e) => handleImageSelect(e as any);
-            input.click();
-          }}
         >
-          <Upload className="h-4 w-4 mr-2" />
-          {uploading ? "Upload en cours..." : "Choisir une image"}
+          <UploadCloud className="h-8 w-8 text-muted-foreground" />
+          <span className="text-muted-foreground">
+            {uploading ? "Téléchargement..." : "Choisir une image"}
+          </span>
         </Button>
+
+        {value && (
+          <div className="relative w-full max-w-xs mx-auto">
+            <img
+              src={value}
+              alt="Preview"
+              className="rounded-lg object-cover mx-auto"
+              style={{
+                maxWidth: type === 'avatar' ? '150px' : '100%',
+                height: type === 'avatar' ? '150px' : 'auto',
+                aspectRatio: type === 'avatar' ? '1' : '16/9'
+              }}
+            />
+          </div>
+        )}
       </div>
+
+      <input
+        id={`${type}-upload`}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
 
       <ImageCropDialog
         open={showCropDialog}
         onOpenChange={setShowCropDialog}
-        previewUrl={previewUrl}
-        crop={crop}
-        onCropChange={setCrop}
-        onConfirm={handleUpload}
+        imgSrc={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+        cropShape={type === 'avatar' ? 'round' : 'rect'}
+        aspect={type === 'avatar' ? 1 : 16/9}
+        onCropComplete={handleCropComplete}
         uploading={uploading}
-        aspectRatio={type === 'avatar' ? 1 : 16/9}
         imgRef={imgRef}
+        crop={crop}
+        setCrop={setCrop}
       />
-
-      <ImagePreview src={value} type={type} />
     </div>
   );
 };
