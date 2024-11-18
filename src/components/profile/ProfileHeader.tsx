@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { NewProjectDialog } from "@/components/NewProjectDialog";
+import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileBanner } from "./ProfileBanner";
-import { BannerCropHandler } from "./BannerCropHandler";
-import { useBannerManagement } from "./hooks/useBannerManagement";
-import { ProfileHeaderContent } from "./ProfileHeaderContent";
-import { Button } from "@/components/ui/button";
-import 'react-image-crop/dist/ReactCrop.css';
+import { ProfileInfo } from "./ProfileInfo";
+import { ProfileSocial } from "./ProfileSocial";
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
@@ -19,15 +21,10 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
-  
-  const {
-    isCropping,
-    setIsCropping,
-    handleBannerAdjust
-  } = useBannerManagement(currentUser);
 
   const fetchUserData = async () => {
     if (!user?.username) {
+      console.log('No username found for profile');
       setLoading(false);
       return;
     }
@@ -38,7 +35,16 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         .select('*')
         .eq('username', user.username);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching profile:', error);
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger le profil",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
       
       if (!userData || userData.length === 0) {
         toast({
@@ -46,11 +52,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           description: "Ce profil n'existe pas",
           variant: "destructive",
         });
-        navigate('/');
+        navigate('/'); // Redirect to home page
         return;
       }
 
-      const profile = userData[0];
+      const profile = userData[0]; // Get the first result since we know it exists
       
       setUser({
         ...profile,
@@ -63,6 +69,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         entreprise: profile.entreprise,
       });
       
+      // Vérifier si l'utilisateur connecté est le propriétaire du profil
       setIsOwnProfile(currentUser?.id === profile.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -77,13 +84,17 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   };
 
   useEffect(() => {
-    if (!currentUser?.id) {
-      setIsOwnProfile(false);
-      setLoading(false);
-      return;
-    }
+    const checkProfileOwnership = async () => {
+      if (!currentUser?.id) {
+        setIsOwnProfile(false);
+        setLoading(false);
+        return;
+      }
 
-    fetchUserData();
+      await fetchUserData();
+    };
+
+    checkProfileOwnership();
   }, [user?.username, currentUser?.id]);
 
   const handleUpdate = async (updatedUser: any) => {
@@ -112,38 +123,60 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
   return (
     <div className="relative">
-      <ProfileBanner 
-        bannerUrl={user.bannerUrl} 
-        isOwnProfile={isOwnProfile}
-        onAdjust={handleBannerAdjust}
-      />
+      <ProfileBanner bannerUrl={user.bannerUrl} />
       
       <div className="container max-w-5xl mx-auto px-4">
-        <ProfileHeaderContent 
-          user={user}
-          isOwnProfile={isOwnProfile}
-          onEdit={() => setIsEditing(true)}
-        />
+        <div className="relative -mt-24 mb-6 flex flex-col items-center">
+          <ProfileAvatar
+            avatarUrl={user?.avatarUrl}
+            avatar={user?.avatar}
+            name={user?.name}
+          />
+          
+          <ProfileInfo
+            firstName={user?.firstName}
+            lastName={user?.lastName}
+            name={user?.name}
+            username={user?.username}
+            accountType={user?.accountType}
+            entreprise={user?.entreprise}
+          />
+
+          <ProfileSocial user={user} />
+
+          {user?.bio && (
+            <Card className="mt-6 p-6 w-full max-w-2xl bg-white shadow-sm">
+              <p className="text-center text-gray-600 italic">
+                {user.bio}
+              </p>
+            </Card>
+          )}
+
+          {currentUser && isOwnProfile && (
+            <div className="flex gap-3 mt-4">
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 h-10 px-4"
+                onClick={() => setIsEditing(true)}
+              >
+                <Pencil className="h-4 w-4" />
+                Modifier le profil
+              </Button>
+              <div className="h-10">
+                <NewProjectDialog />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {isOwnProfile && (
-        <>
-          <EditProfileDialog
-            user={user}
-            open={isEditing}
-            onOpenChange={setIsEditing}
-            onUpdate={handleUpdate}
-          />
-          <BannerCropHandler
-            isOpen={isCropping}
-            onOpenChange={setIsCropping}
-            bannerUrl={user.bannerUrl}
-            userId={currentUser?.id}
-            onSuccess={(newBannerUrl) => {
-              setUser(prev => ({ ...prev, bannerUrl: newBannerUrl }));
-            }}
-          />
-        </>
+        <EditProfileDialog
+          user={user}
+          open={isEditing}
+          onOpenChange={setIsEditing}
+          onUpdate={handleUpdate}
+        />
       )}
     </div>
   );
