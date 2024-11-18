@@ -20,7 +20,9 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('*');
+        .select('*')
+        .is('entreprise', null)
+        .not('id', 'in', [...existingParticipants]);
 
       if (error) throw error;
       return data || [];
@@ -52,9 +54,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
           <CommandInput placeholder="Rechercher un participant..." />
           <CommandEmpty>Aucun participant trouvé.</CommandEmpty>
           <CommandGroup>
-            {profiles?.filter(profile => 
-              !existingParticipants.includes(profile.id)
-            ).map((profile) => (
+            {profiles?.map((profile) => (
               <CommandItem
                 key={profile.id}
                 value={profile.id}
