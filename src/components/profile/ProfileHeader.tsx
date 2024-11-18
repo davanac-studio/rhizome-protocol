@@ -13,17 +13,24 @@ import { ProfileBanner } from "./ProfileBanner";
 import { ProfileInfo } from "./ProfileInfo";
 import { ProfileSocial } from "./ProfileSocial";
 import { BannerCropHandler } from "./BannerCropHandler";
+import { useBannerManagement } from "./hooks/useBannerManagement";
 import 'react-image-crop/dist/ReactCrop.css';
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [isCropping, setIsCropping] = useState(false);
   const { user: currentUser } = useAuth();
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
+  
+  const {
+    isCropping,
+    setIsCropping,
+    handleBannerAdjust,
+    handleBannerUpdate
+  } = useBannerManagement(currentUser);
 
   const fetchUserData = async () => {
     if (!user?.username) {
@@ -55,11 +62,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
           description: "Ce profil n'existe pas",
           variant: "destructive",
         });
-        navigate('/'); // Redirect to home page
+        navigate('/');
         return;
       }
 
-      const profile = userData[0]; // Get the first result since we know it exists
+      const profile = userData[0];
       
       setUser({
         ...profile,
@@ -72,7 +79,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         entreprise: profile.entreprise,
       });
       
-      // Vérifier si l'utilisateur connecté est le propriétaire du profil
       setIsOwnProfile(currentUser?.id === profile.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -104,16 +110,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     setUser(updatedUser);
     await fetchUserData();
     setIsEditing(false);
-  };
-
-  const handleBannerAdjust = () => {
-    if (user.bannerUrl) {
-      setIsCropping(true);
-    }
-  };
-
-  const handleBannerUpdate = (newBannerUrl: string) => {
-    setUser(prev => ({ ...prev, bannerUrl: newBannerUrl }));
   };
 
   if (loading) {
@@ -200,7 +196,9 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             onOpenChange={setIsCropping}
             bannerUrl={user.bannerUrl}
             userId={currentUser?.id}
-            onSuccess={handleBannerUpdate}
+            onSuccess={(newBannerUrl) => {
+              setUser(prev => ({ ...prev, bannerUrl: newBannerUrl }));
+            }}
           />
         </>
       )}

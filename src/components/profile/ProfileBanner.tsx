@@ -1,4 +1,3 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { BannerAdjustButton } from "./BannerAdjustButton";
 
 interface ProfileBannerProps {
@@ -20,8 +19,11 @@ export const ProfileBanner = ({ bannerUrl, isOwnProfile, onAdjust }: ProfileBann
         <div className="w-full h-full bg-gray-200" />
       )}
       
-      {isOwnProfile && bannerUrl && onAdjust && (
-        <BannerAdjustButton onClick={onAdjust} />
+      {isOwnProfile && onAdjust && (
+        <BannerAdjustButton 
+          onClick={onAdjust}
+          disabled={!bannerUrl}
+        />
       )}
     </div>
   );
