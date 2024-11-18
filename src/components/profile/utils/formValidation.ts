@@ -1,7 +1,7 @@
 import { ProfileFormData } from "../types/ProfileFormData";
-import { UseToast } from "@/components/ui/use-toast";
+import { type Toast } from "@/hooks/use-toast";
 
-export const validateProfileForm = (formData: ProfileFormData, toast: ReturnType<UseToast>["toast"]): boolean => {
+export const validateProfileForm = (formData: ProfileFormData, toast: Toast): boolean => {
   if (!formData.avatarUrl) {
     toast({
       title: "Erreur de validation",
