@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { EditProfileDialog } from "./EditProfileDialog";
@@ -12,15 +12,28 @@ import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileBanner } from "./ProfileBanner";
 import { ProfileInfo } from "./ProfileInfo";
 import { ProfileSocial } from "./ProfileSocial";
+import { ImageCropDialog } from "./ImageCropDialog";
+import { Crop } from 'react-image-crop';
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [isCropping, setIsCropping] = useState(false);
   const { user: currentUser } = useAuth();
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>({
+    unit: '%',
+    width: 100,
+    height: 100,
+    x: 0,
+    y: 0
+  });
+  const [uploading, setUploading] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   const fetchUserData = async () => {
     if (!user?.username) {
@@ -104,7 +117,91 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   };
 
   const handleBannerAdjust = () => {
-    setIsEditing(true);
+    if (user.bannerUrl) {
+      setPreviewUrl(user.bannerUrl);
+      setIsCropping(true);
+    }
+  };
+
+  const handleCropComplete = async () => {
+    if (!imgRef.current || !crop || !previewUrl) return;
+
+    setUploading(true);
+    try {
+      const canvas = document.createElement('canvas');
+      const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
+      const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+      const pixelRatio = window.devicePixelRatio;
+      
+      canvas.width = crop.width * scaleX;
+      canvas.height = crop.height * scaleY;
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      ctx.imageSmoothingQuality = 'high';
+
+      ctx.drawImage(
+        imgRef.current,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width * scaleX,
+        crop.height * scaleY
+      );
+
+      // Convert the canvas to a blob
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob(
+          (blob) => resolve(blob as Blob),
+          'image/jpeg',
+          0.95
+        );
+      });
+
+      // Upload to Supabase Storage
+      const fileName = `banner-${Date.now()}.jpg`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('profiles')
+        .upload(fileName, blob);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('profiles')
+        .getPublicUrl(fileName);
+
+      // Update profile with new banner URL
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ banner_url: publicUrl })
+        .eq('id', currentUser?.id);
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setUser(prev => ({ ...prev, bannerUrl: publicUrl }));
+      
+      toast({
+        title: "Bannière mise à jour",
+        description: "Votre photo de couverture a été mise à jour avec succès.",
+      });
+    } catch (error: any) {
+      console.error('Error updating banner:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour de la bannière.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+      setIsCropping(false);
+    }
   };
 
   if (loading) {
@@ -179,12 +276,25 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       </div>
 
       {isOwnProfile && (
-        <EditProfileDialog
-          user={user}
-          open={isEditing}
-          onOpenChange={setIsEditing}
-          onUpdate={handleUpdate}
-        />
+        <>
+          <EditProfileDialog
+            user={user}
+            open={isEditing}
+            onOpenChange={setIsEditing}
+            onUpdate={handleUpdate}
+          />
+          <ImageCropDialog
+            open={isCropping}
+            onOpenChange={setIsCropping}
+            previewUrl={previewUrl}
+            crop={crop}
+            onCropChange={setCrop}
+            onConfirm={handleCropComplete}
+            uploading={uploading}
+            aspectRatio={16/9}
+            imgRef={imgRef}
+          />
+        </>
       )}
     </div>
   );
