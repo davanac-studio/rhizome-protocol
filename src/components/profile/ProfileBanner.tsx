@@ -6,7 +6,7 @@ interface ProfileBannerProps {
 
 export const ProfileBanner = ({ bannerUrl }: ProfileBannerProps) => {
   return (
-    <div className="w-full bg-gray-100">
+    <div className="w-full bg-gray-100 max-h-[300px]">
       <AspectRatio ratio={16 / 9}>
         {bannerUrl ? (
           <img
