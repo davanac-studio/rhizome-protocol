@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { UserCircle2, Home, LogOut, Users, ChevronDown } from "lucide-react";
+import { UserCircle2, LogOut, Users, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "./ui/use-toast";
@@ -41,7 +41,9 @@ const NavBar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <span className="text-xl font-bold text-gray-900">Rhizome Protocol</span>
+            <Link to="/" className="text-xl font-bold text-gray-900 hover:text-gray-700">
+              Rhizome Protocol
+            </Link>
             {!isHomePage && (
               <Link to="/about" className="text-gray-900 hover:text-gray-700">
                 Manifesto
@@ -50,9 +52,6 @@ const NavBar = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-gray-900 hover:text-gray-700">
-              <Home className="h-6 w-6" />
-            </Link>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
