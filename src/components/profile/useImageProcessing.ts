@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Crop } from 'react-image-crop';
 import { supabase } from "@/lib/supabase";
 
-export const useImageProcessing = (onChange: (value: string) => void) => {
+export const useImageProcessing = (onChange: (value: string) => void, defaultAspectRatio: number = 1) => {
   const [uploading, setUploading] = useState(false);
   const [showCropDialog, setShowCropDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -13,7 +13,7 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
     x: 0,
     y: 0,
     width: 100,
-    height: 100
+    height: 100 / defaultAspectRatio
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +31,17 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
         x: 0,
         y: 0,
         width: 100,
-        height: 100
+        height: 100 / defaultAspectRatio
       };
 
-      if (aspectRatio > 1) {
-        // Image is wider than tall
-        newCrop.width = newCrop.height * aspectRatio;
-        newCrop.x = (100 - newCrop.width) / 2;
-      } else {
-        // Image is taller than wide
-        newCrop.height = newCrop.width / aspectRatio;
+      if (aspectRatio > defaultAspectRatio) {
+        // Image is wider than target ratio
+        newCrop.height = (100 * defaultAspectRatio) / aspectRatio;
         newCrop.y = (100 - newCrop.height) / 2;
+      } else {
+        // Image is taller than target ratio
+        newCrop.width = 100 * aspectRatio / defaultAspectRatio;
+        newCrop.x = (100 - newCrop.width) / 2;
       }
 
       setCrop(newCrop);

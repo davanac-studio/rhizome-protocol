@@ -33,7 +33,7 @@ export const ImageUploadField = ({
     setCrop,
     handleFileChange,
     handleCropComplete
-  } = useImageProcessing(onChange);
+  } = useImageProcessing(onChange, type === 'banner' ? 16/9 : 1);
 
   const handleConfirmCrop = async () => {
     try {
@@ -87,7 +87,7 @@ export const ImageUploadField = ({
         onCropChange={setCrop}
         onConfirm={handleConfirmCrop}
         uploading={uploading}
-        aspectRatio={type === 'avatar' ? 1 : 16/9}
+        aspectRatio={type === 'banner' ? 16/9 : 1}
         imgRef={imgRef}
       />
     </div>
