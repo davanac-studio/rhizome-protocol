@@ -26,7 +26,7 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
       const aspectRatio = img.naturalWidth / img.naturalHeight;
       
       // Calculate initial crop dimensions maintaining aspect ratio
-      let newCrop = {
+      const newCrop: Crop = {
         unit: '%',
         x: 0,
         y: 0,
