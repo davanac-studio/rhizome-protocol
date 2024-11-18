@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ImageUploadFieldProps {
   label: string;
@@ -15,9 +16,14 @@ interface ImageUploadFieldProps {
 export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFieldProps) => {
   const [uploading, setUploading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      if (!user) {
+        throw new Error("You must be logged in to upload files.");
+      }
+
       setUploading(true);
       
       if (!event.target.files || event.target.files.length === 0) {
@@ -27,11 +33,14 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${type}s/${fileName}`;
+      const folderPath = type === 'avatar' ? 'avatars' : 'banners';
+      const filePath = `${folderPath}/${fileName}`;
 
-      const { error: uploadError, data } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('profiles')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          upsert: true
+        });
 
       if (uploadError) {
         throw uploadError;
