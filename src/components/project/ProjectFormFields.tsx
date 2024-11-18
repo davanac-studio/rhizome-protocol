@@ -136,7 +136,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
                 </SelectItem>
               ))
             ) : (
-              <SelectItem value="" disabled>
+              <SelectItem value="no-clients" disabled>
                 {isLoading ? "Chargement des clients..." : "Aucun client entreprise disponible"}
               </SelectItem>
             )}
