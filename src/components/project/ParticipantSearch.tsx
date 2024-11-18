@@ -18,14 +18,14 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
   const { data: profiles } = useQuery({
     queryKey: ['profiles'],
     queryFn: async () => {
-      // Only execute the not.in filter if there are existing participants
-      const query = supabase
+      let query = supabase
         .from('profiles')
         .select('*')
         .is('entreprise', null);
 
+      // Only add the not.in filter if there are existing participants
       if (existingParticipants.length > 0) {
-        query.not('id', 'in', `(${existingParticipants.join(',')})`);
+        query = query.not('id', 'in', existingParticipants);
       }
 
       const { data, error } = await query;
