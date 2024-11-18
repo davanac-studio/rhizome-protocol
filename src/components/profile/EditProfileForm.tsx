@@ -97,10 +97,15 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       onUpdate(updatedUser);
       onClose();
 
-      // Redirect to the new profile URL if username has changed
-      if (formData.username !== user.username) {
-        navigate(`/profile/${formData.username}`);
-      }
+      // Attendre un court instant avant la redirection pour laisser le temps à la base de données de se mettre à jour
+      setTimeout(() => {
+        // Rediriger vers le nouveau profil si le nom d'utilisateur a changé
+        if (formData.username !== user.username) {
+          navigate(`/profile/${formData.username}`);
+          // Recharger la page pour forcer la mise à jour des données
+          window.location.reload();
+        }
+      }, 500);
     } catch (error: any) {
       console.error('Error updating profile:', error);
       toast({

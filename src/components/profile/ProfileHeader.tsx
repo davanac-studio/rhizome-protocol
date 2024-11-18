@@ -33,7 +33,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       const { data: userData, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('username', user.username);
+        .eq('username', user.username)
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching profile:', error);
@@ -46,31 +47,29 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         return;
       }
       
-      if (!userData || userData.length === 0) {
+      if (!userData) {
         toast({
           title: "Profil introuvable",
           description: "Ce profil n'existe pas",
           variant: "destructive",
         });
-        navigate('/'); // Redirect to home page
+        navigate('/');
         return;
       }
 
-      const profile = userData[0]; // Get the first result since we know it exists
-      
       setUser({
-        ...profile,
-        name: `${profile.first_name} ${profile.last_name}`,
-        firstName: profile.first_name,
-        lastName: profile.last_name,
-        avatarUrl: profile.avatar_url,
-        bannerUrl: profile.banner_url,
-        accountType: profile.account_type,
-        entreprise: profile.entreprise,
+        ...userData,
+        name: `${userData.first_name} ${userData.last_name}`,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        avatarUrl: userData.avatar_url,
+        bannerUrl: userData.banner_url,
+        accountType: userData.account_type,
+        entreprise: userData.entreprise,
       });
       
       // Vérifier si l'utilisateur connecté est le propriétaire du profil
-      setIsOwnProfile(currentUser?.id === profile.id);
+      setIsOwnProfile(currentUser?.id === userData.id);
     } catch (error) {
       console.error('Error fetching profile:', error);
       toast({
