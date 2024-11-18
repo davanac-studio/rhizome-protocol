@@ -173,9 +173,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 <Pencil className="h-4 w-4" />
                 Modifier le profil
               </Button>
-              <div className="h-10">
-                <NewProjectDialog />
-              </div>
+              {user.accountType !== 'entreprise' && (
+                <div className="h-10">
+                  <NewProjectDialog />
+                </div>
+              )}
             </div>
           )}
         </div>
