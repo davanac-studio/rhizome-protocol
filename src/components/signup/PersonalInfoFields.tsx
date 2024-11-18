@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { FormField } from "./FormField";
+import { PersonalDetailsBlock } from "./PersonalDetailsBlock";
 
 interface PersonalInfoFieldsProps {
   firstName: string;
@@ -19,52 +20,33 @@ export const PersonalInfoFields = ({
   onChange
 }: PersonalInfoFieldsProps) => {
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
-        <FormField label="Prénom" required>
+    <div className="space-y-6">
+      <PersonalDetailsBlock
+        firstName={firstName}
+        lastName={lastName}
+        entreprise={entreprise}
+        onChange={onChange}
+      />
+
+      <div className="space-y-4">
+        <FormField label="Nom d'utilisateur" required>
           <Input
             required
-            value={firstName}
-            onChange={(e) => onChange('firstName', e.target.value)}
-            placeholder="Votre prénom"
+            value={username}
+            onChange={(e) => onChange('username', e.target.value)}
+            placeholder="Votre nom d'utilisateur"
           />
         </FormField>
 
-        <FormField label="Nom" required>
+        <FormField label="Expertise" required>
           <Input
             required
-            value={lastName}
-            onChange={(e) => onChange('lastName', e.target.value)}
-            placeholder="Votre nom"
+            value={expertise}
+            onChange={(e) => onChange('expertise', e.target.value)}
+            placeholder="Votre domaine d'expertise"
           />
         </FormField>
       </div>
-
-      <FormField label="Nom d'utilisateur" required>
-        <Input
-          required
-          value={username}
-          onChange={(e) => onChange('username', e.target.value)}
-          placeholder="Votre nom d'utilisateur"
-        />
-      </FormField>
-
-      <FormField label="Expertise" required>
-        <Input
-          required
-          value={expertise}
-          onChange={(e) => onChange('expertise', e.target.value)}
-          placeholder="Votre domaine d'expertise"
-        />
-      </FormField>
-
-      <FormField label="Entreprise">
-        <Input
-          value={entreprise}
-          onChange={(e) => onChange('entreprise', e.target.value)}
-          placeholder="Votre entreprise actuelle"
-        />
-      </FormField>
-    </>
+    </div>
   );
 };
