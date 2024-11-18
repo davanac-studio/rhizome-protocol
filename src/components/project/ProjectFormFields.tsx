@@ -16,8 +16,9 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, first_name, last_name, expertise, account_type')
-        .eq('account_type', 'entreprise');
+        .select('id, first_name, last_name, expertise, entreprise')
+        .not('entreprise', 'is', null)
+        .neq('entreprise', '');
       
       if (error) throw error;
       return data || [];
@@ -126,7 +127,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
             {profiles && profiles.length > 0 ? (
               profiles.map((profile) => (
                 <SelectItem key={profile.id} value={profile.id}>
-                  {profile.first_name} {profile.last_name}
+                  {profile.entreprise}
                   {profile.expertise && (
                     <span className="ml-2 text-sm text-muted-foreground">
                       ({profile.expertise})
