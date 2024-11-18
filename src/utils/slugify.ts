@@ -12,7 +12,7 @@ export const slugify = (text: string): string => {
 
 export const generateProjectSlug = (title: string, id: string): string => {
   const slug = slugify(title);
-  return `${slug}-${id}`;
+  return `${id}-${slug}`;
 };
 
 export const extractIdFromSlug = (idWithSlug: string | undefined): string | undefined => {

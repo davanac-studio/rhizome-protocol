@@ -64,7 +64,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
   const handleProjectClick = () => {
     const slug = generateProjectSlug(project.title, project.id);
-    navigate(`/project/${project.id}-${slug}`);
+    navigate(`/project/${slug}`);
   };
 
   const handleProfileClick = (e: React.MouseEvent, username: string) => {
