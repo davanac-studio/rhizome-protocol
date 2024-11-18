@@ -10,6 +10,7 @@ interface ImageUploadFieldProps {
   value: string;
   onChange: (value: string) => void;
   type: "avatar" | "banner";
+  required?: boolean;
 }
 
 export const ImageUploadField = ({
@@ -17,6 +18,7 @@ export const ImageUploadField = ({
   value,
   onChange,
   type,
+  required = false,
 }: ImageUploadFieldProps) => {
   const { toast } = useToast();
   const {
@@ -50,7 +52,10 @@ export const ImageUploadField = ({
 
   return (
     <div className="space-y-4">
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </Label>
       
       <div className="flex flex-col items-center gap-4">
         <UploadButton
@@ -66,6 +71,7 @@ export const ImageUploadField = ({
         accept="image/*"
         onChange={handleFileChange}
         className="hidden"
+        required={required && !value}
       />
 
       <ImageCropDialog

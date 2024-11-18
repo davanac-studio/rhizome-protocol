@@ -13,6 +13,7 @@ interface PersonalInfoSectionProps {
   entreprise: string;
   bio: string;
   accountType: string;
+  required?: boolean;
   onFieldChange: (field: string, value: string) => void;
 }
 
@@ -29,6 +30,7 @@ export const PersonalInfoSection = ({
   entreprise,
   bio,
   accountType,
+  required = false,
   onFieldChange,
 }: PersonalInfoSectionProps) => {
   const [enterprises, setEnterprises] = useState<Enterprise[]>([]);
@@ -95,10 +97,13 @@ export const PersonalInfoSection = ({
           </div>
 
           <div>
-            <label className="text-sm font-medium">Entreprise</label>
+            <label className="text-sm font-medium">
+              Entreprise {required && <span className="text-red-500">*</span>}
+            </label>
             <Select
               value={entreprise}
               onValueChange={(value) => onFieldChange("entreprise", value)}
+              required={required}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Sélectionnez une entreprise" />
@@ -117,18 +122,23 @@ export const PersonalInfoSection = ({
 
       {accountType === 'entreprise' && (
         <div>
-          <label className="text-sm font-medium">Nom de l'entreprise</label>
+          <label className="text-sm font-medium">
+            Nom de l'entreprise {required && <span className="text-red-500">*</span>}
+          </label>
           <Input
             value={entreprise}
             onChange={(e) => onFieldChange("entreprise", e.target.value)}
             placeholder="Nom de votre entreprise"
+            required={required}
           />
         </div>
       )}
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-medium">Bio</label>
+          <label className="text-sm font-medium">
+            Bio {required && <span className="text-red-500">*</span>}
+          </label>
           {accountType === 'particulier' && (
             <Button
               type="button"
@@ -147,6 +157,7 @@ export const PersonalInfoSection = ({
           value={bio}
           onChange={(e) => onFieldChange("bio", e.target.value)}
           className="h-24"
+          required={required}
         />
       </div>
     </div>

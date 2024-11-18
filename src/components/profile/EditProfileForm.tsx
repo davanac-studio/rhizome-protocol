@@ -38,6 +38,34 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate required fields
+    if (!formData.avatarUrl) {
+      toast({
+        title: "Erreur de validation",
+        description: "L'avatar est obligatoire",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.bio) {
+      toast({
+        title: "Erreur de validation",
+        description: "La bio est obligatoire",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.entreprise) {
+      toast({
+        title: "Erreur de validation",
+        description: "L'entreprise est obligatoire",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!authUser) {
       toast({
         title: "Erreur d'authentification",
@@ -121,6 +149,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         firstName={formData.firstName}
         lastName={formData.lastName}
         onFieldChange={handleFieldChange}
+        required={true}
       />
 
       <Separator className="my-6" />
@@ -133,6 +162,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         bio={formData.bio}
         accountType={formData.accountType}
         onFieldChange={handleFieldChange}
+        required={true}
       />
 
       <Separator className="my-6" />

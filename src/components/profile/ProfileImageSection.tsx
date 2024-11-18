@@ -7,6 +7,7 @@ interface ProfileImageSectionProps {
   avatarUrl: string;
   firstName: string;
   lastName: string;
+  required?: boolean;
   onFieldChange: (field: string, value: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const ProfileImageSection = ({
   avatarUrl,
   firstName,
   lastName,
+  required = false,
   onFieldChange,
 }: ProfileImageSectionProps) => {
   return (
@@ -37,10 +39,11 @@ export const ProfileImageSection = ({
       )}
 
       <ImageUploadField
-        label="Avatar"
+        label={`Avatar${required ? ' *' : ''}`}
         value={avatarUrl}
         onChange={(value) => onFieldChange("avatarUrl", value)}
         type="avatar"
+        required={required}
       />
       
       {avatarUrl && (
