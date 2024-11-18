@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useAuth } from "@/contexts/AuthContext";
-import { extractIdFromSlug } from "@/utils/slugUtils";
+import { extractIdFromSlug } from "@/utils/slugify";
 import { ProjectError } from "@/components/project/ProjectError";
 import { ProjectContent } from "@/components/project/ProjectContent";
 
@@ -53,7 +53,7 @@ const ProjectDetails = () => {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (projectError) {
         console.error('Error fetching project:', projectError);

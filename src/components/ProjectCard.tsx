@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { slugify } from "@/utils/slugify";
+import { generateProjectSlug } from "@/utils/slugify";
 
 interface ClientProfile {
   name: string;
@@ -63,7 +63,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
   }, [project.client]);
 
   const handleProjectClick = () => {
-    const slug = slugify(project.title);
+    const slug = generateProjectSlug(project.title, project.id);
     navigate(`/project/${project.id}-${slug}`);
   };
 
