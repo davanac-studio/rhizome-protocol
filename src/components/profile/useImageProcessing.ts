@@ -19,17 +19,38 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
     const file = e.target.files[0];
+    
+    // Create an image element to get the natural dimensions
+    const img = new Image();
+    img.onload = () => {
+      const aspectRatio = img.naturalWidth / img.naturalHeight;
+      
+      // Calculate initial crop dimensions maintaining aspect ratio
+      let newCrop = {
+        unit: '%',
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100
+      };
+
+      if (aspectRatio > 1) {
+        // Image is wider than tall
+        newCrop.height = 100 / aspectRatio;
+        newCrop.y = (100 - newCrop.height) / 2;
+      } else {
+        // Image is taller than wide
+        newCrop.width = 100 * aspectRatio;
+        newCrop.x = (100 - newCrop.width) / 2;
+      }
+
+      setCrop(newCrop);
+    };
+    img.src = URL.createObjectURL(file);
+
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
     setShowCropDialog(true);
-    // Reset crop to full image when new file is selected
-    setCrop({
-      unit: '%',
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100
-    });
   };
 
   const getCroppedImg = async (image: HTMLImageElement, crop: Crop): Promise<Blob> => {

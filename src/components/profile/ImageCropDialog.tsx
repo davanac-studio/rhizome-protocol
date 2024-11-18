@@ -45,7 +45,9 @@ export const ImageCropDialog = ({
             <ReactCrop
               crop={crop}
               onChange={(_, percentCrop) => onCropChange(percentCrop)}
-              aspect={aspectRatio}
+              keepSelection
+              minWidth={100}
+              minHeight={100}
               className="max-h-[500px]"
             >
               <img
