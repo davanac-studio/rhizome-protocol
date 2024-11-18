@@ -21,23 +21,25 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [user, setUser] = useState(initialUser);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchUserData = async () => {
     if (!user?.username) {
-      console.log('No username found for profile');
       setLoading(false);
+      setError("Nom d'utilisateur non trouvé");
       return;
     }
 
     try {
-      const { data: userData, error } = await supabase
+      const { data: userData, error: fetchError } = await supabase
         .from('profiles')
         .select('*')
         .eq('username', user.username)
         .maybeSingle();
 
-      if (error) {
-        console.error('Error fetching profile:', error);
+      if (fetchError) {
+        console.error('Error fetching profile:', fetchError);
+        setError("Impossible de charger le profil");
         toast({
           title: "Erreur",
           description: "Impossible de charger le profil",
@@ -48,6 +50,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       }
       
       if (!userData) {
+        setError("Profil introuvable");
         toast({
           title: "Profil introuvable",
           description: "Ce profil n'existe pas",
@@ -66,12 +69,14 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         bannerUrl: userData.banner_url,
         accountType: userData.account_type,
         entreprise: userData.entreprise,
+        expertise: userData.expertise,
       });
       
-      // Vérifier si l'utilisateur connecté est le propriétaire du profil
       setIsOwnProfile(currentUser?.id === userData.id);
+      setError(null);
     } catch (error) {
       console.error('Error fetching profile:', error);
+      setError("Une erreur est survenue lors du chargement du profil");
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors du chargement du profil",
@@ -110,11 +115,17 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     );
   }
 
-  if (!user) {
+  if (error || !user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh]">
-        <h1 className="text-2xl font-bold mb-4">Profil introuvable</h1>
-        <p className="text-gray-600 mb-4">Ce profil n'existe pas ou a été supprimé.</p>
+        <h1 className="text-2xl font-bold mb-4">
+          {error || "Profil introuvable"}
+        </h1>
+        <p className="text-gray-600 mb-4">
+          {error === "Profil introuvable" 
+            ? "Ce profil n'existe pas ou a été supprimé."
+            : "Une erreur est survenue lors du chargement du profil."}
+        </p>
         <Button onClick={() => navigate('/')}>Retourner à l'accueil</Button>
       </div>
     );
