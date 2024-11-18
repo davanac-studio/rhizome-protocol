@@ -8,6 +8,7 @@ import { ProfileBanner } from "./ProfileBanner";
 import { BannerCropHandler } from "./BannerCropHandler";
 import { useBannerManagement } from "./hooks/useBannerManagement";
 import { ProfileHeaderContent } from "./ProfileHeaderContent";
+import { Button } from "@/components/ui/button";
 import 'react-image-crop/dist/ReactCrop.css';
 
 export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
