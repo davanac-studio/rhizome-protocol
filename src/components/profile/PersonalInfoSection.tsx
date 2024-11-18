@@ -72,27 +72,36 @@ export const PersonalInfoSection = ({
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium">Prénom</label>
+              <label className="text-sm font-medium">
+                Prénom <span className="text-red-500">*</span>
+              </label>
               <Input
                 value={firstName}
                 onChange={(e) => onFieldChange("firstName", e.target.value)}
+                required
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Nom</label>
+              <label className="text-sm font-medium">
+                Nom <span className="text-red-500">*</span>
+              </label>
               <Input
                 value={lastName}
                 onChange={(e) => onFieldChange("lastName", e.target.value)}
+                required
               />
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium">Expertise</label>
+            <label className="text-sm font-medium">
+              Expertise <span className="text-red-500">*</span>
+            </label>
             <Input
               value={expertise}
               onChange={(e) => onFieldChange("expertise", e.target.value)}
               placeholder="Votre domaine d'expertise"
+              required
             />
           </div>
 
