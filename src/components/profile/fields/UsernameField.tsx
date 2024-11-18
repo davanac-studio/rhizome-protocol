@@ -18,13 +18,17 @@ export const UsernameField = ({ username, onFieldChange }: UsernameFieldProps) =
     setIsChecking(true);
     
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('profiles')
         .select('username')
-        .eq('username', newUsername)
-        .single();
+        .eq('username', newUsername);
 
-      if (data) {
+      if (error) {
+        console.error('Error checking username:', error);
+        return false;
+      }
+
+      if (data && data.length > 0) {
         toast({
           title: "Nom d'utilisateur non disponible",
           description: "Ce nom d'utilisateur est déjà pris",
@@ -34,7 +38,13 @@ export const UsernameField = ({ username, onFieldChange }: UsernameFieldProps) =
       }
       return true;
     } catch (error) {
-      return true; // If error, username probably doesn't exist
+      console.error('Error checking username:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la vérification du nom d'utilisateur",
+        variant: "destructive",
+      });
+      return false;
     } finally {
       setIsChecking(false);
     }
