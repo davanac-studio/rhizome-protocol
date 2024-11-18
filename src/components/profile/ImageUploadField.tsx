@@ -24,12 +24,21 @@ export const ImageUploadField = ({
   const [uploading, setUploading] = useState(false);
   const [showCropDialog, setShowCropDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [crop, setCrop] = useState<PixelCrop>();
+  const [crop, setCrop] = useState<PixelCrop>({
+    unit: 'px',
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
-    setSelectedFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
     setShowCropDialog(true);
   };
 
@@ -69,7 +78,7 @@ export const ImageUploadField = ({
 
   const uploadImage = async (file: File) => {
     const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random()}.${fileExt}`;
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
     const filePath = `${fileName}`;
 
     const { error: uploadError } = await supabase.storage
@@ -98,7 +107,7 @@ export const ImageUploadField = ({
         }
       });
 
-      const croppedBlob = await getCroppedImg(imgRef.current, crop as PixelCrop);
+      const croppedBlob = await getCroppedImg(imgRef.current, crop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
       const filePath = await uploadImage(file);
       
@@ -109,6 +118,7 @@ export const ImageUploadField = ({
       onChange(data.publicUrl);
       setShowCropDialog(false);
       setSelectedFile(null);
+      setPreviewUrl(null);
 
       toast({
         title: "Image mise à jour",
@@ -170,14 +180,13 @@ export const ImageUploadField = ({
       <ImageCropDialog
         open={showCropDialog}
         onOpenChange={setShowCropDialog}
-        imgSrc={selectedFile ? URL.createObjectURL(selectedFile) : ''}
-        cropShape={type === 'avatar' ? 'round' : 'rect'}
-        aspect={type === 'avatar' ? 1 : 16/9}
-        onCropComplete={handleCropComplete}
-        uploading={uploading}
-        imgRef={imgRef}
+        previewUrl={previewUrl}
         crop={crop}
-        setCrop={setCrop}
+        onCropChange={setCrop}
+        onConfirm={() => handleCropComplete(crop)}
+        uploading={uploading}
+        aspectRatio={type === 'avatar' ? 1 : 16/9}
+        imgRef={imgRef}
       />
     </div>
   );

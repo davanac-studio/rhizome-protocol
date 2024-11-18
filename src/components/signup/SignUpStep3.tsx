@@ -21,7 +21,6 @@ export const SignUpStep3 = ({
         value={avatarUrl}
         onChange={(value) => onChange('avatarUrl', value)}
         type="avatar"
-        allowUnauthenticatedUpload={true}
       />
 
       <div className="flex gap-4">
