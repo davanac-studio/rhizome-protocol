@@ -27,6 +27,7 @@ export type Database = {
           spotify: string | null
           updated_at: string | null
           username: string | null
+          website: string | null
           youtube: string | null
         }
         Insert: {
@@ -46,6 +47,7 @@ export type Database = {
           spotify?: string | null
           updated_at?: string | null
           username?: string | null
+          website?: string | null
           youtube?: string | null
         }
         Update: {
@@ -65,6 +67,7 @@ export type Database = {
           spotify?: string | null
           updated_at?: string | null
           username?: string | null
+          website?: string | null
           youtube?: string | null
         }
         Relationships: []

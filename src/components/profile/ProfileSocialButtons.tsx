@@ -20,19 +20,19 @@ export const ProfileSocialButtons = ({ user }: { user: any }) => {
       url: user.linkedin,
       icon: LinkedinIcon,
       label: "LinkedIn",
-      ariaLabel: "Voir le profil LinkedIn"
+      ariaLabel: "Visiter le profil LinkedIn"
     },
     {
       url: user.github,
       icon: GithubIcon,
       label: "GitHub",
-      ariaLabel: "Voir le profil GitHub"
+      ariaLabel: "Visiter le profil GitHub"
     },
     {
       url: user.youtube,
       icon: YoutubeIcon,
       label: "YouTube",
-      ariaLabel: "Voir la chaîne YouTube"
+      ariaLabel: "Visiter la chaîne YouTube"
     },
     {
       url: user.spotify,
@@ -44,37 +44,37 @@ export const ProfileSocialButtons = ({ user }: { user: any }) => {
       url: user.instagram,
       icon: InstagramIcon,
       label: "Instagram",
-      ariaLabel: "Voir le profil Instagram"
+      ariaLabel: "Visiter le profil Instagram"
     },
     {
       url: user.facebook,
       icon: FacebookIcon,
       label: "Facebook",
-      ariaLabel: "Voir le profil Facebook"
+      ariaLabel: "Visiter le profil Facebook"
     }
   ];
 
-  // Filter out buttons with empty URLs
-  const availableSocialButtons = socialButtons.filter(button => button.url);
-
-  if (availableSocialButtons.length === 0) {
-    return null;
-  }
-
   return (
-    <div className="flex flex-wrap gap-2">
-      {availableSocialButtons.map(({ url, icon: Icon, label, ariaLabel }) => (
-        <Button
-          key={label}
-          variant="ghost"
-          size="icon"
-          className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
-          onClick={() => window.open(url, '_blank')}
-          aria-label={ariaLabel}
-        >
-          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900" />
-        </Button>
+    <>
+      {socialButtons.map((button, index) => (
+        button.url && (
+          <Button
+            key={index}
+            variant="outline"
+            size="icon"
+            asChild
+          >
+            <a
+              href={button.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={button.ariaLabel}
+            >
+              <button.icon className="h-4 w-4" />
+            </a>
+          </Button>
+        )
       ))}
-    </div>
+    </>
   );
 };
