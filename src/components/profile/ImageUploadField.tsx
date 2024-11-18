@@ -6,7 +6,7 @@ import { useImageProcessing } from "./useImageProcessing";
 import 'react-image-crop/dist/ReactCrop.css';
 
 interface ImageUploadFieldProps {
-  label: string;
+  label?: string;
   value: string;
   onChange: (value: string) => void;
   type: "avatar" | "banner";
