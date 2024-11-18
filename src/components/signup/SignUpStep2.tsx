@@ -19,6 +19,7 @@ interface SignUpStep2Props {
     username: string;
     bio: string;
     expertise: string;
+    entreprise: string;
     avatarUrl: string;
     bannerUrl: string;
     linkedin: string;
@@ -50,6 +51,7 @@ export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2
         lastName={formData.lastName}
         username={formData.username}
         expertise={formData.expertise}
+        entreprise={formData.entreprise}
         onChange={onChange}
       />
 

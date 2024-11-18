@@ -6,6 +6,7 @@ interface PersonalInfoFieldsProps {
   lastName: string;
   username: string;
   expertise: string;
+  entreprise: string;
   onChange: (field: string, value: string) => void;
 }
 
@@ -14,6 +15,7 @@ export const PersonalInfoFields = ({
   lastName,
   username,
   expertise,
+  entreprise,
   onChange
 }: PersonalInfoFieldsProps) => {
   return (
@@ -53,6 +55,14 @@ export const PersonalInfoFields = ({
           value={expertise}
           onChange={(e) => onChange('expertise', e.target.value)}
           placeholder="Votre domaine d'expertise"
+        />
+      </FormField>
+
+      <FormField label="Entreprise">
+        <Input
+          value={entreprise}
+          onChange={(e) => onChange('entreprise', e.target.value)}
+          placeholder="Votre entreprise actuelle"
         />
       </FormField>
     </>
