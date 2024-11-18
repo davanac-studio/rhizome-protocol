@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface ImageUploadFieldProps {
   label: string;
@@ -16,14 +15,9 @@ interface ImageUploadFieldProps {
 export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFieldProps) => {
   const [uploading, setUploading] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      if (!user) {
-        throw new Error("You must be logged in to upload files.");
-      }
-
       setUploading(true);
       
       if (!event.target.files || event.target.files.length === 0) {
@@ -33,14 +27,11 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
-      const folderPath = type === 'avatar' ? 'avatars' : 'banners';
-      const filePath = `${folderPath}/${fileName}`;
+      const filePath = `${type}s/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError, data } = await supabase.storage
         .from('profiles')
-        .upload(filePath, file, {
-          upsert: true
-        });
+        .upload(filePath, file);
 
       if (uploadError) {
         throw uploadError;
@@ -70,7 +61,13 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
   return (
     <div>
       <label className="text-sm font-medium">{label}</label>
-      <div className="flex justify-center mt-2">
+      <div className="flex gap-2 mt-1">
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={`URL de ${type === 'avatar' ? "l'avatar" : 'la bannière'}`}
+          className="flex-1"
+        />
         <div className="relative">
           <Input
             type="file"
@@ -85,11 +82,6 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
           </Button>
         </div>
       </div>
-      {value && (
-        <div className="mt-2 text-sm text-muted-foreground text-center">
-          Image sélectionnée
-        </div>
-      )}
     </div>
   );
 };
