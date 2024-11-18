@@ -7,6 +7,17 @@ import { PersonalInfoSection } from "./PersonalInfoSection";
 import { SocialLinksSection } from "./SocialLinksSection";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useNavigate } from "react-router-dom";
 
 interface EditProfileFormProps {
   user: any;
@@ -15,9 +26,11 @@ interface EditProfileFormProps {
 }
 
 export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProps) => {
-  const { user: authUser } = useAuth();
+  const { user: authUser, clearSession } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [formData, setFormData] = useState({
     firstName: user?.first_name || user?.firstName || "",
     lastName: user?.last_name || user?.lastName || "",
@@ -144,6 +157,38 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleDeleteAccount = async () => {
+    if (!authUser) return;
+    
+    setIsDeletingAccount(true);
+    try {
+      // Delete profile (this will cascade to delete the auth user due to foreign key constraint)
+      const { error } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', authUser.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Compte supprimé",
+        description: "Votre compte a été supprimé avec succès.",
+      });
+
+      clearSession();
+      navigate('/');
+    } catch (error: any) {
+      console.error('Error deleting account:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la suppression du compte.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeletingAccount(false);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <ProfileImageSection
@@ -193,6 +238,40 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         <Button type="submit" disabled={loading}>
           {loading ? "Enregistrement..." : "Enregistrer les modifications"}
         </Button>
+      </div>
+
+      <Separator className="my-6" />
+
+      <div className="rounded-lg border border-destructive/50 p-6 bg-destructive/5">
+        <h3 className="text-lg font-semibold text-destructive mb-4">Zone de danger</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          La suppression de votre compte est irréversible. Toutes vos données seront définitivement effacées.
+        </p>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" disabled={isDeletingAccount}>
+              {isDeletingAccount ? "Suppression..." : "Supprimer mon compte"}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Êtes-vous absolument sûr ?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Cette action est irréversible. Elle supprimera définitivement votre compte et toutes les données associées.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Annuler</AlertDialogCancel>
+              <Button 
+                variant="destructive" 
+                onClick={handleDeleteAccount}
+                disabled={isDeletingAccount}
+              >
+                {isDeletingAccount ? "Suppression..." : "Je suis sûr, supprimer mon compte"}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </form>
   );
