@@ -42,12 +42,12 @@ const NavBar = () => {
             <Link to="/" className="text-xl font-bold text-gray-900 hover:text-gray-700">
               Rhizome Protocol
             </Link>
-            <Link to="/about" className="text-gray-900 hover:text-gray-700">
-              Manifesto
-            </Link>
           </div>
           
           <div className="flex items-center gap-4">
+            <Link to="/about" className="text-gray-900 hover:text-gray-700">
+              Manifesto
+            </Link>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
