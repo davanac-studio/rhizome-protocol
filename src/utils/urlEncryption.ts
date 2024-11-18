@@ -1,17 +1,15 @@
-import { Buffer } from 'buffer';
-
 export const encryptStorageUrl = (url: string): string => {
   if (!url) return '';
   
-  // Convert the URL to base64
-  const encoded = Buffer.from(url).toString('base64');
+  // Use browser's built-in btoa for base64 encoding
+  const encoded = btoa(url);
   return encoded;
 };
 
 export const decryptStorageUrl = (encoded: string): string => {
-  if (!url) return '';
+  if (!encoded) return '';
   
-  // Convert back from base64 to URL
-  const decoded = Buffer.from(encoded, 'base64').toString('ascii');
+  // Use browser's built-in atob for base64 decoding
+  const decoded = atob(encoded);
   return decoded;
 };
