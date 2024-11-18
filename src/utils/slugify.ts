@@ -12,23 +12,15 @@ export const slugify = (text: string): string => {
 
 export const generateProjectSlug = (title: string, id: string): string => {
   const slug = slugify(title);
-  const shortId = id.split('-')[0]; // Take only the first part of UUID
-  return `${slug}-${shortId}`;
+  return `${slug}-${id}`;
 };
 
-export const extractIdFromSlug = (slug: string | undefined): string | undefined => {
-  if (!slug) return undefined;
+export const extractIdFromSlug = (idWithSlug: string | undefined): string | undefined => {
+  if (!idWithSlug) return undefined;
   
-  // The ID is always after the last hyphen
-  const parts = slug.split('-');
-  if (parts.length < 2) return undefined;
+  // L'ID est un UUID, donc il a toujours 36 caractères
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+  const match = idWithSlug.match(uuidRegex);
   
-  // Get the short ID (last part)
-  const shortId = parts[parts.length - 1];
-  
-  // Find the corresponding full ID from the URL
-  const match = window.location.pathname.match(/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
-  if (!match) return undefined;
-  
-  return match[1];
+  return match ? match[0] : undefined;
 };
