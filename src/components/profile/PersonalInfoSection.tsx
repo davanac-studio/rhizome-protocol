@@ -68,7 +68,6 @@ export const PersonalInfoSection = ({
 
       <BioField
         bio={bio}
-        expertise={expertise}
         accountType={accountType}
         required={required}
         onFieldChange={onFieldChange}
