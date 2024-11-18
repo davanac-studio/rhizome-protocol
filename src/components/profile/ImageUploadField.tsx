@@ -14,9 +14,16 @@ interface ImageUploadFieldProps {
   value: string;
   onChange: (value: string) => void;
   type: "avatar" | "banner";
+  allowUnauthenticatedUpload?: boolean;
 }
 
-export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFieldProps) => {
+export const ImageUploadField = ({ 
+  label, 
+  value, 
+  onChange, 
+  type,
+  allowUnauthenticatedUpload = false 
+}: ImageUploadFieldProps) => {
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showCropDialog, setShowCropDialog] = useState(false);
@@ -77,7 +84,7 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
   };
 
   const handleUpload = async () => {
-    if (!user) {
+    if (!allowUnauthenticatedUpload && !user) {
       toast({
         title: "Erreur d'authentification",
         description: "Vous devez être connecté pour uploader des fichiers",
@@ -97,7 +104,7 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
 
       const folderPath = type === 'avatar' ? 'avatars' : 'banners';
-      const filePath = `${folderPath}/${user.id}-${Date.now()}.jpg`;
+      const filePath = `${folderPath}/${user?.id || 'temp'}-${Date.now()}.jpg`;
 
       const { error: uploadError } = await supabase.storage
         .from('profiles')
