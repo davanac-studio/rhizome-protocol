@@ -1,6 +1,4 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { NetworkBackground } from './NetworkBackground';
 
 export const Hero = () => {
@@ -13,13 +11,6 @@ export const Hero = () => {
         <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto animate-fadeIn">
           Certification décentralisée pour les projets culturels et créatifs
         </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/about">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              Manifesto
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );
