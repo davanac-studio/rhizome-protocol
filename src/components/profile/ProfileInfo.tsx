@@ -5,6 +5,7 @@ interface ProfileInfoProps {
   username?: string;
   accountType?: string;
   entreprise?: string;
+  expertise?: string;
 }
 
 export const ProfileInfo = ({
@@ -13,7 +14,8 @@ export const ProfileInfo = ({
   name,
   username,
   accountType,
-  entreprise
+  entreprise,
+  expertise
 }: ProfileInfoProps) => {
   return (
     <div className="text-center mt-4">
@@ -25,6 +27,9 @@ export const ProfileInfo = ({
         )}
       </h1>
       <p className="text-gray-500 mt-1">@{username}</p>
+      {accountType === 'particulier' && expertise && (
+        <p className="text-gray-600 mt-2 font-medium">{expertise}</p>
+      )}
     </div>
   );
 };

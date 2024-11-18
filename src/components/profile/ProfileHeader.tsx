@@ -139,6 +139,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             username={user?.username}
             accountType={user?.accountType}
             entreprise={user?.entreprise}
+            expertise={user?.expertise}
           />
 
           <ProfileSocial user={user} />
