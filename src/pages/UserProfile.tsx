@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileProjects } from "@/components/profile/ProfileProjects";
 import { supabase } from "@/lib/supabase";
@@ -8,7 +8,9 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserProfile() {
   const { username } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { user: currentUser } = useAuth();
 
@@ -16,6 +18,7 @@ export default function UserProfile() {
     const fetchUserProfile = async () => {
       if (!username) {
         console.log('No username found for profile');
+        navigate('/');
         return;
       }
 
@@ -33,6 +36,7 @@ export default function UserProfile() {
             description: "Impossible de charger le profil",
             variant: "destructive",
           });
+          navigate('/');
           return;
         }
         
@@ -42,6 +46,7 @@ export default function UserProfile() {
             description: "Ce profil n'existe pas",
             variant: "destructive",
           });
+          navigate('/');
           return;
         }
 
@@ -53,13 +58,16 @@ export default function UserProfile() {
           description: "Une erreur est survenue lors du chargement du profil",
           variant: "destructive",
         });
+        navigate('/');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUserProfile();
-  }, [username, toast]);
+  }, [username, toast, navigate]);
 
-  if (!user) {
+  if (loading) {
     return (
       <div className="container mx-auto py-8 flex justify-center items-center min-h-[50vh]">
         <div className="text-center">
@@ -67,6 +75,10 @@ export default function UserProfile() {
         </div>
       </div>
     );
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (
