@@ -23,6 +23,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     lastName: user?.last_name || user?.lastName || "",
     bio: user?.bio || "",
     expertise: user?.expertise || "",
+    entreprise: user?.entreprise || "",
     avatarUrl: user?.avatar_url || user?.avatarUrl || "",
     bannerUrl: user?.banner_url || user?.bannerUrl || "",
     linkedin: user?.linkedin || "",
@@ -48,8 +49,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     setLoading(true);
 
     try {
-      console.log("Updating profile with data:", formData);
-
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -57,6 +56,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
           last_name: formData.lastName,
           bio: formData.bio,
           expertise: formData.expertise,
+          entreprise: formData.entreprise,
           avatar_url: formData.avatarUrl,
           banner_url: formData.bannerUrl,
           linkedin: formData.linkedin,
@@ -78,6 +78,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         lastName: formData.lastName,
         bio: formData.bio,
         expertise: formData.expertise,
+        entreprise: formData.entreprise,
         avatarUrl: formData.avatarUrl,
         bannerUrl: formData.bannerUrl,
         linkedin: formData.linkedin,
@@ -127,6 +128,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         firstName={formData.firstName}
         lastName={formData.lastName}
         expertise={formData.expertise}
+        entreprise={formData.entreprise}
         bio={formData.bio}
         onFieldChange={handleFieldChange}
       />

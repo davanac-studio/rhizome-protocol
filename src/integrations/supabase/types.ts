@@ -14,6 +14,7 @@ export type Database = {
           avatar_url: string | null
           banner_url: string | null
           bio: string | null
+          entreprise: string | null
           expertise: string | null
           facebook: string | null
           first_name: string | null
@@ -31,6 +32,7 @@ export type Database = {
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
+          entreprise?: string | null
           expertise?: string | null
           facebook?: string | null
           first_name?: string | null
@@ -48,6 +50,7 @@ export type Database = {
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
+          entreprise?: string | null
           expertise?: string | null
           facebook?: string | null
           first_name?: string | null

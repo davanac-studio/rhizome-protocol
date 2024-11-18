@@ -7,6 +7,7 @@ interface PersonalInfoSectionProps {
   firstName: string;
   lastName: string;
   expertise: string;
+  entreprise: string;
   bio: string;
   onFieldChange: (field: string, value: string) => void;
 }
@@ -15,6 +16,7 @@ export const PersonalInfoSection = ({
   firstName,
   lastName,
   expertise,
+  entreprise,
   bio,
   onFieldChange,
 }: PersonalInfoSectionProps) => {
@@ -56,6 +58,15 @@ export const PersonalInfoSection = ({
           value={expertise}
           onChange={(e) => onFieldChange("expertise", e.target.value)}
           placeholder="Votre domaine d'expertise"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium">Entreprise</label>
+        <Input
+          value={entreprise}
+          onChange={(e) => onFieldChange("entreprise", e.target.value)}
+          placeholder="Votre entreprise actuelle"
         />
       </div>
 
