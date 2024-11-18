@@ -65,6 +65,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         lastName: profile.last_name,
         avatarUrl: profile.avatar_url,
         bannerUrl: profile.banner_url,
+        accountType: profile.account_type,
+        entreprise: profile.entreprise,
       });
       
       // Vérifier si l'utilisateur connecté est le propriétaire du profil
@@ -138,6 +140,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             name={user?.name}
             expertise={user?.expertise}
             username={user?.username}
+            accountType={user?.accountType}
+            entreprise={user?.entreprise}
           />
 
           <ProfileSocial user={user} />
