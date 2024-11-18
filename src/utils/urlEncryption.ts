@@ -1,23 +1,17 @@
+import { Buffer } from 'buffer';
+
 export const encryptStorageUrl = (url: string): string => {
   if (!url) return '';
   
-  // First encode the URL to handle special characters
-  const encodedUrl = encodeURIComponent(url);
-  // Then use browser's built-in btoa for base64 encoding
-  const encoded = btoa(encodedUrl);
+  // Convert the URL to base64
+  const encoded = Buffer.from(url).toString('base64');
   return encoded;
 };
 
 export const decryptStorageUrl = (encoded: string): string => {
-  if (!encoded) return '';
+  if (!url) return '';
   
-  try {
-    // First decode from base64
-    const decoded = atob(encoded);
-    // Then decode the URL
-    return decodeURIComponent(decoded);
-  } catch (error) {
-    console.error('Error decoding URL:', error);
-    return ''; // Return empty string on error
-  }
+  // Convert back from base64 to URL
+  const decoded = Buffer.from(encoded, 'base64').toString('ascii');
+  return decoded;
 };
