@@ -1,106 +1,71 @@
 import { Button } from "@/components/ui/button";
-import { ImageFields } from "./ImageFields";
-import { PersonalInfoFields } from "./PersonalInfoFields";
-import { BioField } from "./BioField";
-import { SocialInput } from "./SocialInput";
-import {
-  LinkedinIcon,
-  YoutubeIcon,
-  GithubIcon,
-  Music2Icon,
-  InstagramIcon,
-  FacebookIcon,
-} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { FormField } from "./FormField";
 
 interface SignUpStep2Props {
   formData: {
+    accountType: string;
     firstName: string;
     lastName: string;
     username: string;
-    bio: string;
-    expertise: string;
     entreprise: string;
-    avatarUrl: string;
-    bannerUrl: string;
-    linkedin: string;
-    youtube: string;
-    github: string;
-    spotify: string;
-    instagram: string;
-    facebook: string;
   };
   onChange: (field: string, value: string) => void;
+  onNext: () => void;
   onBack: () => void;
   loading: boolean;
 }
 
-export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2Props) => {
+export const SignUpStep2 = ({ 
+  formData,
+  onChange,
+  onNext,
+  onBack,
+  loading 
+}: SignUpStep2Props) => {
   return (
     <div className="space-y-6">
-      <PersonalInfoFields
-        firstName={formData.firstName}
-        lastName={formData.lastName}
-        username={formData.username}
-        expertise={formData.expertise}
-        entreprise={formData.entreprise}
-        onChange={onChange}
-      />
+      {formData.accountType === 'particulier' && (
+        <>
+          <FormField label="Prénom" required>
+            <Input
+              required
+              value={formData.firstName}
+              onChange={(e) => onChange('firstName', e.target.value)}
+              placeholder="Votre prénom"
+            />
+          </FormField>
 
-      <ImageFields
-        avatarUrl={formData.avatarUrl}
-        bannerUrl={formData.bannerUrl}
-        firstName={formData.firstName}
-        lastName={formData.lastName}
-        onAvatarChange={(value) => onChange('avatarUrl', value)}
-        onBannerChange={(value) => onChange('bannerUrl', value)}
-      />
+          <FormField label="Nom" required>
+            <Input
+              required
+              value={formData.lastName}
+              onChange={(e) => onChange('lastName', e.target.value)}
+              placeholder="Votre nom"
+            />
+          </FormField>
+        </>
+      )}
 
-      <BioField
-        bio={formData.bio}
-        onChange={(value) => onChange('bio', value)}
-      />
+      {formData.accountType === 'entreprise' && (
+        <FormField label="Nom de l'entreprise" required>
+          <Input
+            required
+            value={formData.entreprise}
+            onChange={(e) => onChange('entreprise', e.target.value)}
+            placeholder="Nom de votre entreprise"
+          />
+        </FormField>
+      )}
 
-      <div className="space-y-4">
-        <h3 className="text-sm font-medium">Réseaux sociaux</h3>
-        <div className="space-y-3">
-          <SocialInput
-            icon={LinkedinIcon}
-            value={formData.linkedin}
-            onChange={(value) => onChange('linkedin', value)}
-            placeholder="URL LinkedIn"
-          />
-          <SocialInput
-            icon={YoutubeIcon}
-            value={formData.youtube}
-            onChange={(value) => onChange('youtube', value)}
-            placeholder="URL YouTube"
-          />
-          <SocialInput
-            icon={GithubIcon}
-            value={formData.github}
-            onChange={(value) => onChange('github', value)}
-            placeholder="URL GitHub"
-          />
-          <SocialInput
-            icon={Music2Icon}
-            value={formData.spotify}
-            onChange={(value) => onChange('spotify', value)}
-            placeholder="URL Spotify"
-          />
-          <SocialInput
-            icon={InstagramIcon}
-            value={formData.instagram}
-            onChange={(value) => onChange('instagram', value)}
-            placeholder="URL Instagram"
-          />
-          <SocialInput
-            icon={FacebookIcon}
-            value={formData.facebook}
-            onChange={(value) => onChange('facebook', value)}
-            placeholder="URL Facebook"
-          />
-        </div>
-      </div>
+      <FormField label="Nom d'utilisateur" required>
+        <Input
+          required
+          value={formData.username}
+          onChange={(e) => onChange('username', e.target.value)}
+          placeholder="@votre-nom-utilisateur"
+        />
+      </FormField>
 
       <div className="flex gap-4">
         <Button 
@@ -112,8 +77,13 @@ export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2
         >
           Retour
         </Button>
-        <Button type="submit" className="flex-1" disabled={loading}>
-          {loading ? "Création en cours..." : "Créer mon compte"}
+        <Button 
+          type="button" 
+          className="flex-1"
+          onClick={onNext}
+          disabled={loading}
+        >
+          Continuer
         </Button>
       </div>
     </div>

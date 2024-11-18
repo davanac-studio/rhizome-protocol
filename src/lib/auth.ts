@@ -2,6 +2,7 @@ import { supabase } from "./supabase";
 import { toast } from "@/components/ui/use-toast";
 
 interface UserFormData {
+  accountType: string;
   email: string;
   password: string;
   username: string;
@@ -16,6 +17,7 @@ interface UserFormData {
   spotify: string;
   instagram: string;
   facebook: string;
+  entreprise: string;
 }
 
 export const checkUsernameExists = async (username: string): Promise<boolean> => {
@@ -88,24 +90,28 @@ export const createUser = async (formData: UserFormData) => {
     .eq('id', authData.user.id)
     .single();
 
+  const profileData = {
+    username: formData.username,
+    first_name: formData.accountType === 'particulier' ? formData.firstName : null,
+    last_name: formData.accountType === 'particulier' ? formData.lastName : null,
+    bio: formData.bio,
+    avatar_url: formData.avatarUrl,
+    banner_url: formData.bannerUrl,
+    linkedin: formData.linkedin,
+    youtube: formData.youtube,
+    github: formData.github,
+    spotify: formData.spotify,
+    instagram: formData.instagram,
+    facebook: formData.facebook,
+    entreprise: formData.entreprise,
+    account_type: formData.accountType,
+  };
+
   // Si le profil existe déjà, on le met à jour au lieu de le créer
   if (existingProfile) {
     const { error: updateError } = await supabase
       .from('profiles')
-      .update({
-        username: formData.username,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        bio: formData.bio,
-        avatar_url: formData.avatarUrl,
-        banner_url: formData.bannerUrl,
-        linkedin: formData.linkedin,
-        youtube: formData.youtube,
-        github: formData.github,
-        spotify: formData.spotify,
-        instagram: formData.instagram,
-        facebook: formData.facebook,
-      })
+      .update(profileData)
       .eq('id', authData.user.id);
 
     if (updateError) {
@@ -119,18 +125,7 @@ export const createUser = async (formData: UserFormData) => {
       .insert([
         {
           id: authData.user.id,
-          username: formData.username,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          bio: formData.bio,
-          avatar_url: formData.avatarUrl,
-          banner_url: formData.bannerUrl,
-          linkedin: formData.linkedin,
-          youtube: formData.youtube,
-          github: formData.github,
-          spotify: formData.spotify,
-          instagram: formData.instagram,
-          facebook: formData.facebook,
+          ...profileData,
         },
       ]);
 
