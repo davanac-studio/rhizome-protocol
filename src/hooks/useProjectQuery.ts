@@ -15,11 +15,7 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
     queryKey: ['project', id],
     queryFn: async () => {
       if (!id) {
-        toast({
-          title: "Erreur",
-          description: "ID du projet invalide",
-          variant: "destructive"
-        });
+        console.error('Invalid project ID:', idWithSlug);
         throw new Error("Invalid project ID");
       }
 
@@ -53,28 +49,17 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
 
       if (projectError) {
         console.error('Error fetching project:', projectError);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger le projet",
-          variant: "destructive"
-        });
-        navigate('/');
         throw projectError;
       }
 
       if (!projectData) {
-        toast({
-          title: "Erreur",
-          description: "Projet non trouvé",
-          variant: "destructive"
-        });
-        navigate('/');
+        console.error('Project not found:', id);
         throw new Error("Project not found");
       }
 
       return transformDatabaseProject(projectData);
     },
-    retry: false,
+    retry: 1,
     enabled: !!id
   });
 };

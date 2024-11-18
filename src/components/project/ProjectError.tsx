@@ -17,12 +17,19 @@ export const ProjectError = ({ title, description }: ProjectErrorProps) => (
         </Button>
       </Link>
       <div className="text-center py-12">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-4">
           {title}
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-lg">
           {description}
         </p>
+        <div className="mt-8">
+          <Link to="/">
+            <Button>
+              Voir tous les projets
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   </div>

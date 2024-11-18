@@ -15,6 +15,15 @@ export const generateProjectSlug = (title: string, id: string): string => {
 
 export const extractIdFromSlug = (idWithSlug: string | undefined): string | undefined => {
   if (!idWithSlug) return undefined;
-  const parts = idWithSlug.split('-');
-  return parts[0];
+  
+  // Extract the UUID part (first segment before the first dash)
+  const uuidPattern = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i;
+  const match = idWithSlug.match(uuidPattern);
+  
+  if (!match) {
+    console.error('Invalid slug format:', idWithSlug);
+    return undefined;
+  }
+  
+  return match[1];
 };
