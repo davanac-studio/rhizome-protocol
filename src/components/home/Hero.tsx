@@ -19,11 +19,6 @@ export const Hero = () => {
               Manifesto
             </Button>
           </Link>
-          <Link to="/users">
-            <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 text-primary border-primary">
-              Qui participe ?
-            </Button>
-          </Link>
         </div>
       </div>
     </section>
