@@ -8,11 +8,15 @@ interface ProfileAvatarProps {
 }
 
 export const ProfileAvatar = ({ avatarUrl, avatar, firstName, name }: ProfileAvatarProps) => {
+  // Utiliser avatarUrl en priorité, sinon utiliser avatar
+  const imageUrl = avatarUrl || avatar;
+  const fallbackText = firstName?.charAt(0) || name?.charAt(0) || '?';
+
   return (
     <Avatar className="h-48 w-48 border-4 border-white shadow-lg">
-      <AvatarImage src={avatarUrl || avatar} alt={name} />
+      {imageUrl && <AvatarImage src={imageUrl} alt={name || "Profile"} />}
       <AvatarFallback className="text-4xl">
-        {firstName?.charAt(0) || name?.charAt(0)}
+        {fallbackText}
       </AvatarFallback>
     </Avatar>
   );

@@ -29,6 +29,7 @@ export const TeamMemberCard = ({
   };
 
   const isClient = expertise === "Client";
+  const fallbackText = name ? name[0] : '?';
 
   return (
     <Button 
@@ -39,8 +40,8 @@ export const TeamMemberCard = ({
       <Card className="p-4 w-full">
         <div className="flex items-start gap-4 mb-4">
           <Avatar className="flex-shrink-0">
-            <AvatarImage src={avatar} alt={name} />
-            <AvatarFallback>{name ? name[0] : '?'}</AvatarFallback>
+            {avatar && <AvatarImage src={avatar} alt={name} />}
+            <AvatarFallback>{fallbackText}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col min-w-0 flex-1">
             <h4 className="font-semibold text-left whitespace-normal break-words">{name}</h4>
