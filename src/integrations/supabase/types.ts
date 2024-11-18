@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          account_type: string | null
           avatar_url: string | null
           banner_url: string | null
           bio: string | null
@@ -29,6 +30,7 @@ export type Database = {
           youtube: string | null
         }
         Insert: {
+          account_type?: string | null
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
@@ -47,6 +49,7 @@ export type Database = {
           youtube?: string | null
         }
         Update: {
+          account_type?: string | null
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
