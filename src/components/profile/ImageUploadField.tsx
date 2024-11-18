@@ -5,7 +5,7 @@ import { ImageCropDialog } from "./ImageCropDialog";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadCloud } from "lucide-react";
-import { Crop, PixelCrop } from 'react-image-crop';
+import { Crop } from 'react-image-crop';
 
 interface ImageUploadFieldProps {
   label: string;
@@ -42,12 +42,19 @@ export const ImageUploadField = ({
     setShowCropDialog(true);
   };
 
-  const getCroppedImg = async (image: HTMLImageElement, crop: PixelCrop): Promise<Blob> => {
+  const getCroppedImg = async (image: HTMLImageElement, crop: Crop): Promise<Blob> => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = Math.floor(crop.width * scaleX);
-    canvas.height = Math.floor(crop.height * scaleY);
+    const pixelCrop = {
+      x: (crop.x * image.width) / 100,
+      y: (crop.y * image.height) / 100,
+      width: (crop.width * image.width) / 100,
+      height: (crop.height * image.height) / 100,
+    };
+
+    canvas.width = Math.floor(pixelCrop.width * scaleX);
+    canvas.height = Math.floor(pixelCrop.height * scaleY);
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
@@ -56,14 +63,14 @@ export const ImageUploadField = ({
 
     ctx.drawImage(
       image,
-      Math.floor(crop.x * scaleX),
-      Math.floor(crop.y * scaleY),
-      Math.floor(crop.width * scaleX),
-      Math.floor(crop.height * scaleY),
+      Math.floor(pixelCrop.x * scaleX),
+      Math.floor(pixelCrop.y * scaleY),
+      Math.floor(pixelCrop.width * scaleX),
+      Math.floor(pixelCrop.height * scaleY),
       0,
       0,
-      Math.floor(crop.width * scaleX),
-      Math.floor(crop.height * scaleY)
+      Math.floor(pixelCrop.width * scaleX),
+      Math.floor(pixelCrop.height * scaleY)
     );
 
     return new Promise((resolve) => {
@@ -92,7 +99,7 @@ export const ImageUploadField = ({
     return filePath;
   };
 
-  const handleCropComplete = async (pixelCrop: PixelCrop) => {
+  const handleCropComplete = async () => {
     if (!selectedFile || !imgRef.current) return;
 
     try {
@@ -106,7 +113,7 @@ export const ImageUploadField = ({
         }
       });
 
-      const croppedBlob = await getCroppedImg(imgRef.current, pixelCrop);
+      const croppedBlob = await getCroppedImg(imgRef.current, crop);
       const file = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
       const filePath = await uploadImage(file);
       
@@ -182,7 +189,7 @@ export const ImageUploadField = ({
         previewUrl={previewUrl}
         crop={crop}
         onCropChange={setCrop}
-        onConfirm={() => handleCropComplete(crop as PixelCrop)}
+        onConfirm={handleCropComplete}
         uploading={uploading}
         aspectRatio={type === 'avatar' ? 1 : 16/9}
         imgRef={imgRef}
