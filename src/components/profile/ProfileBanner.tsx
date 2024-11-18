@@ -6,7 +6,7 @@ interface ProfileBannerProps {
 
 export const ProfileBanner = ({ bannerUrl }: ProfileBannerProps) => {
   return (
-    <div className="relative w-full h-[240px] bg-gray-100 overflow-hidden">
+    <div className="relative w-full h-[300px] bg-gray-100 overflow-hidden">
       {bannerUrl ? (
         <img
           src={bannerUrl}
