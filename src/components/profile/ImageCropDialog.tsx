@@ -48,6 +48,7 @@ export const ImageCropDialog = ({
               keepSelection
               minWidth={100}
               minHeight={100}
+              aspect={aspectRatio}
               className="max-h-[500px]"
             >
               <img

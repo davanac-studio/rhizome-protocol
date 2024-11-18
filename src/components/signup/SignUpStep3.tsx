@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ImageUploadField } from "../profile/ImageUploadField";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface SignUpStep3Props {
   avatarUrl: string;
@@ -22,6 +23,15 @@ export const SignUpStep3 = ({
         type="avatar"
         buttonText="Choisir un avatar"
       />
+
+      {avatarUrl && (
+        <div className="flex justify-center">
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={avatarUrl} alt="Avatar preview" />
+            <AvatarFallback>?</AvatarFallback>
+          </Avatar>
+        </div>
+      )}
 
       <div className="flex gap-4">
         <Button 

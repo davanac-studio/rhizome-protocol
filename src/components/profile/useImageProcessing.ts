@@ -36,12 +36,12 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
 
       if (aspectRatio > 1) {
         // Image is wider than tall
-        newCrop.height = 100 / aspectRatio;
-        newCrop.y = (100 - newCrop.height) / 2;
+        newCrop.width = newCrop.height * aspectRatio;
+        newCrop.x = (100 - newCrop.width) / 2;
       } else {
         // Image is taller than wide
-        newCrop.width = 100 * aspectRatio;
-        newCrop.x = (100 - newCrop.width) / 2;
+        newCrop.height = newCrop.width / aspectRatio;
+        newCrop.y = (100 - newCrop.height) / 2;
       }
 
       setCrop(newCrop);
