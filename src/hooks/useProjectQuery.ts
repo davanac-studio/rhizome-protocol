@@ -49,7 +49,7 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (projectError) {
         console.error('Error fetching project:', projectError);
