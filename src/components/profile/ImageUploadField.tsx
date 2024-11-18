@@ -8,7 +8,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Crop as CropType, PixelCrop } from 'react-image-crop';
 import { ImageCropDialog } from "./ImageCropDialog";
 import { ImagePreview } from "./ImagePreview";
-import { encryptStorageUrl } from "@/utils/urlEncryption";
 
 interface ImageUploadFieldProps {
   label: string;
@@ -107,7 +106,7 @@ export const ImageUploadField = ({
       const folderPath = type === 'avatar' ? 'avatars' : 'banners';
       const filePath = `${folderPath}/${user?.id || 'temp'}-${Date.now()}.jpg`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError, data } = await supabase.storage
         .from('profiles')
         .upload(filePath, file, {
           upsert: true,
@@ -122,9 +121,7 @@ export const ImageUploadField = ({
         .from('profiles')
         .getPublicUrl(filePath);
 
-      // Encrypt the URL before storing it
-      const encryptedUrl = encryptStorageUrl(publicUrl);
-      onChange(encryptedUrl);
+      onChange(publicUrl);
       setShowCropDialog(false);
       setPreviewUrl(null);
       
