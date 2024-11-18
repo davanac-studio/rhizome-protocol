@@ -24,7 +24,7 @@ export const ProfileInfo = ({
           firstName && lastName ? `${firstName} ${lastName}` : name
         )}
       </h1>
-      <p className="text-gray-500 mt-1">{username}</p>
+      <p className="text-gray-500 mt-1">@{username}</p>
     </div>
   );
 };
