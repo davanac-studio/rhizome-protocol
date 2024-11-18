@@ -59,6 +59,27 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     setLoading(true);
 
     try {
+      // Vérifier si le nouveau nom d'utilisateur est déjà pris
+      if (formData.username !== user.username) {
+        const { data: existingUser } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('username', formData.username)
+          .neq('id', authUser.id)
+          .maybeSingle();
+
+        if (existingUser) {
+          toast({
+            title: "Erreur",
+            description: "Ce nom d'utilisateur est déjà pris.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Mettre à jour le profil
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -97,15 +118,11 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       onUpdate(updatedUser);
       onClose();
 
-      // Attendre un court instant avant la redirection pour laisser le temps à la base de données de se mettre à jour
-      setTimeout(() => {
-        // Rediriger vers le nouveau profil si le nom d'utilisateur a changé
-        if (formData.username !== user.username) {
-          navigate(`/profile/${formData.username}`);
-          // Recharger la page pour forcer la mise à jour des données
-          window.location.reload();
-        }
-      }, 500);
+      // Si le nom d'utilisateur a changé, rediriger vers le nouveau profil
+      if (formData.username !== user.username) {
+        navigate(`/profile/${formData.username}`, { replace: true });
+        window.location.reload();
+      }
     } catch (error: any) {
       console.error('Error updating profile:', error);
       toast({

@@ -3,6 +3,7 @@ import { FormField } from "@/components/signup/FormField";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface UsernameFieldProps {
   username: string;
@@ -11,6 +12,7 @@ interface UsernameFieldProps {
 
 export const UsernameField = ({ username, onFieldChange }: UsernameFieldProps) => {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isChecking, setIsChecking] = useState(false);
   const [inputValue, setInputValue] = useState(username);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -23,14 +25,16 @@ export const UsernameField = ({ username, onFieldChange }: UsernameFieldProps) =
       const { data, error } = await supabase
         .from('profiles')
         .select('username')
-        .eq('username', newUsername);
+        .eq('username', newUsername)
+        .neq('id', user?.id)
+        .maybeSingle();
 
       if (error) {
         console.error('Error checking username:', error);
         return false;
       }
 
-      if (data && data.length > 0) {
+      if (data) {
         toast({
           title: "Nom d'utilisateur non disponible",
           description: "Ce nom d'utilisateur est déjà pris",
