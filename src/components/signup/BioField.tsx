@@ -3,12 +3,15 @@ import { FormField } from "./FormField";
 
 interface BioFieldProps {
   bio: string;
+  accountType: string;
   onChange: (value: string) => void;
 }
 
-export const BioField = ({ bio, onChange }: BioFieldProps) => {
+export const BioField = ({ bio, accountType, onChange }: BioFieldProps) => {
+  const label = accountType === 'entreprise' ? "Description de l'entreprise" : "Bio";
+  
   return (
-    <FormField label="Bio" required>
+    <FormField label={label} required>
       <Textarea
         required
         value={bio}
@@ -18,7 +21,7 @@ export const BioField = ({ bio, onChange }: BioFieldProps) => {
             onChange(text);
           }
         }}
-        placeholder="Parlez-nous de vous (150 caractères max)"
+        placeholder={accountType === 'entreprise' ? "Décrivez votre entreprise (150 caractères max)" : "Parlez-nous de vous (150 caractères max)"}
         className="h-24"
         maxLength={150}
       />

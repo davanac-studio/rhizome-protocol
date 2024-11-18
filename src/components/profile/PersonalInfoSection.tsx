@@ -137,7 +137,7 @@ export const PersonalInfoSection = ({
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium">
-            Bio {required && <span className="text-red-500">*</span>}
+            {accountType === 'entreprise' ? "Description de l'entreprise" : "Bio"} {required && <span className="text-red-500">*</span>}
           </label>
           {accountType === 'particulier' && (
             <Button
