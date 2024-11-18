@@ -41,10 +41,7 @@ const NavBar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2 text-gray-900 hover:text-gray-700">
-              <Home className="h-6 w-6" />
-              <span className="text-xl font-bold">Rhizome Protocol</span>
-            </Link>
+            <span className="text-xl font-bold text-gray-900">Rhizome Protocol</span>
             {!isHomePage && (
               <Link to="/about" className="text-gray-900 hover:text-gray-700">
                 Manifesto
@@ -53,6 +50,9 @@ const NavBar = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            <Link to="/" className="text-gray-900 hover:text-gray-700">
+              <Home className="h-6 w-6" />
+            </Link>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
