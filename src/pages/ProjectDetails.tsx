@@ -1,16 +1,14 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProjectQuery } from "@/hooks/useProjectQuery";
 import { useAuth } from "@/contexts/AuthContext";
 import { ProjectError } from "@/components/project/ProjectError";
 import { ProjectContent } from "@/components/project/ProjectContent";
-import { ProjectMeta } from "@/components/project/ProjectMeta";
 import { useNavigate } from "react-router-dom";
 
 const ProjectDetails = () => {
   const { idWithSlug } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   
   const { data: project, isLoading, error } = useProjectQuery(idWithSlug);
 
@@ -50,18 +48,13 @@ const ProjectDetails = () => {
     }
   };
 
-  const fullUrl = `${window.location.origin}${location.pathname}`;
-
   return (
-    <>
-      <ProjectMeta project={project} url={fullUrl} />
-      <ProjectContent 
-        project={project}
-        isProjectCreator={isProjectCreator}
-        onEditClick={handleEditClick}
-        idWithSlug={idWithSlug || ''}
-      />
-    </>
+    <ProjectContent 
+      project={project}
+      isProjectCreator={isProjectCreator}
+      onEditClick={handleEditClick}
+      idWithSlug={idWithSlug || ''}
+    />
   );
 };
 
