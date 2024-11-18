@@ -37,11 +37,10 @@ export const ImageUploadField = ({ label, value, onChange, type }: ImageUploadFi
 
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
       const folderPath = type === 'avatar' ? 'avatars' : 'banners';
-      const filePath = `${folderPath}/${fileName}`;
+      const filePath = `${folderPath}/${user.id}-${Date.now()}.${fileExt}`;
 
-      const { error: uploadError, data } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('profiles')
         .upload(filePath, file, {
           upsert: true,
