@@ -26,6 +26,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     entreprise: user?.entreprise || "",
     avatarUrl: user?.avatar_url || user?.avatarUrl || "",
     bannerUrl: user?.banner_url || user?.bannerUrl || "",
+    website: user?.website || "",
     linkedin: user?.linkedin || "",
     youtube: user?.youtube || "",
     github: user?.github || "",
@@ -88,6 +89,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
           entreprise: formData.entreprise,
           avatar_url: formData.avatarUrl,
           banner_url: formData.bannerUrl,
+          website: formData.website,
           linkedin: formData.linkedin,
           youtube: formData.youtube,
           github: formData.github,
@@ -110,6 +112,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         entreprise: formData.entreprise,
         avatarUrl: formData.avatarUrl,
         bannerUrl: formData.bannerUrl,
+        website: formData.website,
         linkedin: formData.linkedin,
         youtube: formData.youtube,
         github: formData.github,
@@ -168,6 +171,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       <Separator className="my-6" />
 
       <SocialLinksSection
+        website={formData.website}
         linkedin={formData.linkedin}
         github={formData.github}
         youtube={formData.youtube}

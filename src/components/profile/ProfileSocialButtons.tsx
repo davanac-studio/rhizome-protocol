@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon, FacebookIcon } from "lucide-react";
+import { LinkedinIcon, YoutubeIcon, GithubIcon, Music2Icon, InstagramIcon, FacebookIcon, GlobeIcon } from "lucide-react";
 
 interface SocialButton {
   url: string | null;
@@ -10,6 +10,12 @@ interface SocialButton {
 
 export const ProfileSocialButtons = ({ user }: { user: any }) => {
   const socialButtons: SocialButton[] = [
+    {
+      url: user.website,
+      icon: GlobeIcon,
+      label: "Website",
+      ariaLabel: "Visiter le site web"
+    },
     {
       url: user.linkedin,
       icon: LinkedinIcon,
