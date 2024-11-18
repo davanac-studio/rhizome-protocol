@@ -9,6 +9,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { DangerZone } from "./DangerZone";
 import { FormActions } from "./FormActions";
+import { ProfileFormData } from "./types/ProfileFormData";
+import { validateProfileForm } from "./utils/formValidation";
 
 interface EditProfileFormProps {
   user: any;
@@ -21,7 +23,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProfileFormData>({
     firstName: user?.first_name || user?.firstName || "",
     lastName: user?.last_name || user?.lastName || "",
     username: user?.username || "",
@@ -43,41 +45,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.avatarUrl) {
-      toast({
-        title: "Erreur de validation",
-        description: "L'avatar est obligatoire",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!formData.bio) {
-      toast({
-        title: "Erreur de validation",
-        description: "La bio est obligatoire",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!formData.username) {
-      toast({
-        title: "Erreur de validation",
-        description: "Le nom d'utilisateur est obligatoire",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (formData.accountType === 'entreprise' && !formData.entreprise) {
-      toast({
-        title: "Erreur de validation",
-        description: "L'entreprise est obligatoire",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!validateProfileForm(formData, toast)) return;
 
     if (!authUser) {
       toast({
@@ -116,21 +84,9 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
 
       const updatedUser = {
         ...user,
-        username: formData.username,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        bio: formData.bio,
-        expertise: formData.expertise,
-        entreprise: formData.entreprise,
-        avatarUrl: formData.avatarUrl,
-        bannerUrl: formData.bannerUrl,
-        website: formData.website,
-        linkedin: formData.linkedin,
-        youtube: formData.youtube,
-        github: formData.github,
-        spotify: formData.spotify,
-        instagram: formData.instagram,
-        facebook: formData.facebook,
+        ...formData,
+        avatar_url: formData.avatarUrl,
+        banner_url: formData.bannerUrl,
       };
 
       toast({
@@ -140,6 +96,11 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       
       onUpdate(updatedUser);
       onClose();
+
+      // Redirect to the new profile URL if username has changed
+      if (formData.username !== user.username) {
+        navigate(`/profile/${formData.username}`);
+      }
     } catch (error: any) {
       console.error('Error updating profile:', error);
       toast({
