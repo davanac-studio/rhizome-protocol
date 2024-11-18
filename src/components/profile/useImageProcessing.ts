@@ -10,10 +10,10 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
-    x: 25,
-    y: 25,
-    width: 50,
-    height: 50
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,16 +22,26 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
     setShowCropDialog(true);
+    // Reset crop to full image when new file is selected
+    setCrop({
+      unit: '%',
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100
+    });
   };
 
   const getCroppedImg = async (image: HTMLImageElement, crop: Crop): Promise<Blob> => {
     const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
     
     const pixelCrop = {
-      x: (crop.x * image.width) / 100,
-      y: (crop.y * image.height) / 100,
-      width: (crop.width * image.width) / 100,
-      height: (crop.height * image.height) / 100,
+      x: (crop.x * image.width * scaleX) / 100,
+      y: (crop.y * image.height * scaleY) / 100,
+      width: (crop.width * image.width * scaleX) / 100,
+      height: (crop.height * image.height * scaleY) / 100,
     };
 
     canvas.width = pixelCrop.width;
@@ -86,6 +96,7 @@ export const useImageProcessing = (onChange: (value: string) => void) => {
     try {
       setUploading(true);
 
+      // Make sure image is loaded
       if (!imgRef.current.complete) {
         await new Promise((resolve) => {
           imgRef.current!.addEventListener('load', resolve);

@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import ReactCrop, { Crop } from 'react-image-crop';
 import { Button } from "@/components/ui/button";
 import { Crop as CropIcon } from "lucide-react";
@@ -47,13 +46,13 @@ export const ImageCropDialog = ({
               crop={crop}
               onChange={(_, percentCrop) => onCropChange(percentCrop)}
               aspect={aspectRatio}
-              className="max-h-[500px] object-contain"
+              className="max-h-[500px]"
             >
               <img
                 ref={imgRef}
                 src={previewUrl}
                 alt="Preview"
-                className="max-w-full h-auto"
+                style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain' }}
               />
             </ReactCrop>
           </div>
