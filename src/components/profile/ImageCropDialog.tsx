@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import ReactCrop, { Crop as CropType } from 'react-image-crop';
+import ReactCrop, { Crop } from 'react-image-crop';
 import { Button } from "@/components/ui/button";
-import { Crop } from "lucide-react";
+import { Crop as CropIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +15,8 @@ interface ImageCropDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   previewUrl: string | null;
-  crop: CropType;
-  onCropChange: (crop: CropType) => void;
+  crop: Crop;
+  onCropChange: (crop: Crop) => void;
   onConfirm: () => void;
   uploading: boolean;
   aspectRatio: number;
@@ -45,7 +45,7 @@ export const ImageCropDialog = ({
           <div className="mt-4">
             <ReactCrop
               crop={crop}
-              onChange={onCropChange}
+              onChange={(_, percentCrop) => onCropChange(percentCrop)}
               aspect={aspectRatio}
               className="max-h-[500px] object-contain"
             >
@@ -71,7 +71,7 @@ export const ImageCropDialog = ({
             onClick={onConfirm}
             disabled={uploading}
           >
-            <Crop className="h-4 w-4 mr-2" />
+            <CropIcon className="h-4 w-4 mr-2" />
             {uploading ? "Upload en cours..." : "Valider et uploader"}
           </Button>
         </DialogFooter>
