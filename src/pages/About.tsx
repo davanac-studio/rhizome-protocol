@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Hero } from '@/components/home/Hero';
 
 const About = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto prose prose-lg">
-        <h1 className="text-4xl font-bold mb-8">Manifeste Rhizome Protocol</h1>
-        
+    <div>
+      <Hero />
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto prose prose-lg">
+          <h1 className="text-4xl font-bold mb-8">Manifeste Rhizome Protocol</h1>
+          
         <h2 className="text-2xl font-semibold mt-8 mb-4">Notre Mission</h2>
         <p>
           Nous bâtissons un écosystème transparent et décentralisé où chaque contribution professionnelle est immortalisée et validée sur la blockchain. Notre plateforme repose sur des principes fondamentaux de certification immuable, de validation par les pairs et de reconnaissance tangible des compétences à travers des NFTs.
@@ -107,6 +110,7 @@ const About = () => {
         <hr className="my-8" />
 
         <p className="text-center italic">Construisons ensemble l'avenir de la certification professionnelle.</p>
+        </div>
       </div>
     </div>
   );
