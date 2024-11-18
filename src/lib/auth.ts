@@ -24,15 +24,14 @@ export const checkUsernameExists = async (username: string): Promise<boolean> =>
   const { data, error } = await supabase
     .from('profiles')
     .select('username')
-    .eq('username', username)
-    .single();
+    .eq('username', username);
 
   if (error && error.code !== 'PGRST116') {
     console.error("Error checking username:", error);
     return false;
   }
 
-  return !!data;
+  return data && data.length > 0;
 };
 
 export const createUser = async (formData: UserFormData) => {
@@ -69,10 +68,9 @@ export const createUser = async (formData: UserFormData) => {
   const { data: existingProfileByUsername } = await supabase
     .from('profiles')
     .select('username')
-    .eq('username', formData.username)
-    .single();
+    .eq('username', formData.username);
 
-  if (existingProfileByUsername) {
+  if (existingProfileByUsername && existingProfileByUsername.length > 0) {
     toast({
       title: "Erreur",
       description: "Ce nom d'utilisateur est déjà pris",
@@ -87,8 +85,7 @@ export const createUser = async (formData: UserFormData) => {
   const { data: existingProfile } = await supabase
     .from('profiles')
     .select('id')
-    .eq('id', authData.user.id)
-    .single();
+    .eq('id', authData.user.id);
 
   const profileData = {
     username: formData.username,
@@ -108,7 +105,7 @@ export const createUser = async (formData: UserFormData) => {
   };
 
   // Si le profil existe déjà, on le met à jour au lieu de le créer
-  if (existingProfile) {
+  if (existingProfile && existingProfile.length > 0) {
     const { error: updateError } = await supabase
       .from('profiles')
       .update(profileData)

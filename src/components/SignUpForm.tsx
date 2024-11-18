@@ -102,14 +102,14 @@ const SignUpForm = () => {
     try {
       const success = await createUser({
         ...formData,
-        username: `@${formData.username}`, // Add @ before sending to API
+        username: formData.username, // Remove @ prefix when sending to API
       });
       if (success) {
         toast({
           title: "Compte créé avec succès",
           description: "Votre compte a été créé avec succès.",
         });
-        navigate(`/profile/${encodeURIComponent('@' + formData.username)}`);
+        navigate(`/profile/${encodeURIComponent(formData.username)}`);
       }
     } catch (error: any) {
       toast({
