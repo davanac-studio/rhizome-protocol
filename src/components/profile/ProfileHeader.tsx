@@ -103,6 +103,10 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     setIsEditing(false);
   };
 
+  const handleBannerAdjust = () => {
+    setIsEditing(true);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
@@ -123,7 +127,11 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
   return (
     <div className="relative">
-      <ProfileBanner bannerUrl={user.bannerUrl} />
+      <ProfileBanner 
+        bannerUrl={user.bannerUrl} 
+        isOwnProfile={isOwnProfile}
+        onAdjust={handleBannerAdjust}
+      />
       
       <div className="container max-w-5xl mx-auto px-4">
         <div className="relative -mt-24 mb-6 flex flex-col items-center">
