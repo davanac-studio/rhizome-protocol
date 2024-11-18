@@ -9,15 +9,25 @@ import { slugify } from "@/utils/slugify";
 
 const EditProject = () => {
   const { idWithSlug } = useParams();
+  // Extract the full ID from the URL parameter
   const id = idWithSlug?.split('-')[0];
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
 
-  const { data: project, isLoading } = useQuery({
+  const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
-      const { data: project, error } = await supabase
+      if (!id) {
+        toast({
+          title: "Erreur",
+          description: "ID du projet invalide",
+          variant: "destructive"
+        });
+        throw new Error("Invalid project ID");
+      }
+
+      const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select(`
           *,
@@ -45,12 +55,70 @@ const EditProject = () => {
         .eq('id', id)
         .single();
 
-      if (error) throw error;
-      if (!project) throw new Error('Project not found');
+      if (projectError) {
+        console.error('Error fetching project:', projectError);
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger le projet",
+          variant: "destructive"
+        });
+        navigate('/');
+        throw projectError;
+      }
 
-      return transformDatabaseProject(project);
-    }
+      if (!projectData) {
+        toast({
+          title: "Erreur",
+          description: "Projet non trouvé",
+          variant: "destructive"
+        });
+        navigate('/');
+        throw new Error("Project not found");
+      }
+
+      return transformDatabaseProject(projectData);
+    },
+    retry: false,
+    enabled: !!id
   });
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Une erreur est survenue</h2>
+          <p className="text-gray-600 mb-4">Impossible de charger le projet</p>
+          <Button variant="outline" onClick={() => navigate('/')}>
+            Retour à l'accueil
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900">Chargement...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Projet non trouvé</h2>
+          <p className="text-gray-600 mb-4">Le projet que vous recherchez n'existe pas ou a été supprimé.</p>
+          <Button variant="outline" onClick={() => navigate('/')}>
+            Retour à l'accueil
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (updatedProject: any) => {
     if (!user) {
@@ -122,14 +190,6 @@ const EditProject = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>Chargement...</div>;
-  }
-
-  if (!project) {
-    return <div>Projet non trouvé</div>;
-  }
-
   const initialFormData = {
     title: project.title,
     description: project.description,
@@ -147,7 +207,7 @@ const EditProject = () => {
   return (
     <ProjectForm
       onSubmit={handleSubmit}
-      onCancel={() => navigate(`/project/${id}`)}
+      onCancel={() => navigate(`/project/${idWithSlug}`)}
       initialData={initialFormData}
       initialParticipants={project.participants?.map(p => ({
         profile: p.id,
