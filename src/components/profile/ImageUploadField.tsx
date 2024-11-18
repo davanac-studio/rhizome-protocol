@@ -11,6 +11,7 @@ interface ImageUploadFieldProps {
   onChange: (value: string) => void;
   type: "avatar" | "banner";
   required?: boolean;
+  buttonText?: string;
 }
 
 export const ImageUploadField = ({
@@ -19,6 +20,7 @@ export const ImageUploadField = ({
   onChange,
   type,
   required = false,
+  buttonText,
 }: ImageUploadFieldProps) => {
   const { toast } = useToast();
   const {
@@ -52,16 +54,19 @@ export const ImageUploadField = ({
 
   return (
     <div className="space-y-4">
-      <Label>
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
-      </Label>
+      {label && (
+        <Label>
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </Label>
+      )}
       
       <div className="flex flex-col items-center gap-4">
         <UploadButton
           uploading={uploading}
           type={type}
           onClick={() => document.getElementById(`${type}-upload`)?.click()}
+          text={buttonText}
         />
       </div>
 

@@ -1,29 +1,35 @@
 import { Button } from "@/components/ui/button";
-import { UploadCloud } from "lucide-react";
+import { ImageIcon, Loader2 } from "lucide-react";
 
 interface UploadButtonProps {
   uploading: boolean;
-  type: string;
+  type: "avatar" | "banner";
   onClick: () => void;
+  text?: string;
 }
 
-export const UploadButton = ({ uploading, type, onClick }: UploadButtonProps) => {
-  const buttonText = type === 'banner' 
-    ? uploading ? "Téléchargement..." : "Modifier la bannière"
-    : uploading ? "Téléchargement..." : "Modifier l'avatar";
-
+export const UploadButton = ({ uploading, type, onClick, text }: UploadButtonProps) => {
+  const defaultText = type === 'avatar' ? "Modifier l'avatar" : "Modifier la bannière";
+  
   return (
     <Button
       type="button"
       variant="outline"
-      className="w-full h-32 flex flex-col items-center justify-center gap-2 border-dashed"
       onClick={onClick}
       disabled={uploading}
+      className="w-full sm:w-auto"
     >
-      <UploadCloud className="h-8 w-8 text-muted-foreground" />
-      <span className="text-muted-foreground">
-        {buttonText}
-      </span>
+      {uploading ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Chargement...
+        </>
+      ) : (
+        <>
+          <ImageIcon className="mr-2 h-4 w-4" />
+          {text || defaultText}
+        </>
+      )}
     </Button>
   );
 };
