@@ -1,122 +1,43 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { ProjectForm } from "@/components/project/ProjectForm";
 import { useAuth } from "@/contexts/AuthContext";
-import { transformDatabaseProject } from "@/utils/projectTransformers";
+import { supabase } from "@/lib/supabase";
 import { slugify } from "@/utils/slugify";
+import { EditProjectError } from "@/components/project/EditProjectError";
+import { EditProjectLoading } from "@/components/project/EditProjectLoading";
+import { useProjectQuery } from "@/hooks/useProjectQuery";
 
 const EditProject = () => {
   const { idWithSlug } = useParams();
-  // Extract the full ID from the URL parameter
-  const id = idWithSlug?.split('-')[0];
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
 
-  const { data: project, isLoading, error } = useQuery({
-    queryKey: ['project', id],
-    queryFn: async () => {
-      if (!id) {
-        toast({
-          title: "Erreur",
-          description: "ID du projet invalide",
-          variant: "destructive"
-        });
-        throw new Error("Invalid project ID");
-      }
-
-      const { data: projectData, error: projectError } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          team_leader_profile:profiles!projects_team_leader_fkey (
-            id,
-            first_name,
-            last_name,
-            username,
-            avatar_url,
-            expertise
-          ),
-          project_participants (
-            user:profiles!project_participants_user_id_fkey (
-              id,
-              first_name,
-              last_name,
-              username,
-              avatar_url,
-              expertise
-            ),
-            contribution,
-            contribution_description
-          )
-        `)
-        .eq('id', id)
-        .single();
-
-      if (projectError) {
-        console.error('Error fetching project:', projectError);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger le projet",
-          variant: "destructive"
-        });
-        navigate('/');
-        throw projectError;
-      }
-
-      if (!projectData) {
-        toast({
-          title: "Erreur",
-          description: "Projet non trouvé",
-          variant: "destructive"
-        });
-        navigate('/');
-        throw new Error("Project not found");
-      }
-
-      return transformDatabaseProject(projectData);
-    },
-    retry: false,
-    enabled: !!id
-  });
+  // Extract the full ID from the URL parameter, including any hyphens that might be part of the ID
+  const id = idWithSlug?.includes('-') ? idWithSlug.split('-')[0] : idWithSlug;
+  
+  const { data: project, isLoading, error } = useProjectQuery(id);
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Une erreur est survenue</h2>
-          <p className="text-gray-600 mb-4">Impossible de charger le projet</p>
-          <Button variant="outline" onClick={() => navigate('/')}>
-            Retour à l'accueil
-          </Button>
-        </div>
-      </div>
+      <EditProjectError 
+        title="Une erreur est survenue"
+        description="Impossible de charger le projet"
+      />
     );
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900">Chargement...</h2>
-        </div>
-      </div>
-    );
+    return <EditProjectLoading />;
   }
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Projet non trouvé</h2>
-          <p className="text-gray-600 mb-4">Le projet que vous recherchez n'existe pas ou a été supprimé.</p>
-          <Button variant="outline" onClick={() => navigate('/')}>
-            Retour à l'accueil
-          </Button>
-        </div>
-      </div>
+      <EditProjectError 
+        title="Projet non trouvé"
+        description="Le projet que vous recherchez n'existe pas ou a été supprimé."
+      />
     );
   }
 
@@ -150,7 +71,7 @@ const EditProject = () => {
 
       if (updateError) throw updateError;
 
-      // Mise à jour des participants
+      // Update participants
       const { error: deleteParticipantsError } = await supabase
         .from('project_participants')
         .delete()
