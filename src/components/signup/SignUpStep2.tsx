@@ -37,15 +37,6 @@ interface SignUpStep2Props {
 export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2Props) => {
   return (
     <div className="space-y-6">
-      <ImageFields
-        avatarUrl={formData.avatarUrl}
-        bannerUrl={formData.bannerUrl}
-        firstName={formData.firstName}
-        lastName={formData.lastName}
-        onAvatarChange={(value) => onChange('avatarUrl', value)}
-        onBannerChange={(value) => onChange('bannerUrl', value)}
-      />
-
       <PersonalInfoFields
         firstName={formData.firstName}
         lastName={formData.lastName}
@@ -53,6 +44,15 @@ export const SignUpStep2 = ({ formData, onChange, onBack, loading }: SignUpStep2
         expertise={formData.expertise}
         entreprise={formData.entreprise}
         onChange={onChange}
+      />
+
+      <ImageFields
+        avatarUrl={formData.avatarUrl}
+        bannerUrl={formData.bannerUrl}
+        firstName={formData.firstName}
+        lastName={formData.lastName}
+        onAvatarChange={(value) => onChange('avatarUrl', value)}
+        onBannerChange={(value) => onChange('bannerUrl', value)}
       />
 
       <BioField
