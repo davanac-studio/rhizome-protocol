@@ -32,6 +32,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     spotify: user?.spotify || "",
     instagram: user?.instagram || "",
     facebook: user?.facebook || "",
+    accountType: user?.account_type || "particulier",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -130,6 +131,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         expertise={formData.expertise}
         entreprise={formData.entreprise}
         bio={formData.bio}
+        accountType={formData.accountType}
         onFieldChange={handleFieldChange}
       />
 
