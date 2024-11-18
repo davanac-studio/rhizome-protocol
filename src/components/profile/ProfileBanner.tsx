@@ -15,7 +15,9 @@ export const ProfileBanner = ({ bannerUrl }: ProfileBannerProps) => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gray-200" />
+          <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+            Modifier la bannière
+          </div>
         )}
       </AspectRatio>
     </div>
