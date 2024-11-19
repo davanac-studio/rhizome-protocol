@@ -27,6 +27,11 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
     ...(project.participants || [])
   ];
 
+  // Get unique participants by filtering out duplicates based on username
+  const uniqueParticipants = allParticipants.filter((participant, index, self) =>
+    index === self.findIndex((p) => p.username === participant.username)
+  );
+
   return (
     <Card
       className="group cursor-pointer overflow-hidden transition-all hover:shadow-lg"
@@ -44,6 +49,20 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           <Badge variant="secondary" className="bg-blue-100 text-blue-700">
             {project.category}
           </Badge>
+          {project.author.collectif && (
+            <Avatar
+              className="h-6 w-6 border-2 border-white"
+              onClick={(e) => handleProfileClick(e, project.author.username)}
+            >
+              <AvatarImage
+                src={project.author.avatar || "/default-avatar.png"}
+                alt={project.author.collectif}
+              />
+              <AvatarFallback>
+                {project.author.collectif.split(" ").map(n => n[0]).join("")}
+              </AvatarFallback>
+            </Avatar>
+          )}
         </div>
         <h3 className="mb-2 text-xl font-semibold text-gray-900">
           {project.title}
@@ -56,7 +75,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             {new Date(project.dueDate).toLocaleDateString("fr-FR")}
           </div>
           <div className="flex -space-x-2">
-            {allParticipants.map((participant, index) => (
+            {uniqueParticipants.map((participant, index) => (
               <Avatar
                 key={index}
                 className="h-8 w-8 border-2 border-white hover:z-10 cursor-pointer"
