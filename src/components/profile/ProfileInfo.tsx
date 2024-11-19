@@ -22,7 +22,7 @@ export const ProfileInfo = ({
 
   return (
     <div className="text-center mt-4">
-      {isCollectif && collectif ? (
+      {isCollectif ? (
         <>
           <h1 className="text-2xl font-bold text-gray-900">
             {collectif}
