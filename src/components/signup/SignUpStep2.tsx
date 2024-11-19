@@ -25,7 +25,7 @@ export const SignUpStep2 = ({
 }: SignUpStep2Props) => {
   return (
     <div className="space-y-6">
-      {formData.accountType === 'particulier' && (
+      {formData.accountType === 'individuel' && (
         <>
           <FormField label="Prénom" required>
             <Input
@@ -47,13 +47,13 @@ export const SignUpStep2 = ({
         </>
       )}
 
-      {formData.accountType === 'entreprise' && (
-        <FormField label="Nom de l'entreprise" required>
+      {formData.accountType === 'collectif' && (
+        <FormField label="Nom du collectif" required>
           <Input
             required
             value={formData.entreprise}
             onChange={(e) => onChange('entreprise', e.target.value)}
-            placeholder="Nom de votre entreprise"
+            placeholder="Nom de votre collectif"
           />
         </FormField>
       )}
