@@ -19,7 +19,7 @@ export const ProfileInfo = ({
 }: ProfileInfoProps) => {
   return (
     <div className="text-center mt-4">
-      {accountType === 'collectif' ? (
+      {accountType === "collectif" ? (
         <>
           <h1 className="text-2xl font-bold text-gray-900">
             {collectif}
