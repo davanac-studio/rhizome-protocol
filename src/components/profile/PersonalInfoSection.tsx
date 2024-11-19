@@ -35,15 +35,15 @@ export const PersonalInfoSection = ({
     const fetchEnterprises = async () => {
       const { data } = await supabase
         .from('profiles')
-        .select('id, username, collectif')
+        .select('id, username, "collectif-name"')
         .eq('account_type', 'collectif')
-        .not('collectif', 'is', null);
+        .not('collectif-name', 'is', null);
       
       if (data) {
         setEnterprises(data.map(enterprise => ({
           id: enterprise.id,
           username: enterprise.username,
-          collectif: enterprise.collectif
+          collectif: enterprise["collectif-name"]
         })));
       }
     };
