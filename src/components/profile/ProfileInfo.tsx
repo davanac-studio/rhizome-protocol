@@ -17,11 +17,12 @@ export const ProfileInfo = ({
   expertise,
   collectif
 }: ProfileInfoProps) => {
-  const isCollectif = accountType?.toLowerCase() === 'collectif';
+  const isCollectif = accountType?.toLowerCase() === 'collectif' || 
+                     accountType === 'Collectif';
 
   return (
     <div className="text-center mt-4">
-      {isCollectif ? (
+      {isCollectif && collectif ? (
         <>
           <h1 className="text-2xl font-bold text-gray-900">
             {collectif}
