@@ -4,7 +4,7 @@ export interface ProfileFormData {
   username: string;
   bio: string;
   expertise: string;
-  entreprise: string;
+  collectif: string;
   avatarUrl: string;
   bannerUrl: string;
   website: string;

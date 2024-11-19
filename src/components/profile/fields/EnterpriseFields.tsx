@@ -2,22 +2,22 @@ import { Input } from "@/components/ui/input";
 import { FormField } from "@/components/signup/FormField";
 
 interface EnterpriseFieldsProps {
-  entreprise: string;
+  collectif: string;
   required?: boolean;
   onFieldChange: (field: string, value: string) => void;
 }
 
 export const EnterpriseFields = ({
-  entreprise,
+  collectif,
   required = false,
   onFieldChange,
 }: EnterpriseFieldsProps) => {
   return (
-    <FormField label="Nom de l'entreprise" required={required}>
+    <FormField label="Nom du collectif" required={required}>
       <Input
-        value={entreprise}
-        onChange={(e) => onFieldChange("entreprise", e.target.value)}
-        placeholder="Nom de votre entreprise"
+        value={collectif}
+        onChange={(e) => onFieldChange("collectif", e.target.value)}
+        placeholder="Nom de votre collectif"
         required={required}
       />
     </FormField>

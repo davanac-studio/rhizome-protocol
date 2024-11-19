@@ -29,7 +29,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     username: user?.username || "",
     bio: user?.bio || "",
     expertise: user?.expertise || "",
-    entreprise: user?.entreprise || "",
+    collectif: user?.collectif || "",
     avatarUrl: user?.avatar_url || user?.avatarUrl || "",
     bannerUrl: user?.banner_url || user?.bannerUrl || "",
     website: user?.website || "",
@@ -59,7 +59,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     setLoading(true);
 
     try {
-      // Vérifier si le nouveau nom d'utilisateur est déjà pris
       if (formData.username !== user.username) {
         const { data: existingUser } = await supabase
           .from('profiles')
@@ -79,7 +78,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         }
       }
 
-      // Mettre à jour le profil
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -88,7 +86,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
           last_name: formData.lastName,
           bio: formData.bio,
           expertise: formData.expertise,
-          entreprise: formData.entreprise,
+          collectif: formData.collectif,
           avatar_url: formData.avatarUrl,
           banner_url: formData.bannerUrl,
           website: formData.website,
@@ -118,7 +116,6 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
       onUpdate(updatedUser);
       onClose();
 
-      // Si le nom d'utilisateur a changé, rediriger vers le nouveau profil
       if (formData.username !== user.username) {
         navigate(`/profile/${formData.username}`, { replace: true });
         window.location.reload();
@@ -184,7 +181,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         firstName={formData.firstName}
         lastName={formData.lastName}
         expertise={formData.expertise}
-        entreprise={formData.entreprise}
+        collectif={formData.collectif}
         bio={formData.bio}
         username={formData.username}
         accountType={formData.accountType}

@@ -10,7 +10,7 @@ interface PersonalInfoSectionProps {
   firstName: string;
   lastName: string;
   expertise: string;
-  entreprise: string;
+  collectif: string;
   bio: string;
   username: string;
   accountType: string;
@@ -22,7 +22,7 @@ export const PersonalInfoSection = ({
   firstName,
   lastName,
   expertise,
-  entreprise,
+  collectif,
   bio,
   username,
   accountType,
@@ -35,12 +35,16 @@ export const PersonalInfoSection = ({
     const fetchEnterprises = async () => {
       const { data } = await supabase
         .from('profiles')
-        .select('id, username, entreprise')
-        .eq('account_type', 'entreprise')
-        .not('entreprise', 'is', null);
+        .select('id, username, collectif')
+        .eq('account_type', 'collectif')
+        .not('collectif', 'is', null);
       
       if (data) {
-        setEnterprises(data);
+        setEnterprises(data.map(enterprise => ({
+          id: enterprise.id,
+          username: enterprise.username,
+          collectif: enterprise.collectif
+        })));
       }
     };
 
@@ -61,14 +65,14 @@ export const PersonalInfoSection = ({
           firstName={firstName}
           lastName={lastName}
           expertise={expertise}
-          entreprise={entreprise}
+          collectif={collectif}
           enterprises={enterprises}
           required={false}
           onFieldChange={onFieldChange}
         />
       ) : (
         <EnterpriseFields
-          entreprise={entreprise}
+          collectif={collectif}
           required={required}
           onFieldChange={onFieldChange}
         />

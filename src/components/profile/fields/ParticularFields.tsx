@@ -7,7 +7,7 @@ interface ParticularFieldsProps {
   firstName: string;
   lastName: string;
   expertise: string;
-  entreprise: string;
+  collectif: string;
   enterprises: Enterprise[];
   required?: boolean;
   onFieldChange: (field: string, value: string) => void;
@@ -17,7 +17,7 @@ export const ParticularFields = ({
   firstName,
   lastName,
   expertise,
-  entreprise,
+  collectif,
   enterprises,
   required = false,
   onFieldChange,
@@ -41,19 +41,19 @@ export const ParticularFields = ({
         </FormField>
       </div>
 
-      <FormField label="Entreprise" required={required}>
+      <FormField label="Collectif" required={required}>
         <Select
-          value={entreprise}
-          onValueChange={(value) => onFieldChange("entreprise", value)}
+          value={collectif}
+          onValueChange={(value) => onFieldChange("collectif", value)}
           required={required}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Sélectionnez une entreprise" />
+            <SelectValue placeholder="Sélectionnez un collectif" />
           </SelectTrigger>
           <SelectContent>
             {enterprises.map((enterprise) => (
-              <SelectItem key={enterprise.id} value={enterprise.entreprise}>
-                {enterprise.entreprise}
+              <SelectItem key={enterprise.id} value={enterprise.collectif}>
+                {enterprise.collectif}
               </SelectItem>
             ))}
           </SelectContent>
