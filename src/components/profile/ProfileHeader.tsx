@@ -151,6 +151,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             accountType={user?.accountType}
             entreprise={user?.entreprise}
             expertise={user?.expertise}
+            collectif={user?.collectif}
           />
 
           <ProfileSocial user={user} />
@@ -173,7 +174,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 <Pencil className="h-4 w-4" />
                 Modifier le profil
               </Button>
-              {user.accountType !== 'entreprise' && (
+              {user.accountType !== 'collectif' && (
                 <div className="h-10">
                   <NewProjectDialog />
                 </div>
