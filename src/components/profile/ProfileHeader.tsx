@@ -60,6 +60,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         return;
       }
 
+      console.log('Profile data:', userData); // Debug log
+
       setUser({
         ...userData,
         name: userData.first_name && userData.last_name ? 
