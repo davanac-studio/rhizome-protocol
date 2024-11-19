@@ -12,7 +12,7 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    accountType: 'particulier', // Changed from 'individuel' to 'particulier'
+    accountType: 'individuel',
     firstName: "",
     lastName: "",
     username: "",
@@ -52,7 +52,7 @@ const SignUpForm = () => {
   };
 
   const validateStep2 = () => {
-    if (formData.accountType === 'particulier' && (!formData.firstName || !formData.lastName)) {
+    if (formData.accountType === 'individuel' && (!formData.firstName || !formData.lastName)) {
       toast({
         title: "Erreur de validation",
         description: "Veuillez remplir tous les champs obligatoires",
