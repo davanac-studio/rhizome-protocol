@@ -4,7 +4,6 @@ interface ProfileInfoProps {
   name?: string;
   username?: string;
   accountType?: string;
-  entreprise?: string;
   expertise?: string;
   collectif?: string;
 }
@@ -20,7 +19,14 @@ export const ProfileInfo = ({
 }: ProfileInfoProps) => {
   return (
     <div className="text-center mt-4">
-      {accountType === 'individuel' ? (
+      {accountType === 'collectif' ? (
+        <>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {collectif}
+          </h1>
+          <p className="text-gray-500 mt-1">@{username}</p>
+        </>
+      ) : (
         <>
           <h1 className="text-2xl font-bold text-gray-900">
             {firstName && lastName ? `${firstName} ${lastName}` : name}
@@ -29,13 +35,6 @@ export const ProfileInfo = ({
           {expertise && (
             <p className="text-gray-600 mt-2 font-medium">{expertise}</p>
           )}
-        </>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {collectif}
-          </h1>
-          <p className="text-gray-500 mt-1">@{username}</p>
         </>
       )}
     </div>
