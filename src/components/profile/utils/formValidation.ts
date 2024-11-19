@@ -34,10 +34,10 @@ export const validateProfileForm = (formData: ProfileFormData, toast: ToastFunct
     return false;
   }
 
-  if (formData.accountType === 'entreprise' && !formData.entreprise) {
+  if (formData.accountType === 'collectif' && !formData.collectif) {
     toast({
       title: "Erreur de validation",
-      description: "L'entreprise est obligatoire",
+      description: "Le nom du collectif est obligatoire",
       variant: "destructive",
     });
     return false;
