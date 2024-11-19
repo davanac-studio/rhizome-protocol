@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Project } from "@/types/project";
 import { generateProjectSlug } from "@/utils/slugify";
 import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ProjectCardProps {
   project: Project;
@@ -20,6 +21,11 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
     e.stopPropagation();
     navigate(`/profile/${username}`);
   };
+
+  const allParticipants = [
+    project.author,
+    ...(project.participants || [])
+  ];
 
   return (
     <Card
@@ -42,30 +48,29 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         <h3 className="mb-2 text-xl font-semibold text-gray-900">
           {project.title}
         </h3>
-        <p className="mb-4 line-clamp-2 text-sm text-gray-600">
+        <p className="mb-4 text-sm text-gray-600">
           {project.description}
         </p>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img
-              src={project.author.avatar || "/default-avatar.png"}
-              alt={project.author.name}
-              className="h-8 w-8 rounded-full"
-            />
-            <div>
-              <p
-                className="text-sm font-medium text-gray-900 hover:underline"
-                onClick={(e) => handleProfileClick(e, project.author.username)}
-              >
-                {project.author.name}
-              </p>
-              <p className="text-xs text-gray-500">{project.author.expertise}</p>
-            </div>
+          <div className="text-xs text-gray-500">
+            {new Date(project.dueDate).toLocaleDateString("fr-FR")}
           </div>
-          <div className="text-right">
-            <p className="text-xs text-gray-500">
-              {new Date(project.dueDate).toLocaleDateString("fr-FR")}
-            </p>
+          <div className="flex -space-x-2">
+            {allParticipants.map((participant, index) => (
+              <Avatar
+                key={index}
+                className="h-8 w-8 border-2 border-white hover:z-10 cursor-pointer"
+                onClick={(e) => handleProfileClick(e, participant.username)}
+              >
+                <AvatarImage
+                  src={participant.avatar || "/default-avatar.png"}
+                  alt={participant.name}
+                />
+                <AvatarFallback>
+                  {participant.name.split(" ").map(n => n[0]).join("")}
+                </AvatarFallback>
+              </Avatar>
+            ))}
           </div>
         </div>
       </div>
