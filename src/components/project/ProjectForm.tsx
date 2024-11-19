@@ -59,6 +59,10 @@ export const ProjectForm = ({
     return total <= 100;
   };
 
+  const validateParticipants = () => {
+    return participants.every(p => p.profile && p.profile.trim() !== "");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -84,6 +88,15 @@ export const ProjectForm = ({
       return;
     }
 
+    if (!validateParticipants()) {
+      toast({
+        title: "Erreur",
+        description: "Tous les participants doivent être sélectionnés",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -93,7 +106,7 @@ export const ProjectForm = ({
           contribution: teamLeaderContribution,
           contributionDescription: teamLeaderContributionDescription
         },
-        participants: participants.map(p => ({
+        participants: participants.filter(p => p.profile && p.profile.trim() !== "").map(p => ({
           profile: p.profile,
           contribution: p.contribution,
           contributionDescription: p.contributionDescription

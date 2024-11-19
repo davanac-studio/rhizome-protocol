@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { TeamLeaderForm } from "./TeamLeaderForm";
 import { ParticipantForm } from "./ParticipantForm";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ParticipantsSectionProps {
   participants: Array<{
@@ -28,6 +29,7 @@ export const ParticipantsSection = ({
   teamLeaderContributionDescription,
   setTeamLeaderContributionDescription
 }: ParticipantsSectionProps) => {
+  const { toast } = useToast();
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
 
   const handleAddParticipant = () => {
@@ -39,6 +41,16 @@ export const ParticipantsSection = ({
   };
 
   const handleParticipantChange = (index: number, field: 'profile' | 'contribution' | 'contributionDescription', value: string | number) => {
+    // Validate profile ID before updating
+    if (field === 'profile' && typeof value === 'string' && !value.trim()) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner un participant valide",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const newParticipants = [...participants];
     newParticipants[index] = {
       ...newParticipants[index],
