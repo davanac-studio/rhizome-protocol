@@ -19,6 +19,7 @@ interface ParticipantsSectionProps {
   setTeamLeaderContribution: React.Dispatch<React.SetStateAction<number>>;
   teamLeaderContributionDescription: string;
   setTeamLeaderContributionDescription: React.Dispatch<React.SetStateAction<string>>;
+  teamLeaderId?: string;
 }
 
 export const ParticipantsSection = ({
@@ -27,7 +28,8 @@ export const ParticipantsSection = ({
   teamLeaderContribution,
   setTeamLeaderContribution,
   teamLeaderContributionDescription,
-  setTeamLeaderContributionDescription
+  setTeamLeaderContributionDescription,
+  teamLeaderId
 }: ParticipantsSectionProps) => {
   const { toast } = useToast();
   const remainingContribution = 100 - teamLeaderContribution - participants.reduce((acc, curr) => acc + curr.contribution, 0);
@@ -76,6 +78,7 @@ export const ParticipantsSection = ({
           onRemove={() => handleRemoveParticipant(index)}
           onChange={(field, value) => handleParticipantChange(index, field, value)}
           existingParticipants={participants.map(p => p.profile).filter((_, i) => i !== index)}
+          teamLeaderId={teamLeaderId}
         />
       ))}
 

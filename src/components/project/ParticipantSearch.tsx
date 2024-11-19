@@ -10,9 +10,10 @@ interface ParticipantSearchProps {
   value: string;
   onSelect: (profileId: string) => void;
   existingParticipants: string[];
+  teamLeaderId?: string;
 }
 
-export const ParticipantSearch = ({ value, onSelect, existingParticipants }: ParticipantSearchProps) => {
+export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamLeaderId }: ParticipantSearchProps) => {
   const [open, setOpen] = useState(false);
 
   const { data: profiles } = useQuery({
@@ -23,9 +24,14 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
         .select('*')
         .eq('account_type', 'individuel');
 
-      // Only add the not.in filter if there are existing participants
-      if (existingParticipants.length > 0) {
-        query = query.not('id', 'in', existingParticipants);
+      // Filter out team leader and existing participants
+      const excludedProfiles = [...existingParticipants];
+      if (teamLeaderId) {
+        excludedProfiles.push(teamLeaderId);
+      }
+
+      if (excludedProfiles.length > 0) {
+        query = query.not('id', 'in', excludedProfiles);
       }
 
       const { data, error } = await query;

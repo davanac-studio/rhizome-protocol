@@ -14,6 +14,7 @@ interface ParticipantFormProps {
   onRemove: () => void;
   onChange: (field: 'profile' | 'contribution' | 'contributionDescription', value: string | number) => void;
   existingParticipants: string[];
+  teamLeaderId?: string;
 }
 
 export const ParticipantForm = ({
@@ -22,6 +23,7 @@ export const ParticipantForm = ({
   onRemove,
   onChange,
   existingParticipants,
+  teamLeaderId,
 }: ParticipantFormProps) => {
   return (
     <div className="space-y-2 pt-2 border-t">
@@ -43,6 +45,7 @@ export const ParticipantForm = ({
             onChange('profile', profileId);
           }}
           existingParticipants={existingParticipants}
+          teamLeaderId={teamLeaderId}
         />
         <div className="flex items-center gap-2">
           <Input
