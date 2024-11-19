@@ -70,7 +70,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         bannerUrl: userData.banner_url,
         accountType: userData.account_type || 'individuel',
         expertise: userData.expertise,
-        collectif: userData.collectif,
+        collectif: userData["collectif-name"],
       });
       
       setIsOwnProfile(currentUser?.id === userData.id);
