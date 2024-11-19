@@ -4,7 +4,6 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileProjects } from "@/components/profile/ProfileProjects";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserProfile() {
   const { username } = useParams();
@@ -12,7 +11,6 @@ export default function UserProfile() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const { user: currentUser } = useAuth();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
