@@ -100,7 +100,7 @@ export const createUser = async (formData: UserFormData) => {
     spotify: formData.spotify,
     instagram: formData.instagram,
     facebook: formData.facebook,
-    entreprise: formData.entreprise,
+    "collectif-name": formData.accountType === 'collectif' ? formData.entreprise : null,
     account_type: formData.accountType,
   };
 
