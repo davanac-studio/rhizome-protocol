@@ -15,7 +15,6 @@ export const ProfileInfo = ({
   name,
   username,
   accountType,
-  entreprise,
   expertise,
   collectif
 }: ProfileInfoProps) => {
@@ -23,7 +22,7 @@ export const ProfileInfo = ({
     <div className="text-center mt-4">
       <h1 className="text-2xl font-bold text-gray-900">
         {accountType === 'collectif' ? (
-          collectif || entreprise
+          collectif
         ) : (
           firstName && lastName ? `${firstName} ${lastName}` : name
         )}
