@@ -68,8 +68,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         avatarUrl: userData.avatar_url,
         bannerUrl: userData.banner_url,
         accountType: userData.account_type,
+        entreprise: userData.entreprise,
         expertise: userData.expertise,
-        collectif: userData.collectif,
       });
       
       setIsOwnProfile(currentUser?.id === userData.id);
@@ -149,8 +149,8 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
             name={user?.name}
             username={user?.username}
             accountType={user?.accountType}
+            entreprise={user?.entreprise}
             expertise={user?.expertise}
-            collectif={user?.collectif}
           />
 
           <ProfileSocial user={user} />
@@ -173,7 +173,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 <Pencil className="h-4 w-4" />
                 Modifier le profil
               </Button>
-              {user.accountType !== 'collectif' && (
+              {user.accountType !== 'entreprise' && (
                 <div className="h-10">
                   <NewProjectDialog />
                 </div>

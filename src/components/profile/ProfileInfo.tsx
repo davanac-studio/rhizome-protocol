@@ -6,7 +6,6 @@ interface ProfileInfoProps {
   accountType?: string;
   entreprise?: string;
   expertise?: string;
-  collectif?: string;
 }
 
 export const ProfileInfo = ({
@@ -15,20 +14,20 @@ export const ProfileInfo = ({
   name,
   username,
   accountType,
-  expertise,
-  collectif
+  entreprise,
+  expertise
 }: ProfileInfoProps) => {
   return (
     <div className="text-center mt-4">
       <h1 className="text-2xl font-bold text-gray-900">
-        {accountType === 'collectif' ? (
-          collectif
+        {accountType === 'entreprise' ? (
+          entreprise
         ) : (
           firstName && lastName ? `${firstName} ${lastName}` : name
         )}
       </h1>
       <p className="text-gray-500 mt-1">@{username}</p>
-      {accountType === 'individuel' && expertise && (
+      {accountType === 'particulier' && expertise && (
         <p className="text-gray-600 mt-2 font-medium">{expertise}</p>
       )}
     </div>
