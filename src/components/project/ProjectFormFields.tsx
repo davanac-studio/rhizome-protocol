@@ -16,9 +16,9 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, first_name, last_name, expertise, entreprise')
-        .not('entreprise', 'is', null)
-        .neq('entreprise', '');
+        .select('id, first_name, last_name, expertise, collectif')
+        .not('collectif', 'is', null)
+        .neq('collectif', '');
       
       if (error) throw error;
       return data || [];
@@ -115,19 +115,19 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Client</label>
+        <label className="text-sm font-medium">Collectif</label>
         <Select
           value={formData.client}
           onValueChange={(value) => setFormData({ ...formData, client: value })}
         >
           <SelectTrigger>
-            <SelectValue placeholder={isLoading ? "Chargement..." : "Sélectionnez un client"} />
+            <SelectValue placeholder={isLoading ? "Chargement..." : "Sélectionnez un collectif"} />
           </SelectTrigger>
           <SelectContent>
             {profiles && profiles.length > 0 ? (
               profiles.map((profile) => (
                 <SelectItem key={profile.id} value={profile.id}>
-                  {profile.entreprise}
+                  {profile.collectif}
                   {profile.expertise && (
                     <span className="ml-2 text-sm text-muted-foreground">
                       ({profile.expertise})
@@ -137,7 +137,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
               ))
             ) : (
               <SelectItem value="no-clients" disabled>
-                {isLoading ? "Chargement des clients..." : "Aucun client entreprise disponible"}
+                {isLoading ? "Chargement des collectifs..." : "Aucun collectif disponible"}
               </SelectItem>
             )}
           </SelectContent>
