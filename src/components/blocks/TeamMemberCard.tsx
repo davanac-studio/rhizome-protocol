@@ -29,6 +29,7 @@ export const TeamMemberCard = ({
   };
 
   const isClient = expertise === "Client";
+  const isCollective = expertise === "Collectif";
   const fallbackText = name ? name[0] : '?';
 
   return (
@@ -45,7 +46,8 @@ export const TeamMemberCard = ({
           </Avatar>
           <div className="flex flex-col min-w-0 flex-1">
             <h4 className="font-semibold text-left whitespace-normal break-words">{name}</h4>
-            {expertise && (
+            <p className="text-sm text-gray-600 text-left whitespace-normal break-words">@{username}</p>
+            {!isCollective && expertise && !isClient && (
               <p className="text-sm text-gray-600 text-left whitespace-normal break-words">{expertise}</p>
             )}
           </div>
