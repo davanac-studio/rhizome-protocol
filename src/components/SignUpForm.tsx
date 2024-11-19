@@ -12,7 +12,7 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    accountType: 'individuel',
+    accountType: 'particulier', // Changed from 'individuel' to 'particulier'
     firstName: "",
     lastName: "",
     username: "",
@@ -102,7 +102,7 @@ const SignUpForm = () => {
     try {
       const success = await createUser({
         ...formData,
-        username: formData.username, // Remove @ prefix when sending to API
+        username: formData.username,
       });
       if (success) {
         toast({
@@ -123,7 +123,6 @@ const SignUpForm = () => {
   };
 
   const handleFieldChange = (field: string, value: string) => {
-    // For username field, remove @ if it's at the start
     if (field === 'username') {
       value = value.startsWith('@') ? value.slice(1) : value;
     }
