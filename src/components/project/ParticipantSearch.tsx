@@ -21,7 +21,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants }: Par
       let query = supabase
         .from('profiles')
         .select('*')
-        .is('collectif', null);
+        .eq('account_type', 'individuel');
 
       // Only add the not.in filter if there are existing participants
       if (existingParticipants.length > 0) {
