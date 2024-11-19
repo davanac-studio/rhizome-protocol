@@ -39,7 +39,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     spotify: user?.spotify || "",
     instagram: user?.instagram || "",
     facebook: user?.facebook || "",
-    accountType: user?.account_type || "particulier",
+    accountType: user?.account_type || "individuel",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

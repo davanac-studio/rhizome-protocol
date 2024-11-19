@@ -32,15 +32,15 @@ export const SignUpStep1 = ({
           >
             <div>
               <RadioGroupItem
-                value="particulier"
-                id="particulier"
+                value="individuel"
+                id="individuel"
                 className="peer sr-only"
               />
               <Label
-                htmlFor="particulier"
+                htmlFor="individuel"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
               >
-                <span>Particulier</span>
+                <span>Individuel</span>
               </Label>
             </div>
             

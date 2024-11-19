@@ -12,7 +12,7 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    accountType: 'particulier',
+    accountType: 'individuel',
     firstName: "",
     lastName: "",
     username: "",

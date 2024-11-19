@@ -44,7 +44,7 @@ export const PersonalInfoSection = ({
       }
     };
 
-    if (accountType === 'particulier') {
+    if (accountType === 'individuel') {
       fetchEnterprises();
     }
   }, [accountType]);
