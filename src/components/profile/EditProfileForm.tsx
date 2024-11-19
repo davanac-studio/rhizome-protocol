@@ -29,7 +29,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
     username: user?.username || "",
     bio: user?.bio || "",
     expertise: user?.expertise || "",
-    collectif: user?.collectif || "",
+    collectif: user?.["collectif-name"] || "",
     avatarUrl: user?.avatar_url || user?.avatarUrl || "",
     bannerUrl: user?.banner_url || user?.bannerUrl || "",
     website: user?.website || "",
@@ -86,7 +86,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
           last_name: formData.lastName,
           bio: formData.bio,
           expertise: formData.expertise,
-          collectif: formData.collectif,
+          "collectif-name": formData.collectif,
           avatar_url: formData.avatarUrl,
           banner_url: formData.bannerUrl,
           website: formData.website,
@@ -106,6 +106,7 @@ export const EditProfileForm = ({ user, onClose, onUpdate }: EditProfileFormProp
         ...formData,
         avatar_url: formData.avatarUrl,
         banner_url: formData.bannerUrl,
+        "collectif-name": formData.collectif,
       };
 
       toast({
