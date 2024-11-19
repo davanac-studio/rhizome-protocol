@@ -62,14 +62,15 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
 
       setUser({
         ...userData,
-        name: `${userData.first_name} ${userData.last_name}`,
+        name: userData.first_name && userData.last_name ? 
+          `${userData.first_name} ${userData.last_name}` : '',
         firstName: userData.first_name,
         lastName: userData.last_name,
         avatarUrl: userData.avatar_url,
         bannerUrl: userData.banner_url,
-        accountType: userData.account_type,
-        entreprise: userData.entreprise,
+        accountType: userData.account_type || 'individuel',
         expertise: userData.expertise,
+        collectif: userData.collectif,
       });
       
       setIsOwnProfile(currentUser?.id === userData.id);
@@ -138,19 +139,18 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
       <div className="container max-w-5xl mx-auto px-4">
         <div className="relative -mt-24 mb-6 flex flex-col items-center">
           <ProfileAvatar
-            avatarUrl={user?.avatarUrl}
-            avatar={user?.avatar}
-            name={user?.name}
+            avatarUrl={user.avatarUrl}
+            name={user.name}
           />
           
           <ProfileInfo
-            firstName={user?.firstName}
-            lastName={user?.lastName}
-            name={user?.name}
-            username={user?.username}
-            accountType={user?.accountType}
-            expertise={user?.expertise}
-            collectif={user?.collectif}
+            firstName={user.firstName}
+            lastName={user.lastName}
+            name={user.name}
+            username={user.username}
+            accountType={user.accountType}
+            expertise={user.expertise}
+            collectif={user.collectif}
           />
 
           <ProfileSocial user={user} />
