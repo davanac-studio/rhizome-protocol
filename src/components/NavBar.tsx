@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/lib/supabase";
 
-const NavBar = () => {
+export const NavBar = () => {
   const { user } = useAuth();
 
   const handleLogout = async () => {
@@ -78,5 +78,3 @@ const NavBar = () => {
     </nav>
   );
 };
-
-export default NavBar;
