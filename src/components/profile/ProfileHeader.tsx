@@ -93,6 +93,12 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
     fetchUserData();
   }, [user?.username, currentUser?.id]);
 
+  const handleUpdate = async (updatedUser: any) => {
+    setUser(updatedUser);
+    await fetchUserData();
+    setIsEditing(false);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
