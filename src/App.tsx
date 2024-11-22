@@ -12,6 +12,7 @@ import UserProfile from "./pages/UserProfile";
 import About from "./pages/About";
 import Users from "./pages/Users";
 import NavBar from "./components/NavBar";
+import { BlogPostEditor } from "./components/blog/BlogPostEditor";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/profile/:username" element={<UserProfile />} />
               <Route path="/about" element={<About />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/posts/new" element={<BlogPostEditor />} />
             </Routes>
           </div>
         </BrowserRouter>
