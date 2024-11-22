@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { BlogPostWithAuthor } from "@/types/blog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -90,9 +90,9 @@ const Blog = () => {
                         <div>
                           <p className="font-medium">{featuredPost.author.username}</p>
                           <p className="text-sm text-gray-300">
-                            {formatDistanceToNow(
+                            {format(
                               new Date(featuredPost.published_at || featuredPost.created_at),
-                              { addSuffix: true }
+                              'MMMM d, yyyy'
                             )}
                           </p>
                         </div>
@@ -147,9 +147,9 @@ const Blog = () => {
                       <div>
                         <p className="text-sm font-medium">{post.author.username}</p>
                         <p className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(
+                          {format(
                             new Date(post.published_at || post.created_at),
-                            { addSuffix: true }
+                            'MMMM d, yyyy'
                           )}
                         </p>
                       </div>

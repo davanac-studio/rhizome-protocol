@@ -12,6 +12,7 @@ import UserProfile from "./pages/UserProfile";
 import About from "./pages/About";
 import Users from "./pages/Users";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import NavBar from "./components/NavBar";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/users" element={<Users />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
             </Routes>
           </div>
         </BrowserRouter>
