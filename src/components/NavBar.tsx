@@ -29,7 +29,7 @@ const NavBar = () => {
   };
 
   const getProfilePath = () => {
-    if (!user) return "/auth";
+    if (!user) return "/login";
     const username = user.user_metadata?.username || user.user_metadata?.preferred_username || user.id;
     return `/profile/${username}`;
   };
@@ -77,7 +77,7 @@ const NavBar = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/auth">
+              <Link to="/login">
                 <Button variant="outline" className="hover:bg-gray-100">
                   Se connecter
                 </Button>
