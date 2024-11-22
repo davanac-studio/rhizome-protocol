@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
-export const NavBar = () => {
+const NavBar = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -58,3 +58,5 @@ export const NavBar = () => {
     </nav>
   );
 };
+
+export default NavBar;
