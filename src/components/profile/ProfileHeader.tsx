@@ -164,8 +164,15 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 Modifier le profil
               </Button>
               {user.accountType === 'individuel' && (
-                <div className="h-10">
+                <div className="flex gap-3 h-10">
                   <NewProjectDialog />
+                  <Button
+                    variant="outline"
+                    onClick={() => navigate('/blog/new')}
+                    className="h-10"
+                  >
+                    Nouvel article
+                  </Button>
                 </div>
               )}
             </div>
