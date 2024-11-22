@@ -1,14 +1,12 @@
-export function slugify(text: string): string {
+export const slugify = (text: string): string => {
   return text
     .toString()
     .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-}
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
+};
 
 export const generateProjectSlug = (title: string, id: string): string => {
   const slug = slugify(title);
@@ -29,6 +27,3 @@ export const extractIdFromSlug = (idWithSlug: string | undefined): string | unde
   
   return match[1];
 };
-
-// Add default export
-export default slugify;
