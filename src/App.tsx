@@ -1,47 +1,35 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Index from "./pages/Index";
-import ProjectDetails from "./pages/ProjectDetails";
-import EditProject from "./pages/EditProject";
-import Auth from "./pages/Auth";
-import UserProfile from "./pages/UserProfile";
-import About from "./pages/About";
-import Users from "./pages/Users";
+import { ThemeProvider } from "@/components/ui/theme";
+import { NavBar } from "@/components/NavBar";
+import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-import NavBar from "./components/NavBar";
+import CreateBlogPost from "./pages/CreateBlogPost";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen bg-gray-50">
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <NavBar />
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/project/:idWithSlug" element={<ProjectDetails />} />
-              <Route path="/project/:idWithSlug/edit" element={<EditProject />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/profile/:username" element={<UserProfile />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/users" element={<Users />} />
+              <Route path="/" element={<Home />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/blog/create" element={<CreateBlogPost />} />
             </Routes>
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+            <Toaster />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </Router>
+  );
+}
 
 export default App;

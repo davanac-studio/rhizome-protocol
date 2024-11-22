@@ -4,11 +4,16 @@ import { BlogPostWithAuthor } from "@/types/blog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow, format } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { Plus } from "lucide-react";
 
 const Blog = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { data: posts, isLoading } = useQuery({
     queryKey: ["blog-posts"],
     queryFn: async () => {
@@ -55,11 +60,18 @@ const Blog = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-12 px-4">
         <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">Our Blog</h1>
-            <p className="text-lg text-muted-foreground">
-              Insights, thoughts, and stories about web development and design
-            </p>
+          <div className="flex justify-between items-center">
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight">Our Blog</h1>
+              <p className="text-lg text-muted-foreground">
+                Insights, thoughts, and stories about web development and design
+              </p>
+            </div>
+            {user && (
+              <Button onClick={() => navigate("/blog/create")} size="lg">
+                <Plus className="mr-2 h-4 w-4" /> Create Post
+              </Button>
+            )}
           </div>
 
           {featuredPost && (
