@@ -168,7 +168,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                   <NewProjectDialog />
                   <Button
                     variant="outline"
-                    onClick={() => navigate('/blog/new')}
+                    onClick={() => navigate('/posts/new')}
                     className="h-10"
                   >
                     Nouvel article
