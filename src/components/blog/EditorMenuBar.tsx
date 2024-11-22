@@ -35,7 +35,7 @@ export const EditorMenuBar = ({ editor }: EditorMenuBarProps) => {
   const addLink = () => {
     const url = window.prompt("Enter URL");
     if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
+      editor.chain().focus().toggleLink({ href: url }).run();
     }
   };
 
