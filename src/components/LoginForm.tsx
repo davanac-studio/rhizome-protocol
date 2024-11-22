@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { Separator } from "@/components/ui/separator";
 import { ResetPasswordDialog } from "./auth/ResetPasswordDialog";
@@ -87,25 +87,6 @@ const LoginForm = () => {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleSocialLogin = async (provider: 'google' | 'github') => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`
-        }
-      });
-
-      if (error) throw error;
-    } catch (error: any) {
-      toast({
-        title: "Erreur de connexion",
-        description: error.message,
-        variant: "destructive",
-      });
     }
   };
 
