@@ -29,3 +29,6 @@ export const extractIdFromSlug = (idWithSlug: string | undefined): string | unde
   
   return match[1];
 };
+
+// Add default export
+export default slugify;
