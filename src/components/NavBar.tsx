@@ -1,56 +1,87 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
+import { UserCircle2, LogOut, Users, ChevronDown } from "lucide-react";
+import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "./ui/use-toast";
+import { supabase } from "@/lib/supabase";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NavBar = () => {
-  const { user } = useAuth();
+  const { user, clearSession } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleLogout = async () => {
-    try {
-      await supabase.auth.signOut();
-      toast({
-        title: "Déconnexion réussie",
-        description: "À bientôt !",
-      });
-    } catch (error) {
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la déconnexion",
-        variant: "destructive",
-      });
-    }
+    clearSession();
+    await supabase.auth.signOut().catch((error) => {
+      console.error("Erreur Supabase lors de la déconnexion:", error);
+    });
+    toast({
+      title: "Déconnexion réussie",
+      description: "Vous avez été déconnecté avec succès.",
+    });
+    navigate("/");
+  };
+
+  const getProfilePath = () => {
+    if (!user) return "/auth";
+    const username = user.user_metadata?.username || user.user_metadata?.preferred_username || user.id;
+    return `/profile/${username}`;
   };
 
   return (
-    <nav className="bg-white shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold text-gray-900">
-            Project Pulse
-          </Link>
-
-          <div className="flex gap-4">
+    <nav className="bg-gray-50">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-xl font-bold text-gray-900 hover:text-gray-700">
+              Rhizome Protocol
+            </Link>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <Link to="/about" className="text-gray-900 hover:text-gray-700">
+              Manifesto
+            </Link>
             {user ? (
-              <>
-                <Link to={`/profile/${user.id}`}>
-                  <Button variant="ghost">Mon profil</Button>
-                </Link>
-                <Button variant="ghost" onClick={handleLogout}>
-                  Se déconnecter
-                </Button>
-              </>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2">
+                    <UserCircle2 className="h-5 w-5" />
+                    <span className="hidden sm:inline">Mon compte</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to={getProfilePath()} className="flex items-center gap-2">
+                      <UserCircle2 className="h-4 w-4" />
+                      Mon profil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/users" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Communauté
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 text-red-600">
+                    <LogOut className="h-4 w-4" />
+                    Se déconnecter
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="ghost">Se connecter</Button>
-                </Link>
-                <Link to="/auth">
-                  <Button variant="default">S'inscrire</Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button variant="outline" className="hover:bg-gray-100">
+                  Se connecter
+                </Button>
+              </Link>
             )}
           </div>
         </div>

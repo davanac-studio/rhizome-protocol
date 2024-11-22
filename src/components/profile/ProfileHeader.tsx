@@ -83,7 +83,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         description: "Une erreur est survenue lors du chargement du profil",
         variant: "destructive",
       });
-      navigate('/');
     } finally {
       setLoading(false);
     }
@@ -165,7 +164,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
                 Modifier le profil
               </Button>
               {user.accountType === 'individuel' && (
-                <div className="flex gap-3 h-10">
+                <div className="h-10">
                   <NewProjectDialog />
                 </div>
               )}

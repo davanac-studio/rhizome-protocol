@@ -6,14 +6,12 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   clearSession: () => void;
-  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({ 
   user: null, 
   loading: true,
-  clearSession: () => {},
-  signOut: async () => {} 
+  clearSession: () => {} 
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -23,11 +21,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const clearSession = () => {
     setUser(null);
     setLoading(false);
-  };
-
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    clearSession();
   };
 
   useEffect(() => {
@@ -47,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, clearSession, signOut }}>
+    <AuthContext.Provider value={{ user, loading, clearSession }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,34 +1,43 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import About from "./pages/About";
-import UserProfile from "./pages/UserProfile";
 import ProjectDetails from "./pages/ProjectDetails";
 import EditProject from "./pages/EditProject";
-import { Toaster } from "./components/ui/toaster";
+import Auth from "./pages/Auth";
+import UserProfile from "./pages/UserProfile";
+import About from "./pages/About";
+import Users from "./pages/Users";
+import NavBar from "./components/NavBar";
 
-function App() {
-  return (
-    <Router>
-      <div className="min-h-screen bg-background">
-        <NavBar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/profile/:username" element={<UserProfile />} />
-            <Route path="/project/:id" element={<ProjectDetails />} />
-            <Route path="/project/:id/edit" element={<EditProject />} />
-          </Routes>
-        </main>
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <TooltipProvider>
         <Toaster />
-      </div>
-    </Router>
-  );
-}
+        <Sonner />
+        <BrowserRouter>
+          <div className="min-h-screen bg-gray-50">
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/project/:idWithSlug" element={<ProjectDetails />} />
+              <Route path="/project/:idWithSlug/edit" element={<EditProject />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/profile/:username" element={<UserProfile />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/users" element={<Users />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
+  </QueryClientProvider>
+);
 
 export default App;
