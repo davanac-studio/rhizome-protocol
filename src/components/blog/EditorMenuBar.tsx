@@ -9,6 +9,13 @@ import {
   Undo,
   Redo,
   Image as ImageIcon,
+  Link,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Heading1,
+  Heading2,
+  Code,
 } from "lucide-react";
 
 interface EditorMenuBarProps {
@@ -22,6 +29,13 @@ export const EditorMenuBar = ({ editor }: EditorMenuBarProps) => {
     const url = window.prompt("Enter image URL");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
+    }
+  };
+
+  const addLink = () => {
+    const url = window.prompt("Enter URL");
+    if (url) {
+      editor.chain().focus().setLink({ href: url }).run();
     }
   };
 
@@ -40,6 +54,20 @@ export const EditorMenuBar = ({ editor }: EditorMenuBarProps) => {
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
         <Italic className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive("heading", { level: 1 }) ? "default" : "outline"}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+      >
+        <Heading1 className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive("heading", { level: 2 }) ? "default" : "outline"}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+      >
+        <Heading2 className="h-4 w-4" />
       </Button>
       <Button
         size="sm"
@@ -64,6 +92,13 @@ export const EditorMenuBar = ({ editor }: EditorMenuBarProps) => {
       </Button>
       <Button
         size="sm"
+        variant={editor.isActive("code") ? "default" : "outline"}
+        onClick={() => editor.chain().focus().toggleCode().run()}
+      >
+        <Code className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
         variant="outline"
         onClick={() => editor.chain().focus().undo().run()}
       >
@@ -78,6 +113,34 @@ export const EditorMenuBar = ({ editor }: EditorMenuBarProps) => {
       </Button>
       <Button size="sm" variant="outline" onClick={addImage}>
         <ImageIcon className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive("link") ? "default" : "outline"}
+        onClick={addLink}
+      >
+        <Link className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive({ textAlign: "left" }) ? "default" : "outline"}
+        onClick={() => editor.chain().focus().setTextAlign("left").run()}
+      >
+        <AlignLeft className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive({ textAlign: "center" }) ? "default" : "outline"}
+        onClick={() => editor.chain().focus().setTextAlign("center").run()}
+      >
+        <AlignCenter className="h-4 w-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant={editor.isActive({ textAlign: "right" }) ? "default" : "outline"}
+        onClick={() => editor.chain().focus().setTextAlign("right").run()}
+      >
+        <AlignRight className="h-4 w-4" />
       </Button>
     </div>
   );
