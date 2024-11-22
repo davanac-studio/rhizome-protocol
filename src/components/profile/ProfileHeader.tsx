@@ -83,6 +83,7 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
         description: "Une erreur est survenue lors du chargement du profil",
         variant: "destructive",
       });
+      navigate('/');
     } finally {
       setLoading(false);
     }
@@ -91,12 +92,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
   useEffect(() => {
     fetchUserData();
   }, [user?.username, currentUser?.id]);
-
-  const handleUpdate = async (updatedUser: any) => {
-    setUser(updatedUser);
-    await fetchUserData();
-    setIsEditing(false);
-  };
 
   if (loading) {
     return (
@@ -166,13 +161,6 @@ export const ProfileHeader = ({ user: initialUser }: { user: any }) => {
               {user.accountType === 'individuel' && (
                 <div className="flex gap-3 h-10">
                   <NewProjectDialog />
-                  <Button
-                    variant="outline"
-                    onClick={() => navigate('/posts/new')}
-                    className="h-10"
-                  >
-                    Nouvel article
-                  </Button>
                 </div>
               )}
             </div>
