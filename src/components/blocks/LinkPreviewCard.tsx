@@ -25,16 +25,90 @@ export const LinkPreviewCard = ({ url }: LinkPreviewCardProps) => {
   const linkTitle = metadata?.title || domain;
   const linkImage = metadata?.image?.url || metadata?.logo?.url;
 
+  // Function to get YouTube video ID from URL
+  const getYoutubeVideoId = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  // Function to get Instagram post ID from URL
+  const getInstagramPostId = (url: string) => {
+    const regExp = /instagram.com\/p\/([^/?#&]+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+  };
+
+  // Function to get TikTok video ID from URL
+  const getTikTokVideoId = (url: string) => {
+    const regExp = /tiktok.com\/@[^/]+\/video\/(\d+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+  };
+
+  // Render appropriate embed based on URL type
+  const renderEmbed = () => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const videoId = getYoutubeVideoId(url);
+      if (videoId) {
+        return (
+          <div className="aspect-video w-full">
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}`}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        );
+      }
+    }
+
+    if (url.includes('instagram.com/p/')) {
+      const postId = getInstagramPostId(url);
+      if (postId) {
+        return (
+          <div className="aspect-square w-full">
+            <iframe
+              src={`https://www.instagram.com/p/${postId}/embed`}
+              className="w-full h-full"
+              allowFullScreen
+            />
+          </div>
+        );
+      }
+    }
+
+    if (url.includes('tiktok.com')) {
+      const videoId = getTikTokVideoId(url);
+      if (videoId) {
+        return (
+          <div className="aspect-[9/16] w-full max-w-[325px] mx-auto">
+            <iframe
+              src={`https://www.tiktok.com/embed/v2/${videoId}`}
+              className="w-full h-full"
+              allowFullScreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </div>
+        );
+      }
+    }
+
+    // Default preview for other URLs
+    return linkImage && (
+      <img
+        src={linkImage}
+        alt={linkTitle}
+        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      />
+    );
+  };
+
   return (
     <div className="group relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow transition-all hover:shadow-lg">
       <div className="aspect-video w-full overflow-hidden">
-        {linkImage && (
-          <img
-            src={linkImage}
-            alt={linkTitle}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        )}
+        {renderEmbed()}
       </div>
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
