@@ -1,43 +1,50 @@
 import { supabase } from "@/lib/supabase";
-import { projectsData } from "@/data/projects";
 import { Project } from "@/types/project";
+import { projects } from "@/data/projects";
 
 export const migrateProjectsToSupabase = async () => {
-  try {
-    // Transform projects to match Supabase table structure
-    const formattedProjects = projectsData.map(project => ({
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      due_date: project.dueDate,
-      thumbnail: project.thumbnail,
-      category: project.category,
-      client: project.client,
-      testimonial: project.testimonial,
-      demo_link_1: project.links?.demo_link_1 || null,
-      demo_link_2: project.links?.demo_link_2 || null,
-      team_leader: project.author.name, // Temporarily using name as we don't have user IDs yet
-      team_leader_contribution: project.author.contribution,
-      team_leader_contribution_description: project.author.contributionDescription
-    }));
-
-    // Insert projects into Supabase
-    const { data, error } = await supabase
+  for (const project of projects) {
+    // Insert project
+    const { error: projectError } = await supabase
       .from('projects')
-      .upsert(formattedProjects, {
-        onConflict: 'id',
-        ignoreDuplicates: false
+      .insert({
+        id: project.id,
+        title: project.title,
+        description: project.description,
+        due_date: project.dueDate,
+        thumbnail: project.thumbnail,
+        category: project.category,
+        client: project.client,
+        testimonial: project.testimonial,
+        demo_link_1: project.links.demo_link_1,
+        preview_link: project.links.preview_link,
+        demo_link_3: project.links.demo_link_3,
+        demo_link_4: project.links.demo_link_4,
+        team_leader: project.author.id,
+        team_leader_contribution: project.author.contribution,
+        team_leader_contribution_description: project.author.contributionDescription
       });
 
-    if (error) {
-      console.error('Error migrating projects:', error);
-      throw error;
+    if (projectError) {
+      console.error('Error inserting project:', projectError);
+      continue;
     }
 
-    console.log('Projects successfully migrated:', data);
-    return data;
-  } catch (error) {
-    console.error('Error in migration process:', error);
-    throw error;
+    // Insert participants
+    for (const participant of project.participants || []) {
+      const { error: participantError } = await supabase
+        .from('project_participants')
+        .insert({
+          project_id: project.id,
+          user_id: participant.id,
+          contribution: participant.contribution,
+          contribution_description: participant.contributionDescription,
+          avatar: participant.avatar
+        });
+
+      if (participantError) {
+        console.error('Error inserting participant:', participantError);
+      }
+    }
   }
 };

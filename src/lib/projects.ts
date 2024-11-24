@@ -1,97 +1,73 @@
 import { supabase } from "./supabase";
 import { Project } from "@/types/project";
-import { v4 as uuidv4 } from 'uuid';
 
-export const createProject = async (projectData: Omit<Project, "id">) => {
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError) throw userError;
-
-  if (!userData.user) {
-    throw new Error("Utilisateur non authentifié");
-  }
-
-  // Format the date to ISO string if it exists, otherwise use current date
-  const formattedDueDate = projectData.dueDate 
-    ? new Date(projectData.dueDate).toISOString()
-    : new Date().toISOString();
-
-  // Generate a unique ID for the project
-  const projectId = uuidv4();
-
-  console.log("Creating project with data:", {
-    projectId,
-    title: projectData.title,
-    participants: projectData.participants
-  });
-
-  // Start a transaction by creating the project first
-  const { data: project, error: projectError } = await supabase
+export const fetchProject = async (id: string): Promise<Project> => {
+  const { data: project, error } = await supabase
     .from('projects')
-    .insert([
-      {
-        id: projectId,
-        title: projectData.title,
-        description: projectData.description,
-        due_date: formattedDueDate,
-        thumbnail: projectData.thumbnail,
-        category: projectData.category,
-        client: projectData.client,
-        testimonial: projectData.testimonial || null,
-        demo_link_1: projectData.links?.demo_link_1 || null,
-        demo_link_2: projectData.links?.demo_link_2 || null,
-        team_leader: userData.user.id,
-        team_leader_contribution: projectData.author.contribution || 0,
-        team_leader_contribution_description: projectData.author.contributionDescription || null,
-      }
-    ])
-    .select()
+    .select(`
+      *,
+      team_leader_profile:profiles!projects_team_leader_fkey (
+        id,
+        first_name,
+        last_name,
+        username,
+        avatar_url,
+        expertise
+      ),
+      project_participants (
+        user:profiles!project_participants_user_id_fkey (
+          id,
+          first_name,
+          last_name,
+          username,
+          avatar_url,
+          expertise
+        ),
+        contribution,
+        contribution_description,
+        avatar
+      )
+    `)
+    .eq('id', id)
     .single();
 
-  if (projectError) {
-    console.error("Erreur lors de la création du projet:", projectError);
-    throw projectError;
-  }
+  if (error) throw error;
+  if (!project) throw new Error('Project not found');
 
-  console.log("Project created successfully:", project);
-
-  // If there are participants, create entries in project_participants table
-  if (projectData.participants && projectData.participants.length > 0) {
-    console.log("Processing participants:", projectData.participants);
-
-    const participantsData = projectData.participants
-      .filter(participant => {
-        if (!participant.profile) {
-          console.log("Skipping participant with no profile:", participant);
-          return false;
-        }
-        return true;
-      })
-      .map(participant => {
-        console.log("Creating participant data:", participant);
-        return {
-          project_id: projectId,
-          user_id: participant.profile,
-          contribution: participant.contribution,
-          contribution_description: participant.contributionDescription,
-        };
-      });
-
-    console.log("Final participants data to insert:", participantsData);
-
-    if (participantsData.length > 0) {
-      const { data: insertedParticipants, error: participantsError } = await supabase
-        .from('project_participants')
-        .insert(participantsData)
-        .select();
-
-      if (participantsError) {
-        console.error("Erreur lors de l'ajout des participants:", participantsError);
-        throw participantsError;
-      }
-
-      console.log("Participants added successfully:", insertedParticipants);
+  return {
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    dueDate: project.due_date,
+    thumbnail: project.thumbnail,
+    category: project.category,
+    client: project.client,
+    testimonial: project.testimonial,
+    author: {
+      id: project.team_leader_profile.id,
+      name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
+      username: project.team_leader_profile.username || '',
+      avatar: project.team_leader_profile.avatar_url,
+      expertise: project.team_leader_profile.expertise,
+      role: "Team Leader",
+      contribution: project.team_leader_contribution || 0,
+      contributionDescription: project.team_leader_contribution_description
+    },
+    participants: project.project_participants?.map(p => ({
+      id: p.user.id,
+      name: `${p.user.first_name} ${p.user.last_name}`,
+      username: p.user.username || '',
+      avatar: p.avatar || p.user.avatar_url,
+      expertise: p.user.expertise,
+      role: "Member",
+      contribution: p.contribution,
+      contributionDescription: p.contribution_description
+    })) || [],
+    links: {
+      demo_link_1: project.demo_link_1 || '',
+      preview_link: project.preview_link || '',
+      demo_link_3: project.demo_link_3 || '',
+      demo_link_4: project.demo_link_4 || ''
     }
-  }
-
-  return project;
+  };
 };

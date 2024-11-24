@@ -3,79 +3,115 @@ import { teamMembers } from "../team-members";
 
 export const eventProjects: Project[] = [
   {
-    id: "4",
-    title: "Conférence/Hackathon Blockchain Web3",
-    description: "Organisation et couverture médiatique d'un hackathon dédié à la blockchain et au Web3, incluant la captation des présentations, interviews des participants et création de contenu pour les réseaux sociaux.",
-    dueDate: "2024-04-15",
-    thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
-    category: "Stratégie/Management, Formation/Recrutement",
-    client: "Web3 Community",
-    testimonial: "L'organisation et la couverture médiatique du hackathon ont été impeccables. Les contenus produits ont parfaitement capturé l'essence de l'événement et généré un engagement significatif sur nos réseaux sociaux.",
+    id: "1",
+    title: "Festival de Musique Électronique",
+    description: "Organisation et production d'un festival de musique électronique sur deux jours, mettant en vedette des artistes locaux et internationaux.",
+    dueDate: "2024-07-15",
+    client: "Électro Productions",
+    category: "Événementiel",
+    thumbnail: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745",
+    testimonial: "Une organisation impeccable et une ambiance électrique qui a dépassé toutes nos attentes. L'équipe a su gérer chaque aspect avec professionnalisme.",
     author: {
-      ...teamMembers.profile4,
+      ...teamMembers.profile1,
       role: "Team Leader",
       contribution: 40,
-      contributionDescription: "Couverture journalistique principale et interviews"
+      contributionDescription: "Direction artistique et coordination générale"
     },
     participants: [
       {
         ...teamMembers.profile2,
         role: "Member",
         contribution: 30,
-        contributionDescription: "Rédaction des articles et reportages"
+        contributionDescription: "Production technique et logistique"
       },
       {
         ...teamMembers.profile3,
         role: "Member",
-        contribution: 30,
-        contributionDescription: "Design des supports visuels et de la signalétique"
+        contribution: 15,
+        contributionDescription: "Communication et relations presse"
+      },
+      {
+        ...teamMembers.profile4,
+        role: "Member",
+        contribution: 15,
+        contributionDescription: "Gestion des artistes et planning"
       }
     ],
     links: {
-      demo_link_1: "https://github.com/example/blockchain-hackathon",
-      preview: "https://event.example.com/web3",
+      demo_link_1: "https://github.com/example/festival-website",
+      preview_link: "https://festival.example.com",
       demo_link_3: "",
       demo_link_4: ""
     }
   },
   {
-    id: "5",
-    title: "Couverture Evènement: SXSW London 2025",
-    description: "Couverture complète du festival SXSW London, incluant reportages quotidiens, interviews exclusives, et création de contenu multimédia pour différentes plateformes.",
-    dueDate: "2024-05-01",
-    thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    category: "Rédaction/Production audiovisuelle",
-    client: "SXSW",
-    testimonial: "La qualité et la diversité des contenus produits ont dépassé nos attentes. L'équipe a su capturer l'essence de SXSW London tout en maintenant un flux constant de contenus pertinents et engageants sur toutes nos plateformes.",
+    id: "2",
+    title: "Concert de Bienfaisance",
+    description: "Organisation d'un concert de bienfaisance pour collecter des fonds en faveur de l'éducation des enfants défavorisés.",
+    dueDate: "2024-09-10",
+    client: "Charité Musique",
+    category: "Événementiel",
+    thumbnail: "https://images.unsplash.com/photo-1601500498766-04f86a3a1c4d",
+    testimonial: "Un concert mémorable qui a touché le cœur de tous et a permis de récolter des fonds importants pour notre cause.",
     author: {
       ...teamMembers.profile2,
       role: "Team Leader",
-      contribution: 35,
-      contributionDescription: "Direction éditoriale et interviews principales"
+      contribution: 50,
+      contributionDescription: "Coordination de l'événement et gestion des sponsors"
     },
     participants: [
-      {
-        ...teamMembers.profile3,
-        role: "Member",
-        contribution: 25,
-        contributionDescription: "Design de l'identité visuelle et des supports"
-      },
       {
         ...teamMembers.profile1,
         role: "Member",
         contribution: 20,
-        contributionDescription: "Développement de la plateforme de diffusion"
+        contributionDescription: "Réalisation de la promotion et des supports de communication"
       },
       {
-        ...teamMembers.profile5,
+        ...teamMembers.profile3,
         role: "Member",
-        contribution: 20,
-        contributionDescription: "Relations presse et communication événementielle"
+        contribution: 30,
+        contributionDescription: "Gestion des artistes et planification logistique"
       }
     ],
     links: {
-      demo_link_1: "https://github.com/example/sxsw-coverage",
-      preview: "https://event.example.com/sxsw",
+      demo_link_1: "https://github.com/example/benefit-concert",
+      preview_link: "https://concert.charite.org",
+      demo_link_3: "",
+      demo_link_4: ""
+    }
+  },
+  {
+    id: "3",
+    title: "Festival de Danse Contemporaine",
+    description: "Mise en œuvre d'un festival qui célèbre la danse contemporaine avec des performances et des ateliers.",
+    dueDate: "2024-05-20",
+    client: "Dancing Arts",
+    category: "Art et Culture",
+    thumbnail: "https://images.unsplash.com/photo-1515040428949-8030aa6e62a5",
+    testimonial: "Une expérience enrichissante qui a attiré un large public et a permis de découvrir de nouveaux talents.",
+    author: {
+      ...teamMembers.profile3,
+      role: "Team Leader",
+      contribution: 70,
+      contributionDescription: "Direction artistique et mise en scène du festival"
+    },
+    participants: [
+      {
+        ...teamMembers.profile1,
+        role: "Member",
+        contribution: 20,
+        contributionDescription: "Conception des affiches et promotion de l'événement"
+      },
+      {
+        ...teamMembers.profile4,
+        role: "Member",
+        contribution: 10,
+        contributionDescription: "Gestion des ateliers et des intervenants"
+      }
+    ],
+    links: {
+      demo_link_1: "https://github.com/example/contemporary-dance-festival",
+      preview_link: "https://dancefestival.example.com",
       demo_link_3: "",
       demo_link_4: ""
     }

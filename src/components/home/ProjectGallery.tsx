@@ -77,7 +77,7 @@ export const ProjectGallery = () => {
         })) || [],
         links: {
           demo_link_1: project.demo_link_1 || '',
-          demo_link_2: project.demo_link_2 || '',
+          preview_link: project.preview_link || '',
           demo_link_3: project.demo_link_3 || '',
           demo_link_4: project.demo_link_4 || ''
         }
