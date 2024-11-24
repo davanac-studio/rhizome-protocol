@@ -37,7 +37,7 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
       if (participantError) throw participantError;
 
       const leaderProjects: ProjectData[] = data || [];
-      const memberProjects: ProjectData[] = (participantProjects?.map(pp => pp.project) || []) as ProjectData[];
+      const memberProjects: ProjectData[] = (participantProjects?.map(pp => pp.project as ProjectData) || []);
 
       // Combine and deduplicate projects
       const allProjects = [...leaderProjects, ...memberProjects];
