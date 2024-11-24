@@ -5,7 +5,6 @@ import { createUser } from "@/lib/auth";
 import { SignUpStep1 } from "./signup/SignUpStep1";
 import { SignUpStep2 } from "./signup/SignUpStep2";
 import { SignUpStep3 } from "./signup/SignUpStep3";
-import { supabase } from "@/integrations/supabase/client";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ const SignUpForm = () => {
     facebook: "",
   });
 
-  const validateStep1 = async () => {
+  const validateStep1 = () => {
     if (!formData.email || !formData.password) {
       toast({
         title: "Erreur de validation",
@@ -49,40 +48,6 @@ const SignUpForm = () => {
       });
       return false;
     }
-
-    // Check if there's an unclaimed profile with this email
-    const { data: existingProfile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('invitation_email', formData.email)
-      .eq('is_claimed', false)
-      .single();
-
-    if (existingProfile) {
-      // Pre-fill form data with existing profile information
-      setFormData(prev => ({
-        ...prev,
-        firstName: existingProfile.first_name || prev.firstName,
-        lastName: existingProfile.last_name || prev.lastName,
-        username: existingProfile.username || prev.username,
-        bio: existingProfile.bio || prev.bio,
-        expertise: existingProfile.expertise || prev.expertise,
-        avatarUrl: existingProfile.avatar_url || prev.avatarUrl,
-        bannerUrl: existingProfile.banner_url || prev.bannerUrl,
-        linkedin: existingProfile.linkedin || prev.linkedin,
-        youtube: existingProfile.youtube || prev.youtube,
-        github: existingProfile.github || prev.github,
-        spotify: existingProfile.spotify || prev.spotify,
-        instagram: existingProfile.instagram || prev.instagram,
-        facebook: existingProfile.facebook || prev.facebook,
-      }));
-
-      toast({
-        title: "Profil trouvé",
-        description: "Nous avons trouvé un profil associé à votre email. Les informations ont été pré-remplies.",
-      });
-    }
-
     return true;
   };
 
@@ -106,8 +71,8 @@ const SignUpForm = () => {
     return true;
   };
 
-  const handleNext = async () => {
-    if (currentStep === 1 && await validateStep1()) {
+  const handleNext = () => {
+    if (currentStep === 1 && validateStep1()) {
       setCurrentStep(2);
     } else if (currentStep === 2 && validateStep2()) {
       setCurrentStep(3);

@@ -22,8 +22,6 @@ export type Database = {
           github: string | null
           id: string
           instagram: string | null
-          invitation_email: string | null
-          is_claimed: boolean | null
           last_name: string | null
           linkedin: string | null
           spotify: string | null
@@ -42,10 +40,8 @@ export type Database = {
           facebook?: string | null
           first_name?: string | null
           github?: string | null
-          id?: string
+          id: string
           instagram?: string | null
-          invitation_email?: string | null
-          is_claimed?: boolean | null
           last_name?: string | null
           linkedin?: string | null
           spotify?: string | null
@@ -66,8 +62,6 @@ export type Database = {
           github?: string | null
           id?: string
           instagram?: string | null
-          invitation_email?: string | null
-          is_claimed?: boolean | null
           last_name?: string | null
           linkedin?: string | null
           spotify?: string | null

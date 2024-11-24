@@ -126,10 +126,10 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
           <label className="text-sm font-medium">Lien de présentation #2</label>
           <Input
             type="url"
-            value={formData.links.demo_link_2}
+            value={formData.links.preview}
             onChange={(e) => setFormData({
               ...formData,
-              links: { ...formData.links, demo_link_2: e.target.value }
+              links: { ...formData.links, preview: e.target.value }
             })}
             placeholder="URL de présentation #2"
           />

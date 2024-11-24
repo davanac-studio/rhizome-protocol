@@ -68,8 +68,7 @@ export const createUser = async (formData: UserFormData) => {
   const { data: existingProfileByUsername } = await supabase
     .from('profiles')
     .select('username')
-    .eq('username', formData.username)
-    .eq('is_claimed', true);
+    .eq('username', formData.username);
 
   if (existingProfileByUsername && existingProfileByUsername.length > 0) {
     toast({
@@ -81,6 +80,12 @@ export const createUser = async (formData: UserFormData) => {
     await supabase.auth.admin.deleteUser(authData.user.id);
     return false;
   }
+
+  // 3. Vérifier si un profil existe déjà pour cet ID
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', authData.user.id);
 
   const profileData = {
     username: formData.username,
@@ -97,26 +102,36 @@ export const createUser = async (formData: UserFormData) => {
     facebook: formData.facebook,
     "collectif-name": formData.accountType === 'collectif' ? formData.entreprise : null,
     account_type: formData.accountType,
-    is_claimed: true,
   };
 
-  // 3. Mettre à jour le profil existant ou en créer un nouveau
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .upsert([
-      {
-        id: authData.user.id,
-        ...profileData,
-      }
-    ], {
-      onConflict: 'id'
-    });
+  // Si le profil existe déjà, on le met à jour au lieu de le créer
+  if (existingProfile && existingProfile.length > 0) {
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update(profileData)
+      .eq('id', authData.user.id);
 
-  if (profileError) {
-    console.error("Erreur lors de la création/mise à jour du profil:", profileError);
-    // Supprimer le compte auth puisqu'on n'a pas pu créer le profil
-    await supabase.auth.admin.deleteUser(authData.user.id);
-    throw profileError;
+    if (updateError) {
+      console.error("Erreur lors de la mise à jour du profil:", updateError);
+      throw updateError;
+    }
+  } else {
+    // 4. Créer le profil s'il n'existe pas
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([
+        {
+          id: authData.user.id,
+          ...profileData,
+        },
+      ]);
+
+    if (profileError) {
+      console.error("Erreur lors de la création du profil:", profileError);
+      // Supprimer le compte auth puisqu'on n'a pas pu créer le profil
+      await supabase.auth.admin.deleteUser(authData.user.id);
+      throw profileError;
+    }
   }
 
   toast({
@@ -125,34 +140,4 @@ export const createUser = async (formData: UserFormData) => {
   });
 
   return true;
-};
-
-export const createUnclaimedProfile = async (profileData: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  expertise?: string;
-}) => {
-  const { data, error } = await supabase
-    .from('profiles')
-    .insert([
-      {
-        first_name: profileData.firstName,
-        last_name: profileData.lastName,
-        invitation_email: profileData.email,
-        expertise: profileData.expertise,
-        is_claimed: false,
-      }
-    ])
-    .select()
-    .single();
-
-  if (error) {
-    if (error.code === '23505') { // Unique constraint violation
-      throw new Error("Un profil existe déjà avec cet email");
-    }
-    throw error;
-  }
-
-  return data;
 };
