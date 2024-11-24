@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserProjectGallery } from "./UserProjectGallery";
 
 interface NetworkNode extends d3.SimulationNodeDatum {
   id: string;
@@ -31,9 +32,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
 
-  // Fonction pour calculer la taille du nœud en fonction du nombre de projets
   const getNodeSize = (value: number) => {
-    // Base size of 20px, increasing by 5px per project, with a max of 50px
     return Math.min(20 + (value * 5), 50);
   };
 
@@ -50,7 +49,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("viewBox", [0, 0, width, height])
       .attr("style", "max-width: 100%; height: auto;");
 
-    // Create the simulation
     const simulation = d3.forceSimulation<NetworkNode>(data.nodes)
       .force("link", d3.forceLink<NetworkNode, NetworkLink>(data.links)
         .id(d => d.id)
@@ -59,7 +57,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius((d: NetworkNode) => getNodeSize(d.value) + 10));
 
-    // Create the links
     const link = svg.append("g")
       .selectAll("line")
       .data(data.links)
@@ -68,7 +65,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("stroke-opacity", 0.6)
       .attr("stroke-width", 2);
 
-    // Create the nodes
     const node = svg.append("g")
       .selectAll("g")
       .data(data.nodes)
@@ -78,7 +74,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         .on("drag", dragged)
         .on("end", dragended));
 
-    // Add circles for nodes
     node.append("circle")
       .attr("r", d => getNodeSize(d.value))
       .attr("fill", "#4f46e5")
@@ -89,7 +84,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         setSelectedNode(d);
       });
 
-    // Add avatars if available
     node.append("clipPath")
       .attr("id", d => `clip-${d.id}`)
       .append("circle")
@@ -108,7 +102,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         setSelectedNode(d);
       });
 
-    // Add labels
     node.append("text")
       .text(d => d.name)
       .attr("x", d => getNodeSize(d.value) + 5)
@@ -116,7 +109,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("font-size", "12px")
       .attr("fill", "#4b5563");
 
-    // Update positions on each tick
     simulation.on("tick", () => {
       link
         .attr("x1", d => {
@@ -139,7 +131,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       node.attr("transform", d => `translate(${d.x},${d.y})`);
     });
 
-    // Drag functions
     function dragstarted(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
@@ -183,9 +174,10 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
             </DialogTitle>
           </DialogHeader>
           <div className="p-6">
-            <p className="text-lg font-medium">
+            <p className="text-lg font-medium mb-4">
               {selectedNode?.value} projet{selectedNode?.value !== 1 ? 's' : ''}
             </p>
+            {selectedNode && <UserProjectGallery userId={selectedNode.id} />}
           </div>
         </DialogContent>
       </Dialog>
