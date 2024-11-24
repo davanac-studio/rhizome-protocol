@@ -2,7 +2,7 @@ import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
 import { Link2Icon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { OembedContainer } from "react-oembed-container";
+import OembedContainer from "react-oembed-container";
 
 interface ProjectDetailsBlockProps {
   dueDate: string;
