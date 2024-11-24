@@ -13,8 +13,12 @@ interface ProjectData {
   thumbnail: string;
 }
 
-interface ProjectParticipant {
-  project: ProjectData | null;
+interface ParticipantProject {
+  project: {
+    id: string;
+    title: string;
+    thumbnail: string;
+  };
 }
 
 export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
@@ -40,9 +44,12 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
 
       if (participantError) throw participantError;
 
-      const participantProjectsData = (participantProjects as ProjectParticipant[])
-        ?.map(pp => pp.project)
-        .filter((project): project is ProjectData => project !== null) || [];
+      const participantProjectsData = (participantProjects as ParticipantProject[])
+        ?.map(pp => ({
+          id: pp.project.id,
+          title: pp.project.title,
+          thumbnail: pp.project.thumbnail
+        })) || [];
 
       // Combine and deduplicate projects
       const allProjects = [
