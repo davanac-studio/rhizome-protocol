@@ -2,7 +2,6 @@ import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
 import { Link2Icon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import OembedContainer from "react-oembed-container";
 
 interface ProjectDetailsBlockProps {
   dueDate: string;
@@ -20,60 +19,6 @@ export const ProjectDetailsBlock = ({
   author,
   participants,
 }: ProjectDetailsBlockProps) => {
-  const isValidUrl = (url: string | undefined): boolean => {
-    if (!url) return false;
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const isOembedProvider = (url: string): boolean => {
-    const oembedProviders = [
-      'youtube.com',
-      'vimeo.com',
-      'twitter.com',
-      'instagram.com',
-      'facebook.com'
-    ];
-    try {
-      const hostname = new URL(url).hostname;
-      return oembedProviders.some(provider => hostname.includes(provider));
-    } catch {
-      return false;
-    }
-  };
-
-  const renderEmbed = (url: string) => {
-    if (isOembedProvider(url)) {
-      return (
-        <OembedContainer className="w-full h-full" url={url}>
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <iframe
-              src={url}
-              className="w-full h-full"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        </OembedContainer>
-      );
-    }
-    
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100">
-        <iframe
-          src={url}
-          className="w-full h-full"
-          allowFullScreen
-          loading="lazy"
-        />
-      </div>
-    );
-  };
-
   return (
     <div className="space-y-6">
       {(links.demo_link_1 || links.preview) && (
@@ -82,32 +27,22 @@ export const ProjectDetailsBlock = ({
             <Link2Icon className="w-5 h-5" />
             Liens du projet
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {links.demo_link_1 && isValidUrl(links.demo_link_1) && (
-              <div className="space-y-2">
-                <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="gap-2 w-full">
-                    <ExternalLinkIcon className="w-4 h-4" />
-                    Lien de présentation #1
-                  </Button>
-                </a>
-                <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
-                  {renderEmbed(links.demo_link_1)}
-                </div>
-              </div>
+          <div className="flex flex-wrap gap-4">
+            {links.demo_link_1 && (
+              <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="gap-2">
+                  <ExternalLinkIcon className="w-4 h-4" />
+                  Lien de présentation #1
+                </Button>
+              </a>
             )}
-            {links.preview && isValidUrl(links.preview) && (
-              <div className="space-y-2">
-                <a href={links.preview} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="gap-2 w-full">
-                    <ExternalLinkIcon className="w-4 h-4" />
-                    Lien de présentation #2
-                  </Button>
-                </a>
-                <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
-                  {renderEmbed(links.preview)}
-                </div>
-              </div>
+            {links.preview && (
+              <a href={links.preview} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="gap-2">
+                  <ExternalLinkIcon className="w-4 h-4" />
+                  Lien de présentation #2
+                </Button>
+              </a>
             )}
           </div>
         </div>
