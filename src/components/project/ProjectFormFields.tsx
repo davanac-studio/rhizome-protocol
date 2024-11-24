@@ -115,7 +115,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Collectif</label>
+        <label className="text-sm font-medium">Collectif/Client/Commanditaire</label>
         <Select
           value={formData.client}
           onValueChange={(value) => setFormData({ ...formData, client: value })}
