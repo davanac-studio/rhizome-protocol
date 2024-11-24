@@ -38,7 +38,7 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
         client: projectData.client,
         testimonial: projectData.testimonial || null,
         demo_link_1: projectData.links?.demo_link_1 || null,
-        preview_link: projectData.links?.preview || null,
+        demo_link_2: projectData.links?.demo_link_2 || null,
         team_leader: userData.user.id,
         team_leader_contribution: projectData.author.contribution || 0,
         team_leader_contribution_description: projectData.author.contributionDescription || null,

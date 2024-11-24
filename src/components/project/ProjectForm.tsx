@@ -41,7 +41,7 @@ export const ProjectForm = ({
     testimonial: "",
     links: {
       demo_link_1: "",
-      preview: "",
+      demo_link_2: "",
       demo_link_3: "",
       demo_link_4: ""
     }

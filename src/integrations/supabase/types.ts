@@ -123,12 +123,12 @@ export type Database = {
           client: string | null
           created_at: string
           demo_link_1: string | null
+          demo_link_2: string | null
           demo_link_3: string | null
           demo_link_4: string | null
           description: string
           due_date: string
           id: string
-          preview_link: string | null
           team_leader: string
           team_leader_contribution: number | null
           team_leader_contribution_description: string | null
@@ -141,12 +141,12 @@ export type Database = {
           client?: string | null
           created_at?: string
           demo_link_1?: string | null
+          demo_link_2?: string | null
           demo_link_3?: string | null
           demo_link_4?: string | null
           description: string
           due_date: string
           id: string
-          preview_link?: string | null
           team_leader: string
           team_leader_contribution?: number | null
           team_leader_contribution_description?: string | null
@@ -159,12 +159,12 @@ export type Database = {
           client?: string | null
           created_at?: string
           demo_link_1?: string | null
+          demo_link_2?: string | null
           demo_link_3?: string | null
           demo_link_4?: string | null
           description?: string
           due_date?: string
           id?: string
-          preview_link?: string | null
           team_leader?: string
           team_leader_contribution?: number | null
           team_leader_contribution_description?: string | null
