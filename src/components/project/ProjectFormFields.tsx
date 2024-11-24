@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ProjectFormData } from "@/types/form";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
+import { useParams } from "react-router-dom";
 
 interface ProjectFormFieldsProps {
   formData: ProjectFormData;
@@ -11,14 +12,23 @@ interface ProjectFormFieldsProps {
 }
 
 export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsProps) => {
+  const { idWithSlug } = useParams();
+  const projectId = idWithSlug?.split('-')[0];
+
   const { data: profiles, isLoading } = useQuery({
-    queryKey: ['profiles'],
+    queryKey: ['profiles', projectId],
     queryFn: async () => {
+      const { data: project } = await supabase
+        .from('projects')
+        .select('team_leader')
+        .eq('id', projectId)
+        .single();
+
       const { data, error } = await supabase
         .from('profiles')
         .select('id, first_name, last_name, expertise, "collectif-name"')
-        .not('collectif-name', 'is', null)
-        .neq('collectif-name', '');
+        .eq('account_type', 'individuel')
+        .neq('id', project?.team_leader);
       
       if (error) throw error;
       return data || [];
