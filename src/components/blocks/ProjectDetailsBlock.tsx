@@ -1,7 +1,7 @@
 import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
-import { Link2Icon, ExternalLinkIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link2Icon } from "lucide-react";
+import { LinkPreviewCard } from "./LinkPreviewCard";
 
 interface ProjectDetailsBlockProps {
   dueDate: string;
@@ -27,22 +27,18 @@ export const ProjectDetailsBlock = ({
             <Link2Icon className="w-5 h-5" />
             Liens du projet
           </h3>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {links.demo_link_1 && (
-              <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
-                  <ExternalLinkIcon className="w-4 h-4" />
-                  Lien de présentation #1
-                </Button>
-              </a>
+              <LinkPreviewCard 
+                url={links.demo_link_1}
+                title="Lien de présentation #1"
+              />
             )}
             {links.preview && (
-              <a href={links.preview} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
-                  <ExternalLinkIcon className="w-4 h-4" />
-                  Lien de présentation #2
-                </Button>
-              </a>
+              <LinkPreviewCard 
+                url={links.preview}
+                title="Lien de présentation #2"
+              />
             )}
           </div>
         </div>
