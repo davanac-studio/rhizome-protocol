@@ -96,7 +96,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("height", (d: NetworkNode) => Math.sqrt(d.value) * 20)
       .attr("clip-path", (d: NetworkNode) => `url(#clip-${d.id})`);
 
-    // Add text labels
+    // Add name labels
     node.append("text")
       .text((d: NetworkNode) => d.name)
       .attr("x", 0)
@@ -104,15 +104,6 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("text-anchor", "middle")
       .attr("fill", "#4b5563")
       .style("font-size", "12px");
-
-    // Add expertise labels
-    node.append("text")
-      .text((d: NetworkNode) => d.expertise)
-      .attr("x", 0)
-      .attr("y", (d: NetworkNode) => Math.sqrt(d.value) * 10 + 35)
-      .attr("text-anchor", "middle")
-      .attr("fill", "#6b7280")
-      .style("font-size", "10px");
 
     // Add click event to nodes
     node.on("click", (event: MouseEvent, d: NetworkNode) => {
@@ -164,7 +155,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {selectedNode?.name} - {selectedNode?.expertise}
+              {selectedNode?.name}
             </DialogTitle>
           </DialogHeader>
           {selectedNode && (
