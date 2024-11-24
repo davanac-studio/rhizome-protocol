@@ -12,7 +12,8 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
   const { data: projects, isLoading } = useQuery({
     queryKey: ['userProjects', userId],
     queryFn: async () => {
-      const { data: projectsData, error } = await supabase
+      // First get projects where user is team leader
+      const { data: teamLeaderProjects, error: teamLeaderError } = await supabase
         .from('projects')
         .select(`
           *,
@@ -38,10 +39,53 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
             )
           )
         `)
-        .or(`team_leader.eq.${userId},project_participants.user_id.eq.${userId}`);
+        .eq('team_leader', userId);
 
-      if (error) throw error;
-      return transformAndDeduplicateProjects(projectsData || []);
+      if (teamLeaderError) throw teamLeaderError;
+
+      // Then get projects where user is a participant
+      const { data: participantProjects, error: participantError } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          team_leader_profile:profiles!projects_team_leader_fkey(
+            id,
+            first_name,
+            last_name,
+            username,
+            avatar_url,
+            expertise
+          ),
+          project_participants(
+            contribution,
+            contribution_description,
+            avatar,
+            user:profiles!project_participants_user_id_fkey(
+              id,
+              first_name,
+              last_name,
+              username,
+              avatar_url,
+              expertise
+            )
+          )
+        `)
+        .in('id', (
+          await supabase
+            .from('project_participants')
+            .select('project_id')
+            .eq('user_id', userId)
+        ).data?.map(p => p.project_id) || []);
+
+      if (participantError) throw participantError;
+
+      // Combine and transform all projects
+      const allProjects = [
+        ...(teamLeaderProjects || []),
+        ...(participantProjects || [])
+      ];
+
+      return transformAndDeduplicateProjects(allProjects);
     }
   });
 
