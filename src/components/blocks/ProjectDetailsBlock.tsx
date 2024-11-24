@@ -20,6 +20,16 @@ export const ProjectDetailsBlock = ({
   author,
   participants,
 }: ProjectDetailsBlockProps) => {
+  const isValidUrl = (url: string | undefined): boolean => {
+    if (!url) return false;
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   return (
     <div className="space-y-6">
       {(links.demo_link_1 || links.preview) && (
@@ -29,7 +39,7 @@ export const ProjectDetailsBlock = ({
             Liens du projet
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {links.demo_link_1 && (
+            {links.demo_link_1 && isValidUrl(links.demo_link_1) && (
               <div className="space-y-2">
                 <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
                   <Button variant="outline" className="gap-2 w-full">
@@ -54,7 +64,7 @@ export const ProjectDetailsBlock = ({
                 </div>
               </div>
             )}
-            {links.preview && (
+            {links.preview && isValidUrl(links.preview) && (
               <div className="space-y-2">
                 <a href={links.preview} target="_blank" rel="noopener noreferrer">
                   <Button variant="outline" className="gap-2 w-full">
