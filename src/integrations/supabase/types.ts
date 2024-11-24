@@ -42,7 +42,7 @@ export type Database = {
           facebook?: string | null
           first_name?: string | null
           github?: string | null
-          id: string
+          id?: string
           instagram?: string | null
           invitation_email?: string | null
           is_claimed?: boolean | null
