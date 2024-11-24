@@ -89,19 +89,19 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Lien de démonstration</label>
+          <label className="text-sm font-medium">Lien de présentation #1</label>
           <Input
             type="url"
-            value={formData.links.github}
+            value={formData.links.demo_link_1}
             onChange={(e) => setFormData({
               ...formData,
-              links: { ...formData.links, github: e.target.value }
+              links: { ...formData.links, demo_link_1: e.target.value }
             })}
-            placeholder="URL de démonstration"
+            placeholder="URL de présentation #1"
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Autre lien de présentation</label>
+          <label className="text-sm font-medium">Lien de présentation #2</label>
           <Input
             type="url"
             value={formData.links.preview}
@@ -109,7 +109,7 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
               ...formData,
               links: { ...formData.links, preview: e.target.value }
             })}
-            placeholder="Autre lien de présentation"
+            placeholder="URL de présentation #2"
           />
         </div>
       </div>
