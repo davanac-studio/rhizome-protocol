@@ -1,54 +1,69 @@
-import { Project } from "@/types/project";
-import { ClientBlock } from "./blocks/ClientBlock";
-import { ProjectDetailsBlock } from "./blocks/ProjectDetailsBlock";
-import { CertificationBlock } from "./blocks/CertificationBlock";
-import { TestimonialBlock } from "./TestimonialBlock";
-import { createCertification } from "@/data/certifications";
+import { useParams } from "react-router-dom";
+import { useProjectQuery } from "@/hooks/useProjectQuery";
+import { useAuth } from "@/contexts/AuthContext";
+import { ProjectError } from "@/components/project/ProjectError";
+import { ProjectContent } from "@/components/project/ProjectContent";
+import { useNavigate } from "react-router-dom";
 
-interface ProjectDetailsProps {
-  project: Project;
-}
+const ProjectDetails = () => {
+  const { idWithSlug } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  const { data: project, isLoading, error } = useProjectQuery(idWithSlug);
 
-export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
-  const certification = project.certification || createCertification(project.id);
+  if (error) {
+    console.error('Project loading error:', error);
+    return (
+      <ProjectError 
+        title="Une erreur est survenue lors du chargement du projet"
+        description="Le projet n'a pas pu être chargé. Veuillez réessayer ultérieurement."
+      />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900">Chargement...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <ProjectError 
+        title="Projet non trouvé"
+        description="Le projet que vous recherchez n'existe pas ou a été supprimé."
+      />
+    );
+  }
+
+  const isProjectCreator = user?.id === project.author.id;
+  const handleEditClick = () => {
+    if (idWithSlug) {
+      navigate(`/project/${idWithSlug}/edit`);
+    }
+  };
 
   return (
-    <div className="space-y-12 mt-12">
-      <div className="prose max-w-none">
-        <p className="text-gray-600 text-lg leading-relaxed">
-          {project.description}
-        </p>
-      </div>
-
-      <ProjectDetailsBlock 
-        dueDate={project.dueDate}
-        links={project.links}
-        author={project.author}
-        participants={project.participants}
-        thumbnail={project.thumbnail}
-        title={project.title}
-      />
-
-      {project.testimonial ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <TestimonialBlock testimonial={project.testimonial} />
-          </div>
-          <div className="lg:col-span-1">
-            <ClientBlock 
-              client={project.client}
-              testimonial={project.testimonial}
-            />
-          </div>
-        </div>
-      ) : (
-        <ClientBlock 
-          client={project.client}
-          testimonial={project.testimonial}
-        />
-      )}
-
-      <CertificationBlock certification={certification} />
-    </div>
+    <ProjectContent 
+      project={{
+        ...project,
+        links: {
+          demo_link_1: project.links?.demo_link_1 || "",
+          preview: project.links?.preview || "",
+          demo_link_3: project.links?.demo_link_3 || "",
+          demo_link_4: project.links?.demo_link_4 || ""
+        }
+      }}
+      isProjectCreator={isProjectCreator}
+      onEditClick={handleEditClick}
+      idWithSlug={idWithSlug || ''}
+    />
   );
 };
+
+export default ProjectDetails;

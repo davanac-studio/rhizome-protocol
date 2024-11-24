@@ -41,7 +41,9 @@ export const ProjectForm = ({
     testimonial: "",
     links: {
       demo_link_1: "",
-      preview: ""
+      preview: "",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   });
 

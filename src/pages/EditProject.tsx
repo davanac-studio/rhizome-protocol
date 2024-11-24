@@ -119,7 +119,9 @@ const EditProject = () => {
     testimonial: project.testimonial || "",
     links: {
       demo_link_1: project.links.demo_link_1 || "",
-      preview: project.links.preview || ""
+      preview: project.links.preview || "",
+      demo_link_3: project.links.demo_link_3 || "",
+      demo_link_4: project.links.demo_link_4 || ""
     }
   };
 
