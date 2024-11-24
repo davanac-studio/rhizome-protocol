@@ -1,11 +1,58 @@
 import { Project } from "@/types/project";
 import { ProjectCard } from "../ProjectCard";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import { transformAndDeduplicateProjects } from "@/utils/projectDataTransformers";
 
 interface UserProjectGalleryProps {
-  projects: Project[];
+  userId: string;
 }
 
-export const UserProjectGallery = ({ projects }: UserProjectGalleryProps) => {
+export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
+  const { data: projects, isLoading } = useQuery({
+    queryKey: ['userProjects', userId],
+    queryFn: async () => {
+      const { data: projectsData, error } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          team_leader_profile:team_leader(
+            id,
+            first_name,
+            last_name,
+            username,
+            avatar_url,
+            expertise
+          ),
+          project_participants(
+            contribution,
+            contribution_description,
+            avatar,
+            user:user_id(
+              id,
+              first_name,
+              last_name,
+              username,
+              avatar_url,
+              expertise
+            )
+          )
+        `)
+        .or(`team_leader.eq.${userId},project_participants.user_id.eq.${userId}`);
+
+      if (error) throw error;
+      return transformAndDeduplicateProjects(projectsData || []);
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">Chargement des projets...</p>
+      </div>
+    );
+  }
+
   if (!projects || projects.length === 0) {
     return (
       <div className="text-center py-8">
