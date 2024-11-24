@@ -30,6 +30,50 @@ export const ProjectDetailsBlock = ({
     }
   };
 
+  const isOembedProvider = (url: string): boolean => {
+    const oembedProviders = [
+      'youtube.com',
+      'vimeo.com',
+      'twitter.com',
+      'instagram.com',
+      'facebook.com'
+    ];
+    try {
+      const hostname = new URL(url).hostname;
+      return oembedProviders.some(provider => hostname.includes(provider));
+    } catch {
+      return false;
+    }
+  };
+
+  const renderEmbed = (url: string) => {
+    if (isOembedProvider(url)) {
+      return (
+        <OembedContainer className="w-full h-full" url={url}>
+          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+            <iframe
+              src={url}
+              className="w-full h-full"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </OembedContainer>
+      );
+    }
+    
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+        <iframe
+          src={url}
+          className="w-full h-full"
+          allowFullScreen
+          loading="lazy"
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
       {(links.demo_link_1 || links.preview) && (
@@ -48,19 +92,7 @@ export const ProjectDetailsBlock = ({
                   </Button>
                 </a>
                 <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
-                  <OembedContainer
-                    className="w-full h-full"
-                    url={links.demo_link_1}
-                  >
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <iframe
-                        src={links.demo_link_1}
-                        className="w-full h-full"
-                        allowFullScreen
-                        loading="lazy"
-                      />
-                    </div>
-                  </OembedContainer>
+                  {renderEmbed(links.demo_link_1)}
                 </div>
               </div>
             )}
@@ -73,19 +105,7 @@ export const ProjectDetailsBlock = ({
                   </Button>
                 </a>
                 <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
-                  <OembedContainer
-                    className="w-full h-full"
-                    url={links.preview}
-                  >
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <iframe
-                        src={links.preview}
-                        className="w-full h-full"
-                        allowFullScreen
-                        loading="lazy"
-                      />
-                    </div>
-                  </OembedContainer>
+                  {renderEmbed(links.preview)}
                 </div>
               </div>
             )}
