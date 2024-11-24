@@ -23,7 +23,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
         .from('profiles')
         .select('*')
         .eq('account_type', 'individuel')
-        .not('collectif-name', 'is', 'not null'); // Ensure we exclude profiles with collectif names
+        .is('collectif-name', null); // Fixed syntax for checking null values
 
       // Filter out team leader and existing participants
       const excludedProfiles = [...existingParticipants];
