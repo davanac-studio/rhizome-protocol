@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 interface LinkPreviewCardProps {
   url: string;
-  title: string;
-  thumbnail: string;
+  title?: string;
+  thumbnail?: string;
 }
 
 export const LinkPreviewCard = ({ url }: LinkPreviewCardProps) => {
