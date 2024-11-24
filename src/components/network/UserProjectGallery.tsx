@@ -17,12 +17,7 @@ export const UserProjectGallery = ({ projects }: UserProjectGalleryProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <ProjectCard
-          key={project.id}
-          id={project.id}
-          title={project.title}
-          thumbnail={project.thumbnail}
-        />
+        <ProjectCard key={project.id} project={project} />
       ))}
     </div>
   );

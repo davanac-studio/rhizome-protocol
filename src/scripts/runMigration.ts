@@ -1,8 +1,8 @@
-import { migrateProjectsToSupabase } from "../utils/migrateProjects";
+import { migrateProjects } from "../utils/migrateProjects";
 
 const runMigration = async () => {
   try {
-    await migrateProjectsToSupabase();
+    await migrateProjects();
     console.log('Migration completed successfully');
   } catch (error) {
     console.error('Migration failed:', error);

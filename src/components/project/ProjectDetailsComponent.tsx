@@ -22,7 +22,12 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
 
       <ProjectDetailsBlock 
         dueDate={project.dueDate}
-        links={project.links}
+        links={{
+          demo_link_1: project.links.demo_link_1,
+          demo_link_2: project.links.preview_link,
+          demo_link_3: project.links.demo_link_3,
+          demo_link_4: project.links.demo_link_4
+        }}
         author={project.author}
         participants={project.participants}
         thumbnail={project.thumbnail}
