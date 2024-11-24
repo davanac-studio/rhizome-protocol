@@ -25,6 +25,8 @@ export const ProjectDetailsComponent = ({ project }: ProjectDetailsProps) => {
         links={project.links}
         author={project.author}
         participants={project.participants}
+        thumbnail={project.thumbnail}
+        title={project.title}
       />
 
       {project.testimonial ? (
