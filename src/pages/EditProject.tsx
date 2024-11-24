@@ -60,7 +60,7 @@ const EditProject = () => {
           category: updatedProject.category,
           client: updatedProject.client,
           testimonial: updatedProject.testimonial,
-          github_link: updatedProject.links.github,
+          demo_link_1: updatedProject.links.demo_link_1,
           preview_link: updatedProject.links.preview,
           team_leader_contribution: updatedProject.author.contribution,
           team_leader_contribution_description: updatedProject.author.contributionDescription,
@@ -118,7 +118,7 @@ const EditProject = () => {
     client: project.client,
     testimonial: project.testimonial || "",
     links: {
-      github: project.links.github || "",
+      demo_link_1: project.links.demo_link_1 || "",
       preview: project.links.preview || ""
     }
   };

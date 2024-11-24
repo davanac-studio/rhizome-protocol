@@ -14,7 +14,7 @@ export const createProject = (
   testimonial: string,
   authorProfile: keyof typeof teamMembers,
   participantProfiles: (keyof typeof teamMembers)[],
-  links: { github: string; preview: string }
+  links: { demo_link_1: string; preview: string }
 ): Project => {
   const author = { 
     ...teamMembers[authorProfile], 

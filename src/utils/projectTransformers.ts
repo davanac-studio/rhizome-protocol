@@ -59,7 +59,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => (
     )
   ) || [],
   links: {
-    github: project.github_link || '',
+    demo_link_1: project.demo_link_1 || '',
     preview: project.preview_link || ''
   }
 });

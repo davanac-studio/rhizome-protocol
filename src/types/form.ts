@@ -7,7 +7,7 @@ export interface ProjectFormData {
   client: string;
   testimonial: string;
   links: {
-    github: string;
+    demo_link_1: string;
     preview: string;
   };
 }
