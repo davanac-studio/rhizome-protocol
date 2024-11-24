@@ -44,12 +44,12 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
 
       if (participantError) throw participantError;
 
-      const participantProjectsData = (participantProjects as ParticipantProject[])
-        ?.map(pp => ({
-          id: pp.project.id,
-          title: pp.project.title,
-          thumbnail: pp.project.thumbnail
-        })) || [];
+      // Transform participant projects data to match ProjectData structure
+      const participantProjectsData = participantProjects?.map((pp: ParticipantProject) => ({
+        id: pp.project.id,
+        title: pp.project.title,
+        thumbnail: pp.project.thumbnail
+      })) || [];
 
       // Combine and deduplicate projects
       const allProjects = [
