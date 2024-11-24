@@ -14,11 +14,7 @@ interface ProjectData {
 }
 
 interface ParticipantProject {
-  project: {
-    id: string;
-    title: string;
-    thumbnail: string;
-  };
+  project: ProjectData;
 }
 
 export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
@@ -45,11 +41,11 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
       if (participantError) throw participantError;
 
       // Transform participant projects data to match ProjectData structure
-      const participantProjectsData = participantProjects?.map((pp: ParticipantProject) => ({
+      const participantProjectsData = (participantProjects || []).map((pp: any) => ({
         id: pp.project.id,
         title: pp.project.title,
         thumbnail: pp.project.thumbnail
-      })) || [];
+      }));
 
       // Combine and deduplicate projects
       const allProjects = [
