@@ -2,6 +2,7 @@ import { ProjectMember } from "@/types/project";
 import { TeamMemberCard } from "./TeamMemberCard";
 import { Link2Icon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { OembedContainer } from "react-oembed-container";
 
 interface ProjectDetailsBlockProps {
   dueDate: string;
@@ -27,22 +28,56 @@ export const ProjectDetailsBlock = ({
             <Link2Icon className="w-5 h-5" />
             Liens du projet
           </h3>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {links.demo_link_1 && (
-              <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
-                  <ExternalLinkIcon className="w-4 h-4" />
-                  Lien de présentation #1
-                </Button>
-              </a>
+              <div className="space-y-2">
+                <a href={links.demo_link_1} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="gap-2 w-full">
+                    <ExternalLinkIcon className="w-4 h-4" />
+                    Lien de présentation #1
+                  </Button>
+                </a>
+                <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
+                  <OembedContainer
+                    className="w-full h-full"
+                    url={links.demo_link_1}
+                  >
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <iframe
+                        src={links.demo_link_1}
+                        className="w-full h-full"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    </div>
+                  </OembedContainer>
+                </div>
+              </div>
             )}
             {links.preview && (
-              <a href={links.preview} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
-                  <ExternalLinkIcon className="w-4 h-4" />
-                  Lien de présentation #2
-                </Button>
-              </a>
+              <div className="space-y-2">
+                <a href={links.preview} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="gap-2 w-full">
+                    <ExternalLinkIcon className="w-4 h-4" />
+                    Lien de présentation #2
+                  </Button>
+                </a>
+                <div className="aspect-video w-full overflow-hidden rounded-lg border bg-white shadow">
+                  <OembedContainer
+                    className="w-full h-full"
+                    url={links.preview}
+                  >
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <iframe
+                        src={links.preview}
+                        className="w-full h-full"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    </div>
+                  </OembedContainer>
+                </div>
+              </div>
             )}
           </div>
         </div>
