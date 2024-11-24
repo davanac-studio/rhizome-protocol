@@ -18,21 +18,33 @@ export const ProjectFormFields = ({ formData, setFormData }: ProjectFormFieldsPr
   const { data: profiles, isLoading } = useQuery({
     queryKey: ['profiles', projectId],
     queryFn: async () => {
-      const { data: project } = await supabase
-        .from('projects')
-        .select('team_leader')
-        .eq('id', projectId)
-        .single();
+      let teamLeaderId;
+      
+      if (projectId) {
+        const { data: project } = await supabase
+          .from('projects')
+          .select('team_leader')
+          .eq('id', projectId)
+          .maybeSingle();
+          
+        teamLeaderId = project?.team_leader;
+      }
 
-      const { data, error } = await supabase
+      let query = supabase
         .from('profiles')
         .select('id, first_name, last_name, expertise, "collectif-name"')
-        .eq('account_type', 'individuel')
-        .neq('id', project?.team_leader);
+        .eq('account_type', 'individuel');
+
+      if (teamLeaderId) {
+        query = query.neq('id', teamLeaderId);
+      }
+
+      const { data, error } = await query;
       
       if (error) throw error;
       return data || [];
-    }
+    },
+    enabled: true
   });
 
   return (
