@@ -38,7 +38,10 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
             )
           )
         `)
-        .or(`team_leader.eq.${userId},project_participants.user_id.eq.${userId}`);
+        .or([
+          { team_leader: userId },
+          { 'project_participants.user_id': userId }
+        ]);
 
       if (error) throw error;
       return transformAndDeduplicateProjects(projectsData || []);
