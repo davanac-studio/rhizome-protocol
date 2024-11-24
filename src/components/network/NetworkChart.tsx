@@ -177,7 +177,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
             <p className="text-lg font-medium mb-4">
               {selectedNode?.value} projet{selectedNode?.value !== 1 ? 's' : ''}
             </p>
-            {selectedNode && <UserProjectGallery userId={selectedNode.id} />}
+            {selectedNode && <UserProjectGallery projects={[]} />}
           </div>
         </DialogContent>
       </Dialog>
