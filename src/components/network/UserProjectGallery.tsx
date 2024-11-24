@@ -16,7 +16,7 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
         .from('projects')
         .select(`
           *,
-          team_leader_profile:team_leader(
+          team_leader_profile:profiles!projects_team_leader_fkey(
             id,
             first_name,
             last_name,
@@ -28,7 +28,7 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
             contribution,
             contribution_description,
             avatar,
-            user:user_id(
+            user:profiles!project_participants_user_id_fkey(
               id,
               first_name,
               last_name,
