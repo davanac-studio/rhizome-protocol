@@ -39,7 +39,9 @@ export const liveProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/stereopsia-live",
-      preview: "https://live.example.com/stereopsia"
+      preview: "https://live.example.com/stereopsia",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   }
 ];

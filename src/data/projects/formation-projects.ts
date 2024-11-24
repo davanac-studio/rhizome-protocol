@@ -39,7 +39,9 @@ export const formationProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/formation-platform",
-      preview: "https://formation.example.com"
+      preview: "https://formation.example.com",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   }
 ];

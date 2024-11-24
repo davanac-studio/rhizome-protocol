@@ -33,7 +33,9 @@ export const eventProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/blockchain-hackathon",
-      preview: "https://event.example.com/web3"
+      preview: "https://event.example.com/web3",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   },
   {
@@ -73,7 +75,9 @@ export const eventProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/sxsw-coverage",
-      preview: "https://event.example.com/sxsw"
+      preview: "https://event.example.com/sxsw",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   }
 ];

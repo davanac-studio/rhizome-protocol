@@ -77,7 +77,9 @@ export const ProjectGallery = () => {
         })) || [],
         links: {
           demo_link_1: project.demo_link_1 || '',
-          preview: project.preview_link || ''
+          preview: project.preview_link || '',
+          demo_link_3: project.demo_link_3 || '',
+          demo_link_4: project.demo_link_4 || ''
         }
       })) || [];
     }

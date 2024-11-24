@@ -33,7 +33,9 @@ export const videoProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/ukraine-explainer",
-      preview: "https://video.example.com/ukraine"
+      preview: "https://video.example.com/ukraine",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   },
   {
@@ -73,7 +75,9 @@ export const videoProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/kikk-aftermovie",
-      preview: "https://video.example.com/kikk"
+      preview: "https://video.example.com/kikk",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   }
 ];

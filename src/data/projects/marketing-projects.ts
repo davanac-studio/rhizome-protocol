@@ -33,7 +33,9 @@ export const marketingProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/road-to-2030",
-      preview: "https://campaign.example.com/2030"
+      preview: "https://campaign.example.com/2030",
+      demo_link_3: "",
+      demo_link_4: ""
     }
   }
 ];
