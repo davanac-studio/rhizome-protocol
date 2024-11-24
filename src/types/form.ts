@@ -8,7 +8,7 @@ export interface ProjectFormData {
   testimonial: string;
   links: {
     demo_link_1: string;
-    preview: string;
+    preview_link: string;
     demo_link_3: string;
     demo_link_4: string;
   };

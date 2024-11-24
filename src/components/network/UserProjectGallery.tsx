@@ -7,6 +7,12 @@ interface UserProjectGalleryProps {
   userId: string;
 }
 
+interface ProjectData {
+  id: string;
+  title: string;
+  thumbnail: string;
+}
+
 export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
   const navigate = useNavigate();
   
@@ -30,12 +36,12 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
 
       if (participantError) throw participantError;
 
-      // Combine and deduplicate projects
-      const allProjects = [
-        ...(data || []),
-        ...(participantProjects?.map(pp => pp.project) || [])
-      ];
+      const leaderProjects: ProjectData[] = data || [];
+      const memberProjects: ProjectData[] = (participantProjects?.map(pp => pp.project) || []) as ProjectData[];
 
+      // Combine and deduplicate projects
+      const allProjects = [...leaderProjects, ...memberProjects];
+      
       // Remove duplicates based on project id
       return Array.from(
         new Map(allProjects.map(project => [project.id, project])).values()

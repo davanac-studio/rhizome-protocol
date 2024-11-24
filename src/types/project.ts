@@ -35,7 +35,7 @@ export interface Project {
   participants?: ProjectMember[];
   links: {
     demo_link_1: string;
-    demo_link_2: string;
+    preview_link: string;
     demo_link_3: string;
     demo_link_4: string;
   };
