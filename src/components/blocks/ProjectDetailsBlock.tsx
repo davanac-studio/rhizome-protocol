@@ -18,8 +18,6 @@ interface ProjectDetailsBlockProps {
 export const ProjectDetailsBlock = ({
   dueDate,
   links,
-  thumbnail,
-  title,
   author,
   participants,
 }: ProjectDetailsBlockProps) => {
@@ -33,18 +31,10 @@ export const ProjectDetailsBlock = ({
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {links.demo_link_1 && (
-              <LinkPreviewCard 
-                url={links.demo_link_1}
-                title={title}
-                thumbnail={thumbnail}
-              />
+              <LinkPreviewCard url={links.demo_link_1} />
             )}
             {links.preview && (
-              <LinkPreviewCard 
-                url={links.preview}
-                title={title}
-                thumbnail={thumbnail}
-              />
+              <LinkPreviewCard url={links.preview} />
             )}
           </div>
         </div>
