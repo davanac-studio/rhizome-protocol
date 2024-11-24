@@ -8,6 +8,8 @@ interface ProjectDetailsBlockProps {
   links: {
     demo_link_1: string;
     preview: string;
+    demo_link_3: string;
+    demo_link_4: string;
   };
   thumbnail: string;
   title: string;
@@ -23,7 +25,7 @@ export const ProjectDetailsBlock = ({
 }: ProjectDetailsBlockProps) => {
   return (
     <div className="space-y-6">
-      {(links.demo_link_1 || links.preview) && (
+      {(links.demo_link_1 || links.preview || links.demo_link_3 || links.demo_link_4) && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center gap-2">
             <Link2Icon className="w-5 h-5" />
@@ -35,6 +37,12 @@ export const ProjectDetailsBlock = ({
             )}
             {links.preview && (
               <LinkPreviewCard url={links.preview} />
+            )}
+            {links.demo_link_3 && (
+              <LinkPreviewCard url={links.demo_link_3} />
+            )}
+            {links.demo_link_4 && (
+              <LinkPreviewCard url={links.demo_link_4} />
             )}
           </div>
         </div>

@@ -31,6 +31,8 @@ export const NewProjectDialog = () => {
         links: {
           demo_link_1: projectData.links?.demo_link_1 || "",
           preview: projectData.links?.preview || "",
+          demo_link_3: projectData.links?.demo_link_3 || "",
+          demo_link_4: projectData.links?.demo_link_4 || ""
         },
         author: {
           name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
