@@ -22,7 +22,8 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
       let query = supabase
         .from('profiles')
         .select('*')
-        .eq('account_type', 'individuel');
+        .eq('account_type', 'individuel')
+        .not('collectif-name', 'is', 'not null'); // Ensure we exclude profiles with collectif names
 
       // Filter out team leader and existing participants
       const excludedProfiles = [...existingParticipants];
