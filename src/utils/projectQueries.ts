@@ -69,27 +69,6 @@ export const fetchUserProjects = async (username: string) => {
     return [];
   }
 
-  // Transform team leader projects
-  const leaderProjects = teamLeaderProjects ? 
-    teamLeaderProjects.map((project: any) => ({
-      ...project,
-      author: {
-        ...project.team_leader_profile,
-        role: "Team Leader",
-        contribution: project.team_leader_contribution,
-        contributionDescription: project.team_leader_contribution_description
-      },
-      participants: project.project_participants?.map((p: any) => ({
-        name: `${p.user.first_name} ${p.user.last_name}`,
-        username: p.user.username,
-        avatar: p.avatar || p.user.avatar_url,
-        expertise: p.user.expertise,
-        role: "Member",
-        contribution: p.contribution,
-        contributionDescription: p.contribution_description
-      })) || []
-    })).map(transformDatabaseProject) : [];
-
   // Fetch projects where user is a participant
   const { data: participantProjects, error: participantError } = await supabase
     .from('project_participants')
@@ -121,6 +100,44 @@ export const fetchUserProjects = async (username: string) => {
     `)
     .eq('user_id', profile.id);
 
+  // Fetch projects where user is a client
+  const { data: clientProjects, error: clientError } = await supabase
+    .from('projects')
+    .select(`
+      *,
+      team_leader_profile:profiles!projects_team_leader_fkey (
+        id,
+        first_name,
+        last_name,
+        username,
+        avatar_url,
+        expertise
+      ),
+      project_participants (
+        user:profiles!project_participants_user_id_fkey (
+          id,
+          first_name,
+          last_name,
+          username,
+          avatar_url,
+          expertise
+        ),
+        contribution,
+        contribution_description,
+        avatar
+      )
+    `)
+    .eq('client', profile.id);
+
+  if (clientError) {
+    console.error('Error fetching client projects:', clientError);
+    toast({
+      title: "Erreur",
+      description: "Impossible de charger les projets en tant que client",
+      variant: "destructive",
+    });
+  }
+
   if (participantError) {
     console.error('Error fetching participant projects:', participantError);
     toast({
@@ -131,7 +148,27 @@ export const fetchUserProjects = async (username: string) => {
     return leaderProjects;
   }
 
-  // Transform participant projects
+  // Transform all projects
+  const leaderProjects = teamLeaderProjects ? 
+    teamLeaderProjects.map((project: any) => ({
+      ...project,
+      author: {
+        ...project.team_leader_profile,
+        role: "Team Leader",
+        contribution: project.team_leader_contribution,
+        contributionDescription: project.team_leader_contribution_description
+      },
+      participants: project.project_participants?.map((p: any) => ({
+        name: `${p.user.first_name} ${p.user.last_name}`,
+        username: p.user.username,
+        avatar: p.avatar || p.user.avatar_url,
+        expertise: p.user.expertise,
+        role: "Member",
+        contribution: p.contribution,
+        contributionDescription: p.contribution_description
+      })) || []
+    })).map(transformDatabaseProject) : [];
+
   const participatingProjects = participantProjects ? 
     participantProjects
       .filter((item: any) => item.project !== null)
@@ -154,8 +191,28 @@ export const fetchUserProjects = async (username: string) => {
         })) || []
       })).map(transformDatabaseProject) : [];
 
-  // Remove duplicates
-  return [...leaderProjects, ...participatingProjects].filter(
+  const clientProjectsList = clientProjects ? 
+    clientProjects.map((project: any) => ({
+      ...project,
+      author: {
+        ...project.team_leader_profile,
+        role: "Team Leader",
+        contribution: project.team_leader_contribution,
+        contributionDescription: project.team_leader_contribution_description
+      },
+      participants: project.project_participants?.map((p: any) => ({
+        name: `${p.user.first_name} ${p.user.last_name}`,
+        username: p.user.username,
+        avatar: p.avatar || p.user.avatar_url,
+        expertise: p.user.expertise,
+        role: "Member",
+        contribution: p.contribution,
+        contributionDescription: p.contribution_description
+      })) || []
+    })).map(transformDatabaseProject) : [];
+
+  // Remove duplicates and combine all projects
+  return [...leaderProjects, ...participatingProjects, ...clientProjectsList].filter(
     (project, index, self) =>
       index === self.findIndex((p) => p.id === project.id)
   );

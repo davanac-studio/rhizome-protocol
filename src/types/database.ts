@@ -31,6 +31,8 @@ export interface DatabaseProject {
   project_participants: DatabaseParticipant[];
   demo_link_1?: string;
   preview_link?: string;
+  demo_link_3?: string;
+  demo_link_4?: string;
 }
 
 export interface ParticipantProject {
