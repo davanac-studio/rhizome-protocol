@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProjectHeader } from "@/components/ProjectHeader";
-import { ProjectDetailsComponent } from "@/components/ProjectDetails";
+import { ProjectDetailsComponent } from "@/components/project/ProjectDetailsComponent";
 
 interface ProjectContentProps {
   project: Project;

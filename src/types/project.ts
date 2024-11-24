@@ -36,6 +36,8 @@ export interface Project {
   links: {
     demo_link_1: string;
     preview: string;
+    demo_link_3: string;
+    demo_link_4: string;
   };
   certification?: NFTCertification;
 }
