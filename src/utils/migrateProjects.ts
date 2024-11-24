@@ -15,7 +15,7 @@ export const migrateProjectsToSupabase = async () => {
       client: project.client,
       testimonial: project.testimonial,
       demo_link_1: project.links?.demo_link_1 || null,
-      preview_link: project.links?.preview || null,
+      demo_link_2: project.links?.demo_link_2 || null,
       team_leader: project.author.name, // Temporarily using name as we don't have user IDs yet
       team_leader_contribution: project.author.contribution,
       team_leader_contribution_description: project.author.contributionDescription

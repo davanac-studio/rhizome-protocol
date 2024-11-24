@@ -14,7 +14,7 @@ export const createProject = (
   testimonial: string,
   authorProfile: keyof typeof teamMembers,
   participantProfiles: (keyof typeof teamMembers)[],
-  links: { demo_link_1: string; preview: string; demo_link_3?: string; demo_link_4?: string }
+  links: { demo_link_1: string; demo_link_2: string; demo_link_3?: string; demo_link_4?: string }
 ): Project => {
   const author = { 
     ...teamMembers[authorProfile], 
@@ -45,7 +45,7 @@ export const createProject = (
     participants,
     links: {
       demo_link_1: links.demo_link_1,
-      preview: links.preview,
+      demo_link_2: links.demo_link_2,
       demo_link_3: links.demo_link_3 || '',
       demo_link_4: links.demo_link_4 || ''
     },
