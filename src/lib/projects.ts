@@ -71,3 +71,30 @@ export const fetchProject = async (id: string): Promise<Project> => {
     }
   };
 };
+
+export const createProject = async (projectData: any) => {
+  const { data, error } = await supabase
+    .from('projects')
+    .insert({
+      id: crypto.randomUUID(),
+      title: projectData.title,
+      description: projectData.description,
+      due_date: projectData.dueDate,
+      thumbnail: projectData.thumbnail,
+      category: projectData.category,
+      client: projectData.client,
+      testimonial: projectData.testimonial,
+      demo_link_1: projectData.links.demo_link_1,
+      demo_link_2: projectData.links.preview_link,
+      demo_link_3: projectData.links.demo_link_3,
+      demo_link_4: projectData.links.demo_link_4,
+      team_leader: projectData.author.id,
+      team_leader_contribution: projectData.author.contribution,
+      team_leader_contribution_description: projectData.author.contributionDescription,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};

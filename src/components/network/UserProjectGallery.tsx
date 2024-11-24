@@ -1,91 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { Card } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { Project } from "@/types/project";
+import { ProjectCard } from "../ProjectCard";
 
 interface UserProjectGalleryProps {
-  userId: string;
+  projects: Project[];
 }
 
-interface ProjectData {
-  id: string;
-  title: string;
-  thumbnail: string;
-}
-
-export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
-  const navigate = useNavigate();
-  
-  const { data: projects, isLoading } = useQuery({
-    queryKey: ['user-projects', userId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .select('id, title, thumbnail')
-        .or(`team_leader.eq.${userId},client.eq.${userId}`)
-        .limit(6);
-
-      if (error) throw error;
-
-      // Get projects where user is a participant
-      const { data: participantProjects, error: participantError } = await supabase
-        .from('project_participants')
-        .select('project:projects(id, title, thumbnail)')
-        .eq('user_id', userId)
-        .limit(6);
-
-      if (participantError) throw participantError;
-
-      const leaderProjects: ProjectData[] = data || [];
-      const memberProjects: ProjectData[] = participantProjects?.map(pp => ({
-        id: pp.project.id,
-        title: pp.project.title,
-        thumbnail: pp.project.thumbnail
-      })) || [];
-
-      // Combine and deduplicate projects
-      const allProjects = [...leaderProjects, ...memberProjects];
-      
-      // Remove duplicates based on project id
-      return Array.from(
-        new Map(allProjects.map(project => [project.id, project])).values()
-      );
-    }
-  });
-
-  if (isLoading) {
+export const UserProjectGallery = ({ projects }: UserProjectGalleryProps) => {
+  if (!projects || projects.length === 0) {
     return (
-      <div className="grid grid-cols-2 gap-4">
-        {[...Array(4)].map((_, i) => (
-          <Card key={i} className="aspect-video animate-pulse bg-gray-200" />
-        ))}
+      <div className="text-center py-8">
+        <p className="text-gray-500">Aucun projet trouvé</p>
       </div>
     );
   }
 
-  if (!projects?.length) {
-    return <p className="text-muted-foreground">Aucun projet trouvé</p>;
-  }
-
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <Card 
+        <ProjectCard
           key={project.id}
-          className="relative aspect-video cursor-pointer overflow-hidden group"
-          onClick={() => navigate(`/project/${project.id}`)}
-        >
-          <img
-            src={project.thumbnail}
-            alt={project.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-            <h3 className="text-white font-medium line-clamp-2 text-sm">
-              {project.title}
-            </h3>
-          </div>
-        </Card>
+          id={project.id}
+          title={project.title}
+          thumbnail={project.thumbnail}
+        />
       ))}
     </div>
   );

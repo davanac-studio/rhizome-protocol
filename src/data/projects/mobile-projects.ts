@@ -33,7 +33,7 @@ export const mobileProjects: Project[] = [
     ],
     links: {
       demo_link_1: "https://github.com/example/local-producers-app",
-      preview: "https://app.example.com/producers",
+      preview_link: "https://app.example.com/producers",
       demo_link_3: "",
       demo_link_4: ""
     }

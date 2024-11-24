@@ -1,11 +1,23 @@
 import { supabase } from "@/lib/supabase";
-import { Project } from "@/types/project";
-import { projects } from "@/data/projects";
+import { eventProjects } from "@/data/projects/event-projects";
+import { formationProjects } from "@/data/projects/formation-projects";
+import { liveProjects } from "@/data/projects/live-projects";
+import { marketingProjects } from "@/data/projects/marketing-projects";
+import { mobileProjects } from "@/data/projects/mobile-projects";
+import { videoProjects } from "@/data/projects/video-projects";
 
-export const migrateProjectsToSupabase = async () => {
-  for (const project of projects) {
-    // Insert project
-    const { error: projectError } = await supabase
+export const migrateProjects = async () => {
+  const allProjects = [
+    ...eventProjects,
+    ...formationProjects,
+    ...liveProjects,
+    ...marketingProjects,
+    ...mobileProjects,
+    ...videoProjects
+  ];
+
+  for (const project of allProjects) {
+    const { error } = await supabase
       .from('projects')
       .insert({
         id: project.id,
@@ -17,20 +29,20 @@ export const migrateProjectsToSupabase = async () => {
         client: project.client,
         testimonial: project.testimonial,
         demo_link_1: project.links.demo_link_1,
-        preview_link: project.links.preview_link,
+        demo_link_2: project.links.preview_link,
         demo_link_3: project.links.demo_link_3,
         demo_link_4: project.links.demo_link_4,
         team_leader: project.author.id,
         team_leader_contribution: project.author.contribution,
-        team_leader_contribution_description: project.author.contributionDescription
+        team_leader_contribution_description: project.author.contributionDescription,
       });
 
-    if (projectError) {
-      console.error('Error inserting project:', projectError);
+    if (error) {
+      console.error('Error migrating project:', error);
       continue;
     }
 
-    // Insert participants
+    // Migrate participants
     for (const participant of project.participants || []) {
       const { error: participantError } = await supabase
         .from('project_participants')
@@ -43,7 +55,7 @@ export const migrateProjectsToSupabase = async () => {
         });
 
       if (participantError) {
-        console.error('Error inserting participant:', participantError);
+        console.error('Error migrating participant:', participantError);
       }
     }
   }
