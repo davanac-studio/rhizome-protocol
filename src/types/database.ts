@@ -29,7 +29,7 @@ export interface DatabaseProject {
   team_leader_contribution_description: string;
   team_leader_profile: DatabaseUser;
   project_participants: DatabaseParticipant[];
-  github_link?: string;
+  demo_link_1?: string;
   preview_link?: string;
 }
 
