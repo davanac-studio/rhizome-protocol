@@ -40,7 +40,7 @@ export const ProjectForm = ({
     client: "",
     testimonial: "",
     links: {
-      github: "",
+      demo_link_1: "",
       preview: ""
     }
   });

@@ -38,7 +38,7 @@ export const liveProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/stereopsia-live",
+      demo_link_1: "https://github.com/example/stereopsia-live",
       preview: "https://live.example.com/stereopsia"
     }
   }

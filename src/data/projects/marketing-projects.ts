@@ -32,7 +32,7 @@ export const marketingProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/road-to-2030",
+      demo_link_1: "https://github.com/example/road-to-2030",
       preview: "https://campaign.example.com/2030"
     }
   }

@@ -32,7 +32,7 @@ export const mobileProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/local-producers-app",
+      demo_link_1: "https://github.com/example/local-producers-app",
       preview: "https://app.example.com/producers"
     }
   }

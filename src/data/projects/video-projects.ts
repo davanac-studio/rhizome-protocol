@@ -32,7 +32,7 @@ export const videoProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/ukraine-explainer",
+      demo_link_1: "https://github.com/example/ukraine-explainer",
       preview: "https://video.example.com/ukraine"
     }
   },
@@ -72,7 +72,7 @@ export const videoProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/kikk-aftermovie",
+      demo_link_1: "https://github.com/example/kikk-aftermovie",
       preview: "https://video.example.com/kikk"
     }
   }

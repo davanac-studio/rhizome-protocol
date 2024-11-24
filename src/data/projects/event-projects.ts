@@ -32,7 +32,7 @@ export const eventProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/blockchain-hackathon",
+      demo_link_1: "https://github.com/example/blockchain-hackathon",
       preview: "https://event.example.com/web3"
     }
   },
@@ -72,7 +72,7 @@ export const eventProjects: Project[] = [
       }
     ],
     links: {
-      github: "https://github.com/example/sxsw-coverage",
+      demo_link_1: "https://github.com/example/sxsw-coverage",
       preview: "https://event.example.com/sxsw"
     }
   }
