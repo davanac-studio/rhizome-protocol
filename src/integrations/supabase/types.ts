@@ -122,9 +122,9 @@ export type Database = {
           category: string
           client: string | null
           created_at: string
+          demo_link_1: string | null
           description: string
           due_date: string
-          github_link: string | null
           id: string
           preview_link: string | null
           team_leader: string
@@ -138,9 +138,9 @@ export type Database = {
           category: string
           client?: string | null
           created_at?: string
+          demo_link_1?: string | null
           description: string
           due_date: string
-          github_link?: string | null
           id: string
           preview_link?: string | null
           team_leader: string
@@ -154,9 +154,9 @@ export type Database = {
           category?: string
           client?: string | null
           created_at?: string
+          demo_link_1?: string | null
           description?: string
           due_date?: string
-          github_link?: string | null
           id?: string
           preview_link?: string | null
           team_leader?: string

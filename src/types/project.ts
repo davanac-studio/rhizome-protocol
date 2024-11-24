@@ -34,7 +34,7 @@ export interface Project {
   author: ProjectMember & { role: "Team Leader" };
   participants?: ProjectMember[];
   links: {
-    github: string;
+    demo_link_1: string;
     preview: string;
   };
   certification?: NFTCertification;

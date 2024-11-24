@@ -37,7 +37,7 @@ export const createProject = async (projectData: Omit<Project, "id">) => {
         category: projectData.category,
         client: projectData.client,
         testimonial: projectData.testimonial || null,
-        github_link: projectData.links?.github || null,
+        demo_link_1: projectData.links?.demo_link_1 || null,
         preview_link: projectData.links?.preview || null,
         team_leader: userData.user.id,
         team_leader_contribution: projectData.author.contribution || 0,

@@ -29,7 +29,7 @@ export const NewProjectDialog = () => {
       const projectToCreate = {
         ...projectData,
         links: {
-          github: projectData.links?.github || "",
+          demo_link_1: projectData.links?.demo_link_1 || "",
           preview: projectData.links?.preview || "",
         },
         author: {
