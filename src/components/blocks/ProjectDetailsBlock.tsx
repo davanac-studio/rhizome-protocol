@@ -9,6 +9,8 @@ interface ProjectDetailsBlockProps {
     demo_link_1: string;
     preview: string;
   };
+  thumbnail: string;
+  title: string;
   author: ProjectMember & { role: "Team Leader" };
   participants?: ProjectMember[];
 }
@@ -16,6 +18,8 @@ interface ProjectDetailsBlockProps {
 export const ProjectDetailsBlock = ({
   dueDate,
   links,
+  thumbnail,
+  title,
   author,
   participants,
 }: ProjectDetailsBlockProps) => {
@@ -31,13 +35,15 @@ export const ProjectDetailsBlock = ({
             {links.demo_link_1 && (
               <LinkPreviewCard 
                 url={links.demo_link_1}
-                title="Lien de présentation #1"
+                title={title}
+                thumbnail={thumbnail}
               />
             )}
             {links.preview && (
               <LinkPreviewCard 
                 url={links.preview}
-                title="Lien de présentation #2"
+                title={title}
+                thumbnail={thumbnail}
               />
             )}
           </div>
