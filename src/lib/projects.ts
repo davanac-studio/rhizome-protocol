@@ -114,6 +114,29 @@ export const createProject = async (projectData: any) => {
       }
     }
 
+    // Create participants if any exist
+    if (project && projectData.participants?.length > 0) {
+      const validParticipants = projectData.participants
+        .filter((participant: any) => participant.profile && participant.profile.trim() !== "")
+        .map((participant: any) => ({
+          project_id: project.id,
+          user_id: participant.profile,
+          contribution: participant.contribution,
+          contribution_description: participant.contributionDescription
+        }));
+
+      if (validParticipants.length > 0) {
+        const { error: participantsError } = await supabase
+          .from('project_participants')
+          .insert(validParticipants);
+
+        if (participantsError) {
+          console.error('Error creating participants:', participantsError);
+          throw participantsError;
+        }
+      }
+    }
+
     return project;
   } catch (error) {
     console.error('Error in createProject:', error);
