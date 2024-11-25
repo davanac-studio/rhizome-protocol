@@ -21,12 +21,16 @@ export const ProjectGallery = () => {
             last_name,
             username,
             avatar_url,
-            expertise
+            expertise,
+            "collectif-name",
+            account_type
           ),
           client_profile:profiles!projects_client_fkey (
             id,
             first_name,
-            last_name
+            last_name,
+            "collectif-name",
+            account_type
           ),
           project_participants (
             user:profiles!project_participants_user_id_fkey (
@@ -35,7 +39,9 @@ export const ProjectGallery = () => {
               last_name,
               username,
               avatar_url,
-              expertise
+              expertise,
+              "collectif-name",
+              account_type
             ),
             contribution,
             contribution_description,
