@@ -1,152 +1,167 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { useEffect, useRef } from "react";
-import * as d3 from "d3";
+import { NetworkChart } from "./NetworkChart";
+import { Card } from "@/components/ui/card";
 
-interface NetworkNode extends d3.SimulationNodeDatum {
+interface Profile {
   id: string;
-  name: string;
-  type: string;
+  first_name: string | null;
+  last_name: string | null;
+  "collectif-name": string | null;
+  avatar_url: string | null;
+  expertise: string | null;
+  account_type: string | null;
 }
 
-interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
+interface NetworkNode {
+  id: string;
+  name: string;
+  avatar: string | null;
+  value: number;
+  expertise: string;
+}
+
+interface NetworkLink {
   source: string;
   target: string;
+  projectId: string;
+  projectTitle: string;
 }
 
 export const ParticipantNetwork = () => {
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  const { data: networkData } = useQuery({
-    queryKey: ['participantNetwork'],
+  const { data: networkData, isLoading } = useQuery({
+    queryKey: ['participant-network'],
     queryFn: async () => {
-      const { data: projects, error: projectsError } = await supabase
+      const { data: projects, error } = await supabase
         .from('projects')
         .select(`
           id,
           title,
           team_leader,
+          team_leader_profile:profiles!projects_team_leader_fkey (
+            id,
+            first_name,
+            last_name,
+            avatar_url,
+            expertise,
+            account_type,
+            "collectif-name"
+          ),
           project_participants (
-            user_id
+            user:profiles!project_participants_user_id_fkey (
+              id,
+              first_name,
+              last_name,
+              avatar_url,
+              expertise,
+              account_type,
+              "collectif-name"
+            )
           )
         `);
 
-      if (projectsError) throw projectsError;
+      if (error) throw error;
 
-      const { data: profiles, error: profilesError } = await supabase
-        .from('profiles')
-        .select('*');
-
-      if (profilesError) throw profilesError;
-
-      // Create nodes for all profiles
-      const nodes: NetworkNode[] = profiles.map((profile) => ({
-        id: profile.id,
-        name: profile.account_type === 'collectif' 
-          ? profile['collectif-name'] 
-          : `${profile.first_name || ''} ${profile.last_name || ''}`.trim(),
-        type: profile.account_type || 'individuel'
-      }));
-
-      // Create links between participants
+      const nodes = new Map<string, NetworkNode>();
       const links: NetworkLink[] = [];
-      
+
       projects?.forEach(project => {
-        if (project.team_leader) {
-          project.project_participants?.forEach(participant => {
-            if (participant.user_id) {
-              links.push({
-                source: project.team_leader,
-                target: participant.user_id
-              });
-            }
-          });
+        // Add team leader to nodes
+        const teamLeader = project.team_leader_profile as unknown as Profile;
+        if (teamLeader) {
+          const leaderId = teamLeader.id;
+          const name = teamLeader.account_type === 'collectif' 
+            ? teamLeader["collectif-name"] || ''
+            : `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim();
+
+          if (!nodes.has(leaderId)) {
+            nodes.set(leaderId, {
+              id: leaderId,
+              name: name,
+              avatar: teamLeader.avatar_url,
+              expertise: teamLeader.expertise || 'Non spécifié',
+              value: 1
+            });
+          } else {
+            const node = nodes.get(leaderId)!;
+            nodes.set(leaderId, { ...node, value: node.value + 1 });
+          }
         }
+
+        // Add participants to nodes and create links
+        project.project_participants?.forEach(({ user }) => {
+          if (!user) return;
+          
+          const participant = user as unknown as Profile;
+          const participantId = participant.id;
+          const name = participant.account_type === 'collectif'
+            ? participant["collectif-name"] || ''
+            : `${participant.first_name || ''} ${participant.last_name || ''}`.trim();
+
+          if (!nodes.has(participantId)) {
+            nodes.set(participantId, {
+              id: participantId,
+              name: name,
+              avatar: participant.avatar_url,
+              expertise: participant.expertise || 'Non spécifié',
+              value: 1
+            });
+          } else {
+            const node = nodes.get(participantId)!;
+            nodes.set(participantId, { ...node, value: node.value + 1 });
+          }
+
+          // Create links between team leader and participants
+          if (teamLeader) {
+            links.push({
+              source: teamLeader.id,
+              target: participantId,
+              projectId: project.id,
+              projectTitle: project.title
+            });
+          }
+
+          // Create links between participants
+          project.project_participants?.forEach(({ user: otherUser }) => {
+            if (!otherUser || (otherUser as unknown as Profile).id === participantId) return;
+            links.push({
+              source: participantId,
+              target: (otherUser as unknown as Profile).id,
+              projectId: project.id,
+              projectTitle: project.title
+            });
+          });
+        });
       });
 
-      return { nodes, links };
+      return {
+        nodes: Array.from(nodes.values()),
+        links: links.filter((link, index, self) => 
+          index === self.findIndex(l => 
+            (l.source === link.source && l.target === link.target) ||
+            (l.source === link.target && l.target === link.source)
+          )
+        )
+      };
     }
   });
 
-  useEffect(() => {
-    if (!networkData || !svgRef.current) return;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-muted-foreground">Chargement du réseau...</p>
+      </div>
+    );
+  }
 
-    const width = 800;
-    const height = 600;
-
-    // Clear previous SVG content
-    d3.select(svgRef.current).selectAll("*").remove();
-
-    const svg = d3.select(svgRef.current)
-      .attr("width", width)
-      .attr("height", height);
-
-    const simulation = d3.forceSimulation<NetworkNode>(networkData.nodes)
-      .force("link", d3.forceLink<NetworkNode, NetworkLink>(networkData.links)
-        .id(d => d.id)
-        .distance(100))
-      .force("charge", d3.forceManyBody().strength(-200))
-      .force("center", d3.forceCenter(width / 2, height / 2));
-
-    const links = svg.append("g")
-      .selectAll("line")
-      .data(networkData.links)
-      .join("line")
-      .style("stroke", "#999")
-      .style("stroke-opacity", 0.6)
-      .style("stroke-width", 2);
-
-    const nodes = svg.append("g")
-      .selectAll("g")
-      .data(networkData.nodes)
-      .join("g")
-      .call(d3.drag<SVGGElement, NetworkNode>()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
-
-    nodes.append("circle")
-      .attr("r", d => d.type === 'collectif' ? 10 : 7)
-      .style("fill", d => d.type === 'collectif' ? "#2a9d8f" : "#e76f51");
-
-    nodes.append("text")
-      .text(d => d.name || "Sans nom")
-      .attr("x", 12)
-      .attr("y", 4)
-      .style("font-size", "12px");
-
-    simulation.on("tick", () => {
-      links
-        .attr("x1", d => (d.source as NetworkNode).x!)
-        .attr("y1", d => (d.source as NetworkNode).y!)
-        .attr("x2", d => (d.target as NetworkNode).x!)
-        .attr("y2", d => (d.target as NetworkNode).y!);
-
-      nodes.attr("transform", d => `translate(${d.x},${d.y})`);
-    });
-
-    function dragstarted(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
-    }
-
-    function dragged(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
-    }
-
-    function dragended(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
-      if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
-    }
-
-  }, [networkData]);
+  if (!networkData) return null;
 
   return (
-    <div className="w-full flex justify-center">
-      <svg ref={svgRef} className="border rounded-lg"></svg>
-    </div>
+    <Card className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Réseau des collaborations</h2>
+      <div className="h-[600px] w-full">
+        <NetworkChart data={networkData} />
+      </div>
+    </Card>
   );
 };

@@ -27,7 +27,9 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
 
       let query = supabase
         .from('profiles')
-        .select('*');
+        .select('*')
+        .eq('account_type', 'individuel')
+        .is('collectif-name', null);
 
       if (excludedProfiles.length > 0) {
         query = query.not('id', 'in', `(${excludedProfiles.join(',')})`);
@@ -45,13 +47,6 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
     setOpen(false);
   };
 
-  const getDisplayName = (profile: any) => {
-    if (profile.account_type === 'collectif') {
-      return profile['collectif-name'] || 'Collectif sans nom';
-    }
-    return `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Utilisateur sans nom';
-  };
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -61,9 +56,8 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
           className="w-full justify-between"
         >
           {value ? 
-            profiles?.find(p => p.id === value) ? 
-              getDisplayName(profiles.find(p => p.id === value))
-              : "Participant non trouvé"
+            profiles?.find(p => p.id === value)?.first_name + " " + 
+            profiles?.find(p => p.id === value)?.last_name
             : "Sélectionner un participant"}
           <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -79,8 +73,8 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
                 value={profile.id}
                 onSelect={() => handleSelect(profile.id)}
               >
-                {getDisplayName(profile)}
-                {profile.expertise && profile.account_type !== 'collectif' && (
+                {profile.first_name} {profile.last_name}
+                {profile.expertise && (
                   <span className="ml-2 text-sm text-muted-foreground">
                     ({profile.expertise})
                   </span>
