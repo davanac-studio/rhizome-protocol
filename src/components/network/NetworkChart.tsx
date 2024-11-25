@@ -8,15 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { UserProjectGallery } from './UserProjectGallery';
 
-interface NetworkNode {
+interface NetworkNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   avatar: string | null;
   value: number;
   expertise: string;
+  isCollectif: boolean;
 }
 
-interface NetworkLink {
+interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
   source: string;
   target: string;
   projectId: string;
@@ -48,13 +49,13 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .attr("viewBox", [0, 0, width, height]);
 
     // Create a simulation for positioning nodes
-    const simulation = d3.forceSimulation(data.nodes as any)
-      .force("link", d3.forceLink(data.links)
-        .id((d: any) => d.id)
+    const simulation = d3.forceSimulation<NetworkNode>(data.nodes)
+      .force("link", d3.forceLink<NetworkNode, NetworkLink>(data.links)
+        .id(d => d.id)
         .distance(100))
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(50));
+      .force("collision", d3.forceCollide().radius(d => (d.isCollectif ? 60 : 50)));
 
     // Create links
     const link = svg.append("g")
@@ -70,40 +71,41 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .selectAll("g")
       .data(data.nodes)
       .join("g")
-      .call(d3.drag()
+      .call(d3.drag<SVGGElement, NetworkNode>()
         .on("start", dragstarted)
         .on("drag", dragged)
-        .on("end", dragended) as any);
+        .on("end", dragended));
 
     // Add circles to nodes
     node.append("circle")
-      .attr("r", (d: NetworkNode) => Math.sqrt(d.value) * 10)
-      .attr("fill", "#4f46e5")
-      .attr("stroke", "#312e81")
+      .attr("r", (d: NetworkNode) => Math.sqrt(d.value) * (d.isCollectif ? 12 : 10))
+      .attr("fill", (d: NetworkNode) => d.isCollectif ? "#9333ea" : "#4f46e5")
+      .attr("stroke", (d: NetworkNode) => d.isCollectif ? "#581c87" : "#312e81")
       .attr("stroke-width", 1.5);
 
     // Add avatars to nodes
     node.append("clipPath")
       .attr("id", (d: NetworkNode) => `clip-${d.id}`)
       .append("circle")
-      .attr("r", (d: NetworkNode) => Math.sqrt(d.value) * 10);
+      .attr("r", (d: NetworkNode) => Math.sqrt(d.value) * (d.isCollectif ? 12 : 10));
 
     node.append("image")
       .attr("xlink:href", (d: NetworkNode) => d.avatar || '')
-      .attr("x", (d: NetworkNode) => -Math.sqrt(d.value) * 10)
-      .attr("y", (d: NetworkNode) => -Math.sqrt(d.value) * 10)
-      .attr("width", (d: NetworkNode) => Math.sqrt(d.value) * 20)
-      .attr("height", (d: NetworkNode) => Math.sqrt(d.value) * 20)
+      .attr("x", (d: NetworkNode) => -Math.sqrt(d.value) * (d.isCollectif ? 12 : 10))
+      .attr("y", (d: NetworkNode) => -Math.sqrt(d.value) * (d.isCollectif ? 12 : 10))
+      .attr("width", (d: NetworkNode) => Math.sqrt(d.value) * (d.isCollectif ? 24 : 20))
+      .attr("height", (d: NetworkNode) => Math.sqrt(d.value) * (d.isCollectif ? 24 : 20))
       .attr("clip-path", (d: NetworkNode) => `url(#clip-${d.id})`);
 
     // Add name labels
     node.append("text")
       .text((d: NetworkNode) => d.name)
       .attr("x", 0)
-      .attr("y", (d: NetworkNode) => Math.sqrt(d.value) * 10 + 20)
+      .attr("y", (d: NetworkNode) => Math.sqrt(d.value) * (d.isCollectif ? 14 : 12) + 20)
       .attr("text-anchor", "middle")
       .attr("fill", "#4b5563")
-      .style("font-size", "12px");
+      .style("font-size", (d: NetworkNode) => d.isCollectif ? "14px" : "12px")
+      .style("font-weight", (d: NetworkNode) => d.isCollectif ? "600" : "normal");
 
     // Add click event to nodes
     node.on("click", (event: MouseEvent, d: NetworkNode) => {
@@ -123,18 +125,18 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     });
 
     // Drag functions
-    function dragstarted(event: any) {
+    function dragstarted(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
     }
 
-    function dragged(event: any) {
+    function dragged(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       event.subject.fx = event.x;
       event.subject.fy = event.y;
     }
 
-    function dragended(event: any) {
+    function dragended(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
       event.subject.fy = null;

@@ -19,6 +19,7 @@ interface NetworkNode {
   avatar: string | null;
   value: number;
   expertise: string;
+  isCollectif: boolean;
 }
 
 interface NetworkLink {
@@ -70,7 +71,8 @@ export const ParticipantNetwork = () => {
         const teamLeader = project.team_leader_profile as unknown as Profile;
         if (teamLeader) {
           const leaderId = teamLeader.id;
-          const name = teamLeader.account_type === 'collectif' 
+          const isCollectif = teamLeader.account_type === 'collectif';
+          const name = isCollectif 
             ? teamLeader["collectif-name"] || ''
             : `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim();
 
@@ -80,7 +82,8 @@ export const ParticipantNetwork = () => {
               name: name,
               avatar: teamLeader.avatar_url,
               expertise: teamLeader.expertise || 'Non spécifié',
-              value: 1
+              value: 1,
+              isCollectif
             });
           } else {
             const node = nodes.get(leaderId)!;
@@ -94,7 +97,8 @@ export const ParticipantNetwork = () => {
           
           const participant = user as unknown as Profile;
           const participantId = participant.id;
-          const name = participant.account_type === 'collectif'
+          const isCollectif = participant.account_type === 'collectif';
+          const name = isCollectif
             ? participant["collectif-name"] || ''
             : `${participant.first_name || ''} ${participant.last_name || ''}`.trim();
 
@@ -104,7 +108,8 @@ export const ParticipantNetwork = () => {
               name: name,
               avatar: participant.avatar_url,
               expertise: participant.expertise || 'Non spécifié',
-              value: 1
+              value: 1,
+              isCollectif
             });
           } else {
             const node = nodes.get(participantId)!;
