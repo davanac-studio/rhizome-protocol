@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
 
 const transformProfileToNode = (profile: Profile): NetworkNode => {
