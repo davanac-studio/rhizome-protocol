@@ -13,9 +13,7 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
   const [visibleLinks, setVisibleLinks] = useState(1);
 
   const handleAddLink = () => {
-    if (visibleLinks < 4) {
-      setVisibleLinks(prev => prev + 1);
-    }
+    setVisibleLinks(prev => prev + 1);
   };
 
   const updateLink = (linkNumber: number, value: string) => {
@@ -44,17 +42,15 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
         </div>
       ))}
 
-      {visibleLinks < 4 && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleAddLink}
-          className="w-full flex items-center justify-center gap-2"
-        >
-          <PlusCircle className="h-4 w-4" />
-          Ajouter un lien de présentation
-        </Button>
-      )}
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleAddLink}
+        className="w-full flex items-center justify-center gap-2"
+      >
+        <PlusCircle className="h-4 w-4" />
+        Ajouter un lien de présentation
+      </Button>
     </div>
   );
 };
