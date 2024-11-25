@@ -5,7 +5,7 @@ export interface DatabaseUser {
   username: string;
   avatar_url: string;
   expertise: string;
-  role: string;
+  role?: string;
 }
 
 export interface DatabaseParticipant {
@@ -30,7 +30,7 @@ export interface DatabaseProject {
   team_leader_profile: DatabaseUser;
   project_participants: DatabaseParticipant[];
   demo_link_1?: string;
-  preview_link?: string;
+  demo_link_2?: string;
   demo_link_3?: string;
   demo_link_4?: string;
 }

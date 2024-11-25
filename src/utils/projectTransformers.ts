@@ -3,6 +3,7 @@ import { Project, ProjectLink } from "@/types/project";
 
 export const transformDatabaseProject = (project: DatabaseProject): Project => {
   const links: ProjectLink[] = [];
+  
   if (project.demo_link_1) links.push({ url: project.demo_link_1 });
   if (project.demo_link_2) links.push({ url: project.demo_link_2 });
   if (project.demo_link_3) links.push({ url: project.demo_link_3 });

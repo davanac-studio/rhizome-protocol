@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { transformDatabaseProject } from "@/utils/projectTransformers";
+import { DatabaseProject } from "@/types/database";
 
 export const ProjectGallery = () => {
   const { data: projects, isLoading, error } = useQuery({
@@ -45,7 +46,7 @@ export const ProjectGallery = () => {
 
       if (error) throw error;
       
-      return data?.map(transformDatabaseProject) || [];
+      return data?.map((project: DatabaseProject) => transformDatabaseProject(project)) || [];
     }
   });
 

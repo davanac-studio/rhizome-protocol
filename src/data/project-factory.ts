@@ -14,7 +14,7 @@ export const createProject = (
   testimonial: string,
   authorProfile: keyof typeof teamMembers,
   participantProfiles: (keyof typeof teamMembers)[],
-  links: { url: string }[]
+  links: ProjectLink[]
 ): Project => {
   const author = { 
     ...teamMembers[authorProfile], 
@@ -43,6 +43,6 @@ export const createProject = (
     testimonial,
     author,
     participants,
-    links: links.map(link => ({ url: link.url }))
+    links
   };
 };
