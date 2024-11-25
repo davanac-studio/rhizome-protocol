@@ -137,7 +137,7 @@ const EditProject = () => {
     category: project.category,
     client: project.client,
     testimonial: project.testimonial || "",
-    links: project.links
+    links: project.links || []
   };
 
   return (
