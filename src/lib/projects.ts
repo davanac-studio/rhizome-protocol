@@ -74,50 +74,49 @@ export const fetchProject = async (id: string): Promise<Project> => {
 };
 
 export const createProject = async (projectData: any) => {
-  // First create the project
-  const { data: project, error: projectError } = await supabase
-    .from('projects')
-    .insert({
-      id: crypto.randomUUID(),
-      title: projectData.title,
-      description: projectData.description,
-      due_date: projectData.dueDate,
-      thumbnail: projectData.thumbnail,
-      category: projectData.category,
-      client: projectData.client,
-      testimonial: projectData.testimonial,
-      team_leader: projectData.author.id,
-      team_leader_contribution: projectData.author.contribution,
-      team_leader_contribution_description: projectData.author.contributionDescription,
-    })
-    .select()
-    .single();
+  try {
+    // First create the project
+    const { data: project, error: projectError } = await supabase
+      .from('projects')
+      .insert({
+        id: crypto.randomUUID(),
+        title: projectData.title,
+        description: projectData.description,
+        due_date: projectData.dueDate,
+        thumbnail: projectData.thumbnail,
+        category: projectData.category,
+        client: projectData.client,
+        testimonial: projectData.testimonial,
+        team_leader: projectData.author.id,
+        team_leader_contribution: projectData.author.contribution,
+        team_leader_contribution_description: projectData.author.contributionDescription,
+      })
+      .select()
+      .single();
 
-  if (projectError) {
-    console.error("Error creating project:", projectError);
-    throw projectError;
-  }
+    if (projectError) throw projectError;
 
-  // Then create the links if any exist
-  if (project && projectData.links?.length > 0) {
-    const validLinks = projectData.links
-      .filter((link: ProjectLink) => link && typeof link.url === 'string' && link.url.trim() !== "")
-      .map((link: ProjectLink) => ({
-        project_id: project.id,
-        url: link.url.trim()
-      }));
+    // Then create the links if any exist
+    if (project && projectData.links?.length > 0) {
+      const validLinks = projectData.links
+        .filter((link: ProjectLink) => link && typeof link.url === 'string' && link.url.trim() !== "")
+        .map((link: ProjectLink) => ({
+          project_id: project.id,
+          url: link.url.trim()
+        }));
 
-    if (validLinks.length > 0) {
-      const { error: linksError } = await supabase
-        .from('project_links')
-        .insert(validLinks);
+      if (validLinks.length > 0) {
+        const { error: linksError } = await supabase
+          .from('project_links')
+          .insert(validLinks);
 
-      if (linksError) {
-        console.error("Error creating project links:", linksError);
-        throw linksError;
+        if (linksError) throw linksError;
       }
     }
-  }
 
-  return project;
+    return project;
+  } catch (error) {
+    console.error('Error in createProject:', error);
+    throw error;
+  }
 };
