@@ -39,12 +39,7 @@ export const ProjectForm = ({
     category: "",
     client: "",
     testimonial: "",
-    links: {
-      demo_link_1: "",
-      demo_link_2: "",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: []
   });
 
   const [participants, setParticipants] = useState<Array<{

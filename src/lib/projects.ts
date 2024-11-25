@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Project } from "@/types/project";
+import { Project, ProjectLink } from "@/types/project";
 
 export const fetchProject = async (id: string): Promise<Project> => {
   const { data: project, error } = await supabase
@@ -34,6 +34,12 @@ export const fetchProject = async (id: string): Promise<Project> => {
   if (error) throw error;
   if (!project) throw new Error('Project not found');
 
+  const links: ProjectLink[] = [];
+  if (project.demo_link_1) links.push({ url: project.demo_link_1 });
+  if (project.demo_link_2) links.push({ url: project.demo_link_2 });
+  if (project.demo_link_3) links.push({ url: project.demo_link_3 });
+  if (project.demo_link_4) links.push({ url: project.demo_link_4 });
+
   return {
     id: project.id,
     title: project.title,
@@ -63,12 +69,7 @@ export const fetchProject = async (id: string): Promise<Project> => {
       contribution: p.contribution,
       contributionDescription: p.contribution_description
     })) || [],
-    links: {
-      demo_link_1: project.demo_link_1 || '',
-      preview_link: project.preview_link || '',
-      demo_link_3: project.demo_link_3 || '',
-      demo_link_4: project.demo_link_4 || ''
-    }
+    links
   };
 };
 
@@ -84,10 +85,10 @@ export const createProject = async (projectData: any) => {
       category: projectData.category,
       client: projectData.client,
       testimonial: projectData.testimonial,
-      demo_link_1: projectData.links.demo_link_1,
-      demo_link_2: projectData.links.preview_link,
-      demo_link_3: projectData.links.demo_link_3,
-      demo_link_4: projectData.links.demo_link_4,
+      demo_link_1: projectData.links[0]?.url || '',
+      demo_link_2: projectData.links[1]?.url || '',
+      demo_link_3: projectData.links[2]?.url || '',
+      demo_link_4: projectData.links[3]?.url || '',
       team_leader: projectData.author.id,
       team_leader_contribution: projectData.author.contribution,
       team_leader_contribution_description: projectData.author.contributionDescription,

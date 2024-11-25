@@ -1,8 +1,7 @@
 import { Input } from "@/components/ui/input";
-import { ProjectFormData } from "@/types/form";
+import { ProjectFormData, ProjectLink } from "@/types/form";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { useState } from "react";
 
 interface ProjectLinksFieldsProps {
   formData: ProjectFormData;
@@ -28,7 +27,7 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
     setFormData(prev => ({
       ...prev,
       links: prev.links.map((link, i) => 
-        i === index ? { ...link, url: value } : link
+        i === index ? { url: value } : link
       )
     }));
   };
