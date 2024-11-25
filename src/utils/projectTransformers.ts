@@ -2,6 +2,12 @@ import { DatabaseProject } from "@/types/database";
 import { Project } from "@/types/project";
 
 export const transformDatabaseProject = (project: DatabaseProject): Project => {
+  const links = [];
+  if (project.demo_link_1) links.push({ url: project.demo_link_1 });
+  if (project.preview_link) links.push({ url: project.preview_link });
+  if (project.demo_link_3) links.push({ url: project.demo_link_3 });
+  if (project.demo_link_4) links.push({ url: project.demo_link_4 });
+
   return {
     id: project.id,
     title: project.title,
@@ -31,11 +37,6 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
       contribution: participant.contribution,
       contributionDescription: participant.contribution_description
     })) || [],
-    links: {
-      demo_link_1: project.demo_link_1 || "",
-      preview_link: project.preview_link || "",
-      demo_link_3: project.demo_link_3 || "",
-      demo_link_4: project.demo_link_4 || ""
-    }
+    links
   };
 };

@@ -14,7 +14,7 @@ export interface ProjectMember {
 }
 
 export interface ProjectLink {
-  id: string;
+  id?: string;
   url: string;
 }
 

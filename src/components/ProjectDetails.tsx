@@ -50,15 +50,7 @@ const ProjectDetails = () => {
 
   return (
     <ProjectContent 
-      project={{
-        ...project,
-        links: {
-          demo_link_1: project.links?.demo_link_1 || "",
-          preview_link: project.links?.preview_link || "",
-          demo_link_3: project.links?.demo_link_3 || "",
-          demo_link_4: project.links?.demo_link_4 || ""
-        }
-      }}
+      project={project}
       isProjectCreator={isProjectCreator}
       onEditClick={handleEditClick}
       idWithSlug={idWithSlug || ''}

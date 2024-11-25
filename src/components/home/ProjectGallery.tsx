@@ -4,6 +4,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import { transformDatabaseProject } from "@/utils/projectTransformers";
 
 export const ProjectGallery = () => {
   const { data: projects, isLoading, error } = useQuery({
@@ -44,44 +45,7 @@ export const ProjectGallery = () => {
 
       if (error) throw error;
       
-      return data?.map(project => ({
-        id: project.id,
-        title: project.title,
-        description: project.description,
-        dueDate: project.due_date,
-        thumbnail: project.thumbnail,
-        category: project.category,
-        client: project.client_profile ? 
-          `${project.client_profile.first_name} ${project.client_profile.last_name}`.trim() : 
-          project.client || "Non spécifié",
-        testimonial: project.testimonial,
-        author: {
-          id: project.team_leader_profile.id,
-          name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
-          username: project.team_leader_profile.username || '',
-          avatar: project.team_leader_profile.avatar_url,
-          expertise: project.team_leader_profile.expertise,
-          role: "Team Leader" as const,
-          contribution: project.team_leader_contribution || 0,
-          contributionDescription: project.team_leader_contribution_description
-        },
-        participants: project.project_participants?.map(p => ({
-          id: p.user.id,
-          name: `${p.user.first_name} ${p.user.last_name}`,
-          username: p.user.username || '',
-          avatar: p.avatar || p.user.avatar_url,
-          expertise: p.user.expertise,
-          role: "Member" as const,
-          contribution: p.contribution,
-          contributionDescription: p.contribution_description
-        })) || [],
-        links: {
-          demo_link_1: project.demo_link_1 || '',
-          preview_link: project.demo_link_2 || '',
-          demo_link_3: project.demo_link_3 || '',
-          demo_link_4: project.demo_link_4 || ''
-        }
-      })) || [];
+      return data?.map(transformDatabaseProject) || [];
     }
   });
 

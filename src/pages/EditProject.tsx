@@ -7,7 +7,6 @@ import { slugify } from "@/utils/slugify";
 import { EditProjectError } from "@/components/project/EditProjectError";
 import { EditProjectLoading } from "@/components/project/EditProjectLoading";
 import { useProjectQuery } from "@/hooks/useProjectQuery";
-import { Button } from "@/components/ui/button";
 
 const EditProject = () => {
   const { idWithSlug } = useParams();
@@ -60,14 +59,33 @@ const EditProject = () => {
           category: updatedProject.category,
           client: updatedProject.client,
           testimonial: updatedProject.testimonial,
-          demo_link_1: updatedProject.links.demo_link_1,
-          preview_link: updatedProject.links.preview,
           team_leader_contribution: updatedProject.author.contribution,
           team_leader_contribution_description: updatedProject.author.contributionDescription,
         })
         .eq('id', project.id);
 
       if (updateError) throw updateError;
+
+      // Update project links
+      const { error: deleteLinksError } = await supabase
+        .from('project_links')
+        .delete()
+        .eq('project_id', project.id);
+
+      if (deleteLinksError) throw deleteLinksError;
+
+      if (updatedProject.links && updatedProject.links.length > 0) {
+        const { error: linksError } = await supabase
+          .from('project_links')
+          .insert(
+            updatedProject.links.map((link: { url: string }) => ({
+              project_id: project.id,
+              url: link.url
+            }))
+          );
+
+        if (linksError) throw linksError;
+      }
 
       // Update participants
       const { error: deleteParticipantsError } = await supabase
@@ -117,12 +135,7 @@ const EditProject = () => {
     category: project.category,
     client: project.client,
     testimonial: project.testimonial || "",
-    links: {
-      demo_link_1: project.links.demo_link_1 || "",
-      demo_link_2: project.links.preview_link || "",
-      demo_link_3: project.links.demo_link_3 || "",
-      demo_link_4: project.links.demo_link_4 || ""
-    }
+    links: project.links
   };
 
   return (
