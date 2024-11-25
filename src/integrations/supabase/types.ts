@@ -157,10 +157,6 @@ export type Database = {
           category: string
           client: string | null
           created_at: string
-          demo_link_1: string | null
-          demo_link_2: string | null
-          demo_link_3: string | null
-          demo_link_4: string | null
           description: string
           due_date: string
           id: string
@@ -175,10 +171,6 @@ export type Database = {
           category: string
           client?: string | null
           created_at?: string
-          demo_link_1?: string | null
-          demo_link_2?: string | null
-          demo_link_3?: string | null
-          demo_link_4?: string | null
           description: string
           due_date: string
           id: string
@@ -193,10 +185,6 @@ export type Database = {
           category?: string
           client?: string | null
           created_at?: string
-          demo_link_1?: string | null
-          demo_link_2?: string | null
-          demo_link_3?: string | null
-          demo_link_4?: string | null
           description?: string
           due_date?: string
           id?: string
