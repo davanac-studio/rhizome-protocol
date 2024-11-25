@@ -27,7 +27,7 @@ export const fetchProject = async (id: string): Promise<Project> => {
         contribution_description,
         avatar
       ),
-      project_links (
+      project_links!project_links_project_id_fkey (
         url
       )
     `)
