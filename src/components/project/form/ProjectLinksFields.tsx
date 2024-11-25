@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { ProjectFormData } from "@/types/form";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 interface ProjectLinksFieldsProps {
@@ -10,35 +10,53 @@ interface ProjectLinksFieldsProps {
 }
 
 export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFieldsProps) => {
-  const [visibleLinks, setVisibleLinks] = useState(1);
-
   const handleAddLink = () => {
-    setVisibleLinks(prev => prev + 1);
+    setFormData(prev => ({
+      ...prev,
+      links: [...prev.links, { url: "" }]
+    }));
   };
 
-  const updateLink = (linkNumber: number, value: string) => {
-    setFormData({
-      ...formData,
-      links: {
-        ...formData.links,
-        [`demo_link_${linkNumber}`]: value
-      }
-    });
+  const handleRemoveLink = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      links: prev.links.filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateLink = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      links: prev.links.map((link, i) => 
+        i === index ? { ...link, url: value } : link
+      )
+    }));
   };
 
   return (
     <div className="space-y-4">
-      {[...Array(visibleLinks)].map((_, index) => (
-        <div key={index} className="space-y-2">
-          <label className="text-sm font-medium">
-            Lien de présentation #{index + 1}
-          </label>
-          <Input
-            type="url"
-            value={formData.links[`demo_link_${index + 1}` as keyof typeof formData.links]}
-            onChange={(e) => updateLink(index + 1, e.target.value)}
-            placeholder={`URL de présentation #${index + 1}`}
-          />
+      {formData.links.map((link, index) => (
+        <div key={index} className="flex gap-2">
+          <div className="flex-1 space-y-2">
+            <label className="text-sm font-medium">
+              Lien de présentation #{index + 1}
+            </label>
+            <Input
+              type="url"
+              value={link.url}
+              onChange={(e) => updateLink(index, e.target.value)}
+              placeholder={`URL de présentation #${index + 1}`}
+            />
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="self-end"
+            onClick={() => handleRemoveLink(index)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
       ))}
 

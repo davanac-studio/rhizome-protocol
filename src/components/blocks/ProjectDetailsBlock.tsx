@@ -5,12 +5,7 @@ import { LinkPreviewCard } from "./LinkPreviewCard";
 
 interface ProjectDetailsBlockProps {
   dueDate: string;
-  links: {
-    demo_link_1: string;
-    demo_link_2: string;
-    demo_link_3: string;
-    demo_link_4: string;
-  };
+  links: { url: string }[];
   thumbnail: string;
   title: string;
   author: ProjectMember & { role: "Team Leader" };
@@ -25,25 +20,16 @@ export const ProjectDetailsBlock = ({
 }: ProjectDetailsBlockProps) => {
   return (
     <div className="space-y-6">
-      {(links.demo_link_1 || links.demo_link_2 || links.demo_link_3 || links.demo_link_4) && (
+      {links.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center gap-2">
             <Link2Icon className="w-5 h-5" />
             Liens du projet
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {links.demo_link_1 && (
-              <LinkPreviewCard url={links.demo_link_1} />
-            )}
-            {links.demo_link_2 && (
-              <LinkPreviewCard url={links.demo_link_2} />
-            )}
-            {links.demo_link_3 && (
-              <LinkPreviewCard url={links.demo_link_3} />
-            )}
-            {links.demo_link_4 && (
-              <LinkPreviewCard url={links.demo_link_4} />
-            )}
+            {links.map((link, index) => (
+              <LinkPreviewCard key={index} url={link.url} />
+            ))}
           </div>
         </div>
       )}

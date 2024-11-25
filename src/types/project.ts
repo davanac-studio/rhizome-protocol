@@ -13,6 +13,11 @@ export interface ProjectMember {
   collectif?: string;
 }
 
+export interface ProjectLink {
+  id: string;
+  url: string;
+}
+
 export interface NFTCertification {
   contract: string;
   tokenId: string;
@@ -33,11 +38,6 @@ export interface Project {
   testimonial?: string;
   author: ProjectMember & { role: "Team Leader" };
   participants?: ProjectMember[];
-  links: {
-    demo_link_1: string;
-    preview_link: string;
-    demo_link_3: string;
-    demo_link_4: string;
-  };
+  links: ProjectLink[];
   certification?: NFTCertification;
 }
