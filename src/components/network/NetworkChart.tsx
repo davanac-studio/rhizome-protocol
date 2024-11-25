@@ -33,14 +33,19 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     const svg = d3.select(svgRef.current)
       .attr("viewBox", [0, 0, width, height]);
 
-    // Create a simulation for positioning nodes
+    // Create a simulation for positioning nodes with more distributed forces
     const simulation = d3.forceSimulation<NetworkNode>(data.nodes)
       .force("link", d3.forceLink<NetworkNode, NetworkLink>(data.links)
         .id(d => d.id)
-        .distance(100))
-      .force("charge", d3.forceManyBody().strength(-400))
-      .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius((d: NetworkNode) => (d.isCollectif ? 60 : 50)));
+        .distance(150)) // Increased distance between linked nodes
+      .force("charge", d3.forceManyBody()
+        .strength(-800) // Stronger repulsion between nodes
+        .distanceMax(width / 2)) // Limit the range of repulsion
+      .force("x", d3.forceX(width / 2).strength(0.1)) // Weak force towards horizontal center
+      .force("y", d3.forceY(height / 2).strength(0.1)) // Weak force towards vertical center
+      .force("collision", d3.forceCollide()
+        .radius((d: NetworkNode) => (d.isCollectif ? 70 : 60))
+        .strength(0.8)); // Stronger collision avoidance
 
     // Create links with varying thickness based on collaboration count
     const link = svg.append("g")
@@ -112,6 +117,12 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         .attr("y2", d => (typeof d.target === 'string' ? 0 : (d.target as NetworkNode).y!));
 
       node.attr("transform", (d: NetworkNode) => `translate(${d.x},${d.y})`);
+    });
+
+    // Initialize nodes with random positions
+    data.nodes.forEach(node => {
+      node.x = Math.random() * width;
+      node.y = Math.random() * height;
     });
 
     // Drag functions
