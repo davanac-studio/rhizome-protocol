@@ -26,6 +26,9 @@ export const fetchProject = async (id: string): Promise<Project> => {
         contribution,
         contribution_description,
         avatar
+      ),
+      project_links (
+        url
       )
     `)
     .eq('id', id)
@@ -33,12 +36,6 @@ export const fetchProject = async (id: string): Promise<Project> => {
 
   if (error) throw error;
   if (!project) throw new Error('Project not found');
-
-  const links: ProjectLink[] = [];
-  if (project.demo_link_1) links.push({ url: project.demo_link_1 });
-  if (project.demo_link_2) links.push({ url: project.demo_link_2 });
-  if (project.demo_link_3) links.push({ url: project.demo_link_3 });
-  if (project.demo_link_4) links.push({ url: project.demo_link_4 });
 
   return {
     id: project.id,
@@ -69,12 +66,12 @@ export const fetchProject = async (id: string): Promise<Project> => {
       contribution: p.contribution,
       contributionDescription: p.contribution_description
     })) || [],
-    links
+    links: project.project_links || []
   };
 };
 
 export const createProject = async (projectData: any) => {
-  const { data, error } = await supabase
+  const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert({
       id: crypto.randomUUID(),
@@ -85,10 +82,6 @@ export const createProject = async (projectData: any) => {
       category: projectData.category,
       client: projectData.client,
       testimonial: projectData.testimonial,
-      demo_link_1: projectData.links[0]?.url || '',
-      demo_link_2: projectData.links[1]?.url || '',
-      demo_link_3: projectData.links[2]?.url || '',
-      demo_link_4: projectData.links[3]?.url || '',
       team_leader: projectData.author.id,
       team_leader_contribution: projectData.author.contribution,
       team_leader_contribution_description: projectData.author.contributionDescription,
@@ -96,6 +89,20 @@ export const createProject = async (projectData: any) => {
     .select()
     .single();
 
-  if (error) throw error;
-  return data;
+  if (projectError) throw projectError;
+
+  if (project && projectData.links?.length > 0) {
+    const { error: linksError } = await supabase
+      .from('project_links')
+      .insert(
+        projectData.links.map((link: ProjectLink) => ({
+          project_id: project.id,
+          url: link.url
+        }))
+      );
+
+    if (linksError) throw linksError;
+  }
+
+  return project;
 };

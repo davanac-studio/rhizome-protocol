@@ -20,7 +20,7 @@ export const ProjectDetailsBlock = ({
 }: ProjectDetailsBlockProps) => {
   return (
     <div className="space-y-6">
-      {links.length > 0 && (
+      {links && links.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center gap-2">
             <Link2Icon className="w-5 h-5" />
