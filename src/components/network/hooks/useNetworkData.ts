@@ -106,7 +106,7 @@ export const useNetworkData = () => {
           if (project.client_profile) {
             links.push({
               source: node.id,
-              target: project.client_profile.id,
+              target: (project.client_profile as unknown as Profile).id,
               projectId: project.id,
               projectTitle: project.title
             });
@@ -116,7 +116,7 @@ export const useNetworkData = () => {
           if (project.team_leader_profile) {
             links.push({
               source: node.id,
-              target: project.team_leader_profile.id,
+              target: (project.team_leader_profile as unknown as Profile).id,
               projectId: project.id,
               projectTitle: project.title
             });
@@ -126,8 +126,8 @@ export const useNetworkData = () => {
         // Create link between team leader and client
         if (project.client_profile && project.team_leader_profile) {
           links.push({
-            source: project.team_leader_profile.id,
-            target: project.client_profile.id,
+            source: (project.team_leader_profile as unknown as Profile).id,
+            target: (project.client_profile as unknown as Profile).id,
             projectId: project.id,
             projectTitle: project.title
           });
