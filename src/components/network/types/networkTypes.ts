@@ -7,13 +7,6 @@ export interface NetworkNode extends SimulationNodeDatum {
   value: number;
   expertise: string;
   isCollectif: boolean;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  index: number;
-  fx: number | null;
-  fy: number | null;
 }
 
 export interface NetworkLink {
