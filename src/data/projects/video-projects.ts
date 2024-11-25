@@ -31,12 +31,10 @@ export const videoProjects: Project[] = [
         contributionDescription: "Design de l'interface et des animations"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/ukraine-explainer",
-      preview_link: "https://video.example.com/ukraine",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/ukraine-explainer" },
+      { url: "https://video.example.com/ukraine" }
+    ]
   },
   {
     id: "2",
@@ -73,11 +71,9 @@ export const videoProjects: Project[] = [
         contributionDescription: "Design des transitions et des animations"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/kikk-aftermovie",
-      preview_link: "https://video.example.com/kikk",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/kikk-aftermovie" },
+      { url: "https://video.example.com/kikk" }
+    ]
   }
 ];

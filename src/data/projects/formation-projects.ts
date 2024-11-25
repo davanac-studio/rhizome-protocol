@@ -37,11 +37,9 @@ export const formationProjects: Project[] = [
         contributionDescription: "Relations avec les partenaires et communication"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/formation-platform",
-      preview_link: "https://formation.example.com",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/formation-platform" },
+      { url: "https://formation.example.com" }
+    ]
   }
 ];

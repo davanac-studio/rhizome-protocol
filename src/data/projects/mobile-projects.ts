@@ -31,11 +31,9 @@ export const mobileProjects: Project[] = [
         contributionDescription: "Contenu éditorial et interviews producteurs"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/local-producers-app",
-      preview_link: "https://app.example.com/producers",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/local-producers-app" },
+      { url: "https://app.example.com/producers" }
+    ]
   }
 ];

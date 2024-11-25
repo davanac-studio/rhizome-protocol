@@ -37,12 +37,10 @@ export const eventProjects: Project[] = [
         contributionDescription: "Gestion des artistes et planning"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/festival-website",
-      preview_link: "https://festival.example.com",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/festival-website" },
+      { url: "https://festival.example.com" }
+    ]
   },
   {
     id: "2",
@@ -73,12 +71,10 @@ export const eventProjects: Project[] = [
         contributionDescription: "Gestion des artistes et planification logistique"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/benefit-concert",
-      preview_link: "https://concert.charite.org",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/benefit-concert" },
+      { url: "https://concert.charite.org" }
+    ]
   },
   {
     id: "3",
@@ -109,11 +105,9 @@ export const eventProjects: Project[] = [
         contributionDescription: "Gestion des ateliers et des intervenants"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/contemporary-dance-festival",
-      preview_link: "https://dancefestival.example.com",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/contemporary-dance-festival" },
+      { url: "https://dancefestival.example.com" }
+    ]
   }
 ];

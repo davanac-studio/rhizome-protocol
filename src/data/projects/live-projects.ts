@@ -37,11 +37,9 @@ export const liveProjects: Project[] = [
         contributionDescription: "Communication et relations avec les intervenants"
       }
     ],
-    links: {
-      demo_link_1: "https://github.com/example/stereopsia-live",
-      preview_link: "https://live.example.com/stereopsia",
-      demo_link_3: "",
-      demo_link_4: ""
-    }
+    links: [
+      { url: "https://github.com/example/stereopsia-live" },
+      { url: "https://live.example.com/stereopsia" }
+    ]
   }
 ];
