@@ -19,22 +19,21 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
   const handleRemoveLink = (index: number) => {
     setFormData(prev => ({
       ...prev,
-      links: prev.links.filter((_, i) => i !== index)
+      links: (prev.links || []).filter((_, i) => i !== index)
     }));
   };
 
   const updateLink = (index: number, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      links: prev.links.map((link, i) => 
-        i === index ? { url: value } : link
-      )
-    }));
+    setFormData(prev => {
+      const links = [...(prev.links || [])];
+      links[index] = { url: value };
+      return { ...prev, links };
+    });
   };
 
   return (
     <div className="space-y-4">
-      {formData.links && formData.links.map((link, index) => (
+      {(formData.links || []).map((link, index) => (
         <div key={index} className="flex gap-2">
           <div className="flex-1 space-y-2">
             <label className="text-sm font-medium">

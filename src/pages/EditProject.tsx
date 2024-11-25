@@ -76,25 +76,22 @@ const EditProject = () => {
       if (deleteLinksError) throw deleteLinksError;
 
       // Insert new project links if any
-      if (updatedProject.links && Array.isArray(updatedProject.links)) {
-        const validLinks = updatedProject.links
-          .filter((link: any) => link && typeof link.url === 'string' && link.url.trim() !== "");
+      const validLinks = (updatedProject.links || [])
+        .filter((link: any) => link && typeof link.url === 'string' && link.url.trim() !== "")
+        .map((link: any) => ({
+          project_id: project.id,
+          url: link.url.trim()
+        }));
 
-        if (validLinks.length > 0) {
-          console.log('Inserting links:', validLinks);
-          const { error: linksError } = await supabase
-            .from('project_links')
-            .insert(
-              validLinks.map((link: { url: string }) => ({
-                project_id: project.id,
-                url: link.url.trim()
-              }))
-            );
+      if (validLinks.length > 0) {
+        console.log('Inserting links:', validLinks);
+        const { error: linksError } = await supabase
+          .from('project_links')
+          .insert(validLinks);
 
-          if (linksError) {
-            console.error('Error inserting links:', linksError);
-            throw linksError;
-          }
+        if (linksError) {
+          console.error('Error inserting links:', linksError);
+          throw linksError;
         }
       }
 
