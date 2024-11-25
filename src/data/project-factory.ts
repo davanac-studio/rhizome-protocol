@@ -1,4 +1,4 @@
-import { Project, ProjectMember } from "@/types/project";
+import { Project, ProjectMember, ProjectLink } from "@/types/project";
 import { teamMembers } from "./team-members";
 import { createCertification } from "./certifications";
 import { TEAM_LEADER_CONTRIBUTION, calculateParticipantContributions } from "./team-config";
@@ -14,7 +14,7 @@ export const createProject = (
   testimonial: string,
   authorProfile: keyof typeof teamMembers,
   participantProfiles: (keyof typeof teamMembers)[],
-  links: { demo_link_1: string; preview_link: string; demo_link_3?: string; demo_link_4?: string }
+  links: { url: string }[]
 ): Project => {
   const author = { 
     ...teamMembers[authorProfile], 
@@ -43,12 +43,6 @@ export const createProject = (
     testimonial,
     author,
     participants,
-    links: {
-      demo_link_1: links.demo_link_1,
-      preview_link: links.preview_link,
-      demo_link_3: links.demo_link_3 || '',
-      demo_link_4: links.demo_link_4 || ''
-    },
-    certification: createCertification(id)
+    links: links.map(link => ({ url: link.url }))
   };
 };
