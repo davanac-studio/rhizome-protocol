@@ -12,15 +12,25 @@ const transformProfileToNode = (profile: Profile): NetworkNode => {
     avatar: profile.avatar_url,
     value: 1,
     expertise: profile.expertise || '',
-    isCollectif,
-    x: 0,
-    y: 0,
-    index: 0,
-    vx: 0,
-    vy: 0,
-    fx: null,
-    fy: null
+    isCollectif
   };
+};
+
+const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
+  const collaborationMap = new Map<string, number>();
+  
+  links.forEach(link => {
+    const key = [link.source, link.target].sort().join('-');
+    collaborationMap.set(key, (collaborationMap.get(key) || 0) + 1);
+  });
+  
+  return links.map(link => {
+    const key = [link.source, link.target].sort().join('-');
+    return {
+      ...link,
+      collaborationCount: collaborationMap.get(key) || 1
+    };
+  });
 };
 
 const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
@@ -131,9 +141,11 @@ export const useNetworkData = () => {
         });
       });
 
+      const processedLinks = countCollaborations(links);
+
       return {
         nodes: Array.from(nodes.values()),
-        links: links.filter((link, index, self) => 
+        links: processedLinks.filter((link, index, self) => 
           index === self.findIndex(l => 
             (l.source === link.source && l.target === link.target) ||
             (l.source === link.target && l.target === link.source)

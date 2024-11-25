@@ -14,6 +14,7 @@ export interface NetworkLink {
   target: NetworkNode | string;
   projectId: string;
   projectTitle: string;
+  collaborationCount?: number;
 }
 
 export interface Profile {

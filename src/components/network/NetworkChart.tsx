@@ -42,14 +42,14 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(d => (d.isCollectif ? 60 : 50)));
 
-    // Create links
+    // Create links with varying thickness based on collaboration count
     const link = svg.append("g")
       .selectAll("line")
       .data(data.links)
       .join("line")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", 1);
+      .attr("stroke-width", (d: NetworkLink) => Math.sqrt((d.collaborationCount || 1)) * 2);
 
     // Create nodes container
     const node = svg.append("g")
@@ -97,6 +97,11 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
       setSelectedNode(d);
       setIsDialogOpen(true);
     });
+
+    // Add hover effect to show collaboration count
+    link
+      .append("title")
+      .text((d: NetworkLink) => `${d.collaborationCount || 1} collaboration${(d.collaborationCount || 1) > 1 ? 's' : ''}`);
 
     // Update positions on simulation tick
     simulation.on("tick", () => {
