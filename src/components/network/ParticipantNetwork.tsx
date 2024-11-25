@@ -3,6 +3,17 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
+interface NetworkNode extends d3.SimulationNodeDatum {
+  id: string;
+  name: string;
+  type: string;
+}
+
+interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
+  source: string;
+  target: string;
+}
+
 export const ParticipantNetwork = () => {
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -29,7 +40,7 @@ export const ParticipantNetwork = () => {
       if (profilesError) throw profilesError;
 
       // Create nodes for all profiles
-      const nodes = profiles.map((profile) => ({
+      const nodes: NetworkNode[] = profiles.map((profile) => ({
         id: profile.id,
         name: profile.account_type === 'collectif' 
           ? profile['collectif-name'] 
@@ -38,7 +49,7 @@ export const ParticipantNetwork = () => {
       }));
 
       // Create links between participants
-      const links: { source: string; target: string }[] = [];
+      const links: NetworkLink[] = [];
       
       projects?.forEach(project => {
         if (project.team_leader) {
@@ -70,9 +81,9 @@ export const ParticipantNetwork = () => {
       .attr("width", width)
       .attr("height", height);
 
-    const simulation = d3.forceSimulation(networkData.nodes)
-      .force("link", d3.forceLink(networkData.links)
-        .id((d: any) => d.id)
+    const simulation = d3.forceSimulation<NetworkNode>(networkData.nodes)
+      .force("link", d3.forceLink<NetworkNode, NetworkLink>(networkData.links)
+        .id(d => d.id)
         .distance(100))
       .force("charge", d3.forceManyBody().strength(-200))
       .force("center", d3.forceCenter(width / 2, height / 2));
@@ -89,44 +100,43 @@ export const ParticipantNetwork = () => {
       .selectAll("g")
       .data(networkData.nodes)
       .join("g")
-      .call(d3.drag<any, any>()
+      .call(d3.drag<SVGGElement, NetworkNode>()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended));
 
     nodes.append("circle")
-      .attr("r", (d: any) => d.type === 'collectif' ? 10 : 7)
-      .style("fill", (d: any) => d.type === 'collectif' ? "#2a9d8f" : "#e76f51");
+      .attr("r", d => d.type === 'collectif' ? 10 : 7)
+      .style("fill", d => d.type === 'collectif' ? "#2a9d8f" : "#e76f51");
 
     nodes.append("text")
-      .text((d: any) => d.name || "Sans nom")
+      .text(d => d.name || "Sans nom")
       .attr("x", 12)
       .attr("y", 4)
       .style("font-size", "12px");
 
     simulation.on("tick", () => {
       links
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", d => (d.source as NetworkNode).x!)
+        .attr("y1", d => (d.source as NetworkNode).y!)
+        .attr("x2", d => (d.target as NetworkNode).x!)
+        .attr("y2", d => (d.target as NetworkNode).y!);
 
-      nodes
-        .attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      nodes.attr("transform", d => `translate(${d.x},${d.y})`);
     });
 
-    function dragstarted(event: any) {
+    function dragstarted(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
     }
 
-    function dragged(event: any) {
+    function dragged(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       event.subject.fx = event.x;
       event.subject.fy = event.y;
     }
 
-    function dragended(event: any) {
+    function dragended(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>) {
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
       event.subject.fy = null;
