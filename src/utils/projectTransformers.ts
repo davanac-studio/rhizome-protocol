@@ -6,13 +6,6 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
     url: link.url
   })) || [];
 
-  const getDisplayName = (profile: any) => {
-    if (profile.account_type === 'collectif') {
-      return profile["collectif-name"] || '';
-    }
-    return `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
-  };
-
   return {
     id: project.id,
     title: project.title,
@@ -24,7 +17,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
     testimonial: project.testimonial,
     author: {
       id: project.team_leader_profile.id,
-      name: getDisplayName(project.team_leader_profile),
+      name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
       username: project.team_leader_profile.username,
       avatar: project.team_leader_profile.avatar_url,
       expertise: project.team_leader_profile.expertise,
@@ -34,7 +27,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
     },
     participants: project.project_participants?.map(participant => ({
       id: participant.user.id,
-      name: getDisplayName(participant.user),
+      name: `${participant.user.first_name} ${participant.user.last_name}`,
       username: participant.user.username,
       avatar: participant.avatar || participant.user.avatar_url,
       expertise: participant.user.expertise,
