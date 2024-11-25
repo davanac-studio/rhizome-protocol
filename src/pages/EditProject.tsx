@@ -76,10 +76,12 @@ const EditProject = () => {
       if (deleteLinksError) throw deleteLinksError;
 
       // Insert new project links if any
-      if (updatedProject.links && updatedProject.links.length > 0) {
-        const validLinks = updatedProject.links.filter((link: { url: string }) => link.url && link.url.trim() !== "");
-        
+      if (updatedProject.links && Array.isArray(updatedProject.links)) {
+        const validLinks = updatedProject.links
+          .filter((link: any) => link && typeof link.url === 'string' && link.url.trim() !== "");
+
         if (validLinks.length > 0) {
+          console.log('Inserting links:', validLinks);
           const { error: linksError } = await supabase
             .from('project_links')
             .insert(

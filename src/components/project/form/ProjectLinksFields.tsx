@@ -12,7 +12,7 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
   const handleAddLink = () => {
     setFormData(prev => ({
       ...prev,
-      links: [...prev.links, { url: "" }]
+      links: [...(prev.links || []), { url: "" }]
     }));
   };
 
@@ -34,7 +34,7 @@ export const ProjectLinksFields = ({ formData, setFormData }: ProjectLinksFields
 
   return (
     <div className="space-y-4">
-      {formData.links.map((link, index) => (
+      {formData.links && formData.links.map((link, index) => (
         <div key={index} className="flex gap-2">
           <div className="flex-1 space-y-2">
             <label className="text-sm font-medium">
