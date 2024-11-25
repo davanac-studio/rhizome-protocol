@@ -49,6 +49,7 @@ const EditProject = () => {
     }
 
     try {
+      // Update project main information
       const { error: updateError } = await supabase
         .from('projects')
         .update({
@@ -66,7 +67,7 @@ const EditProject = () => {
 
       if (updateError) throw updateError;
 
-      // Update project links
+      // Delete existing project links
       const { error: deleteLinksError } = await supabase
         .from('project_links')
         .delete()
@@ -74,6 +75,7 @@ const EditProject = () => {
 
       if (deleteLinksError) throw deleteLinksError;
 
+      // Insert new project links if any
       if (updatedProject.links && updatedProject.links.length > 0) {
         const { error: linksError } = await supabase
           .from('project_links')
