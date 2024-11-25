@@ -77,16 +77,23 @@ const EditProject = () => {
 
       // Insert new project links if any
       if (updatedProject.links && updatedProject.links.length > 0) {
-        const { error: linksError } = await supabase
-          .from('project_links')
-          .insert(
-            updatedProject.links.map((link: { url: string }) => ({
-              project_id: project.id,
-              url: link.url
-            }))
-          );
+        const validLinks = updatedProject.links.filter((link: { url: string }) => link.url && link.url.trim() !== "");
+        
+        if (validLinks.length > 0) {
+          const { error: linksError } = await supabase
+            .from('project_links')
+            .insert(
+              validLinks.map((link: { url: string }) => ({
+                project_id: project.id,
+                url: link.url.trim()
+              }))
+            );
 
-        if (linksError) throw linksError;
+          if (linksError) {
+            console.error('Error inserting links:', linksError);
+            throw linksError;
+          }
+        }
       }
 
       // Update participants
