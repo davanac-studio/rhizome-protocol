@@ -107,7 +107,8 @@ export const ProjectForm = ({
           profile: p.profile,
           contribution: p.contribution,
           contributionDescription: p.contributionDescription
-        }))
+        })),
+        links: formData.links.filter(link => link.url && link.url.trim() !== "")
       };
 
       await onSubmit(projectData);
