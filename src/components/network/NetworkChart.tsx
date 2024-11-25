@@ -40,7 +40,7 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
         .distance(100))
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(d => (d.isCollectif ? 60 : 50)));
+      .force("collision", d3.forceCollide().radius((d: NetworkNode) => (d.isCollectif ? 60 : 50)));
 
     // Create links with varying thickness based on collaboration count
     const link = svg.append("g")
