@@ -70,7 +70,7 @@ export const useNetworkData = () => {
       projects?.forEach(project => {
         // Add team leader to nodes
         if (project.team_leader_profile) {
-          const node = transformProfileToNode(project.team_leader_profile as Profile);
+          const node = transformProfileToNode(project.team_leader_profile);
           if (nodes.has(node.id)) {
             const existingNode = nodes.get(node.id)!;
             nodes.set(node.id, { ...existingNode, value: existingNode.value + 1 });
@@ -81,7 +81,7 @@ export const useNetworkData = () => {
 
         // Add client to nodes
         if (project.client_profile) {
-          const node = transformProfileToNode(project.client_profile as Profile);
+          const node = transformProfileToNode(project.client_profile);
           if (nodes.has(node.id)) {
             const existingNode = nodes.get(node.id)!;
             nodes.set(node.id, { ...existingNode, value: existingNode.value + 1 });
@@ -94,7 +94,7 @@ export const useNetworkData = () => {
         project.project_participants?.forEach(({ user }) => {
           if (!user) return;
           
-          const node = transformProfileToNode(user as Profile);
+          const node = transformProfileToNode(user);
           if (nodes.has(node.id)) {
             const existingNode = nodes.get(node.id)!;
             nodes.set(node.id, { ...existingNode, value: existingNode.value + 1 });
