@@ -15,6 +15,8 @@ interface NetworkNode extends d3.SimulationNodeDatum {
   value: number;
   expertise: string;
   isCollectif: boolean;
+  x?: number;
+  y?: number;
 }
 
 interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
@@ -116,12 +118,12 @@ export const NetworkChart = ({ data }: NetworkChartProps) => {
     // Update positions on simulation tick
     simulation.on("tick", () => {
       link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", d => (d.source as NetworkNode).x!)
+        .attr("y1", d => (d.source as NetworkNode).y!)
+        .attr("x2", d => (d.target as NetworkNode).x!)
+        .attr("y2", d => (d.target as NetworkNode).y!);
 
-      node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      node.attr("transform", (d: NetworkNode) => `translate(${d.x},${d.y})`);
     });
 
     // Drag functions
