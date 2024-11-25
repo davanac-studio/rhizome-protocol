@@ -7,8 +7,10 @@ interface Profile {
   id: string;
   first_name: string | null;
   last_name: string | null;
+  "collectif-name": string | null;
   avatar_url: string | null;
   expertise: string | null;
+  account_type: string | null;
 }
 
 interface NetworkNode {
@@ -41,7 +43,9 @@ export const ParticipantNetwork = () => {
             first_name,
             last_name,
             avatar_url,
-            expertise
+            expertise,
+            account_type,
+            "collectif-name"
           ),
           project_participants (
             user:profiles!project_participants_user_id_fkey (
@@ -49,7 +53,9 @@ export const ParticipantNetwork = () => {
               first_name,
               last_name,
               avatar_url,
-              expertise
+              expertise,
+              account_type,
+              "collectif-name"
             )
           )
         `);
@@ -64,10 +70,14 @@ export const ParticipantNetwork = () => {
         const teamLeader = project.team_leader_profile as unknown as Profile;
         if (teamLeader) {
           const leaderId = teamLeader.id;
+          const name = teamLeader.account_type === 'collectif' 
+            ? teamLeader["collectif-name"] || ''
+            : `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim();
+
           if (!nodes.has(leaderId)) {
             nodes.set(leaderId, {
               id: leaderId,
-              name: `${teamLeader.first_name || ''} ${teamLeader.last_name || ''}`.trim(),
+              name: name,
               avatar: teamLeader.avatar_url,
               expertise: teamLeader.expertise || 'Non spécifié',
               value: 1
@@ -84,10 +94,14 @@ export const ParticipantNetwork = () => {
           
           const participant = user as unknown as Profile;
           const participantId = participant.id;
+          const name = participant.account_type === 'collectif'
+            ? participant["collectif-name"] || ''
+            : `${participant.first_name || ''} ${participant.last_name || ''}`.trim();
+
           if (!nodes.has(participantId)) {
             nodes.set(participantId, {
               id: participantId,
-              name: `${participant.first_name || ''} ${participant.last_name || ''}`.trim(),
+              name: name,
               avatar: participant.avatar_url,
               expertise: participant.expertise || 'Non spécifié',
               value: 1
