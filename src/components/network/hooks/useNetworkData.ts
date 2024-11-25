@@ -1,27 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
-
-const transformProfileToNode = (profile: Profile): NetworkNode => {
-  const isCollectif = profile.account_type?.toLowerCase() === 'collectif';
-  const name = isCollectif ? profile["collectif-name"] || '' : `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
-  
-  return {
-    id: profile.id,
-    name,
-    avatar: profile.avatar_url,
-    value: 1,
-    expertise: profile.expertise || '',
-    isCollectif,
-    x: 0,
-    y: 0,
-    index: 0,
-    vx: 0,
-    vy: 0,
-    fx: null,
-    fy: null
-  };
-};
+import { transformProfileToNode, createNetworkLinks } from "../utils/networkUtils";
 
 const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
   const collaborationMap = new Map<string, number>();
@@ -38,33 +18,6 @@ const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
       collaborationCount: collaborationMap.get(key) || 1
     };
   });
-};
-
-const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
-  const participants = project.project_participants?.map(p => p.user.id) || [];
-  const allMembers = [project.team_leader_profile.id, ...participants];
-
-  // Create links between all project members
-  for (let i = 0; i < allMembers.length; i++) {
-    for (let j = i + 1; j < allMembers.length; j++) {
-      links.push({
-        source: allMembers[i],
-        target: allMembers[j],
-        projectId: project.id,
-        projectTitle: project.title
-      });
-    }
-  }
-
-  // Add link between team leader and client if exists
-  if (project.client_profile) {
-    links.push({
-      source: project.team_leader_profile.id,
-      target: project.client_profile.id,
-      projectId: project.id,
-      projectTitle: project.title
-    });
-  }
 };
 
 export const useNetworkData = () => {
@@ -137,12 +90,10 @@ export const useNetworkData = () => {
           }
         }
 
-        // Create network links
-        createNetworkLinks(project as unknown as Project, links);
-
-        // Add participants to nodes
+        // Add participants to nodes and create links
         project.project_participants?.forEach(({ user }) => {
           if (!user) return;
+          
           const node = transformProfileToNode(user as unknown as Profile);
           if (nodes.has(node.id)) {
             const existingNode = nodes.get(node.id)!;
@@ -150,7 +101,37 @@ export const useNetworkData = () => {
           } else {
             nodes.set(node.id, node);
           }
+
+          // Create link between participant and client
+          if (project.client_profile) {
+            links.push({
+              source: node.id,
+              target: project.client_profile.id,
+              projectId: project.id,
+              projectTitle: project.title
+            });
+          }
+
+          // Create link between participant and team leader
+          if (project.team_leader_profile) {
+            links.push({
+              source: node.id,
+              target: project.team_leader_profile.id,
+              projectId: project.id,
+              projectTitle: project.title
+            });
+          }
         });
+
+        // Create link between team leader and client
+        if (project.client_profile && project.team_leader_profile) {
+          links.push({
+            source: project.team_leader_profile.id,
+            target: project.client_profile.id,
+            projectId: project.id,
+            projectTitle: project.title
+          });
+        }
       });
 
       const processedLinks = countCollaborations(links);

@@ -24,38 +24,38 @@ export const transformProfileToNode = (profile: Profile): NetworkNode => {
 };
 
 export const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
-  const teamLeaderId = project.team_leader_profile?.id;
-  const clientId = project.client_profile?.id;
+  const participants = project.project_participants?.map(p => p.user.id) || [];
+  const allMembers = [project.team_leader_profile.id, ...participants];
 
-  // Create links between client and team leader
-  if (clientId && teamLeaderId) {
-    links.push({
-      source: clientId,
-      target: teamLeaderId,
-      projectId: project.id,
-      projectTitle: project.title
-    });
-  }
-
-  // Create links between team leader and participants
-  project.project_participants?.forEach(({ user }) => {
-    if (!user || !teamLeaderId) return;
-    
-    links.push({
-      source: teamLeaderId,
-      target: user.id,
-      projectId: project.id,
-      projectTitle: project.title
-    });
-
-    // Create links between client and participants
-    if (clientId) {
+  // Create links between all project members
+  for (let i = 0; i < allMembers.length; i++) {
+    for (let j = i + 1; j < allMembers.length; j++) {
       links.push({
-        source: clientId,
-        target: user.id,
+        source: allMembers[i],
+        target: allMembers[j],
         projectId: project.id,
         projectTitle: project.title
       });
     }
-  });
+  }
+
+  // Add link between team leader and client if exists
+  if (project.client_profile) {
+    links.push({
+      source: project.team_leader_profile.id,
+      target: project.client_profile.id,
+      projectId: project.id,
+      projectTitle: project.title
+    });
+
+    // Add links between participants and client
+    participants.forEach(participantId => {
+      links.push({
+        source: participantId,
+        target: project.client_profile.id,
+        projectId: project.id,
+        projectTitle: project.title
+      });
+    });
+  }
 };
