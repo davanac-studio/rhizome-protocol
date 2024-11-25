@@ -12,7 +12,14 @@ export const transformProfileToNode = (profile: Profile): NetworkNode => {
     avatar: profile.avatar_url,
     expertise: profile.expertise || 'Non spécifié',
     value: 1,
-    isCollectif
+    isCollectif,
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    index: 0,
+    fx: null,
+    fy: null
   };
 };
 
