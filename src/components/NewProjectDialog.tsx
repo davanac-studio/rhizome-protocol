@@ -26,11 +26,16 @@ export const NewProjectDialog = () => {
         throw new Error("Vous devez être connecté pour créer un projet");
       }
 
+      // Ensure links is an array of objects with url property
+      const links = Array.isArray(projectData.links) 
+        ? projectData.links.filter((link: any) => link && typeof link.url === 'string' && link.url.trim() !== "")
+        : [];
+
       const projectToCreate = {
         ...projectData,
-        links: projectData.links?.filter((link: any) => link && link.url && link.url.trim() !== "") || [],
+        links,
         author: {
-          id: user.id, // Ensure we're setting the correct user ID
+          id: user.id,
           name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
           username: user.email?.split('@')[0] || '',
           avatar: user.user_metadata?.avatar_url,

@@ -74,6 +74,7 @@ export const fetchProject = async (id: string): Promise<Project> => {
 };
 
 export const createProject = async (projectData: any) => {
+  // First create the project
   const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert({
@@ -85,7 +86,7 @@ export const createProject = async (projectData: any) => {
       category: projectData.category,
       client: projectData.client,
       testimonial: projectData.testimonial,
-      team_leader: projectData.author.id,  // Make sure this is set from the authenticated user
+      team_leader: projectData.author.id,
       team_leader_contribution: projectData.author.contribution,
       team_leader_contribution_description: projectData.author.contributionDescription,
     })
@@ -97,9 +98,10 @@ export const createProject = async (projectData: any) => {
     throw projectError;
   }
 
+  // Then create the links if any exist
   if (project && projectData.links?.length > 0) {
     const validLinks = projectData.links
-      .filter((link: ProjectLink) => link && link.url && link.url.trim() !== "")
+      .filter((link: ProjectLink) => link && typeof link.url === 'string' && link.url.trim() !== "")
       .map((link: ProjectLink) => ({
         project_id: project.id,
         url: link.url.trim()
