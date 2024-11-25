@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
 import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
 
 const transformProfileToNode = (profile: Profile): NetworkNode => {
@@ -12,7 +10,14 @@ const transformProfileToNode = (profile: Profile): NetworkNode => {
     avatar: profile.avatar_url,
     value: 1,
     expertise: profile.expertise || '',
-    isCollectif
+    isCollectif,
+    x: 0,
+    y: 0,
+    index: 0,
+    vx: 0,
+    vy: 0,
+    fx: null,
+    fy: null
   };
 };
 
@@ -34,7 +39,22 @@ const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
 };
 
 const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
-  // Link between team leader and client
+  const participants = project.project_participants?.map(p => p.user.id) || [];
+  const allMembers = [project.team_leader_profile.id, ...participants];
+
+  // Create links between all project members
+  for (let i = 0; i < allMembers.length; i++) {
+    for (let j = i + 1; j < allMembers.length; j++) {
+      links.push({
+        source: allMembers[i],
+        target: allMembers[j],
+        projectId: project.id,
+        projectTitle: project.title
+      });
+    }
+  }
+
+  // Add link between team leader and client if exists
   if (project.client_profile) {
     links.push({
       source: project.team_leader_profile.id,
@@ -43,16 +63,6 @@ const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
       projectTitle: project.title
     });
   }
-
-  // Links between team leader and participants
-  project.project_participants?.forEach(({ user }) => {
-    links.push({
-      source: project.team_leader_profile.id,
-      target: user.id,
-      projectId: project.id,
-      projectTitle: project.title
-    });
-  });
 };
 
 export const useNetworkData = () => {
