@@ -39,7 +39,17 @@ export const ParticipantNetwork = () => {
           id,
           title,
           team_leader,
+          client,
           team_leader_profile:profiles!projects_team_leader_fkey (
+            id,
+            first_name,
+            last_name,
+            avatar_url,
+            expertise,
+            account_type,
+            "collectif-name"
+          ),
+          client_profile:profiles!projects_client_fkey (
             id,
             first_name,
             last_name,
@@ -91,6 +101,40 @@ export const ParticipantNetwork = () => {
           }
         }
 
+        // Add client to nodes
+        const client = project.client_profile as unknown as Profile;
+        if (client) {
+          const clientId = client.id;
+          const isCollectif = client.account_type === 'collectif';
+          const name = isCollectif
+            ? client["collectif-name"] || ''
+            : `${client.first_name || ''} ${client.last_name || ''}`.trim();
+
+          if (!nodes.has(clientId)) {
+            nodes.set(clientId, {
+              id: clientId,
+              name: name,
+              avatar: client.avatar_url,
+              expertise: client.expertise || 'Non spécifié',
+              value: 1,
+              isCollectif
+            });
+          } else {
+            const node = nodes.get(clientId)!;
+            nodes.set(clientId, { ...node, value: node.value + 1 });
+          }
+
+          // Create links between client and team leader
+          if (teamLeader) {
+            links.push({
+              source: clientId,
+              target: teamLeader.id,
+              projectId: project.id,
+              projectTitle: project.title
+            });
+          }
+        }
+
         // Add participants to nodes and create links
         project.project_participants?.forEach(({ user }) => {
           if (!user) return;
@@ -126,16 +170,15 @@ export const ParticipantNetwork = () => {
             });
           }
 
-          // Create links between participants
-          project.project_participants?.forEach(({ user: otherUser }) => {
-            if (!otherUser || (otherUser as unknown as Profile).id === participantId) return;
+          // Create links between client and participants
+          if (client) {
             links.push({
-              source: participantId,
-              target: (otherUser as unknown as Profile).id,
+              source: clientId,
+              target: participantId,
               projectId: project.id,
               projectTitle: project.title
             });
-          });
+          }
         });
       });
 
