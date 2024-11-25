@@ -42,6 +42,9 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
             ),
             contribution,
             contribution_description
+          ),
+          project_links (
+            url
           )
         `)
         .eq('id', id)
