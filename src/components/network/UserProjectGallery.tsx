@@ -43,6 +43,37 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
 
       if (teamLeaderError) throw teamLeaderError;
 
+      // Get projects where user is a client
+      const { data: clientProjects, error: clientError } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          team_leader_profile:profiles!projects_team_leader_fkey(
+            id,
+            first_name,
+            last_name,
+            username,
+            avatar_url,
+            expertise
+          ),
+          project_participants(
+            contribution,
+            contribution_description,
+            avatar,
+            user:profiles!project_participants_user_id_fkey(
+              id,
+              first_name,
+              last_name,
+              username,
+              avatar_url,
+              expertise
+            )
+          )
+        `)
+        .eq('client', userId);
+
+      if (clientError) throw clientError;
+
       // Then get projects where user is a participant
       const { data: participantProjects, error: participantError } = await supabase
         .from('projects')
@@ -82,6 +113,7 @@ export const UserProjectGallery = ({ userId }: UserProjectGalleryProps) => {
       // Combine and transform all projects
       const allProjects = [
         ...(teamLeaderProjects || []),
+        ...(clientProjects || []),
         ...(participantProjects || [])
       ];
 
