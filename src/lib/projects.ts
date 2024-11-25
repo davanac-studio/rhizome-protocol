@@ -27,15 +27,29 @@ export const fetchProject = async (id: string): Promise<Project> => {
         contribution_description,
         avatar
       ),
-      project_links!project_links_project_id_fkey (
-        url
-      )
+      project_links (*)
     `)
     .eq('id', id)
     .single();
 
   if (error) throw error;
   if (!project) throw new Error('Project not found');
+
+  // Ensure we have all links from both project_links and individual demo_link fields
+  const links: ProjectLink[] = [];
+  
+  // Add links from project_links table
+  if (project.project_links) {
+    links.push(...project.project_links.map((link: any) => ({
+      url: link.url
+    })));
+  }
+
+  // Add demo links if they exist
+  if (project.demo_link_1) links.push({ url: project.demo_link_1 });
+  if (project.demo_link_2) links.push({ url: project.demo_link_2 });
+  if (project.demo_link_3) links.push({ url: project.demo_link_3 });
+  if (project.demo_link_4) links.push({ url: project.demo_link_4 });
 
   return {
     id: project.id,
@@ -66,7 +80,7 @@ export const fetchProject = async (id: string): Promise<Project> => {
       contribution: p.contribution,
       contributionDescription: p.contribution_description
     })) || [],
-    links: project.project_links || []
+    links: links
   };
 };
 

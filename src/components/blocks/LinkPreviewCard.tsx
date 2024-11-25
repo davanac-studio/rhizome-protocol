@@ -15,11 +15,21 @@ export const LinkPreviewCard = ({ url }: LinkPreviewCardProps) => {
   const { data: metadata } = useQuery({
     queryKey: ['linkPreview', url],
     queryFn: async () => {
-      const response = await fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}`);
-      const data = await response.json();
-      return data.data;
+      try {
+        const response = await fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}`);
+        if (!response.ok) {
+          console.warn(`Failed to fetch preview for ${url}:`, response.statusText);
+          return { title: domain };
+        }
+        const data = await response.json();
+        return data.data;
+      } catch (error) {
+        console.warn(`Error fetching preview for ${url}:`, error);
+        return { title: domain };
+      }
     },
     enabled: !!url,
+    retry: 1,
   });
 
   const linkTitle = metadata?.title || domain;
@@ -48,62 +58,70 @@ export const LinkPreviewCard = ({ url }: LinkPreviewCardProps) => {
 
   // Render appropriate embed based on URL type
   const renderEmbed = () => {
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const videoId = getYoutubeVideoId(url);
-      if (videoId) {
-        return (
-          <div className="aspect-video w-full">
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        );
-      }
-    }
+    if (!url) return null;
 
-    if (url.includes('instagram.com/p/')) {
-      const postId = getInstagramPostId(url);
-      if (postId) {
-        return (
-          <div className="aspect-square w-full">
-            <iframe
-              src={`https://www.instagram.com/p/${postId}/embed`}
-              className="w-full h-full"
-              allowFullScreen
-            />
-          </div>
-        );
+    try {
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const videoId = getYoutubeVideoId(url);
+        if (videoId) {
+          return (
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          );
+        }
       }
-    }
 
-    if (url.includes('tiktok.com')) {
-      const videoId = getTikTokVideoId(url);
-      if (videoId) {
-        return (
-          <div className="aspect-[9/16] w-full max-w-[325px] mx-auto">
-            <iframe
-              src={`https://www.tiktok.com/embed/v2/${videoId}`}
-              className="w-full h-full"
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
-          </div>
-        );
+      if (url.includes('instagram.com/p/')) {
+        const postId = getInstagramPostId(url);
+        if (postId) {
+          return (
+            <div className="aspect-square w-full">
+              <iframe
+                src={`https://www.instagram.com/p/${postId}/embed`}
+                className="w-full h-full"
+                allowFullScreen
+              />
+            </div>
+          );
+        }
       }
-    }
 
-    // Default preview for other URLs
-    return linkImage && (
-      <img
-        src={linkImage}
-        alt={linkTitle}
-        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-      />
-    );
+      if (url.includes('tiktok.com')) {
+        const videoId = getTikTokVideoId(url);
+        if (videoId) {
+          return (
+            <div className="aspect-[9/16] w-full max-w-[325px] mx-auto">
+              <iframe
+                src={`https://www.tiktok.com/embed/v2/${videoId}`}
+                className="w-full h-full"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              />
+            </div>
+          );
+        }
+      }
+
+      return linkImage && (
+        <img
+          src={linkImage}
+          alt={linkTitle}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      );
+    } catch (error) {
+      console.warn('Error rendering embed:', error);
+      return null;
+    }
   };
+
+  if (!url) return null;
 
   return (
     <div className="group relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow transition-all hover:shadow-lg">
