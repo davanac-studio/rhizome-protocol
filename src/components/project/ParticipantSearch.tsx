@@ -19,20 +19,20 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
   const { data: profiles } = useQuery({
     queryKey: ['profiles'],
     queryFn: async () => {
-      let query = supabase
-        .from('profiles')
-        .select('*')
-        .eq('account_type', 'individuel')
-        .is('collectif-name', null);
-
       // Filter out team leader and existing participants
       const excludedProfiles = [...existingParticipants];
       if (teamLeaderId) {
         excludedProfiles.push(teamLeaderId);
       }
 
+      let query = supabase
+        .from('profiles')
+        .select('*')
+        .eq('account_type', 'individuel')
+        .is('collectif-name', null);
+
       if (excludedProfiles.length > 0) {
-        query = query.not('id', 'in', excludedProfiles);
+        query = query.not('id', 'in', `(${excludedProfiles.join(',')})`);
       }
 
       const { data, error } = await query;
