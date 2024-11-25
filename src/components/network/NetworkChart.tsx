@@ -7,22 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { UserProjectGallery } from './UserProjectGallery';
-
-interface NetworkNode extends d3.SimulationNodeDatum {
-  id: string;
-  name: string;
-  avatar: string | null;
-  value: number;
-  expertise: string;
-  isCollectif: boolean;
-}
-
-interface NetworkLink {
-  source: NetworkNode | string;
-  target: NetworkNode | string;
-  projectId: string;
-  projectTitle: string;
-}
+import { NetworkNode, NetworkLink } from './types/networkTypes';
 
 interface NetworkChartProps {
   data: {

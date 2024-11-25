@@ -10,8 +10,8 @@ export interface NetworkNode extends SimulationNodeDatum {
 }
 
 export interface NetworkLink {
-  source: string;
-  target: string;
+  source: NetworkNode | string;
+  target: NetworkNode | string;
   projectId: string;
   projectTitle: string;
 }
@@ -29,6 +29,8 @@ export interface Profile {
 export interface Project {
   id: string;
   title: string;
+  team_leader: string;
+  client: string | null;
   team_leader_profile: Profile;
   client_profile?: Profile;
   project_participants?: Array<{

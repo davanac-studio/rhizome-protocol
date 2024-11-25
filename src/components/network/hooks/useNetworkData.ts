@@ -1,7 +1,49 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { NetworkNode, NetworkLink } from "../types/networkTypes";
-import { transformProfileToNode, createNetworkLinks } from "../utils/networkUtils";
+import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
+
+const transformProfileToNode = (profile: Profile): NetworkNode => {
+  const isCollectif = profile.account_type?.toLowerCase() === 'collectif';
+  const name = isCollectif ? profile["collectif-name"] || '' : `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
+  
+  return {
+    id: profile.id,
+    name,
+    avatar: profile.avatar_url,
+    value: 1,
+    expertise: profile.expertise || '',
+    isCollectif,
+    x: 0,
+    y: 0,
+    index: 0,
+    vx: 0,
+    vy: 0,
+    fx: null,
+    fy: null
+  };
+};
+
+const createNetworkLinks = (project: Project, links: NetworkLink[]) => {
+  // Link between team leader and client
+  if (project.client_profile) {
+    links.push({
+      source: project.team_leader_profile.id,
+      target: project.client_profile.id,
+      projectId: project.id,
+      projectTitle: project.title
+    });
+  }
+
+  // Links between team leader and participants
+  project.project_participants?.forEach(({ user }) => {
+    links.push({
+      source: project.team_leader_profile.id,
+      target: user.id,
+      projectId: project.id,
+      projectTitle: project.title
+    });
+  });
+};
 
 export const useNetworkData = () => {
   return useQuery({
@@ -74,7 +116,7 @@ export const useNetworkData = () => {
         }
 
         // Create network links
-        createNetworkLinks(project, links);
+        createNetworkLinks(project as Project, links);
 
         // Add participants to nodes
         project.project_participants?.forEach(({ user }) => {
