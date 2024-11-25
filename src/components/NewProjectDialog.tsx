@@ -17,7 +17,7 @@ export const NewProjectDialog = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleProjectCreate = async (projectData: any) => {
-    if (isSubmitting) return; // Prevent double submission
+    if (isSubmitting) return;
     
     try {
       setIsSubmitting(true);
@@ -28,13 +28,9 @@ export const NewProjectDialog = () => {
 
       const projectToCreate = {
         ...projectData,
-        links: {
-          demo_link_1: projectData.links?.demo_link_1 || "",
-          demo_link_2: projectData.links?.demo_link_2 || "",
-          demo_link_3: projectData.links?.demo_link_3 || "",
-          demo_link_4: projectData.links?.demo_link_4 || ""
-        },
+        links: projectData.links?.filter((link: any) => link && link.url && link.url.trim() !== "") || [],
         author: {
+          id: user.id, // Ensure we're setting the correct user ID
           name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
           username: user.email?.split('@')[0] || '',
           avatar: user.user_metadata?.avatar_url,
@@ -67,7 +63,6 @@ export const NewProjectDialog = () => {
         description: error.message || "Une erreur est survenue lors de la création du projet",
         variant: "destructive",
       });
-      throw error;
     } finally {
       setIsSubmitting(false);
     }
