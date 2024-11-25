@@ -32,7 +32,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
         .is('collectif-name', null);
 
       if (excludedProfiles.length > 0) {
-        query = query.in('id', excludedProfiles, { negate: true });
+        query = query.not('id', excludedProfiles);
       }
 
       const { data, error } = await query;
