@@ -23,7 +23,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
         .from('profiles')
         .select('*')
         .eq('account_type', 'individuel')
-        .is('collectif-name', null); // Fixed syntax for checking null values
+        .is('collectif-name', null);
 
       // Filter out team leader and existing participants
       const excludedProfiles = [...existingParticipants];
@@ -32,7 +32,7 @@ export const ParticipantSearch = ({ value, onSelect, existingParticipants, teamL
       }
 
       if (excludedProfiles.length > 0) {
-        query = query.not('id', 'in', `(${excludedProfiles.map(id => `'${id}'`).join(',')})`);
+        query = query.not('id', 'in', excludedProfiles);
       }
 
       const { data, error } = await query;
