@@ -1,7 +1,24 @@
-import { DatabaseProject } from "@/types/database";
-import { Project, ProjectLink } from "@/types/project";
+/**
+ * Project Data Transformation Utilities
+ * Description: Transforms database models to application models.
+ * 
+ * Technical choices:
+ * - Type safety: TypeScript interfaces for both input and output models
+ * - Data normalization: Consistent format for frontend consumption
+ * - Null handling: Safe defaults for optional fields
+ */
+import { DatabaseProject } from "@/types/database"; // Database model type
+import { Project, ProjectLink } from "@/types/project"; // Application model types
 
+/**
+ * Transforms a database project record into the application's project model.
+ * Handles nested relationships and provides consistent data structure.
+ * 
+ * @param {DatabaseProject} project - Raw project data from database
+ * @returns {Project} Transformed project data for frontend use
+ */
 export const transformDatabaseProject = (project: DatabaseProject): Project => {
+  // Transform project links to frontend format
   const links = project.project_links?.map(link => ({
     url: link.url
   })) || [];
@@ -15,6 +32,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
     category: project.category,
     client: project.client,
     testimonial: project.testimonial,
+    // Transform author (team leader) data
     author: {
       id: project.team_leader_profile.id,
       name: `${project.team_leader_profile.first_name} ${project.team_leader_profile.last_name}`,
@@ -25,6 +43,7 @@ export const transformDatabaseProject = (project: DatabaseProject): Project => {
       contribution: project.team_leader_contribution || 0,
       contributionDescription: project.team_leader_contribution_description
     },
+    // Transform participants data
     participants: project.project_participants?.map(participant => ({
       id: participant.user.id,
       name: `${participant.user.first_name} ${participant.user.last_name}`,

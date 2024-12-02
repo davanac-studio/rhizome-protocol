@@ -1,35 +1,41 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
-import { transformDatabaseProject } from "@/utils/projectTransformers";
-import { useNavigate } from "react-router-dom";
-import { extractIdFromSlug } from "@/utils/slugify";
-
 /**
  * Custom Hook: useProjectQuery
- * Fetches detailed project information from Supabase, including team leader, participants, and links.
+ * Description: Fetches and manages project data using React Query.
  * 
- * @param {string | undefined} idWithSlug - The project ID with optional slug (e.g., "123-project-name")
- * @returns {Object} An object containing:
- *   - data (Project | undefined): The transformed project data with all related information
- *   - isLoading (boolean): Loading state of the project fetch
- *   - error (Error | null): Any error that occurred during the fetch
- *   - isFetching (boolean): Indicates if a background refetch is happening
+ * Technical choices:
+ * - React Query: For data fetching, caching, and automatic background updates
+ * - Supabase: As the backend service for data storage and retrieval
+ * - Toast notifications: For user feedback on errors
+ * 
+ * @param {string | undefined} idWithSlug - Project ID with optional slug
+ * @returns {Object} Query result object containing:
+ *   - data: The transformed project data
+ *   - isLoading: Loading state indicator
+ *   - error: Any error that occurred
  */
+import { useQuery } from "@tanstack/react-query"; // For data fetching and caching
+import { supabase } from "@/lib/supabase"; // Supabase client for database operations
+import { useToast } from "@/hooks/use-toast"; // Toast notifications for user feedback
+import { transformDatabaseProject } from "@/utils/projectTransformers"; // Data transformation utility
+import { useNavigate } from "react-router-dom"; // For programmatic navigation
+import { extractIdFromSlug } from "@/utils/slugify"; // URL slug processing utility
+
 export const useProjectQuery = (idWithSlug: string | undefined) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Extract numeric ID from slug format
   const id = extractIdFromSlug(idWithSlug);
 
   return useQuery({
-    queryKey: ['project', id],
+    queryKey: ['project', id], // Unique key for React Query cache
     queryFn: async () => {
       if (!id) {
         console.error('Invalid project ID:', idWithSlug);
         throw new Error("Invalid project ID");
       }
 
+      // Fetch project data with all related information in a single query
       const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select(`
@@ -59,7 +65,7 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
           )
         `)
         .eq('id', id)
-        .maybeSingle();
+        .maybeSingle(); // Returns null instead of empty array if not found
 
       if (projectError) {
         console.error('Error fetching project:', projectError);
@@ -71,9 +77,10 @@ export const useProjectQuery = (idWithSlug: string | undefined) => {
         throw new Error("Project not found");
       }
 
+      // Transform database model to application model
       return transformDatabaseProject(projectData);
     },
-    retry: 1,
-    enabled: !!id
+    retry: 1, // Only retry once on failure
+    enabled: !!id // Only run query if we have an ID
   });
 };
