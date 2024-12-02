@@ -1,3 +1,11 @@
+/**
+ * Component: ProjectHeader
+ * Description: Displays project header information including title, date, and categories.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Project} props.project - Project data to display in header
+ * @returns {JSX.Element} Project header with title and metadata
+ */
 import { Badge } from "@/components/ui/badge";
 import { Project } from "@/types/project";
 import { CalendarIcon } from "lucide-react";

@@ -1,3 +1,15 @@
+/**
+ * Component: SignUpStep3
+ * Description: Third step of signup process for avatar selection.
+ * Handles avatar upload and preview.
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.avatarUrl - Current avatar URL
+ * @param {Function} props.onChange - Handler for avatar changes
+ * @param {Function} props.onBack - Handler for going back to previous step
+ * @param {boolean} props.loading - Loading state
+ * @returns {JSX.Element} Avatar selection step
+ */
 import { Button } from "@/components/ui/button";
 import { ImageUploadField } from "../profile/ImageUploadField";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";

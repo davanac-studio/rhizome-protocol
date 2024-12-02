@@ -1,3 +1,12 @@
+/**
+ * Component: ProjectCard
+ * Description: Displays project information in a card format with interactive elements.
+ * Shows project details, participants, and handles navigation.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Project} props.project - Project data to display
+ * @returns {JSX.Element} Interactive project card component
+ */
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Project } from "@/types/project";

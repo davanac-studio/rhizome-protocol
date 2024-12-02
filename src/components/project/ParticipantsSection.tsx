@@ -1,3 +1,18 @@
+/**
+ * Component: ParticipantsSection
+ * Description: Section for managing all project participants.
+ * Handles adding, removing, and updating participant information.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Array} props.participants - List of project participants
+ * @param {Function} props.setParticipants - Handler for updating participants list
+ * @param {number} props.teamLeaderContribution - Team leader's contribution percentage
+ * @param {Function} props.setTeamLeaderContribution - Handler for updating team leader contribution
+ * @param {string} props.teamLeaderContributionDescription - Description of team leader's contribution
+ * @param {Function} props.setTeamLeaderContributionDescription - Handler for updating contribution description
+ * @param {string} [props.teamLeaderId] - ID of the team leader
+ * @returns {JSX.Element} Participants management section
+ */
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { TeamLeaderForm } from "./TeamLeaderForm";

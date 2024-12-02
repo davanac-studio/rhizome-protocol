@@ -1,3 +1,10 @@
+/**
+ * Root Component: App
+ * Description: Main application component that sets up routing and global providers.
+ * Wraps the entire application with necessary context providers and routing configuration.
+ * 
+ * @returns {JSX.Element} The root application component with routing and providers
+ */
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +22,11 @@ import NavBar from "./components/NavBar";
 
 const queryClient = new QueryClient();
 
+/**
+ * Main application component that configures global providers and routing
+ * 
+ * @returns {JSX.Element} Configured application with routing and providers
+ */
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>

@@ -1,3 +1,10 @@
+/**
+ * Component: LoginForm
+ * Description: Handles user authentication through email/password and social providers.
+ * Manages login state and redirects users after successful authentication.
+ * 
+ * @returns {JSX.Element} Login form with email/password and social login options
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "./ui/use-toast";

@@ -1,3 +1,10 @@
+/**
+ * Component: NewProjectDialog
+ * Description: Dialog for creating new projects with form validation and submission.
+ * Handles project creation workflow and user feedback.
+ * 
+ * @returns {JSX.Element} Project creation dialog with form
+ */
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";

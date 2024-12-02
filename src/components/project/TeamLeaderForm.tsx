@@ -1,3 +1,14 @@
+/**
+ * Component: TeamLeaderForm
+ * Description: Form for managing team leader information and contributions.
+ * 
+ * @param {Object} props - Component properties
+ * @param {number} props.contribution - Team leader's contribution percentage
+ * @param {string} props.contributionDescription - Description of team leader's contribution
+ * @param {Function} props.onContributionChange - Handler for contribution changes
+ * @param {Function} props.onDescriptionChange - Handler for description changes
+ * @returns {JSX.Element} Team leader form section
+ */
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";

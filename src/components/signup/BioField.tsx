@@ -1,3 +1,14 @@
+/**
+ * Component: BioField
+ * Description: Text area field for user bio or company description.
+ * Handles character limit and different placeholder text based on account type.
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.bio - Current bio text
+ * @param {string} props.accountType - Type of account ('entreprise' or other)
+ * @param {Function} props.onChange - Handler for bio text changes
+ * @returns {JSX.Element} Bio input field with character counter
+ */
 import { Textarea } from "@/components/ui/textarea";
 import { FormField } from "./FormField";
 

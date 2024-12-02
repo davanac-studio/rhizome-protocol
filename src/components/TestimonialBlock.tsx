@@ -1,3 +1,11 @@
+/**
+ * Component: TestimonialBlock
+ * Description: Displays client testimonial in a styled block with quote formatting.
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.testimonial - The testimonial text to display
+ * @returns {JSX.Element} Formatted testimonial block
+ */
 import { Quote } from "lucide-react";
 
 interface TestimonialBlockProps {

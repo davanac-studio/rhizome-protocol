@@ -1,3 +1,17 @@
+/**
+ * Component: PersonalInfoFields
+ * Description: Group of form fields for personal information.
+ * Includes name, username, expertise, and company details.
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.firstName - First name value
+ * @param {string} props.lastName - Last name value
+ * @param {string} props.username - Username value
+ * @param {string} props.expertise - Expertise value
+ * @param {string} props.entreprise - Company name value
+ * @param {Function} props.onChange - Handler for field changes
+ * @returns {JSX.Element} Personal information form section
+ */
 import { Input } from "@/components/ui/input";
 import { FormField } from "./FormField";
 import { PersonalDetailsBlock } from "./PersonalDetailsBlock";

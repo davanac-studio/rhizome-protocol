@@ -1,3 +1,17 @@
+/**
+ * Component: ParticipantForm
+ * Description: Form for managing project participant information.
+ * Handles participant details, contributions, and role assignments.
+ * 
+ * @param {Object} props - Component properties
+ * @param {number} props.index - Participant index in the list
+ * @param {Object} props.participant - Participant data
+ * @param {Function} props.onRemove - Handler for removing participant
+ * @param {Function} props.onChange - Handler for participant data changes
+ * @param {string[]} props.existingParticipants - List of existing participant IDs
+ * @param {string} [props.teamLeaderId] - ID of the team leader
+ * @returns {JSX.Element} Participant form section
+ */
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";

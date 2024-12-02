@@ -1,3 +1,10 @@
+/**
+ * Component: NavBar
+ * Description: Navigation bar component displaying site logo, links, and user menu.
+ * Handles user authentication state and navigation actions.
+ * 
+ * @returns {JSX.Element} Navigation bar with responsive layout
+ */
 import { Link, useNavigate } from "react-router-dom";
 import { UserCircle2, LogOut, Users, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";

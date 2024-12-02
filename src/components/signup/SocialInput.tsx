@@ -1,3 +1,14 @@
+/**
+ * Component: SocialInput
+ * Description: Input field for social media links with icon.
+ * 
+ * @param {Object} props - Component properties
+ * @param {LucideIcon} props.icon - Icon component to display
+ * @param {string} props.value - Current input value
+ * @param {Function} props.onChange - Handler for value changes
+ * @param {string} props.placeholder - Input placeholder text
+ * @returns {JSX.Element} Social media input field with icon
+ */
 import { Input } from "@/components/ui/input";
 import { LucideIcon } from "lucide-react";
 

@@ -1,3 +1,10 @@
+/**
+ * Component: ParticipantNetwork
+ * Description: Container component for the network visualization.
+ * Manages data loading and displays the network chart.
+ * 
+ * @returns {JSX.Element} Network visualization container with loading states
+ */
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { NetworkChart } from "./NetworkChart";

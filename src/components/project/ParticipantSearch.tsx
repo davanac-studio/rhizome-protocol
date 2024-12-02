@@ -1,3 +1,15 @@
+/**
+ * Component: ParticipantSearch
+ * Description: Searchable dropdown for selecting project participants.
+ * Filters out existing participants and team leader from options.
+ * 
+ * @param {Object} props - Component properties
+ * @param {string} props.value - Selected participant ID
+ * @param {Function} props.onSelect - Handler for participant selection
+ * @param {string[]} props.existingParticipants - List of existing participant IDs
+ * @param {string} [props.teamLeaderId] - ID of the team leader
+ * @returns {JSX.Element} Participant search dropdown
+ */
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";

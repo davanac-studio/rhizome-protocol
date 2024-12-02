@@ -1,3 +1,14 @@
+/**
+ * Component: NetworkChart
+ * Description: Renders an interactive network visualization using D3.
+ * Displays connections between users and projects with force-directed layout.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Object} props.data - Network data containing nodes and links
+ * @param {NetworkNode[]} props.data.nodes - Array of network nodes
+ * @param {NetworkLink[]} props.data.links - Array of connections between nodes
+ * @returns {JSX.Element} Interactive network visualization
+ */
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import {
