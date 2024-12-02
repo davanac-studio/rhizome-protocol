@@ -3,6 +3,12 @@ import { supabase } from "@/lib/supabase";
 import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
 import { transformProfileToNode, createNetworkLinks } from "../utils/networkUtils";
 
+/**
+ * Helper function to count and aggregate collaborations between nodes
+ * 
+ * @param links - Array of network links to process
+ * @returns Array of network links with added collaboration counts
+ */
 const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
   const collaborationMap = new Map<string, number>();
   
@@ -20,6 +26,18 @@ const countCollaborations = (links: NetworkLink[]): NetworkLink[] => {
   });
 };
 
+/**
+ * Custom Hook: useNetworkData
+ * Fetches and processes project data to create a network visualization of collaborations
+ * between team leaders, clients, and project participants.
+ * 
+ * @returns {Object} An object containing:
+ *   - data (Object | undefined): The processed network data containing:
+ *     - nodes (NetworkNode[]): Array of network nodes representing users
+ *     - links (NetworkLink[]): Array of connections between users
+ *   - isLoading (boolean): Loading state of the data fetch
+ *   - error (Error | null): Any error that occurred during data fetch
+ */
 export const useNetworkData = () => {
   return useQuery({
     queryKey: ['participant-network'],

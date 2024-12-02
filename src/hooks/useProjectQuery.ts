@@ -5,6 +5,17 @@ import { transformDatabaseProject } from "@/utils/projectTransformers";
 import { useNavigate } from "react-router-dom";
 import { extractIdFromSlug } from "@/utils/slugify";
 
+/**
+ * Custom Hook: useProjectQuery
+ * Fetches detailed project information from Supabase, including team leader, participants, and links.
+ * 
+ * @param {string | undefined} idWithSlug - The project ID with optional slug (e.g., "123-project-name")
+ * @returns {Object} An object containing:
+ *   - data (Project | undefined): The transformed project data with all related information
+ *   - isLoading (boolean): Loading state of the project fetch
+ *   - error (Error | null): Any error that occurred during the fetch
+ *   - isFetching (boolean): Indicates if a background refetch is happening
+ */
 export const useProjectQuery = (idWithSlug: string | undefined) => {
   const { toast } = useToast();
   const navigate = useNavigate();
