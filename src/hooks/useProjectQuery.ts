@@ -1,17 +1,20 @@
 /**
  * Custom Hook: useProjectQuery
- * Description: Fetches and manages project data using React Query.
+ * Description: Fetches and manages project data using React Query
  * 
- * Technical choices:
- * - React Query: For data fetching, caching, and automatic background updates
- * - Supabase: As the backend service for data storage and retrieval
- * - Toast notifications: For user feedback on errors
- * 
- * @param {string | undefined} idWithSlug - Project ID with optional slug
- * @returns {Object} Query result object containing:
- *   - data: The transformed project data
- *   - isLoading: Loading state indicator
- *   - error: Any error that occurred
+ * Endpoint: GET /rest/v1/projects
+ * Description: Fetches complete project data with related information
+ * Parameters:
+ *   - id (string): Project ID extracted from slug
+ * Response Structure:
+ *   - Project object containing:
+ *     - Basic project info (id, title, description, etc.)
+ *     - Team leader profile
+ *     - Project participants with their profiles
+ *     - Project links
+ * Error Responses:
+ *   - 404: Project not found
+ *   - 500: Server error
  */
 import { useQuery } from "@tanstack/react-query"; // For data fetching and caching
 import { supabase } from "@/lib/supabase"; // Supabase client for database operations

@@ -1,6 +1,36 @@
 import { supabase } from "./supabase";
 import { Project, ProjectLink } from "@/types/project";
 
+/**
+ * Endpoint: GET /rest/v1/projects
+ * Description: Fetches a single project with all related data
+ * Parameters:
+ *   - id (string): Project ID
+ * Returns:
+ *   - Project: Complete project object with team leader, participants, and links
+ * Response Structure:
+ *   - id (string)
+ *   - title (string)
+ *   - description (string)
+ *   - author: {
+ *       id (string)
+ *       name (string)
+ *       username (string)
+ *       avatar (string)
+ *       expertise (string)
+ *       role (string)
+ *       contribution (number)
+ *     }
+ *   - participants: Array<{
+ *       id (string)
+ *       name (string)
+ *       username (string)
+ *       avatar (string)
+ *       expertise (string)
+ *       role (string)
+ *       contribution (number)
+ *     }>
+ */
 export const fetchProject = async (id: string): Promise<Project> => {
   const { data: project, error } = await supabase
     .from('projects')
@@ -73,6 +103,34 @@ export const fetchProject = async (id: string): Promise<Project> => {
   };
 };
 
+/**
+ * Endpoint: POST /rest/v1/projects
+ * Description: Creates a new project with all related data
+ * Body Parameters:
+ *   - title (string): Project title
+ *   - description (string): Project description
+ *   - dueDate (string): Project due date
+ *   - thumbnail (string): Project thumbnail URL
+ *   - category (string): Project category
+ *   - client (string): Client ID
+ *   - testimonial (string): Client testimonial
+ *   - author: Project leader information
+ *   - participants: Array of project participants
+ * 
+ * Additional Endpoints:
+ * POST /rest/v1/project_links
+ *   - project_id (string)
+ *   - url (string)
+ * 
+ * POST /rest/v1/project_participants
+ *   - project_id (string)
+ *   - user_id (string)
+ *   - contribution (number)
+ *   - contribution_description (string)
+ * 
+ * Returns:
+ *   - Project: Created project object
+ */
 export const createProject = async (projectData: any) => {
   try {
     // First create the project

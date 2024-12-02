@@ -1,3 +1,29 @@
+/**
+ * Module: projectQueries
+ * Description: Handles project-related database queries
+ * 
+ * Endpoint: GET /rest/v1/profiles
+ * Description: Fetches user profile by username
+ * Parameters:
+ *   - username (string): User's username
+ * 
+ * Endpoint: GET /rest/v1/projects
+ * Description: Fetches projects where user is team leader
+ * Parameters:
+ *   - team_leader (string): User's ID
+ * 
+ * Endpoint: GET /rest/v1/project_participants
+ * Description: Fetches projects where user is participant
+ * Parameters:
+ *   - user_id (string): User's ID
+ * 
+ * Response Structure for all queries:
+ *   - Array of projects with:
+ *     - Basic project information
+ *     - Team leader profile
+ *     - Participant information
+ *     - Project links
+ */
 import { fetchUserProfile, fetchTeamLeaderProjects, fetchParticipantProjects, fetchClientProjects } from "./projectDatabaseQueries";
 import { transformAndDeduplicateProjects } from "./projectDataTransformers";
 

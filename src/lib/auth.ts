@@ -20,6 +20,14 @@ interface UserFormData {
   entreprise: string;
 }
 
+/**
+ * Endpoint: GET /rest/v1/profiles
+ * Description: Checks if a username already exists in the profiles table
+ * Parameters:
+ *   - username (string): The username to check
+ * Returns:
+ *   - boolean: True if username exists, false otherwise
+ */
 export const checkUsernameExists = async (username: string): Promise<boolean> => {
   const { data, error } = await supabase
     .from('profiles')
@@ -34,6 +42,29 @@ export const checkUsernameExists = async (username: string): Promise<boolean> =>
   return data && data.length > 0;
 };
 
+/**
+ * Endpoint: POST /auth/v1/signup
+ * Description: Creates a new user account with profile
+ * Body Parameters:
+ *   - email (string): User's email
+ *   - password (string): User's password
+ *   - options.data: Additional user metadata
+ * 
+ * Endpoint: POST /rest/v1/profiles
+ * Description: Creates or updates user profile after signup
+ * Body Parameters:
+ *   - id (uuid): User's ID from auth
+ *   - username (string): Chosen username
+ *   - first_name (string): First name
+ *   - last_name (string): Last name
+ *   - bio (string): User biography
+ *   - avatar_url (string): Avatar image URL
+ *   - banner_url (string): Banner image URL
+ *   - social links (string): Various social media links
+ *   - account_type (string): Type of account (individual/collectif)
+ * Returns:
+ *   - boolean: True if successful, false otherwise
+ */
 export const createUser = async (formData: UserFormData) => {
   // 1. Créer le compte auth
   const { data: authData, error: signUpError } = await supabase.auth.signUp({

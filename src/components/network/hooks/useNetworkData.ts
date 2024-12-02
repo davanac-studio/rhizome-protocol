@@ -1,3 +1,26 @@
+/**
+ * Custom Hook: useNetworkData
+ * Description: Fetches and processes network visualization data
+ * 
+ * Endpoint: GET /rest/v1/projects
+ * Description: Fetches all projects with related participant data
+ * Response Structure:
+ *   - nodes: Array<{
+ *       id: string
+ *       name: string
+ *       group: string
+ *       value: number
+ *     }>
+ *   - links: Array<{
+ *       source: string
+ *       target: string
+ *       value: number
+ *     }>
+ * 
+ * Query Parameters:
+ *   - select: Specific fields to return
+ *   - relationships: Related data to include
+ */
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { NetworkNode, NetworkLink, Profile, Project } from "../types/networkTypes";
